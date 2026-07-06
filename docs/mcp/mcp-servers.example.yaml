@@ -1,0 +1,21 @@
+# 项目级配置放在 <root>/.novacode.yaml；用户级配置放在 ~/.novacode/config.yaml。
+# 同名 server 由项目级完整覆盖用户级，不做字段级合并。
+# 仅 env / headers 的值支持 ${VAR} 展开；command / args 不展开。
+mcp_servers:
+  github:
+    type: stdio
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_TOKEN: "${GITHUB_TOKEN}"
+
+  local-sqlite:
+    type: stdio
+    command: python
+    args: ["-m", "mcp_server_sqlite", "--db", "./data.db"]
+
+  example-http:
+    type: http
+    url: "https://mcp.example.com/mcp"
+    headers:
+      Authorization: "Bearer ${EXAMPLE_TOKEN}"

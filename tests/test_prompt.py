@@ -128,6 +128,14 @@ class TestDualReinforcement:
         # 优先用专用工具而非 bash
         assert "Prefer dedicated tools" in s or "bash" in s.lower()
 
+    def test_system_prompt_requires_registered_mcp_tool_use(self):
+        """点名 MCP server 时必须调用已注册工具，不能文字兜底。"""
+        s = build_system_prompt()
+        assert "MCP" in s
+        assert "mcp__<server>__<tool>" in s
+        assert "must call" in s
+        assert "not registered" in s
+
     def test_edit_file_description_reinforcement(self):
         """edit_file 工具描述含「编辑前先读」强化语句。"""
         from novacode.tool.edit_file import EditFileTool
