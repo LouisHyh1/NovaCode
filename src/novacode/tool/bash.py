@@ -3,6 +3,9 @@
 import asyncio
 import json
 import locale
+import os
+import signal
+import subprocess
 
 from novacode.tool import Result, _truncate
 
@@ -42,14 +45,31 @@ class BashTool:
         if not cmd:
             return Result(content="缺少必填参数: command", is_error=True)
         try:
-            proc = await asyncio.create_subprocess_shell(
-                cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
-            )
-            stdout_b, stderr_b = await proc.communicate()
+            if os.name == "nt":
+                proc = await asyncio.create_subprocess_shell(
+                    cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+                )
+            else:
+                proc = await asyncio.create_subprocess_shell(
+                    cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                    start_new_session=True,
+                )
         except OSError as e:
             return Result(content=f"命令执行失败: {e}", is_error=True)
+
+        try:
+            stdout_b, stderr_b = await proc.communicate()
+        except BaseException:
+            await _terminate_process_tree(proc)
+            await proc.communicate()
+            raise
+        finally:
+            _close_pipe_transports(proc)
 
         stdout = _try_decode(stdout_b)
         stderr = _try_decode(stderr_b)
@@ -68,3 +88,53 @@ def _try_decode(data: bytes) -> str:
         except (UnicodeDecodeError, LookupError):
             continue
     return data.decode("utf-8", errors="replace")
+
+
+async def _terminate_process_tree(proc: asyncio.subprocess.Process) -> None:
+    if proc.returncode is not None:
+        return
+
+    if os.name == "nt":
+        try:
+            killer = await asyncio.create_subprocess_exec(
+                "taskkill",
+                "/PID",
+                str(proc.pid),
+                "/T",
+                "/F",
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            await killer.communicate()
+            if killer.returncode == 0:
+                return
+        except OSError:
+            pass
+        try:
+            proc.send_signal(signal.CTRL_BREAK_EVENT)
+            await asyncio.wait_for(proc.wait(), timeout=0.5)
+            return
+        except (ProcessLookupError, TimeoutError):
+            pass
+    else:
+        try:
+            os.killpg(proc.pid, signal.SIGTERM)
+            await asyncio.wait_for(proc.wait(), timeout=0.5)
+            return
+        except ProcessLookupError:
+            return
+        except TimeoutError:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                return
+
+    if proc.returncode is None:
+        proc.kill()
+
+
+def _close_pipe_transports(proc: asyncio.subprocess.Process) -> None:
+    for reader in (proc.stdout, proc.stderr):
+        transport = getattr(reader, "_transport", None)
+        if transport is not None:
+            transport.close()

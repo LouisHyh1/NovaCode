@@ -15,6 +15,7 @@ from novacode.permission.sandbox import eval_symlinks_or_ancestor, resolve_root,
 from novacode.permission.settings import (
     Settings,
     categorize,
+    extract_sandbox_path,
     extract_target,
     friendly_name,
     load_settings,
@@ -381,6 +382,28 @@ class TestExtractTarget:
         assert is_file
         assert ok
 
+    def test_search_tools_extract_path_for_sandbox(self):
+        glob_call = ToolCall(
+            id="1",
+            name="glob",
+            input=json.dumps({"pattern": "*.py", "path": "../outside"}),
+        )
+        grep_call = ToolCall(
+            id="2",
+            name="grep",
+            input=json.dumps({"pattern": "secret", "path": "C:/Windows"}),
+        )
+
+        assert extract_sandbox_path(glob_call) == ("../outside", True)
+        assert extract_sandbox_path(grep_call) == ("C:/Windows", True)
+
+    def test_search_tools_default_sandbox_path_to_project_root(self):
+        glob_call = ToolCall(id="1", name="glob", input=json.dumps({"pattern": "*.py"}))
+        grep_call = ToolCall(id="2", name="grep", input=json.dumps({"pattern": "secret"}))
+
+        assert extract_sandbox_path(glob_call) == ("", True)
+        assert extract_sandbox_path(grep_call) == ("", True)
+
     def test_glob_missing_pattern(self):
         call = ToolCall(id="1", name="glob", input=json.dumps({"path": "."}))
         _, _, ok = extract_target(call)
@@ -473,6 +496,26 @@ class TestModeFallback:
         d, reason = e.check(Mode.DEFAULT, _bash_call("git push"), False)
         assert d == Decision.ASK
 
+    @pytest.mark.parametrize(
+        "command",
+        [
+            "npx some-package",
+            "sed -i s/a/b/ file.txt",
+            "tee output.txt",
+            "xargs rm",
+            "git branch -D old",
+            "find . -delete",
+            "env",
+            "cat ../outside.txt",
+        ],
+    )
+    def test_default_all_bash_commands_ask_without_allow_rule(self, tmp_path, command):
+        e = self._engine(tmp_path)
+
+        d, _ = e.check(Mode.DEFAULT, _bash_call(command), False)
+
+        assert d == Decision.ASK
+
     def test_accept_edits_write_allow(self, tmp_path):
         e = self._engine(tmp_path)
         d, _ = e.check(Mode.ACCEPT_EDITS, _write_call("test.txt"), False)
@@ -546,6 +589,24 @@ class TestPipelineShortCircuit:
     def test_sandbox_before_rules(self, tmp_path):
         e = self._engine(tmp_path)
         d, reason = e.check(Mode.DEFAULT, _read_call("/etc/passwd"), True)
+        assert d == Decision.DENY
+        assert "项目目录之外" in reason
+
+    @pytest.mark.parametrize(
+        ("name", "pattern", "path"),
+        [
+            ("glob", "*.py", "../outside"),
+            ("grep", "secret", "../outside"),
+            ("glob", "*.dll", "C:/Windows"),
+            ("grep", "secret", "C:/Windows"),
+        ],
+    )
+    def test_search_tool_path_outside_project_is_denied(self, tmp_path, name, pattern, path):
+        e = self._engine(tmp_path)
+        call = ToolCall(id="1", name=name, input=json.dumps({"pattern": pattern, "path": path}))
+
+        d, reason = e.check(Mode.DEFAULT, call, True)
+
         assert d == Decision.DENY
         assert "项目目录之外" in reason
 
@@ -716,6 +777,19 @@ class TestPersist:
         # 不重复写文件
         content = Path(e.local_path).read_text(encoding="utf-8")
         assert content.count("git") <= 3  # 不应大量重复
+
+    def test_windows_backslash_rule_matches_after_reload(self, tmp_path):
+        root = tmp_path / "project"
+        root.mkdir()
+        e, _ = new_engine(str(root.resolve()))
+        call = _read_call(r"subdir\note.txt")
+
+        persist_local_allow(e, call)
+        e2, _ = new_engine(str(root.resolve()))
+        d, _ = e2.check(Mode.DEFAULT, call, True)
+
+        assert d == Decision.ALLOW
+        assert e2.local.allow[0].pattern == "subdir/note.txt"
 
     def test_rule_for_bash(self, tmp_path):
         root = str(tmp_path.resolve())

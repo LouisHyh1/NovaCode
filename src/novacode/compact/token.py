@@ -7,6 +7,8 @@ from novacode.llm import Message, Usage
 
 
 def usage_anchor(u: Usage) -> int:
+    if u.context_tokens > 0:
+        return u.context_tokens
     return u.input_tokens + u.output_tokens + u.cache_write + u.cache_read
 
 

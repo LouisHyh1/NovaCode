@@ -11,13 +11,14 @@ from re import Pattern as RePattern
 
 from novacode.llm import ToolCall
 from novacode.permission import Category, Decision, Mode, parse_mode
-from novacode.permission.blacklist import _DANGEROUS_PATTERNS, detect, is_safe_command
+from novacode.permission.blacklist import _DANGEROUS_PATTERNS, detect
 from novacode.permission.rule import RuleSet
 from novacode.permission.sandbox import resolve_root, sandbox_ok
 from novacode.permission.sensitive import detect_sensitive_tool_call
 from novacode.permission.settings import (
     SettingsError,
     categorize,
+    extract_sandbox_path,
     extract_target,
     friendly_name,
     load_settings,
@@ -48,6 +49,7 @@ class Engine:
         cat = categorize(call.name, read_only)
         friendly = friendly_name(call.name)
         target, is_file, ok = extract_target(call)
+        sandbox_path, sandbox_path_ok = extract_sandbox_path(call)
 
         hit, reason = detect_sensitive_tool_call(call)
         if hit:
@@ -62,22 +64,18 @@ class Engine:
                 f"计划模式下只允许只读操作，文件系统未做任何修改。",
             )
 
-        # ① 黑名单（仅命令执行类）：安全命令白名单 → Allow；危险模式 → Deny
+        # ① 黑名单（仅命令执行类）：危险模式 → Deny
         if cat == Category.EXEC and target:
-            # 1a: 安全命令白名单（明确无害的只读/查询命令直接放行）
-            if is_safe_command(target):
-                return Decision.ALLOW, ""
-            # 1b: 危险命令黑名单（不可绕过，含 bypassPermissions）
             hit, reason = detect(target)
             if hit:
                 return Decision.DENY, f"命中危险命令黑名单：{reason}（{_preview(target)}）"
 
         # ② 沙箱（仅文件类）
         if is_file:
-            if not ok:
+            if not ok or not sandbox_path_ok:
                 return Decision.DENY, "无法解析文件路径参数，安全拒绝"
-            if not sandbox_ok(self.root, target):
-                return Decision.DENY, f"路径在项目目录之外：{target}"
+            if not sandbox_ok(self.root, sandbox_path):
+                return Decision.DENY, f"路径在项目目录之外：{sandbox_path}"
 
         # ③ 规则引擎：local → project → user，就近命中即返回
         for layer_name, rule_set in [
@@ -177,6 +175,7 @@ def _mode_fallback(mode: Mode, cat: Category) -> Decision:
     if cat == Category.READ:
         return Decision.ALLOW
     if mode == Mode.BYPASS:
+        # bypassPermissions 只绕过应用层审批，不是 OS 沙箱。
         return Decision.ALLOW
     if mode == Mode.ACCEPT_EDITS and cat == Category.WRITE:
         return Decision.ALLOW

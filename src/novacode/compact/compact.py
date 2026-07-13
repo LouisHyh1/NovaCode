@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from novacode.compact.const import AUTO_COMPACT_TRIGGER_TOKENS
+from novacode.compact.const import auto_compact_threshold
 from novacode.compact.layer1 import offload_and_snip
 from novacode.compact.layer2 import auto_compact, force_compact
 from novacode.compact.state import (
@@ -66,7 +66,7 @@ async def manage_context(in_: ManageInput) -> ManageOutput:
         in_.conv.replace_history(new_msgs)
         return ManageOutput(before, after)
 
-    if layer1_tokens < AUTO_COMPACT_TRIGGER_TOKENS or in_.auto_tracking.tripped():
+    if layer1_tokens < auto_compact_threshold(in_.context_window) or in_.auto_tracking.tripped():
         return ManageOutput(before, layer1_tokens)
 
     new_msgs, before, after = await auto_compact(

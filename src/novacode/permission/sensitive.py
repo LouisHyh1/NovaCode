@@ -29,13 +29,8 @@ _SENSITIVE_GLOBS = (
     ".pypirc",
 )
 
-_FILE_READ_COMMAND_RE = re.compile(
-    r"(?i)(^|[;&|]\s*|\b)"
-    r"(cat|type|get-content|gc|grep|rg|findstr|select-string|ls|dir|find|"
-    r"head|tail|less|more|sed|awk)\b"
-)
-
 _TOKEN_RE = re.compile(r'"([^"]+)"|\'([^\']+)\'|([^\s;&|]+)')
+_QUOTED_VALUE_RE = re.compile(r"(?<=[\"'])[^\"']+(?=[\"'])")
 
 
 def detect_sensitive_tool_call(call: ToolCall) -> tuple[bool, str]:
@@ -51,11 +46,11 @@ def detect_sensitive_tool_call(call: ToolCall) -> tuple[bool, str]:
 
 
 def detect_sensitive_command(command: str) -> tuple[bool, str]:
-    """Detect shell commands that read, search, or list sensitive file selectors."""
-    if not command or not _FILE_READ_COMMAND_RE.search(command):
+    """Detect explicit sensitive paths in every shell command argument."""
+    if not command:
         return False, ""
 
-    for token in _command_tokens(command):
+    for token in [*_command_tokens(command), *_QUOTED_VALUE_RE.findall(command)]:
         if is_sensitive_selector(token):
             return True, f"built-in sensitive file deny: {token}"
 

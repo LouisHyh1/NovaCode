@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from novacode import cli
+from novacode.config import ConfigError
 from novacode.tool import Result
 
 
@@ -119,3 +120,30 @@ def test_main_missing_config_returns_clean_error(monkeypatch: pytest.MonkeyPatch
 
     assert exc.value.code == 1
     assert "config file not found" in capsys.readouterr().err
+
+
+@pytest.mark.asyncio
+async def test_invalid_project_provider_config_does_not_fallback_to_user(
+    tmp_path, monkeypatch, capsys
+):
+    project = tmp_path / "project"
+    project.mkdir()
+    project_config = project / ".novacode" / "config.yaml"
+    project_config.parent.mkdir()
+    project_config.write_text("providers: invalid", encoding="utf-8")
+    calls = []
+
+    def fake_load(path):
+        calls.append(path)
+        if len(calls) > 1:
+            raise AssertionError("invalid project config must not fall back")
+        raise ConfigError("invalid project config")
+
+    monkeypatch.setattr(cli.os, "getcwd", lambda: str(project))
+    monkeypatch.setattr("novacode.config.load", fake_load)
+
+    code = await cli._amain()
+
+    assert code == 1
+    assert calls == [str(project_config)]
+    assert "invalid project config" in capsys.readouterr().err

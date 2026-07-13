@@ -4,7 +4,7 @@ import asyncio
 import json
 import logging
 from collections.abc import AsyncIterator
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
 
@@ -19,7 +19,7 @@ from novacode.compact import (
     manage_context,
     new_session_context,
 )
-from novacode.compact.const import AUTO_COMPACT_TRIGGER_TOKENS, MANUAL_SAFETY_MARGIN
+from novacode.compact.const import MANUAL_SAFETY_MARGIN, auto_compact_threshold
 from novacode.compact.token import estimate_tokens, usage_anchor
 from novacode.conversation import Conversation
 from novacode.llm import (
@@ -30,6 +30,9 @@ from novacode.llm import (
     ToolCall,
     ToolDefinition,
     ToolResult,
+)
+from novacode.llm import (
+    Usage as LLMUsage,
 )
 from novacode.permission import Decision, Mode, Outcome
 from novacode.permission.engine import Engine
@@ -125,9 +128,27 @@ class SessionRuntime:
     anchor_msg_len: int = 0
 
 
+@dataclass
+class _StreamState:
+    text: str = ""
+    calls: list[ToolCall] = field(default_factory=list)
+    usage: LLMUsage | None = None
+    err: Exception | None = None
+    cancelled: bool = False
+
+
 def _args_preview(args: str) -> str:
     """工具参数截断预览（最多 80 字符）。"""
     return args[:80] + "…" if len(args) > 80 else args
+
+
+async def _cancel_and_wait(task: asyncio.Task) -> None:
+    if not task.done():
+        task.cancel()
+    try:
+        await task
+    except (asyncio.CancelledError, Exception):
+        pass
 
 
 class Agent:
@@ -228,7 +249,7 @@ class Agent:
                 self.runtime.anchor_msg_len,
             )
             emit_auto = (
-                estimated >= AUTO_COMPACT_TRIGGER_TOKENS
+                estimated >= auto_compact_threshold(self.context_window)
                 and not self.runtime.auto_tracking.tripped()
             )
             if emit_auto:
@@ -254,13 +275,21 @@ class Agent:
 
             emergency_retried = False
             while True:
-                stream_events, text, calls, usage, err = await self._stream_once(
-                    conv, defs, sys, env_text, reminder, cancel
-                )
-                for ev in stream_events:
+                stream_state = _StreamState()
+                async for ev in self._stream_once(
+                    conv, defs, sys, env_text, reminder, cancel, stream_state
+                ):
                     yield ev
 
+                text = stream_state.text
+                calls = stream_state.calls or []
+                usage = stream_state.usage
+                err = stream_state.err
+
                 if err is None:
+                    if stream_state.cancelled:
+                        self._finish_cancelled(conv)
+                        return
                     break
 
                 if cancel.is_set():
@@ -332,17 +361,28 @@ class Agent:
             # 从队列消费事件直到 batch_task 完成
             results: list[ToolResult] = []
             completed = True
-            while not batch_task.done():
+            while True:
+                if batch_task.done():
+                    break
+                queue_task = asyncio.create_task(self._event_queue.get())
                 try:
-                    ev = await self._event_queue.get()
-                    yield ev
+                    done, _ = await asyncio.wait(
+                        (queue_task, batch_task), return_when=asyncio.FIRST_COMPLETED
+                    )
+                    if queue_task in done:
+                        yield queue_task.result()
+                    else:
+                        await _cancel_and_wait(queue_task)
+                        break
                 except asyncio.CancelledError:
+                    await _cancel_and_wait(queue_task)
                     if not batch_task.done():
-                        batch_task.cancel()
+                        await _cancel_and_wait(batch_task)
                     raise
                 except Exception:
+                    await _cancel_and_wait(queue_task)
                     if not batch_task.done():
-                        batch_task.cancel()
+                        await _cancel_and_wait(batch_task)
                     break
             # Drain 余量事件：同步返回的 DENY 路径可能让事件留在队列里
             while True:
@@ -394,42 +434,52 @@ class Agent:
         env_text: str,
         reminder: str,
         cancel: asyncio.Event,
-    ):
-        from novacode.llm import Usage as LLMUsage
-
-        events: list[Event] = []
-        text = ""
-        calls: list[ToolCall] = []
-        usage: LLMUsage | None = None
-
+        state: _StreamState,
+    ) -> AsyncIterator[Event]:
         req = Request(
             messages=conv.messages(),
             tools=defs,
             system=System(stable=sys, environment=env_text),
             reminder=reminder,
         )
+        stream = self._provider.stream(req)
+        cancel_task = asyncio.create_task(cancel.wait())
+        next_task: asyncio.Task | None = None
+        try:
+            while True:
+                next_task = asyncio.create_task(anext(stream))
+                done, _ = await asyncio.wait(
+                    (next_task, cancel_task), return_when=asyncio.FIRST_COMPLETED
+                )
+                if cancel_task in done:
+                    state.cancelled = True
+                    await _cancel_and_wait(next_task)
+                    return
 
-        async for ev in self._provider.stream(req):
-            if cancel.is_set():
-                return events, "", [], None, asyncio.CancelledError()
+                try:
+                    ev = next_task.result()
+                except StopAsyncIteration:
+                    return
+                finally:
+                    next_task = None
 
-            if ev.err is not None:
-                return events, "", [], None, ev.err
-
-            if ev.usage is not None:
-                usage = ev.usage
-
-            if ev.tool_calls:
-                calls = ev.tool_calls
-
-            if ev.text:
-                text += ev.text
-                events.append(Event(text=ev.text))
-
-        if cancel.is_set():
-            return events, "", [], None, asyncio.CancelledError()
-
-        return events, text, calls, usage, None
+                if ev.err is not None:
+                    state.err = ev.err
+                    return
+                if ev.usage is not None:
+                    state.usage = ev.usage
+                if ev.tool_calls:
+                    state.calls = ev.tool_calls
+                if ev.text:
+                    state.text += ev.text
+                    yield Event(text=ev.text)
+        finally:
+            if next_task is not None:
+                await _cancel_and_wait(next_task)
+            await _cancel_and_wait(cancel_task)
+            close = getattr(stream, "aclose", None)
+            if close is not None:
+                await close()
 
     async def _execute_batched(
         self,
@@ -442,7 +492,7 @@ class Agent:
         i = 0
         while i < len(calls):
             if cancel.is_set():
-                self._fill_cancelled(results, i)
+                self._fill_cancelled(results, calls, i)
                 return self._finalize_results(results, calls), False
 
             if self._registry.is_read_only(calls[i].name):
@@ -524,7 +574,8 @@ class Agent:
                 )
                 r, ok = await self._run_side_effect(calls[i], cancel, mode)
                 if not ok:
-                    self._fill_cancelled(results, i)
+                    results[i] = r
+                    self._fill_cancelled(results, calls, i + 1)
                     return self._finalize_results(results, calls), False
                 results[i] = r
                 if results[i] is not None:
@@ -567,12 +618,12 @@ class Agent:
             )
 
         if self.engine is None:
-            return await self._execute_and_result(call, cancel), True
+            return await self._execute_allowed(call, cancel)
 
         decision, reason = self.engine.check(mode, call, False)
 
         if decision == Decision.ALLOW:
-            return await self._execute_and_result(call, cancel), True
+            return await self._execute_allowed(call, cancel)
 
         if decision == Decision.DENY:
             return (
@@ -589,6 +640,12 @@ class Agent:
         try:
             outcome = await self._request_approval(call, reason)
         except asyncio.CancelledError:
+            return (
+                ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True),
+                False,
+            )
+
+        if cancel.is_set():
             return (
                 ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True),
                 False,
@@ -611,12 +668,18 @@ class Agent:
                     persist_local_allow(self.engine, call)
                 except Exception as e:
                     logger.warning("持久化规则失败: %s", e)
-            return await self._execute_and_result(call, cancel), True
+            return await self._execute_allowed(call, cancel)
 
         return (
             ToolResult(tool_call_id=call.id, content="未知权限裁决", is_error=True),
             True,
         )
+
+    async def _execute_allowed(
+        self, call: ToolCall, cancel: asyncio.Event
+    ) -> tuple[ToolResult, bool]:
+        result = await self._execute_and_result(call, cancel)
+        return result, not cancel.is_set()
 
     async def _execute_and_result(self, call: ToolCall, cancel: asyncio.Event) -> ToolResult:
         """执行工具并返回 ToolResult。"""
@@ -625,19 +688,23 @@ class Agent:
         if cancel.is_set():
             return ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
 
+        exec_task = asyncio.create_task(
+            self._registry.execute(call.name, call.input, timeout=DEFAULT_TIMEOUT)
+        )
+        cancel_task = asyncio.create_task(cancel.wait())
         try:
-            r: ToolExecResult = await asyncio.wait_for(
-                self._registry.execute(call.name, call.input), timeout=DEFAULT_TIMEOUT
+            done, _ = await asyncio.wait(
+                (exec_task, cancel_task), return_when=asyncio.FIRST_COMPLETED
             )
+            if cancel_task in done:
+                await _cancel_and_wait(exec_task)
+                return ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
+            await _cancel_and_wait(cancel_task)
+            r: ToolExecResult = exec_task.result()
             await self._record_read_file(call, r)
             return ToolResult(tool_call_id=call.id, content=r.content, is_error=r.is_error)
-        except TimeoutError:
-            return ToolResult(
-                tool_call_id=call.id,
-                content=f"工具 {call.name} 执行超时（{DEFAULT_TIMEOUT}s）",
-                is_error=True,
-            )
         except asyncio.CancelledError:
+            await _cancel_and_wait(exec_task)
             return ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
         except Exception as e:
             return ToolResult(
@@ -645,6 +712,8 @@ class Agent:
                 content=f"工具 {call.name} 异常: {e}",
                 is_error=True,
             )
+        finally:
+            await _cancel_and_wait(cancel_task)
 
     async def _request_approval(self, call: ToolCall, reason: str) -> Outcome:
         """发出人在回路请求事件，await Future 等待 TUI 回传用户选择。"""
@@ -693,60 +762,18 @@ class Agent:
         cancel: asyncio.Event,
     ) -> None:
         """执行单个工具调用，结果写入 results[idx]。支持 cancel 中断。"""
-        if cancel.is_set():
-            results[idx] = ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
-            return
+        results[idx] = await self._execute_and_result(call, cancel)
 
-        from novacode.tool import Result as ToolExecResult
-
-        try:
-            exec_task = asyncio.create_task(
-                self._registry.execute(call.name, call.input, timeout=DEFAULT_TIMEOUT)
-            )
-            cancel_task = asyncio.create_task(cancel.wait())
-            done, pending = await asyncio.wait(
-                [exec_task, cancel_task],
-                timeout=DEFAULT_TIMEOUT,
-                return_when=asyncio.FIRST_COMPLETED,
-            )
-            for t in pending:
-                t.cancel()
-                try:
-                    await t
-                except (asyncio.CancelledError, Exception):
-                    pass
-
-            if cancel_task in done:
-                results[idx] = ToolResult(
-                    tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True
-                )
-                return
-
-            r: ToolExecResult = exec_task.result()
-            await self._record_read_file(call, r)
-            results[idx] = ToolResult(
-                tool_call_id=call.id,
-                content=r.content,
-                is_error=r.is_error,
-            )
-        except TimeoutError:
-            results[idx] = ToolResult(
-                tool_call_id=call.id,
-                content=f"工具 {call.name} 执行超时（{DEFAULT_TIMEOUT}s）",
-                is_error=True,
-            )
-        except Exception as e:
-            results[idx] = ToolResult(
-                tool_call_id=call.id,
-                content=f"工具 {call.name} 异常: {e}",
-                is_error=True,
-            )
-
-    def _fill_cancelled(self, results: list[ToolResult | None], start: int) -> None:
+    def _fill_cancelled(
+        self,
+        results: list[ToolResult | None],
+        calls: list[ToolCall],
+        start: int,
+    ) -> None:
         for k in range(start, len(results)):
             if results[k] is None:
                 results[k] = ToolResult(
-                    tool_call_id="",
+                    tool_call_id=calls[k].id,
                     content=NOTICE_CANCELLED,
                     is_error=True,
                 )

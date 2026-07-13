@@ -55,6 +55,7 @@ class Usage:
     output_tokens: int = 0
     cache_write: int = 0
     cache_read: int = 0
+    context_tokens: int = 0
 
 
 @dataclass

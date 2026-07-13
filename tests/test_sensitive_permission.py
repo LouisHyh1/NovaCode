@@ -85,6 +85,21 @@ def test_bash_sensitive_read_bypasses_safe_command_allow(tmp_path):
         assert "sensitive" in reason
 
 
+def test_explicit_sensitive_paths_are_denied_for_python_and_powershell(tmp_path):
+    engine = _engine(tmp_path)
+    commands = [
+        "python -c \"open('.env').read()\"",
+        "python -c \"open('client.pem').read()\"",
+        "powershell -Command \"[IO.File]::ReadAllText('.env.local')\"",
+        "powershell -Command \"[IO.File]::ReadAllText('private.key')\"",
+    ]
+
+    for command in commands:
+        decision, reason = engine.check(Mode.DEFAULT, _bash_call(command), False)
+        assert decision == Decision.DENY, command
+        assert "sensitive" in reason
+
+
 def test_sensitive_deny_beats_allow_rules_and_bypass_mode(tmp_path):
     engine = _engine(tmp_path)
     engine.local.allow.append(Rule("Glob", "**/*", True))

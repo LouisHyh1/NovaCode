@@ -1,9 +1,7 @@
 """危险命令黑名单——启发式、非完备、不可配置放开（N1）。
 
-参考 mewcode-python permissions/dangerous.py 设计：
-1. 安全命令白名单快速放行（is_safe_command）
-2. 危险模式正则匹配（detect）
-3. 命中即 Deny，不可绕过（含 bypassPermissions）
+参考 mewcode-python permissions/dangerous.py 设计：危险模式命中即 Deny，
+不可绕过（含 bypassPermissions）。未命中的命令继续进入规则引擎和模式兜底。
 
 用内置正则匹配命令串，命中即 Deny，作为最高优先级层。
 不受任何规则、模式、配置影响——bypassPermissions 模式也拦得住。

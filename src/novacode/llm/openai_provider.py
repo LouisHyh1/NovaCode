@@ -55,23 +55,7 @@ class OpenAIProvider:
                 # 末尾 usage chunk（choices 空，带 chunk.usage）
                 if not chunk.choices:
                     if chunk.usage is not None:
-                        # 解析缓存命中（OpenAI 自动前缀缓存，仅读取）
-                        cache_read = (
-                            getattr(
-                                getattr(chunk.usage, "prompt_tokens_details", None),
-                                "cached_tokens",
-                                0,
-                            )
-                            or 0
-                        )
-                        yield StreamEvent(
-                            usage=Usage(
-                                input_tokens=chunk.usage.prompt_tokens,
-                                output_tokens=chunk.usage.completion_tokens,
-                                cache_write=0,
-                                cache_read=cache_read,
-                            )
-                        )
+                        yield StreamEvent(usage=_usage_from_openai(chunk.usage))
                     continue
                 delta = chunk.choices[0].delta
                 finish_reason = chunk.choices[0].finish_reason or finish_reason
@@ -179,6 +163,17 @@ class OpenAIProvider:
             result.append({"role": "user", "content": req.reminder})
 
         return result
+
+
+def _usage_from_openai(raw) -> Usage:
+    cache_read = getattr(getattr(raw, "prompt_tokens_details", None), "cached_tokens", 0) or 0
+    return Usage(
+        input_tokens=raw.prompt_tokens,
+        output_tokens=raw.completion_tokens,
+        cache_write=0,
+        cache_read=cache_read,
+        context_tokens=raw.prompt_tokens + raw.completion_tokens,
+    )
 
 
 def _wrap_prompt_too_long(exc: Exception) -> Exception:

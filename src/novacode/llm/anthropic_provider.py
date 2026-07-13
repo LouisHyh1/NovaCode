@@ -85,24 +85,7 @@ class AnthropicProvider:
                 final_message = await stream.get_final_message()
                 # 用量：含缓存写/读字段
                 if final_message.usage is not None:
-                    yield StreamEvent(
-                        usage=Usage(
-                            input_tokens=final_message.usage.input_tokens,
-                            output_tokens=final_message.usage.output_tokens,
-                            cache_write=getattr(
-                                final_message.usage,
-                                "cache_creation_input_tokens",
-                                0,
-                            )
-                            or 0,
-                            cache_read=getattr(
-                                final_message.usage,
-                                "cache_read_input_tokens",
-                                0,
-                            )
-                            or 0,
-                        )
-                    )
+                    yield StreamEvent(usage=_usage_from_anthropic(final_message.usage))
                 if final_message.stop_reason == "tool_use":
                     calls = []
                     for block in final_message.content:
@@ -200,6 +183,18 @@ class AnthropicProvider:
                     )
                 result.append({"role": "user", "content": content})
         return result
+
+
+def _usage_from_anthropic(raw) -> Usage:
+    cache_write = getattr(raw, "cache_creation_input_tokens", 0) or 0
+    cache_read = getattr(raw, "cache_read_input_tokens", 0) or 0
+    return Usage(
+        input_tokens=raw.input_tokens,
+        output_tokens=raw.output_tokens,
+        cache_write=cache_write,
+        cache_read=cache_read,
+        context_tokens=raw.input_tokens + raw.output_tokens + cache_write + cache_read,
+    )
 
 
 def _wrap_prompt_too_long(exc: Exception) -> Exception:

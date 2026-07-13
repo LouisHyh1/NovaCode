@@ -20,6 +20,10 @@ def test_usage_anchor_sums_usage_fields() -> None:
     assert usage_anchor(Usage(1, 2, 3, 4)) == 10
 
 
+def test_usage_anchor_prefers_provider_context_tokens() -> None:
+    assert usage_anchor(Usage(1, 2, 3, 4, context_tokens=99)) == 99
+
+
 def test_recovery_attachment_contains_files_tools_and_boundary() -> None:
     files = [FileReadRecord(path="/tmp/a.py", content="print(1)", timestamp=datetime(2026, 1, 1))]
     tools = [

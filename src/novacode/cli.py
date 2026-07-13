@@ -24,29 +24,24 @@ async def _amain() -> int:
         return 0
 
     cwd = os.getcwd()
-    config_paths = [
-        os.path.join(cwd, ".novacode", "config.yaml"),
-        os.path.join(os.path.expanduser("~"), ".novacode", "config.yaml"),
-    ]
+    project_path = os.path.join(cwd, ".novacode", "config.yaml")
+    user_path = os.path.join(os.path.expanduser("~"), ".novacode", "config.yaml")
+    from novacode.config import ConfigError, load
 
-    cfg = None
-    err = None
-    for path in config_paths:
+    if Path(project_path).exists():
         try:
-            from novacode.config import ConfigError, load
-
-            cfg = load(path)
-            break
-        except (ConfigError, FileNotFoundError) as e:
-            err = e
-            continue
-
-    if cfg is None:
-        if err:
-            print(f"Config error: {err}", file=sys.stderr)
-        else:
-            searched = "\n  - ".join(config_paths)
-            print(f"No config file found. Searched:\n  - {searched}", file=sys.stderr)
+            cfg = load(project_path)
+        except ConfigError as e:
+            print(f"Config error: {e}", file=sys.stderr)
+            return 1
+    elif Path(user_path).exists():
+        try:
+            cfg = load(user_path)
+        except ConfigError as e:
+            print(f"Config error: {e}", file=sys.stderr)
+            return 1
+    else:
+        print(f"Config error: config file not found: {user_path}", file=sys.stderr)
         return 1
 
     from novacode.permission.engine import new_engine

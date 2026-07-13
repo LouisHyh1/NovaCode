@@ -282,22 +282,19 @@ class NovaCodeApp(App):
 
         # STREAMING 或 APPROVING 态 → 取消本轮
         if self.state in (SessionState.STREAMING, SessionState.APPROVING):
-            if self.state == SessionState.APPROVING and self.pending is not None:
-                if not self.pending.respond.done():
-                    self.pending.respond.set_result(Outcome.DENY_ONCE)
-            if self._agent_task and not self._agent_task.done():
-                self._agent_task.cancel()
-            self._show_system("(response interrupted)")
-            self._finish_streaming()
+            self._signal_turn_cancel()
             return
         self.exit()
 
     def action_cancel(self) -> None:
-        if self.state == SessionState.STREAMING and self.turn_cancel is not None:
+        if self.state in (SessionState.STREAMING, SessionState.APPROVING):
+            self._signal_turn_cancel()
+
+    def _signal_turn_cancel(self) -> None:
+        if self.turn_cancel is not None:
             self.turn_cancel.set()
-        elif self.state == SessionState.APPROVING and self.pending is not None:
-            if not self.pending.respond.done():
-                self.pending.respond.set_result(Outcome.DENY_ONCE)
+        if self.pending is not None and not self.pending.respond.done():
+            self.pending.respond.set_result(Outcome.DENY_ONCE)
 
     def action_toggle_tool_blocks(self) -> None:
         """Ctrl+O 切换所有工具块展开/折叠（预留）。"""
@@ -508,6 +505,10 @@ class NovaCodeApp(App):
                 if ev.text:
                     self._accumulated_text += ev.text
                     self._update_streaming_label()
+
+            if self.turn_cancel is not None and self.turn_cancel.is_set():
+                self._show_system("(response interrupted)")
+                self._finish_streaming()
 
         except asyncio.CancelledError:
             raise

@@ -79,7 +79,7 @@ def extract_target(call: ToolCall) -> tuple[str, bool, bool]:
         path = args.get("path", "")
         if not isinstance(path, str):
             return "", True, False
-        return path, True, True
+        return _normalize_rule_target(path), True, True
 
     if name == "glob":
         if not isinstance(args, dict) or "pattern" not in args:
@@ -87,7 +87,7 @@ def extract_target(call: ToolCall) -> tuple[str, bool, bool]:
         pattern = args.get("pattern", "")
         if not isinstance(pattern, str):
             return "", True, False
-        return pattern, True, True
+        return _normalize_rule_target(pattern), True, True
 
     if name == "grep":
         if not isinstance(args, dict) or "pattern" not in args:
@@ -107,6 +107,23 @@ def extract_target(call: ToolCall) -> tuple[str, bool, bool]:
 
     # 未知工具
     return "", False, False
+
+
+def extract_sandbox_path(call: ToolCall) -> tuple[str, bool]:
+    """提取真正用于文件沙箱检查的路径；搜索工具缺省为项目根。"""
+    args = _parse_json(call.input)
+    if not isinstance(args, dict):
+        return "", False
+
+    if call.name in _FILE_TOOLS:
+        path = args.get("path")
+        return (path, True) if isinstance(path, str) else ("", False)
+
+    if call.name in _SEARCH_TOOLS:
+        path = args.get("path", "")
+        return (path, True) if isinstance(path, str) else ("", False)
+
+    return "", True
 
 
 def extract_file_selectors(call: ToolCall) -> list[str]:
@@ -152,13 +169,18 @@ def extract_file_selectors(call: ToolCall) -> list[str]:
 
     return []
 
+
+def _normalize_rule_target(target: str) -> str:
+    """规则中的文件路径统一使用 slash，保证 Windows 持久化规则可重载命中。"""
+    return target.replace("\\", "/")
+
+
 def _join_selector(root: str, pattern: str) -> str:
     return root.rstrip("/\\") + "/" + pattern.lstrip("/\\")
 
 
 def _non_empty(values: list[str]) -> list[str]:
     return [value for value in values if value]
-
 
 
 def _parse_json(input_val: str) -> dict | str:

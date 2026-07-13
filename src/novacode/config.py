@@ -38,7 +38,9 @@ def load(path: str) -> Config:
     except yaml.YAMLError as e:
         raise ConfigError(f"YAML parse error in {path}: {e}") from e
 
-    if raw is None or "providers" not in raw:
+    if not isinstance(raw, dict):
+        raise ConfigError("Config top-level must be a mapping")
+    if "providers" not in raw:
         raise ConfigError("Config must contain a 'providers' key with at least one entry")
 
     providers_raw = raw["providers"]
@@ -57,9 +59,9 @@ def load(path: str) -> Config:
                 protocol=entry["protocol"],
                 api_key=os.path.expandvars(entry["api_key"]),
                 model=entry["model"],
-                base_url=os.path.expandvars(entry.get("base_url", "")) or None,
+                base_url=os.path.expandvars(entry.get("base_url") or "") or None,
                 thinking=entry.get("thinking", False),
-                context_window=int(entry.get("context_window", 0) or 0),
+                context_window=entry.get("context_window", 0),
             )
         )
 
@@ -68,19 +70,24 @@ def load(path: str) -> Config:
 
 def _validate_provider(entry: dict, prefix: str) -> None:
     for fld in ("name", "protocol", "api_key", "model"):
-        if fld not in entry or entry[fld] is None:
-            raise ConfigError(f"{prefix}.{fld} cannot be empty")
+        value = entry.get(fld)
+        if not isinstance(value, str) or not value.strip():
+            raise ConfigError(f"{prefix}.{fld} must be a non-empty string")
     if entry["protocol"] not in ("anthropic", "openai"):
         raise ConfigError(
             f"{prefix}.protocol must be 'anthropic' or 'openai', got '{entry['protocol']}'"
         )
+    if "thinking" in entry and not isinstance(entry["thinking"], bool):
+        raise ConfigError(f"{prefix}.thinking must be a boolean")
+    if "base_url" in entry and entry["base_url"] is not None:
+        if not isinstance(entry["base_url"], str):
+            raise ConfigError(f"{prefix}.base_url must be a string or null")
     if "context_window" in entry:
-        try:
-            value = int(entry["context_window"])
-        except (TypeError, ValueError) as exc:
-            raise ConfigError(f"{prefix}.context_window must be an integer") from exc
-        if value < 0:
-            raise ConfigError(f"{prefix}.context_window must be >= 0")
+        value = entry["context_window"]
+        if type(value) is not int:
+            raise ConfigError(f"{prefix}.context_window must be an integer")
+        if value <= 33_000:
+            raise ConfigError(f"{prefix}.context_window must be greater than 33000")
 
 
 DEFAULT_ANTHROPIC_CONTEXT_WINDOW = 200_000

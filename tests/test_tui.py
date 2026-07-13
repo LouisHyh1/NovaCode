@@ -336,3 +336,55 @@ class TestCommitApproval:
         app._commit_approval(Outcome.DENY_ONCE)
 
         assert req.respond.result() == Outcome.ALLOW_ONCE  # first value sticks
+
+
+class TestTurnCancellation:
+    @pytest.mark.asyncio
+    async def test_escape_while_approving_sets_cancel_and_denies(self):
+        app = _make_app()
+        req = _request()
+        app.pending = req
+        app.turn_cancel = asyncio.Event()
+        app.state = SessionState.APPROVING
+
+        app.action_cancel()
+
+        assert app.turn_cancel.is_set()
+        assert req.respond.result() == Outcome.DENY_ONCE
+
+    @pytest.mark.asyncio
+    async def test_ctrl_c_sets_cancel_without_cancelling_consumer_task(self):
+        app = _make_app()
+        app.state = SessionState.STREAMING
+        app.turn_cancel = asyncio.Event()
+        app._agent_task = asyncio.create_task(asyncio.sleep(10))
+        app._show_system = MagicMock()
+        app._finish_streaming = MagicMock()
+
+        await app.action_handle_ctrl_c()
+
+        assert app.turn_cancel.is_set()
+        assert not app._agent_task.cancelled()
+        app._finish_streaming.assert_not_called()
+        app._agent_task.cancel()
+
+    @pytest.mark.asyncio
+    async def test_consumer_natural_cancel_end_returns_to_idle_once(self):
+        app = _make_app()
+        app.state = SessionState.STREAMING
+        app.turn_cancel = asyncio.Event()
+        app.turn_cancel.set()
+        app._show_system = MagicMock()
+        app._finish_streaming = MagicMock(
+            side_effect=lambda: setattr(app, "state", SessionState.IDLE)
+        )
+
+        async def empty_events():
+            if False:
+                yield None
+
+        await app._consume_events(empty_events())
+
+        app._show_system.assert_called_once_with("(response interrupted)")
+        app._finish_streaming.assert_called_once()
+        assert app.state == SessionState.IDLE

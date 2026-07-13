@@ -1,5 +1,6 @@
 """Tests for tool system: registry and individual tools."""
 
+import asyncio
 import json
 import sys
 from pathlib import Path
@@ -141,6 +142,21 @@ async def test_bash_timeout():
     r = await reg.execute("bash", args, timeout=0.5)
     assert r.is_error
     assert "超时" in r.content
+
+
+@pytest.mark.asyncio
+async def test_bash_timeout_terminates_child_process(tmp_path: Path):
+    marker = tmp_path / "late.txt"
+    code = f"import time,pathlib;time.sleep(1);pathlib.Path(r'{marker}').write_text('late')"
+    command = f'"{sys.executable}" -c "{code}"'
+    reg = Registry()
+    reg.register(BashTool())
+
+    result = await reg.execute("bash", json.dumps({"command": command}), timeout=0.1)
+    await asyncio.sleep(1.1)
+
+    assert result.is_error
+    assert not marker.exists()
 
 
 @pytest.mark.asyncio

@@ -115,6 +115,43 @@ class FakeProviderWithUsage(FakeProvider):
         yield StreamEvent(done=True)
 
 
+class DelayedProvider:
+    """首个 delta 后暂停，用于验证事件是否真正增量向外传递。"""
+
+    def __init__(self) -> None:
+        self.first_yielded = asyncio.Event()
+        self.release_second = asyncio.Event()
+        self.closed = asyncio.Event()
+
+    @property
+    def name(self) -> str:
+        return "delayed"
+
+    @property
+    def model(self) -> str:
+        return "fake-model"
+
+    async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
+        try:
+            self.first_yielded.set()
+            yield StreamEvent(text="first")
+            await self.release_second.wait()
+            yield StreamEvent(text=" second")
+            yield StreamEvent(done=True)
+        finally:
+            self.closed.set()
+
+
+class WaitingProvider(DelayedProvider):
+    async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
+        try:
+            self.first_yielded.set()
+            await self.release_second.wait()
+            yield StreamEvent(text="too late")
+        finally:
+            self.closed.set()
+
+
 class InfiniteToolFakeProvider:
     """每轮只返回一个工具调用（永不自然停止），用于测试迭代上限。"""
 
@@ -193,6 +230,48 @@ async def test_multi_turn_autonomous_loop():
     assert msgs[2].role == ROLE_TOOL
     assert len(msgs[2].tool_results) == 1
     assert msgs[3].role == ROLE_ASSISTANT
+
+
+@pytest.mark.asyncio
+async def test_first_text_event_arrives_before_later_delta_is_produced():
+    provider = DelayedProvider()
+    agent = Agent(provider, Registry())
+    conv = Conversation()
+    conv.add_user("stream")
+    gen = agent.run(conv, Mode.DEFAULT, asyncio.Event())
+
+    assert (await anext(gen)).iter == 1
+    next_event = asyncio.create_task(anext(gen))
+    await provider.first_yielded.wait()
+    try:
+        first = await asyncio.wait_for(asyncio.shield(next_event), timeout=0.2)
+        assert first.text == "first"
+    finally:
+        provider.release_second.set()
+        if not next_event.done():
+            await next_event
+        async for _ in gen:
+            pass
+
+
+@pytest.mark.asyncio
+async def test_cancel_while_waiting_closes_provider_stream():
+    provider = WaitingProvider()
+    agent = Agent(provider, Registry())
+    conv = Conversation()
+    conv.add_user("wait")
+    cancel = asyncio.Event()
+    gen = agent.run(conv, Mode.DEFAULT, cancel)
+
+    await anext(gen)
+    consume = asyncio.create_task(anext(gen))
+    await provider.first_yielded.wait()
+    cancel.set()
+
+    with pytest.raises(StopAsyncIteration):
+        await asyncio.wait_for(consume, timeout=0.5)
+    await asyncio.wait_for(provider.closed.wait(), timeout=0.5)
+    assert conv.last_role() == ROLE_ASSISTANT
 
 
 # ── 场景 B：迭代上限 (AC3) ─────────────────────────────────
@@ -425,6 +504,10 @@ class BlockingTool:
         return Result(content="done (should not reach)")
 
 
+class BlockingWriteTool(BlockingTool):
+    read_only = False
+
+
 @pytest.mark.asyncio
 async def test_cancel_history_consistency():
     """执行中取消 → 历史配对合法、末尾 assistant 文本、可继续对话。"""
@@ -481,6 +564,31 @@ async def test_cancel_history_consistency():
     async for ev in agent2.run(conv, Mode.DEFAULT, asyncio.Event()):
         pass
     assert conv.last_role() == "assistant"
+
+
+@pytest.mark.asyncio
+async def test_cancel_side_effect_tool_finishes_quickly_with_paired_result():
+    registry = Registry()
+    registry.register(BlockingWriteTool("writer", block_time=5.0))
+    provider = FakeProvider(
+        [[StreamEvent(tool_calls=[ToolCall(id="w1", name="writer", input="{}")])]]
+    )
+    conv = Conversation()
+    conv.add_user("write")
+    cancel = asyncio.Event()
+    agent = Agent(provider, registry)
+    gen = agent.run(conv, Mode.BYPASS, cancel)
+
+    async def consume() -> None:
+        async for ev in gen:
+            if ev.tool is not None and ev.tool.phase == Phase.START:
+                cancel.set()
+
+    await asyncio.wait_for(consume(), timeout=0.5)
+
+    tool_messages = [m for m in conv.messages() if m.role == ROLE_TOOL]
+    assert tool_messages[-1].tool_results[0].tool_call_id == "w1"
+    assert conv.last_role() == ROLE_ASSISTANT
 
 
 # ── 场景 F：流出错 (AC5) ──────────────────────────────────
