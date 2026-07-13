@@ -1,6 +1,7 @@
 .novacode/config.yaml
 .novacode/config.local.yaml
 .novacode/settings.local.yaml
+.novacode/sessions/
 .env*
 __pycache__/
 *.pyc

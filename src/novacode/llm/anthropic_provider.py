@@ -10,6 +10,7 @@ from novacode.llm import (
     ROLE_TOOL,
     ROLE_USER,
     Message,
+    PromptTooLongError,
     Request,
     StreamEvent,
     ToolCall,
@@ -119,7 +120,7 @@ class AnthropicProvider:
         except asyncio.CancelledError:
             raise
         except Exception as e:
-            yield StreamEvent(err=e)
+            yield StreamEvent(err=_wrap_prompt_too_long(e))
 
     # ── reminder 注入 ──────────────────────────────────────────
 
@@ -199,3 +200,13 @@ class AnthropicProvider:
                     )
                 result.append({"role": "user", "content": content})
         return result
+
+
+def _wrap_prompt_too_long(exc: Exception) -> Exception:
+    status = getattr(exc, "status_code", None)
+    text = str(exc).lower()
+    if status in (400, 413) and (
+        "maximum context" in text or "context length" in text or "prompt is too long" in text
+    ):
+        return PromptTooLongError(str(exc))
+    return exc

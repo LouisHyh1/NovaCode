@@ -20,6 +20,7 @@ class ProviderConfig:
     model: str
     base_url: str | None = None
     thinking: bool = False
+    context_window: int = 0
 
 
 @dataclass
@@ -58,6 +59,7 @@ def load(path: str) -> Config:
                 model=entry["model"],
                 base_url=os.path.expandvars(entry.get("base_url", "")) or None,
                 thinking=entry.get("thinking", False),
+                context_window=int(entry.get("context_window", 0) or 0),
             )
         )
 
@@ -72,3 +74,22 @@ def _validate_provider(entry: dict, prefix: str) -> None:
         raise ConfigError(
             f"{prefix}.protocol must be 'anthropic' or 'openai', got '{entry['protocol']}'"
         )
+    if "context_window" in entry:
+        try:
+            value = int(entry["context_window"])
+        except (TypeError, ValueError) as exc:
+            raise ConfigError(f"{prefix}.context_window must be an integer") from exc
+        if value < 0:
+            raise ConfigError(f"{prefix}.context_window must be >= 0")
+
+
+DEFAULT_ANTHROPIC_CONTEXT_WINDOW = 200_000
+DEFAULT_OPENAI_CONTEXT_WINDOW = 128_000
+
+
+def effective_context_window(p: ProviderConfig) -> int:
+    if p.context_window > 0:
+        return p.context_window
+    if p.protocol == "openai":
+        return DEFAULT_OPENAI_CONTEXT_WINDOW
+    return DEFAULT_ANTHROPIC_CONTEXT_WINDOW

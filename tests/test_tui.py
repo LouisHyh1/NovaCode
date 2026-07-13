@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from novacode.agent import ApprovalRequest
+from novacode.agent import ApprovalRequest, CompactPhase
 from novacode.config import ProviderConfig
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
@@ -16,7 +16,7 @@ from novacode.tui.app import (
     SessionState,
     _outcome_for_index,
 )
-
+from novacode.tui.commands import dispatch_command, format_compact_notice
 
 # ── helpers ──────────────────────────────────────────────────
 
@@ -72,6 +72,28 @@ class TestOutcomeIndex:
 
     def test_2_deny_once(self):
         assert _outcome_for_index(2) == Outcome.DENY_ONCE
+
+
+def test_dispatch_command_known_unknown_and_non_command() -> None:
+    handler, is_command = dispatch_command("/compact")
+    assert is_command is True
+    assert handler is not None
+
+    handler, is_command = dispatch_command("/missing")
+    assert is_command is True
+    assert handler is not None
+
+    handler, is_command = dispatch_command("hello")
+    assert is_command is False
+    assert handler is None
+
+
+def test_format_compact_notice_reports_growth_without_saying_drop() -> None:
+    text = format_compact_notice(CompactPhase.AFTER_AUTO, 100, 150, None)
+
+    assert "100" in text
+    assert "150" in text
+    assert "降至" not in text
 
 
 # ── unit: _update_approving key dispatch ──────────────────────

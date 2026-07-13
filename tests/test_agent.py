@@ -606,17 +606,21 @@ async def test_plan_mode_hard_deny_write():
     registry.register(FakeWriteTool())
 
     # 模拟 LLM 在 Plan 模式下强行返回 write_file
-    scripts = [[StreamEvent(
-        tool_calls=[ToolCall(id="t1", name="write_file", input='{"path":"x.txt"}')]
-    )]]
+    scripts = [
+        [StreamEvent(tool_calls=[ToolCall(id="t1", name="write_file", input='{"path":"x.txt"}')])]
+    ]
     provider = FakeProvider(scripts)
     conv = Conversation()
     conv.add_user("plan")
 
     engine = Engine(
-        root=".", blacklist=[],
-        user=RuleSet(), project=RuleSet(), local=RuleSet(),
-        local_path="", _start_mode=Mode.PLAN,
+        root=".",
+        blacklist=[],
+        user=RuleSet(),
+        project=RuleSet(),
+        local=RuleSet(),
+        local_path="",
+        _start_mode=Mode.PLAN,
     )
     agent = Agent(provider, registry, engine=engine)
     events = []
@@ -663,17 +667,21 @@ async def test_plan_mode_hard_deny_stops_loop():
 
     registry.register(FakeBashTool())
 
-    scripts = [[StreamEvent(
-        tool_calls=[ToolCall(id="t1", name="bash", input='{"command":"echo hi"}')]
-    )]]
+    scripts = [
+        [StreamEvent(tool_calls=[ToolCall(id="t1", name="bash", input='{"command":"echo hi"}')])]
+    ]
     provider = FakeProvider(scripts)
     conv = Conversation()
     conv.add_user("plan")
 
     engine = Engine(
-        root=".", blacklist=[],
-        user=RuleSet(), project=RuleSet(), local=RuleSet(),
-        local_path="", _start_mode=Mode.PLAN,
+        root=".",
+        blacklist=[],
+        user=RuleSet(),
+        project=RuleSet(),
+        local=RuleSet(),
+        local_path="",
+        _start_mode=Mode.PLAN,
     )
     agent = Agent(provider, registry, engine=engine)
     events = []
@@ -699,7 +707,6 @@ async def test_plan_mode_hard_deny_stops_loop():
 @pytest.mark.asyncio
 async def test_deny_once_result_text():
     """DENY_ONCE 结果文案明确标注"未执行"。"""
-    from novacode.agent import ApprovalRequest
 
     registry = Registry()
     registry.register(FakeReadTool())
@@ -721,17 +728,21 @@ async def test_deny_once_result_text():
 
     registry.register(FakeBashTool())
 
-    scripts = [[StreamEvent(
-        tool_calls=[ToolCall(id="t1", name="bash", input='{"command":"git push"}')]
-    )]]
+    scripts = [
+        [StreamEvent(tool_calls=[ToolCall(id="t1", name="bash", input='{"command":"git push"}')])]
+    ]
     provider = FakeProvider(scripts)
     conv = Conversation()
     conv.add_user("run command")
 
     engine = Engine(
-        root=".", blacklist=[],
-        user=RuleSet(), project=RuleSet(), local=RuleSet(),
-        local_path="", _start_mode=Mode.DEFAULT,
+        root=".",
+        blacklist=[],
+        user=RuleSet(),
+        project=RuleSet(),
+        local=RuleSet(),
+        local_path="",
+        _start_mode=Mode.DEFAULT,
     )
     agent = Agent(provider, registry, engine=engine)
 

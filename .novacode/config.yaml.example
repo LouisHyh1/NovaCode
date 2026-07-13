@@ -4,10 +4,12 @@ providers:
     model: claude-sonnet-4-6
     api_key: sk-ant-xxx
     thinking: true         # extended thinking (anthropic only)
+    context_window: 200000 # optional; default: anthropic=200000, openai=128000
     # base_url: https://api.deepseek.com/anthropic  # custom endpoint
 
   # - name: gpt
   #   protocol: openai
   #   model: gpt-4o
   #   api_key: sk-xxx
+  #   context_window: 128000
   #   base_url: https://api.openai.com/v1

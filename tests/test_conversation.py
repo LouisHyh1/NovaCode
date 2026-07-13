@@ -1,7 +1,7 @@
 """Tests for conversation module."""
 
 from novacode.conversation import Conversation
-from novacode.llm import ROLE_ASSISTANT, ROLE_TOOL, ROLE_USER, ToolCall, ToolResult
+from novacode.llm import ROLE_ASSISTANT, ROLE_TOOL, ROLE_USER, Message, ToolCall, ToolResult
 
 
 def test_add_and_retrieve() -> None:
@@ -22,6 +22,35 @@ def test_messages_is_copy() -> None:
     msgs = conv.messages()
     msgs.clear()
     assert len(conv.messages()) == 1
+
+
+def test_messages_deep_copies_nested_tool_data() -> None:
+    conv = Conversation()
+    conv.add_assistant_with_tool_calls(
+        "call",
+        [ToolCall(id="t1", name="read_file", input='{"path":"a"}')],
+    )
+
+    msgs = conv.messages()
+    msgs[0].tool_calls[0].name = "mutated"
+
+    assert conv.messages()[0].tool_calls[0].name == "read_file"
+
+
+def test_replace_history_deep_copies_and_rejects_none() -> None:
+    conv = Conversation()
+    msgs = [ToolResult(tool_call_id="t1", content="result")]
+    replacement = [Message(role=ROLE_TOOL, tool_results=msgs)]
+
+    conv.replace_history(replacement)
+    replacement[0].tool_results[0].content = "mutated"
+
+    assert conv.messages()[0].tool_results[0].content == "result"
+
+    import pytest
+
+    with pytest.raises(TypeError):
+        conv.replace_history(None)  # type: ignore[arg-type]
 
 
 def test_tool_call_roundtrip() -> None:

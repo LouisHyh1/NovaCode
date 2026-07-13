@@ -11,6 +11,10 @@ ROLE_ASSISTANT = "assistant"
 ROLE_TOOL = "tool"
 
 
+class PromptTooLongError(Exception):
+    """Provider prompt exceeded the available context window."""
+
+
 @dataclass
 class ToolCall:
     """协议无关地承载模型发起的一次工具调用（流式拼接完成后）。"""

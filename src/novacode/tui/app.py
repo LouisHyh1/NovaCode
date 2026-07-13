@@ -16,14 +16,14 @@ from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
 from novacode.agent import Agent, ApprovalRequest, Phase
-from novacode.config import ProviderConfig
+from novacode.config import ProviderConfig, effective_context_window
 from novacode.conversation import Conversation
 from novacode.llm import Provider as LLMProvider
 from novacode.llm import new_provider
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
-from novacode.prompt import EXECUTE_DIRECTIVE
 from novacode.tool import Registry
+from novacode.tui.commands import dispatch_command, format_compact_notice
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
 
 SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
@@ -100,6 +100,8 @@ class NovaCodeApp(App):
         self._version = version or __version__
         self.providers = providers
         self.provider: LLMProvider | None = None
+        self.provider_cfg: ProviderConfig | None = None
+        self.agent: Agent | None = None
         self.conv = Conversation()
         self._tool_registry = registry
         self.engine = engine
@@ -162,7 +164,15 @@ class NovaCodeApp(App):
             self.query_one("#input-area").display = False
 
     def _select_provider(self, provider_cfg: ProviderConfig) -> None:
+        self.provider_cfg = provider_cfg
         self.provider = new_provider(provider_cfg)
+        self.agent = Agent(
+            self.provider,
+            self._tool_registry,
+            self._version,
+            self.engine,
+            context_window=effective_context_window(provider_cfg),
+        )
         self._update_mode_label()
         work_dir = os.getcwd()
         self.query_one("#title-bar", Static).update(self._make_banner(provider_cfg.model, work_dir))
@@ -360,24 +370,18 @@ class NovaCodeApp(App):
         if not text:
             return
 
-        if text == "/exit":
-            self.exit()
-            return
-
-        if text == "/plan":
-            self.mode = Mode.PLAN
-            self._update_mode_label()
-            self._show_system("已进入计划模式（只读工具）。输入需求，我会先调研再给出分步计划。")
-            return
-
-        if text == "/do":
-            self.mode = Mode.DEFAULT
-            self._update_mode_label()
-            self.conv.add_user(EXECUTE_DIRECTIVE)
-            await self._start_stream()
+        handler, is_command = dispatch_command(text)
+        if is_command:
+            if handler is not None:
+                await handler(self)
             return
 
         await self._dispatch(text)
+
+    def _current_tool_defs(self):
+        if self.mode == Mode.PLAN:
+            return self._tool_registry.read_only_definitions()
+        return self._tool_registry.definitions()
 
     async def _dispatch(self, text: str) -> None:
         self.conv.add_user(text)
@@ -413,7 +417,9 @@ class NovaCodeApp(App):
         self._scroll_chat()
         self._start_spinner()
 
-        agent = Agent(self.provider, self._tool_registry, self._version, self.engine)
+        if self.agent is None:
+            self.agent = Agent(self.provider, self._tool_registry, self._version, self.engine)
+        agent = self.agent
         self._agent_task = asyncio.create_task(
             self._consume_events(agent.run(self.conv, self.mode, self.turn_cancel))
         )
@@ -450,6 +456,17 @@ class NovaCodeApp(App):
                 if ev.err is not None:
                     self._finish_with_error(ev.err)
                     return
+
+                if ev.compact is not None:
+                    self._show_system(
+                        format_compact_notice(
+                            ev.compact.phase,
+                            ev.compact.before,
+                            ev.compact.after,
+                            ev.compact.err,
+                        )
+                    )
+                    continue
 
                 if ev.approval is not None:
                     # 人在回路——切到 APPROVING 态
@@ -545,9 +562,7 @@ class NovaCodeApp(App):
         block = approval_block(self.pending, self.approve_cursor)
         self._approval_widget = Static(block, classes="approval-block")
         if self._current_ai_row is not None:
-            asyncio.ensure_future(
-                self._current_ai_row.mount(self._approval_widget)
-            )
+            asyncio.ensure_future(self._current_ai_row.mount(self._approval_widget))
         self._scroll_chat()
 
     def _finish_with_assistant(self, reply: str) -> None:

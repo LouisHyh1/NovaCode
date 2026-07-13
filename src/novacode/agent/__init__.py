@@ -1,14 +1,36 @@
 """ReAct 循环编排——模型自主多轮：想 → 调工具 → 看结果 → 边做边调整，直到任务完成。"""
 
 import asyncio
+import json
 import logging
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
 
 from novacode import prompt
+from novacode.compact import (
+    CompactCircuitBreaker,
+    ContentReplacementState,
+    ManageInput,
+    RecoveryState,
+    SessionContext,
+    TriggerKind,
+    manage_context,
+    new_session_context,
+)
+from novacode.compact.const import AUTO_COMPACT_TRIGGER_TOKENS, MANUAL_SAFETY_MARGIN
+from novacode.compact.token import estimate_tokens, usage_anchor
 from novacode.conversation import Conversation
-from novacode.llm import Provider, Request, System, ToolCall, ToolResult
+from novacode.llm import (
+    PromptTooLongError,
+    Provider,
+    Request,
+    System,
+    ToolCall,
+    ToolDefinition,
+    ToolResult,
+)
 from novacode.permission import Decision, Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.permission.persist import persist_local_allow
@@ -30,6 +52,13 @@ NOTICE_CANCELLED = "（已取消。）"
 class Phase(Enum):
     START = "start"
     END = "end"
+
+
+class CompactPhase(Enum):
+    BEFORE_AUTO = "before_auto"
+    AFTER_AUTO = "after_auto"
+    BEFORE_EMERGENCY = "before_emergency"
+    AFTER_EMERGENCY = "after_emergency"
 
 
 @dataclass
@@ -64,6 +93,14 @@ class Usage:
 
 
 @dataclass
+class CompactEvent:
+    phase: CompactPhase
+    before: int = 0
+    after: int = 0
+    err: Exception | None = None
+
+
+@dataclass
 class Event:
     """Agent Loop 对外事件流元素，TUI 据非默认字段分派渲染。"""
 
@@ -75,6 +112,17 @@ class Event:
     notice: str = ""
     done: bool = False
     err: Exception | None = None
+    compact: CompactEvent | None = None
+
+
+@dataclass
+class SessionRuntime:
+    replacement: ContentReplacementState
+    recovery: RecoveryState
+    auto_tracking: CompactCircuitBreaker
+    session: SessionContext
+    usage_anchor: int = 0
+    anchor_msg_len: int = 0
 
 
 def _args_preview(args: str) -> str:
@@ -91,12 +139,60 @@ class Agent:
         registry: Registry,
         version: str = "",
         engine: Engine | None = None,
+        *,
+        runtime: SessionRuntime | None = None,
+        context_window: int = 200_000,
     ) -> None:
         self._provider = provider
         self._registry = registry
         self._version = version
         self.engine = engine
         self._event_queue: asyncio.Queue[Event] | None = None
+        self.runtime = runtime or SessionRuntime(
+            replacement=ContentReplacementState(),
+            recovery=RecoveryState(),
+            auto_tracking=CompactCircuitBreaker(),
+            session=new_session_context(str(Path.cwd())),
+        )
+        self.context_window = context_window
+        self._run_lock = asyncio.Lock()
+
+    def _manage_input(
+        self,
+        conv: Conversation,
+        defs: list[ToolDefinition],
+        trigger: TriggerKind,
+        estimated: int,
+    ) -> ManageInput:
+        return ManageInput(
+            conv=conv,
+            provider=self._provider,
+            model=self._provider.model,
+            context_window=self.context_window,
+            tool_defs=defs,
+            replacement=self.runtime.replacement,
+            recovery=self.runtime.recovery,
+            auto_tracking=self.runtime.auto_tracking,
+            session=self.runtime.session,
+            usage_anchor=self.runtime.usage_anchor,
+            anchor_msg_len=self.runtime.anchor_msg_len,
+            estimated_token=estimated,
+            trigger=trigger,
+        )
+
+    async def run_force_compact(
+        self,
+        conv: Conversation,
+        tool_defs: list[ToolDefinition],
+    ) -> tuple[int, int]:
+        async with self._run_lock:
+            estimated = estimate_tokens(0, conv.messages(), 0)
+            out = await manage_context(
+                self._manage_input(conv, tool_defs, TriggerKind.MANUAL, estimated)
+            )
+            self.runtime.usage_anchor = 0
+            self.runtime.anchor_msg_len = 0
+            return out.before_tokens, out.after_tokens
 
     async def run(
         self,
@@ -126,20 +222,92 @@ class Agent:
                 full = it == 1 or (it - 1) % PLAN_REMINDER_INTERVAL == 0
                 reminder = prompt.plan_reminder(full)
 
-            stream_events, text, calls, usage, ok = await self._stream_once(
-                conv, defs, sys, env_text, reminder, cancel
+            estimated = estimate_tokens(
+                self.runtime.usage_anchor,
+                conv.messages(),
+                self.runtime.anchor_msg_len,
             )
-            for ev in stream_events:
-                yield ev
+            emit_auto = (
+                estimated >= AUTO_COMPACT_TRIGGER_TOKENS
+                and not self.runtime.auto_tracking.tripped()
+            )
+            if emit_auto:
+                yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_AUTO))
+            try:
+                compact_out = await manage_context(
+                    self._manage_input(conv, defs, TriggerKind.AUTO, estimated)
+                )
+            except Exception as e:
+                if emit_auto:
+                    yield Event(compact=CompactEvent(phase=CompactPhase.AFTER_AUTO, err=e))
+                yield Event(err=e)
+                self._ensure_assistant_tail(conv, NOTICE_STREAM_ERR)
+                return
+            if emit_auto:
+                yield Event(
+                    compact=CompactEvent(
+                        phase=CompactPhase.AFTER_AUTO,
+                        before=compact_out.before_tokens,
+                        after=compact_out.after_tokens,
+                    )
+                )
 
-            if not ok:
+            emergency_retried = False
+            while True:
+                stream_events, text, calls, usage, err = await self._stream_once(
+                    conv, defs, sys, env_text, reminder, cancel
+                )
+                for ev in stream_events:
+                    yield ev
+
+                if err is None:
+                    break
+
                 if cancel.is_set():
                     self._finish_cancelled(conv)
                     return
+
+                if isinstance(err, PromptTooLongError) and not emergency_retried:
+                    yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_EMERGENCY))
+                    try:
+                        emergency_in = self._manage_input(
+                            conv,
+                            defs,
+                            TriggerKind.EMERGENCY,
+                            estimate_tokens(0, conv.messages(), 0),
+                        )
+                        emergency_out = await manage_context(emergency_in)
+                    except Exception as e:
+                        yield Event(
+                            compact=CompactEvent(
+                                phase=CompactPhase.AFTER_EMERGENCY,
+                                err=e,
+                            )
+                        )
+                        yield Event(err=e)
+                        self._ensure_assistant_tail(conv, NOTICE_STREAM_ERR)
+                        return
+                    yield Event(
+                        compact=CompactEvent(
+                            phase=CompactPhase.AFTER_EMERGENCY,
+                            before=emergency_out.before_tokens,
+                            after=emergency_out.after_tokens,
+                        )
+                    )
+                    self.runtime.usage_anchor = 0
+                    self.runtime.anchor_msg_len = 0
+                    retry_estimate = estimate_tokens(0, conv.messages(), 0)
+                    if retry_estimate < self.context_window - MANUAL_SAFETY_MARGIN:
+                        emergency_retried = True
+                        continue
+
+                yield Event(err=err)
                 self._ensure_assistant_tail(conv, NOTICE_STREAM_ERR)
                 return
 
             if usage is not None:
+                self.runtime.usage_anchor = usage_anchor(usage)
+                self.runtime.anchor_msg_len = conv.length()
                 yield Event(
                     usage=Usage(
                         input=usage.input_tokens,
@@ -194,9 +362,7 @@ class Agent:
             conv.add_tool_results(results)
 
             # Plan 模式硬拒绝：输出确定性收尾，不让模型自由总结误报成功
-            if mode == Mode.PLAN and any(
-                getattr(r, "is_policy_denial", False) for r in results
-            ):
+            if mode == Mode.PLAN and any(getattr(r, "is_policy_denial", False) for r in results):
                 terminal_text = (
                     "计划模式已拒绝执行写入/命令操作。"
                     "未对文件系统做任何修改。"
@@ -245,11 +411,10 @@ class Agent:
 
         async for ev in self._provider.stream(req):
             if cancel.is_set():
-                return events, "", [], None, False
+                return events, "", [], None, asyncio.CancelledError()
 
             if ev.err is not None:
-                events.append(Event(err=ev.err))
-                return events, "", [], None, False
+                return events, "", [], None, ev.err
 
             if ev.usage is not None:
                 usage = ev.usage
@@ -262,9 +427,9 @@ class Agent:
                 events.append(Event(text=ev.text))
 
         if cancel.is_set():
-            return events, "", [], None, False
+            return events, "", [], None, asyncio.CancelledError()
 
-        return events, text, calls, usage, True
+        return events, text, calls, usage, None
 
     async def _execute_batched(
         self,
@@ -464,6 +629,7 @@ class Agent:
             r: ToolExecResult = await asyncio.wait_for(
                 self._registry.execute(call.name, call.input), timeout=DEFAULT_TIMEOUT
             )
+            await self._record_read_file(call, r)
             return ToolResult(tool_call_id=call.id, content=r.content, is_error=r.is_error)
         except TimeoutError:
             return ToolResult(
@@ -499,6 +665,20 @@ class Agent:
             if not respond.done():
                 respond.set_result(Outcome.DENY_ONCE)
             raise
+
+    async def _record_read_file(self, call: ToolCall, result) -> None:
+        if call.name != "read_file" or getattr(result, "is_error", False):
+            return
+        try:
+            data = json.loads(call.input or "{}")
+            path = data.get("path")
+            if not path:
+                return
+            abs_path = Path(path).resolve()
+            raw = await asyncio.to_thread(abs_path.read_bytes)
+        except (OSError, json.JSONDecodeError, TypeError):
+            return
+        self.runtime.recovery.record_file(str(abs_path), raw.decode("utf-8", errors="replace"))
 
     async def _emit(self, event: Event) -> None:
         """把事件发送到队列（由 run() 消费并 yield 给 TUI）。"""
@@ -543,6 +723,7 @@ class Agent:
                 return
 
             r: ToolExecResult = exec_task.result()
+            await self._record_read_file(call, r)
             results[idx] = ToolResult(
                 tool_call_id=call.id,
                 content=r.content,
