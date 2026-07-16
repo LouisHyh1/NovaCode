@@ -4,7 +4,7 @@
 
 ## 静态质量
 
-- [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest tests/test_instructions.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/test_session.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/test_memory_governor.py -q`，预期四组新增模块测试均退出码为 0，并分别覆盖指令、会话、记忆和治理边界。（AC1–AC23）
+- [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest tests/instructions/test_loader.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py tests/memory/test_extractor.py tests/memory/test_governor.py -q`，预期三组新增模块测试均退出码为 0，并分别覆盖指令、会话、记忆提取与治理边界。（AC1–AC23）
 - [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py tests/test_mcp_cli.py -q`，预期集成测试退出码为 0，且空配置兼容、持久化失败、主动恢复、后台降级和生命周期断言均通过。（AC24–AC27）
 - [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest -q`、`.\.venv\Scripts\ruff.exe check .`、`.\.venv\Scripts\ruff.exe format --check .`、`.\.venv\Scripts\python.exe -m compileall src` 和 `git diff --check`，预期所有命令退出码为 0、无测试失败、无 lint/格式/编译错误且无空白错误；同时检查依赖清单和文档未引入数据库、向量检索、embedding、RAG 记忆检索、完整 Slash Command 框架或第二套压缩格式。（AC27）
 
@@ -44,7 +44,7 @@
 - [ ] 分别创建活跃 PID 且锁龄超过 1 小时、死 PID、PID 状态未知且未超过 1 小时、PID 状态未知且超过 1 小时的锁，并并发发起两个检查；预期活跃 PID 锁始终保留，死 PID 锁和未知但超时的锁可原子回收，未知且未超时的锁保留，并发检查最多一个获得锁。（AC20）
 - [ ] 获取治理锁后记录原 mtime，分别模拟成功、异常和取消；预期成功治理更新 mtime，异常或取消恢复旧 mtime，后续门控仍以最近一次成功治理时间判断。（AC21）
 - [ ] 让受限治理子 Agent 读取会话与两级记忆并修改本次目标 memory 目录，同时尝试执行 shell、修改项目源码和写入边界外路径；预期只允许目标 memory 目录内的合规变更，三类越权请求被拒绝且已允许变更不受影响。（AC22）
-- [ ] 在治理运行期间连续发送消息，并分别模拟治理完成和失败；预期启动、Agent Loop 和输入均不被阻塞，主会话在每次任务结束后只收到一条包含状态及 create/update/delete 数量的简短通知，失败通知不包含记忆正文。（AC23）
+- [ ] 在治理运行期间连续发送消息，并分别模拟治理完成和失败；预期启动、Agent Loop 和输入均不被阻塞，主会话在每次任务结束后只收到一条包含状态及 create/update/delete 数量的简短通知，完成或失败通知均不包含记忆正文。（AC23）
 
 ## 集成
 
@@ -57,7 +57,7 @@
 
 > 仅当 Linux/WSL、Linux 项目 `.venv`、tmux、真实 provider 配置均可用，且本清单已与 AC1–AC27 对照一致时执行。使用 `.venv/bin/python -m novacode` 启动；任一前置不满足时，以下项目必须记录“未执行”及具体原因，不得勾选或标记通过。
 
-- [ ] 在 Linux/WSL 项目根运行 `tmux new-session -d -s novacode-ch09 ".venv/bin/python -m novacode"` 并用 `tmux attach-session -t novacode-ch09` 进入冷启动；发送真实请求并退出，预期仅创建一个 `.novacode/sessions/<session_id>.jsonl` 消息文件，首条记录含 model，user 与最终 assistant 均可逐行解析，工具结果目录与消息文件共享同一 ID。（AC6–AC8、AC25）
+- [ ] 在 Linux/WSL 项目根先运行 `tmux new-session -d -s novacode-ch09 -c "$PWD"` 创建持久 shell，再运行 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 启动 NovaCode，并用 `tmux attach-session -t novacode-ch09` 进入冷启动；发送真实请求后输入 `/exit`，预期仅创建一个 `.novacode/sessions/<session_id>.jsonl` 消息文件，首条记录含 model，user 与最终 assistant 均可逐行解析，工具结果目录与消息文件共享同一 ID，NovaCode 退出后返回仍然存在的 shell。（AC6–AC8、AC25、AC26）
 - [ ] 配置四层互相冲突的指令并在 tmux 中重启对话，预期模型行为遵循低到高拼接顺序且 `NOVACODE.local.md` 覆盖其余三层；再验证独占行 `@rules/style.md`、段落内 `@`、越界和二进制引用，预期仅合法独占行展开，边界拒绝不阻断对话。（AC1–AC5）
 - [ ] 在 tmux 中请求 NovaCode 读取项目文件并完成至少一次真实工具调用，预期 JSONL 保存 user、带完整 tool calls 的 assistant、按 ID/顺序配对的 tool results 和最终 assistant；最终回复显示后输入立即可用。（AC7、AC9、AC16）
 - [ ] 在另一个 tmux pane 于普通追加期间终止进程，并分别准备 JSONL 坏行和未提交压缩事务后重启 `/resume`；预期坏行被隔离、完整记录和最后完整工具边界得到恢复、未提交压缩事务被忽略，恢复后仍向原 session ID 续写。（AC8–AC11）
@@ -66,4 +66,6 @@
 - [ ] 快速连续完成多轮真实对话并让首个提取任务延迟，预期每轮都入队、最终回复和下一轮不等待，提取仍由单消费者串行处理，后续任务读取前项提交后的最新索引。（AC16、AC23）
 - [ ] 准备满足治理门控的样本与重复、过时记忆，在 tmux 中触发治理；预期 `.consolidate-lock` 的 24 小时、10 分钟、5 个会话和 PID/mtime 规则生效，治理合并重复、删除过时项，只写目标 memory 目录，并以一条计数通知结束；再模拟失败，预期恢复旧 mtime 且主流程不阻塞。（AC19–AC23）
 - [ ] 在 tmux 中触发 ch08 压缩，确认完整追加式压缩事务提交后退出；重新启动并通过 `/resume` 选择原会话，预期用原 session ID 恢复已提交替换历史、继续写入原 JSONL 和工具结果目录，且没有建立平行压缩格式。（AC10、AC11、AC26、AC27）
-- [ ] 全部 tmux 场景结束后运行 `tmux kill-session -t novacode-ch09`；预期会话正常关闭，当前 writer 排空并关闭，后台提取与治理受控取消或收尾，不发生跨项目或跨 session ID 写入。（AC26）
+- [ ] 在 NovaCode 中输入 `/exit` 并等待返回持久 shell，随后从 shell 重新打开或重命名刚关闭的 JSONL，再用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 启动新会话并检查两次运行的存档；预期正常退出已排空并关闭 writer、后台提取与治理受控取消或收尾，文件句柄不再占用旧 JSONL，且新消息没有写入旧 session ID。（AC26）
+
+完成全部证据记录后，运行 `tmux kill-session -t novacode-ch09` 只清理 tmux 会话；该命令不作为 AC26 正常退出或资源排空的验收证据。
