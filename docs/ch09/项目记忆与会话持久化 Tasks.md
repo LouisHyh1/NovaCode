@@ -287,10 +287,10 @@
 3. 逐个运行四个新增模块测试，确认指令、会话、记忆存储/提取和治理边界均可在无真实 provider、无 TUI 条件下验证。
 4. 运行 Conversation、prompt、Agent、TUI 与 CLI 集成测试，确认可选能力为空时保持既有行为，持久化失败可见且不造成内存领先于磁盘，writer 初始化失败和后台降级符合启动契约。
 5. 使用当前项目 `.venv` 运行全量 pytest、ruff check、ruff format 检查、compileall 和 `git diff --check`；任何失败都必须定位到具体任务并修复后重跑，不能以“与本章无关”代替通过。
-6. tmux 验收只能在 Linux/WSL、项目 `.venv` 和 tmux 均可用、真实 provider 已配置且 Checklist 已确认与 AC1–AC27 一致时执行。启动独立 tmux 会话，用 `.venv/bin/python -m novacode` 发起真实请求：让 NovaCode 读取项目文件、调用至少一个工具并给出最终回复；观察 user/assistant/tool 记录写入当前 JSONL，最终回复显示后输入立即可用，提取在后台执行。当前环境不满足前置条件时明确标记“未执行”，不得声称通过。
-7. 在同一 tmux 验收中触发足以走 ch08 压缩路径的多轮对话，退出后重新启动并执行 `/resume`；选择刚才会话，确认完整工具链恢复、原 ID 续写、压缩事务可恢复且没有消息写入临时会话。
+6. tmux 验收只能在 Linux/WSL、项目 `.venv` 和 tmux 均可用、真实 provider 已配置且 Checklist 已确认与 AC1–AC27 一致时执行。先用 `tmux new-session -d -s novacode-ch09 -c "$PWD"` 创建以项目目录为 cwd 的持久 shell，再用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 在该 shell 中启动 NovaCode。输入真实请求，让 NovaCode 读取项目文件、调用至少一个工具并给出最终回复；观察 user/assistant/tool 记录写入当前 JSONL，最终回复显示后输入立即可用，提取在后台执行。当前环境不满足前置条件时明确标记“未执行”，不得声称通过。
+7. 在同一 tmux pane 中触发足以走 ch08 压缩路径的多轮对话，输入 `/exit` 正常退出 NovaCode；持久 shell 必须仍然存在并返回命令提示符，此时采集 writer 关闭、后台任务收尾和无跨 session 写入作为 AC26 正常关闭证据。随后再次用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 在同一 shell 重启并执行 `/resume`；选择刚才会话，确认完整工具链恢复、原 ID 续写、压缩事务可恢复且没有消息写入临时会话。需要并行观察日志时可在同一 tmux session 分 pane，不销毁验收 session。
 8. 准备超过 24 小时的恢复样本并确认仅当前上下文收到 system reminder；准备超过 30 天的存档并确认后台清理 JSONL 和同 ID 工具结果目录，同时交互仍可继续。
-9. 按 AC1–AC27 的映射逐项记录证据；一致的 Checklist 只作为镜像操作清单。重点核对四层指令、五条数据流、四类记忆路由、索引双限额、单消费者顺序、治理五门控、锁失败恢复以及切换/退出生命周期。
+9. 按 AC1–AC27 的映射逐项记录证据；一致的 Checklist 只作为镜像操作清单。重点核对四层指令、五条数据流、四类记忆路由、索引双限额、单消费者顺序、治理五门控、锁失败恢复以及切换/退出生命周期。只有全部证据采集完成后才运行 `tmux kill-session -t novacode-ch09` 清理环境；该命令不作为 AC26 正常退出或资源排空的验收证据。
 
 **验证：**
 ```powershell
@@ -308,7 +308,8 @@ git diff --check
 
 满足 tmux 前置条件后，在 Linux/WSL 中运行：
 ```bash
-tmux new-session -d -s novacode-ch09 ".venv/bin/python -m novacode"
+tmux new-session -d -s novacode-ch09 -c "$PWD"
+tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter
 tmux attach-session -t novacode-ch09
 ```
-预期：真实对话、工具调用、压缩、退出和 `/resume` 逐项满足 Spec AC；完成后运行 `tmux kill-session -t novacode-ch09`。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。
+预期：真实对话、工具调用、压缩、`/exit` 正常关闭和 `/resume` 逐项满足 Spec AC；`/exit` 后 tmux shell 与 session 仍存在，可在同一 pane 再次 send-keys 启动或分 pane 取证。全部证据记录后才运行 `tmux kill-session -t novacode-ch09` 做最终清理，该命令不作为 AC26 正常退出或资源排空的验收证据。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。
