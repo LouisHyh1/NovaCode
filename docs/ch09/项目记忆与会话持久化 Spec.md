@@ -82,7 +82,7 @@ NovaCode 当前只能维护进程内对话。ch08 已能在上下文接近上限
 - **F38**：当前 prompt 保留独立的 `自定义指令` 和 `长期记忆` 可选模块。前者使用 F8 的拼接结果，后者按“用户级索引在前、项目级索引在后”的低到高优先级拼接；任一内容为空时省略对应模块。
 - **F39**：启动顺序为：确定项目根和 session ID、加载项目指令、初始化记忆索引、创建未绑定 model 的会话写入器、创建未绑定 provider 且未启动 worker 的 `MemoryExtractor`、组装 prompt、启动会话清理与治理懒检查。TUI provider 选择成功后，必须先完成 `writer.bind_model(model)`，再完成 `extractor.bind_provider(provider)` 并启动唯一消费者；两步全部成功且 Agent 创建完成后才开放消息输入。writer 或 extractor 绑定失败时保持输入禁用并给出可处理错误；清理或治理等后台任务失败不得阻断其余 TUI 初始化。
 - **F40**：每轮生命周期为：持久化用户消息后更新内存、运行 Agent Loop、逐条持久化 assistant 与工具消息后更新内存、发送最终回复、调度异步记忆提取。任何阶段不得出现内存已接受而磁盘尚未接受同一消息的可观察状态。
-- **F41**：切换或退出会话时停止向旧写入器和 extractor 提交新项，等待已经进入临界区的 append 完成，再关闭句柄；extractor 的唯一消费者必须排空已接收项或受控取消当前项并释放锁，未完成的治理任务同样按可控方式取消或收尾，不得写到错误项目或会话。恢复切换还必须清理一次性 staging；若 staging 文件迁移部分完成，只删除迁移清单中的本次新文件，绝不删除目标已有文件。
+- **F41**：切换或退出会话时停止向旧写入器和 extractor 提交新项，等待已经进入临界区的 append 完成，再关闭句柄；extractor 的唯一消费者必须排空已接收项或受控取消当前项并释放锁，未完成的治理任务同样按可控方式取消或收尾，不得写到错误项目或会话。恢复 staging 源目录在成功或失败后始终清理；仅当 `compact_commit` 完整写入并 `fsync` 之前失败时，才按迁移清单删除目标 tool-results 中本次新建文件。commit `fsync` 后 runtime 切换失败必须保留目标迁移文件，报告“已提交但未切换”，当前活动会话保持旧引用，供下次 `/resume` 使用。
 - **F42**：新增能力复用现有 `NovaCodeApp`、prompt 模块槽位、文件工具、`Conversation.replace_history()` 和 `src/novacode/compact/`。未启用或无数据时，NovaCode 保持 ch08 的现有交互行为。
 
 ## 非功能需求

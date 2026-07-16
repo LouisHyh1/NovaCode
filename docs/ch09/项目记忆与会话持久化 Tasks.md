@@ -252,7 +252,7 @@
 5. 消息追加流固定为：`Conversation.add_*()` 持有 conversation 锁，writer 持有自身锁完成 serialize → append → flush → fsync，再更新内存。用户消息失败时不渲染气泡、不启动 Agent；assistant/tool 失败时以可见错误收尾。
 6. 最终事件消费顺序固定为：先渲染回复并恢复输入，再对非空 `memory_turn` 调用 `MemoryExtractor.submit()`；每个最终回复提交一次，不加轮数或关键词门槛，入队不得阻塞下一轮。
 7. 在 `cli._amain()` 按唯一启动顺序装配：解析项目根和 sessions 目录 → 新建 session context → 加载并缓存四层指令 → 创建两级 store、锁内 roll-forward journal 并读取索引 → 初始化未绑定 model 的 writer → 组装 prompt/创建未绑定且无 worker 的 extractor → 注入 app → 后台调度 `clean_expired_async()`（内部 `asyncio.to_thread`）→ governor 懒检查 → 进入 TUI provider 选择。writer 初始化失败显示错误并返回非零；指令/索引缺失与后台失败按空值或日志降级。
-8. 恢复流复用 T5：`/resume` 列表 → 读取并截断到完整边界 → detached candidate → 一次性 staging runtime → 必要时只在 staging 压缩 → spill 迁移清单/路径重写 → 目标压缩事务提交 → live conversation + 最终目标 runtime → 原子切换 → 关闭旧 writer；临时新会话存档不自动删除，任一失败保持旧活动会话并精确清理 staging 和本次迁移文件。
+8. 恢复流复用 T5：`/resume` 列表 → detached candidate → staging runtime → spill 迁移/路径重写 → 目标压缩事务提交 → 原子切换。staging 源目录始终清理；commit `fsync` 前失败才按清单删除本次目标新文件，commit `fsync` 后切换失败则保留目标文件、报告“已提交但未切换”并保持旧活动引用，供下次 `/resume` 使用。
 9. 自动提取流复用 T7：最终回复持久化 → 渲染/恢复输入 → put_nowait → 固定双锁 → 最新索引 → 无工具推理 → 校验/预演/提交 → 刷新快照。治理流复用 T8，后台任务与主交互隔离。
 10. 退出时先停止新输入、writer 提交和 extractor submit，关闭 extractor 队列并排空或受控取消唯一消费者，取消 governor 并恢复失败 mtime，等待或取消线程包装的 cleanup，清理恢复 staging，最后排空并关闭当前 writer；可删除从未成功持久化消息的当前临时会话，但所有无有效记录会话仍保留 30 天兜底，不得让旧项目或旧 session 的后台任务写入新目标。
 11. 更新测试，覆盖两个 prompt 模块的空/非空与顺序、writer/extractor 顺序绑定、五条数据流、每轮提取、持久化错误、后台降级、主动恢复 staging、切换和退出无跨 session 写入；在现有 `tests/test_mcp_cli.py` 中覆盖 `_amain()` 的装配顺序、writer 初始化失败返回非零且不启动 TUI、任一绑定失败不开放输入，以及 cleanup 在线程包装中运行、cleanup/governor 异常只记录并继续其余初始化。

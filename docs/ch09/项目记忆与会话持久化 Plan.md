@@ -423,11 +423,13 @@ writer 抛错时 `Conversation` 不变。用户消息失败则不渲染且不启
   -> short critical section: block new submits and atomically swap all three references
   -> resume submits to the new session
   -> wait for in-flight old append and close old writer; log close failure without rollback
-  -> remove staging; on failure remove only manifest-listed new target files
+  -> always remove staging source
+  -> only before compact_commit fsync failure: remove manifest-listed new target files
+  -> after compact_commit fsync switch failure: retain target files; report committed but not switched
   -> continue appending to original JSONL and tool-results directory
 ```
 
-恢复前默认创建的新会话文件不自动删除。压缩在 detached candidate 和一次性 staging runtime 上完成，不触碰最终目标 runtime；staging spill 全部迁移并重写路径后，只有目标压缩事务 commit 已 `fsync` 才进入切换临界区。切换前失败不会改变当前活动会话，迁移清理严格按清单删除本次新文件且不删除目标已有文件；未提交 JSONL 事务由恢复器忽略。原子切换后沿用原 session ID 和全新最终 session-scoped 状态，旧 writer 关闭失败只降级记录，不回滚已切换状态。
+恢复前默认创建的新会话文件不自动删除。staging 源目录在成功或失败后始终清理。`compact_commit` 完整写入并 `fsync` 前失败时，旧活动会话和目标 JSONL 不变，并按迁移清单删除本次目标新文件；commit `fsync` 后 runtime 切换失败时，不删除目标迁移文件，只报告“已提交但未切换”，当前活动会话保持旧引用，下次 `/resume` 可采用已提交事务。成功切换后沿用原 session ID 和全新最终 runtime；旧 writer 关闭失败只记录。
 
 ### 5.4 自动提取
 
