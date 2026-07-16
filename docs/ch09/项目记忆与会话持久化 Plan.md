@@ -243,11 +243,11 @@ class MemoryGovernor:
 
 固定路由为：`user`、`feedback` 只允许用户级 store，`project`、`reference` 只允许项目级 store。目标层级由 `MemoryKind` 推导，模型无权另传目录。记忆文件 frontmatter 至少写入稳定 UUID、`type`、`title`、`created`、`updated`；正文必须是可独立理解的陈述，时间敏感信息使用绝对日期，索引项包含类型、标题、简述和相对链接。
 
-`MemoryStore` 的 `lock` 是提取与治理共用的进程内目录锁。调用方按“用户级、项目级”固定顺序获取两个锁，避免死锁；`recover_locked()`、`read_index_locked()` 和 `apply_locked()` 只允许在持锁状态调用，后两者在首次读取或提交前先执行恢复。`apply_locked()` 先在内存中按 delete、update/merge、create 顺序构造候选文件集和候选索引，再同时检查最多 200 行、UTF-8 大小不超过 25KB。某一操作超限时只拒绝该操作并回到它执行前的候选状态；磁盘上从未出现超限索引，也不触发治理兜底。越界路径、非法类型、错误路由、缺失目标和非法文件名被拒绝。
+`MemoryStore` 同时持有提取与治理共用的进程内 `asyncio.Lock` 和每目录独立的跨进程 `.memory-write.lock`。跨进程锁以标准库原子独占创建或等价互斥实现并记录 PID；活 PID 不可抢占，死 PID或明确陈旧锁按与治理锁相同的安全判定回收。它与 `.consolidate-lock` 分工明确：后者只控制治理调度，前者控制所有实际 memory 读取恢复和写入临界区。`recover_locked()`、`read_index_locked()`、`apply_locked()`、extractor 完整推理事务和 governor 写阶段均同时持有两种锁。需要两级目录时固定按用户级→项目级获取并反向释放，异常路径也不得反序。`apply_locked()` 在双锁内完成候选构造和 200 行/25KB 检查。
 
-合格批次使用 memory 目录内唯一的 `.memory-transaction.json` journal/manifest 实现多文件 roll-forward，而不声称多个 `os.replace()` 具有批次原子性。锁内流程固定为：生成全部正文目标临时文件和候选 `MEMORY.md`；在 journal 中记录事务 ID、临时/目标相对路径、目标摘要、候选 index 摘要及提交后待删除清单；逐个 `fsync` 临时正文、候选 index 和 journal，并同步目录项；按 manifest 替换或创建全部正文，最后用 `os.replace()` 替换 `MEMORY.md` 作为 commit marker；index 提交后才删除旧正文，最后删除临时文件和 journal 并再次同步目录。目标替换必须可通过“目标已是预期摘要”幂等重放，且不得覆盖 manifest 之外的文件。
+合格批次使用 memory 目录内唯一正式 journal `.memory-transaction.json` 实现 roll-forward。所有正文和 index 临时文件带唯一 txn ID；先生成并逐个 `fsync`，再写入并 `fsync` `.memory-transaction.<txn>.tmp`，随后以 `os.replace()` 原子发布为正式 journal 并 `fsync` memory 目录。正式 journal 是事务开始标记，出现前绝不替换正文；出现后才按 manifest 替换/创建正文，最后替换 `MEMORY.md` 作为 commit marker，提交后执行删除和清理。目标替换通过摘要幂等重放，不触碰 manifest 外文件。
 
-`recover_locked()` 在启动/load 前检查 journal。若当前 index 尚未达到 manifest 的已提交状态，则按摘要幂等完成所有剩余正文替换，确认索引引用的正文均存在后最后替换候选 `MEMORY.md`；若 index 已提交，则只完成待删除项和临时文件/journal 清理。候选 index 与旧 index 摘要相同的事务按“尚未确认提交”处理并安全重放，避免仅更新正文时误判。这样任何替换阶段崩溃后都不会留下悬空索引，提交后不再被索引的旧正文和所有临时文件最终都会被清理，同时仍在 journal 建立前完成 200 行/25KB 预演。
+`recover_locked()` 在双锁内运行。无正式 journal 时可删除未被现有 index 引用的 txn 临时文件，因为它们从未进入提交协议；正式 journal 有效时，index 未提交则按摘要幂等完成正文并最后提交 index，index 已提交则完成待删除项和清理。正式 journal 无法解析、schema/摘要校验失败或引用越界时不得猜测或继续写：将 store 标记为 recovery-required，记录不含正文的错误，保留 journal/临时文件和可能被当前或新 index 引用的正文，并阻断后续 extractor/governor 写入，等待人工诊断。
 
 `MemoryExtractor` 构造时只创建队列并保存 stores/callback，不启动 worker。`bind_provider(provider)` 是一次性生命周期边界：拒绝空 provider 和绑定到不同 provider 的第二次调用，保存 provider 后通过 app 持有的 task 启动唯一 `run()` 消费者；绑定成功前 `submit()` 必须拒绝任务。绑定后 `submit()` 只做 `asyncio.Queue.put_nowait()`。`run()` 严格按提交顺序处理：固定顺序获取两个 store 锁，重新读取最新索引，将最近一轮 user/final assistant、两级完整索引、固定路由和 create/update/delete/no-op 约束发送给 provider，且 `Request.tools=[]`；随后解析、校验、容量预演和事务提交，最后刷新 prompt 使用的两级索引快照。LLM、解析或写入失败只记录日志并释放两个锁，下一项继续。`close()` 先停止接收新项，再排空队列或受控取消当前项，并保证 task、store 锁和 provider 引用不泄漏到下一会话。
 
@@ -301,7 +301,7 @@ class Conversation:
 
 恢复候选压缩由 app 内两个窄 helper 管理：`_compact_resume_candidate(candidate, staging_runtime)` 只在 `<sessions_dir>/.resume-staging-<transaction_id>/tool-results/` 对应的一次性 staging `SessionRuntime` 上调用 ch08，绝不把最终目标 runtime 传给候选压缩；`_promote_staged_spills(candidate, staging_dir, target_spill_dir)` 逐个迁移文件到目标目录，为每个目标选择未占用名称、记录本次新建目标清单，并只重写候选消息中与 staging 文件匹配的 spill 路径。helper 不覆盖目标已有文件，失败时依据清单删除本次新文件并递归清理 staging，不能扫描后删除目标目录中的其他文件。
 
-候选压缩成功后的唯一提交顺序是：迁移并重写 spill 路径 → 通过目标 writer 完整写入 `compact_begin`/替换历史/`compact_commit` → commit `fsync` 成功后进入短临界区原子切换 `Conversation`、writer 和最终目标 runtime。压缩、迁移或事务提交任一步失败都关闭新 writer、保持旧活动引用不变并清理 staging；append-only JSONL 若残留未提交压缩记录，由 reader 按既有事务规则忽略。若 commit 已成功而最终引用切换失败，旧活动会话仍不变，目标存档保留已提交事务供下次恢复，且 staging/迁移清单仍完成清理。
+候选压缩成功后的唯一提交顺序是：迁移并重写 spill 路径 → 完整写入 `compact_begin`/替换历史/`compact_commit` → commit `fsync` → 原子切换 runtime。`compact_commit` 的 `fsync` 是不可逆边界：此前失败时保持旧活动会话和目标 JSONL 不变，删除 staging 并按清单删除本次目标新文件；此后切换失败时旧活动引用仍不变并报告未切换，但已提交 JSONL 及其引用的目标迁移文件必须保留，只删除 staging 源目录，下次 `/resume` 可采用该事务。
 
 会话切换只有一个时序：先在旧会话仍有效时完整准备并验证新 writer、目标 runtime 与新 `Conversation`；准备失败则关闭已创建的新资源并保持旧会话。准备成功后进入短切换临界区，禁止新的消息提交，并原子替换 `conv`、writer 和整个 `SessionRuntime` 引用，随后恢复向新会话提交。退出临界区后再等待旧 writer 已进入的 append 完成并关闭旧 writer；此时关闭失败只记录日志，不能回切已经可能接收新消息的状态。
 
@@ -485,14 +485,17 @@ startup or later lazy check
 | 压缩事务中断 | 内存不执行该次替换；恢复忽略整笔未提交事务 | 保留事务前完整历史并记录诊断 |
 | JSONL 单行损坏或末行截断 | 跳过该行，后续有效行继续读取 | 会话仍可恢复并续写 |
 | 工具链不完整或错序 | 截断到此前最后完整边界 | 日志记录截断原因和 ID，不输出工具正文 |
-| 恢复压缩、spill 迁移或事务提交失败 | 当前 TUI 活动引用不切换；目标 JSONL 未提交事务由 reader 忽略 | 删除 staging；按迁移清单仅删除本次新目标文件，保留目标已有文件，显示错误 |
+| compact commit 前失败 | 旧活动会话和目标 JSONL 不变 | 删除 staging；按清单仅删除本次目标新文件，保留既有文件 |
+| compact commit 后切换失败 | 旧活动引用不变；目标 JSONL 已提交 | 只删 staging，保留目标迁移文件并报告未切换，供下次恢复 |
 | 单个过期会话删除失败 | 其他清理项继续 | 分项日志；不阻塞启动 |
 | 无有效记录的过期会话 | 以 JSONL/tool-results 最大 mtime 判定 | 同步 worker 在线程中清理，避免空会话永久遗留或阻塞事件循环 |
 | 提取模型、解析、容量或写入失败 | 当前队列项失败，锁释放；主会话不变 | 结构化日志，继续下一项 |
 | 普通提取导致索引超限 | 只拒绝导致超限的操作 | 保留该操作前文件与索引，不启动治理 |
-| MemoryStore 多文件提交中断 | journal 保留完整目标摘要和待删除清单 | 下次 load 在锁内 roll-forward；先保证正文，再提交 index，最后删除与清理 |
+| journal 发布前中断 | 无正式 journal，事务未开始 | 双锁内清理未被 index 引用的 txn 临时文件 |
+| 有效 journal 发布后中断 | journal 保留目标摘要和删除清单 | 双锁内 roll-forward；正文后提交 index，最后清理 |
+| journal 损坏/越界 | 目录状态未知 | 标记 recovery-required，阻断写入并保留文件供人工诊断 |
 | extractor 未绑定或重复绑定不同 provider | 不启动第二个 worker，不接收提取项 | 输入保持禁用或记录生命周期错误，关闭已启动资源 |
-| 提取与治理同时写同一目录 | 共用 `MemoryStore.lock` 串行 | 固定双锁顺序避免死锁 |
+| 跨进程提取/治理竞争 | 同时持有进程内锁与 `.memory-write.lock` | 用户级→项目级获取、反向释放；死 PID 安全回收 |
 | 两进程同时治理 | 非阻塞文件锁与 PID 状态最多放行一个 | 未获锁者门控失败并返回 |
 | 治理失败或取消 | 恢复获取前 mtime | 简短失败通知，不包含记忆正文 |
 | 会话切换准备失败 | 尚未进入引用交换临界区 | 关闭新资源并保持旧会话，不改变任何活动引用 |

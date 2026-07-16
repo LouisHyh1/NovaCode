@@ -23,7 +23,7 @@
 - [ ] 用可观察 mock writer 依次提交 user、assistant 和 tool 消息，并分别注入序列化、append、flush、fsync 失败；预期成功路径中每条完整 JSON 行都先 append、flush、fsync 再更新 `Conversation`，失败消息不进入内存且调用方收到可处理错误。（AC7）
 - [ ] 连续追加多条消息，确认既有字节未被重写；再截断最后一行并重启恢复，预期此前完整行仍可读取、坏行被跳过，随后继续向同一 JSONL 文件追加。（AC8）
 - [ ] 分别准备完整工具链、缺少结果、多工具部分返回、ID/顺序不匹配和孤立 tool result；预期完整链全部保留，前三类不完整链从发起该链的 assistant 消息之前截断，孤立结果从其自身之前截断，并保留此前最后一个完整工具边界。（AC9）
-- [ ] 触发 ch08 压缩并检查同一 JSONL 依次追加同事务 ID 的 `compact_begin`、完整替换历史和 `compact_commit`；分别在 begin 后和部分替换历史后模拟中断，预期只有 commit 已 fsync 且事务 ID、数量、序号、摘要一致的事务替换内存并在恢复时采用。超阈值恢复必须先在一次性 staging `SessionRuntime`/spill 目录压缩，再迁移 spill、重写候选路径、提交目标压缩事务，最后切换 runtime；在压缩、迁移和事务提交各阶段注入失败时旧活动会话不变，staging 被删除，部分迁移只删除清单中的本次新文件且不覆盖或删除目标已有文件。（AC10）
+- [ ] 以 `compact_commit` 完整写入并 fsync 为不可逆边界：commit 前各阶段失败时旧活动会话和目标 JSONL 不变，删除 staging 并按清单删除目标 tool-results 中本次新文件；commit 后 runtime 切换失败时旧活动引用不变并报告未切换，但只删除 staging 源目录，保留已提交事务引用的目标迁移文件，下次 `/resume` 可采用该事务；任何路径均不覆盖或删除目标已有文件。（AC10）
 
 ## 会话恢复与清理
 
@@ -37,7 +37,7 @@
 - [ ] 创建一条记忆并检查独立 Markdown 文件与同目录 `MEMORY.md`；预期 frontmatter 至少包含稳定 ID、`type`、`title`、`created`、`updated`，正文可独立理解，索引项包含类型、标题、摘要和可点击相对链接且不嵌入完整正文。（AC15）
 - [ ] 构造 `MemoryExtractor` 后先确认未启动 worker 且绑定前拒绝 submit；TUI provider 选择成功后一次性绑定并只启动一个消费者，再绑定不同 provider 被拒绝。随后快速完成三轮不含待执行工具调用的最终回复并延迟第一项任务；预期每轮立即且仅入队一次，回复显示和下一轮输入不等待，提取请求 `tools=[]`，后续任务在前一项提交或失败收尾后按顺序启动并重新读取最新两级索引；关闭时停止接收并排空或受控取消。（AC16）
 - [ ] 分别提交合法 create、update、delete、no-op、语义重复内容、类型或目标层级非法的 create 以及越界文件名；预期前三种操作正确更新文件和索引、no-op 不变更，重复内容由读取完整最新索引的模型选择 no-op 或合并到既有条目，非法或越界操作被拒绝且主会话继续运行。（AC17）
-- [ ] 分别让 create 导致 `MEMORY.md` 第 201 行和 UTF-8 大小超过 25KB，再先用 delete 或 update/merge 释放容量后重试；预期超限操作在 journal 建立前被拒绝。对正文替换/创建、index commit、待删除项和 journal 清理每个阶段注入崩溃后重新 load；预期未提交 index 时幂等完成正文后最后提交 index，已提交 index 时完成删除和清理，最终无悬空索引、无永久未索引正文或临时文件，且 200 行/25KB 预演与 prompt 只注入合规索引的语义不变。（AC18）
+- [ ] 验证全部 txn 临时文件使用唯一 ID：note/index `fsync` 后写 `.memory-transaction.<txn>.tmp`，`fsync` 后以 `os.replace()` 发布 `.memory-transaction.json` 并 fsync 目录，正式 journal 出现前不替换正文。覆盖发布前崩溃、发布后各阶段、无正式 journal 孤儿清理；损坏/校验失败/越界 journal 必须标记 recovery-required、阻断提取和治理写入并保留文件，不得静默删除。200 行/25KB 预演保持不变。（AC18）
 
 ## 记忆治理
 
@@ -51,8 +51,10 @@
 
 - [ ] 分别传入空和非空的指令、用户级索引、项目级索引，检查系统 prompt；预期非空内容进入独立的 `自定义指令` 与 `长期记忆` 模块，空内容省略对应模块，长期记忆只含索引且用户级在前、项目级在后。（AC24）
 - [ ] 在无指令、无 memory 目录、无历史会话，以及后台清理或治理抛错的场景启动；预期 `NovaCodeApp` 可完成 provider 选择并进入交互状态。另验证 writer 初始化失败不进入 TUI，writer model 绑定或 extractor provider 绑定失败时输入保持禁用；只有依次完成 writer 绑定、extractor 一次性绑定/单 worker 启动和 Agent 创建后才开放提交。（AC25）
-- [ ] 用自动化生命周期测试在 append 临界区内切换会话或退出，并给旧 writer 关闭、extractor 排空/取消和恢复 staging 各阶段注入失败；预期先停止旧 writer/extractor 新提交并排空或受控取消，再原子切换活动引用并关闭旧句柄，消息和后台任务不会写入错误 session/project。恢复准备失败保持旧活动会话，staging 清理只删除迁移清单中的本次新文件且不删除目标已有文件；切换后旧 writer 关闭失败只记录且不回滚。（AC26）
+- [ ] 用自动化生命周期测试区分 compact commit 前后：commit 前失败清理 staging 和清单内本次迁移文件且目标 JSONL 不变；commit 后 runtime 切换失败只删 staging，保留目标迁移文件与已提交事务，旧活动引用不变并可再次 `/resume`。同时验证 writer/extractor 排空、无跨 session 写入及旧 writer 关闭失败不回滚。（AC26）
 - [ ] 检查实现依赖、目录结构、运行数据流和验收边界；预期继续复用 `NovaCodeApp`、prompt 模块槽位、文件工具、`Conversation.replace_history()`、`src/novacode/compact/` 与 ch08 工具结果机制，没有引入 Spec 排除的数据库、向量检索、额外恢复命令或平行压缩实现；四类精确路由、提取延迟、治理门控/异常和崩溃注入均由自动化测试确定性覆盖，tmux 不承担这些模型不可控断言。（AC27）
+
+- [ ] 在两个进程中分别覆盖 extractor/extractor 与 extractor/governor 竞争：`recover_locked()`、`apply_locked()`、完整提取事务和治理写阶段均同时持有进程内锁与对应 `.memory-write.lock`；两级目录始终用户级→项目级获取、反向释放，活 PID 不抢占、死 PID安全回收，且 `.consolidate-lock` 仅负责治理调度。（AC16、AC19、AC20）
 
 ## tmux 端到端
 

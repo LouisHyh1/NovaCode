@@ -142,8 +142,8 @@
 4. 在 `app.py` 实现窄 helper：一个只负责在 staging runtime 压缩；另一个把 staging spill 迁入目标 `tool-results/`、为每个目标选择未占用名称、记录本次新文件清单并重写候选消息路径。迁移不得覆盖目标已有文件；部分失败只按清单删除本次新文件并删除 staging，不扫描或删除目标目录已有文件。
 5. 候选压缩成功时，先完成 spill 迁移和路径重写，再为原 ID 打开 `SessionWriter.open_existing()`，把 detached candidate 的替换历史通过 `append_compaction()` 完整提交；commit 完成 `fsync` 后才创建绑定该 writer 钩子的 live `Conversation`。恢复历史本身不逐条回写；失败后 JSONL 中残留的未提交事务由 reader 忽略。
 6. 根据最后活动时间设置最终目标 runtime 的 `resume_reminder`：严格超过 24 小时时生成仅用于当前请求的 system reminder，提醒重新读取易变资料；提醒不加入 `Conversation`、不写 JSONL、不伪装为 user。新会话该字段为空。
-7. 切换前完整准备并验证新 writer、最终目标 runtime 和 live conversation。进入短临界区后禁止新消息提交，原子替换 `conv`、writer 与整个 runtime 引用，再恢复提交；退出临界区后等待旧 writer 已进入的 append 完成并关闭。切换前失败保持旧引用，commit 已成功但引用切换失败时目标存档保留有效事务供下次恢复；切换后旧 writer 关闭失败只记录且不回滚。所有路径最终删除 staging，并只按迁移清单回收本次新文件。
-8. 测试列表选择/取消、原 ID 续写、目标工具目录、23 小时 59 分无提醒、24 小时 1 分有临时提醒、恢复超阈值只使用 staging runtime、spill 路径重写、目标同名文件不覆盖，以及压缩/迁移/事务提交各阶段失败不切换且精确清理；继续覆盖准备失败、切换中禁止提交、旧 append 排空和旧 writer 关闭失败不回切。
+7. 以 `compact_commit` 完整写入并 `fsync` 为不可逆边界。commit 前失败保持旧活动会话和目标 JSONL 不变，删除 staging 并按清单删除本次目标新文件；commit 后 runtime 切换失败保持旧活动引用并报告未切换，但只删除 staging 源目录，保留已提交事务引用的全部目标迁移文件供下次 `/resume`。切换后旧 writer 关闭失败只记录且不回滚。
+8. 测试 commit 前压缩/迁移/事务阶段失败与 commit 后切换失败：前者精确回收本次新文件，后者断言目标迁移文件保留且已提交事务可再次恢复；继续覆盖同名文件不覆盖、提醒边界、旧 append 排空和关闭失败。
 
 **验证：**
 ```powershell
@@ -164,13 +164,13 @@
 
 **步骤：**
 1. 在 `types.py` 定义 `MemoryKind` 的 `user`、`feedback`、`project`、`reference`，以及 `MemoryAction(action, kind, memory_id, title, summary, content, filename)`、`MemoryTurn(user_content, assistant_content)`、`ApplyReport(created, updated, deleted, rejected)`；操作只允许 `create`、`update`、`delete`、`no-op`。
-2. 实现 `MemoryStore(directory, allowed_kinds)` 及其 `asyncio.Lock`。用户级 store 只允许 `user/feedback`，项目级 store 只允许 `project/reference`；目标目录由 kind 推导，拒绝模型指定的层级、非法文件名、路径越界、类型错路由和缺失目标。
+2. 实现 `MemoryStore(directory, allowed_kinds)`、进程内 `asyncio.Lock` 和独立 `.memory-write.lock`。跨进程锁使用标准库原子独占创建或等价互斥并记录 PID；活 PID 不抢占，死 PID或明确陈旧锁安全回收。两级 store 固定用户级→项目级获取、反向释放；该锁与 governor 的 `.consolidate-lock` 分工独立。
 3. 每条记忆保存为独立 Markdown 文件，YAML frontmatter 至少包含稳定 UUID、`type`、`title`、`created`、`updated`；正文独立可理解，时间敏感信息使用绝对日期。每个目录的 `MEMORY.md` 只保存类型、标题、简述和可点击相对链接，不嵌入正文。
 4. `read_index_locked()`、`render_index_locked()`、`apply_locked()` 仅允许持锁调用。`apply_locked()` 在内存中按 delete、update/merge、create 顺序逐项构造候选文件和候选索引；每项后同时检查不超过 200 行及 UTF-8 大小不超过 25KB。
-5. 任一操作导致候选超限时，只拒绝该操作并恢复到该操作前候选状态，记录结构化诊断；不得短暂落盘超限索引，也不得启动治理兜底。容量预演通过后，在 memory 目录写 `.memory-transaction.json` journal/manifest，记录事务 ID、全部正文临时/目标相对路径及摘要、候选 index 摘要和提交后待删除清单；逐个 `fsync` 正文临时文件、候选 `MEMORY.md`、journal 与相关目录项。
-6. 持锁按 journal 逐个替换或创建正文，最后用 `os.replace()` 替换 `MEMORY.md` 作为 commit marker；index 提交后才删除旧正文，随后清理临时文件和 journal。实现 `recover_locked()` 并在启动/load 前调用：index 未提交时按摘要幂等完成剩余正文替换、确认无悬空引用后最后提交 index；index 已提交时完成待删除和清理。候选 index 与旧 index 摘要相同时按未确认提交安全重放，不能因为多个 `os.replace()` 而声称批次原子。
+5. 容量预演通过后，为全部 note/index 临时文件使用唯一 txn ID并逐个 `fsync`；再写入和 `fsync` `.memory-transaction.<txn>.tmp`，以 `os.replace()` 发布为 `.memory-transaction.json`，随后 `fsync` memory 目录。只有正式 journal 出现后才替换正文，index 仍最后提交。
+6. `recover_locked()` 必须同时持有两种锁。无正式 journal 时只清理未被 index 引用的 txn 临时文件；有效 journal 正常 roll-forward。正式 journal 无法解析、校验失败或引用越界时标记 recovery-required，记录无正文错误，保留 journal/临时/正文并阻断后续提取与治理写入，不得猜测或静默删文件。
 7. 在 `prompts.py` 定义提取和治理的结构化提示约束及响应解析入口，但不调用 provider；提示明确固定路由、四种操作、完整索引判断重复/冲突及禁止工具调用。
-8. 测试四类路由、frontmatter、相对链接、四种操作、非法层级/文件名/越界、稳定 created 与更新后的 updated、第 201 行、超过 25KB、先 delete/update 释放容量后 create 成功，以及索引不含正文。对 journal 写入后、每个正文替换/创建、index commit 前后、待删除项和 journal 清理逐阶段注入崩溃并重新 load，断言 roll-forward 后没有悬空索引，未被最终索引引用的正文和所有临时文件最终清理，200 行/25KB 预演语义不变。
+8. 测试 journal 发布前崩溃、发布后每个替换阶段、无正式 journal 孤儿清理、损坏/越界 journal 阻断写入且不丢文件；并覆盖 `.memory-write.lock` 活/死 PID、两级固定顺序及 200 行/25KB 语义。
 
 **验证：**
 ```powershell
@@ -190,7 +190,7 @@
 
 **步骤：**
 1. 实现 `MemoryExtractor(user_store, project_store, on_index_changed)`；构造只创建队列并保存 stores/callback，不接收 provider、不启动 worker。新增一次性 `bind_provider(provider: Provider) -> None`：拒绝空值和绑定到不同 provider 的第二次调用，并由 app 在成功绑定后启动唯一 `run()` 消费者；绑定前 `submit()` 拒绝任务。
-2. 绑定后 `submit(MemoryTurn)` 只执行 `asyncio.Queue.put_nowait()`，不等待 provider、不修改会话历史。每项任务固定按用户级、项目级顺序获取两个 store 锁；持锁后先恢复 journal、重新读取最新两级完整索引，并在持锁期间完成 provider 推理、结构化解析、操作校验、双限额预演和事务提交，最后刷新 prompt 使用的两级索引快照。
+2. 绑定后 `submit(MemoryTurn)` 只执行 `asyncio.Queue.put_nowait()`。每项任务固定按用户级→项目级获取各 store 的进程内锁和 `.memory-write.lock`，持双锁完成恢复、最新索引读取、provider 推理、校验和提交，最后反向释放；任何路径不得反序。
 3. provider 请求仅包含最近一轮 user 与最终 assistant、两级完整索引、固定类型路由和四种操作约束，并显式设置 `Request.tools=[]`。是否保存、重复、冲突及 create/update/delete/no-op 由 LLM 基于最新索引判断，不增加 embedding 或相似度机制。
 4. 逐项校验 action、kind、推导路由、filename 和规范化边界；`no-op` 不产生变更，非法操作只计入拒绝并记录无敏感正文诊断。
 5. 模型错误、解析错误、容量拒绝或写入错误只使当前队列项失败；在 `finally` 释放全部锁和队列执行权，继续下一项。`close()` 先停止接收新项，并等待当前项到安全提交点或按可控方式取消，不能遗留 task、锁或可向下一会话写入的 provider 引用。
@@ -217,7 +217,7 @@
 2. 依次检查至少一个 memory 目录存在、距 `.consolidate-lock` 最近成功 mtime 至少 24 小时、`list_sessions()` 至少返回 5 个可恢复会话、成功获取跨进程锁；任一失败立即返回且不创建后台任务。
 3. `.consolidate-lock` 保存运行中 PID，mtime 表示最近一次成功治理。先用 OS 非阻塞文件锁保证并发最多一个持有者；PID 确认存活时不论锁龄都不抢占，PID 确认死亡时原子回收，仅在平台无法可靠判断 PID 时以超过 1 小时作为兜底，未知且未超时则保留。
 4. 获锁后保存原 mtime。治理成功时清除运行态 PID、更新成功 mtime 并释放；失败、取消或异常时恢复原 mtime 后释放，使失败不会推迟下一次满足 24 小时门槛的治理。
-5. 后台任务按固定顺序获取目标 `MemoryStore.lock`，调用受限子 Agent：只暴露会话 JSONL 与两级 memory 的读取能力、目标 memory 目录的受约束写入能力；不注册 shell，不允许源码、边界外路径或未经现有资料支持的新事实。变更仍经 `MemoryStore` 校验、双限额预演和 journal 事务提交。
+5. `.consolidate-lock` 只控制治理调度；后台治理实际写入前仍按用户级→项目级获取每个 store 的进程内锁和 `.memory-write.lock`，反向释放。测试 extractor/extractor、extractor/governor 多进程竞争、死锁回收和固定顺序无死锁；变更仍经双限额与 journal 事务。
 6. 治理负责合并重复、删除过时、修正确有证据的矛盾、把相对日期改为绝对日期并修剪索引。任务不阻塞启动、Agent Loop 或输入；结束后只通知状态与 create/update/delete 计数，不包含记忆正文。
 7. `close()` 取消或收尾后台治理，并按失败语义恢复 mtime、释放 store 锁和跨进程锁。测试五道门控、扫描节流、活/死/未知 PID、1 小时边界、双检查竞争、成功更新时间、异常/取消恢复、受限能力、非阻塞与无正文通知。
 
