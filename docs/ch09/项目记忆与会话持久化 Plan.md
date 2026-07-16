@@ -128,6 +128,11 @@ def clean_expired(
     now: datetime,
     max_age: timedelta = timedelta(days=30),
 ) -> None: ...
+async def clean_expired_async(
+    sessions_dir: Path,
+    now: datetime,
+    max_age: timedelta = timedelta(days=30),
+) -> None: ...
 ```
 
 `SessionWriter.path` 必须计算为 `<sessions_dir>/<session_id>.jsonl`。构造器以 append 文本模式打开该文件，不创建同名消息子目录；`compact.state.SessionContext.spill_dir` 独立指向 `<sessions_dir>/<session_id>/tool-results/`。新会话允许以空 model 构造 writer，但此时 writer 处于未绑定状态；provider 选择成功后、开放输入前必须调用 `bind_model(model)`。该方法在 writer 锁内拒绝空值、首条记录写入后的首次绑定和与既有绑定不一致的重复绑定。`append_message()` 在未绑定时直接抛出 `SessionWriteError`，首条消息从已绑定值写入 `model`。`open_existing()` 用已恢复的首条记录 model 建立已绑定 writer。`append_message()` 与 `append_compaction()` 共用一个 `threading.RLock`，每个完整 JSON 行执行 `write`、`flush`、`os.fsync` 后才返回。序列化或任一步写盘失败均抛出 `SessionWriteError`，调用方不得更新内存。
@@ -142,7 +147,9 @@ def clean_expired(
 
 只有 commit 行完成 `fsync` 后方法才成功返回。恢复器从头顺序解释日志；只有 begin、连续完整的替换记录和 commit 三者的事务 ID、数量、序号、摘要全部一致时，才用该替换历史取代事务前历史。未提交、损坏或不一致的事务整体忽略。
 
-`load_session()` 对无法解析、类型未知或字段非法的单行记录诊断后继续。得到最后一个有效压缩状态后，再校验工具链：assistant 的 `tool_calls` 必须由紧随其后的 tool 消息按相同 ID 和顺序完整返回；未闭合、部分返回或顺序不匹配时从发起该链的 assistant 之前截断，孤立 tool 结果从该结果之前截断。`list_sessions()` 扫描且只扫描 `*.jsonl`，使用最后一条有效记录的活动时间倒序排序；`SessionInfo.title` 是首条有效 user 消息的单行截断摘要，没有有效 user 消息时固定为 `（无用户消息）`；没有任何有效消息的文件不返回。`clean_expired()` 使用相同活动时间，同时删除过期 JSONL 与同 ID 工具结果目录；单项失败记录后继续。
+`load_session()` 对无法解析、类型未知或字段非法的单行记录诊断后继续。得到最后一个有效压缩状态后，再校验工具链：assistant 的 `tool_calls` 必须由紧随其后的 tool 消息按相同 ID 和顺序完整返回；未闭合、部分返回或顺序不匹配时从发起该链的 assistant 之前截断，孤立 tool 结果从该结果之前截断。`list_sessions()` 扫描且只扫描 `*.jsonl`，使用最后一条有效记录的活动时间倒序排序；`SessionInfo.title` 是首条有效 user 消息的单行截断摘要，没有有效 user 消息时固定为 `（无用户消息）`；没有任何有效消息的文件不返回。
+
+`clean_expired()` 是只负责磁盘扫描与删除的同步 worker：有有效记录时使用最后有效记录时间；无有效记录时使用 `max(JSONL mtime, 同 ID tool-results 目录 mtime)`，目录不存在则只取 JSONL mtime。它同时删除严格过期的 JSONL 与同 ID 工具结果目录，单项失败记录后继续。公开的 `clean_expired_async()` 必须 `await asyncio.to_thread(clean_expired, ...)`（或采用行为清楚等价的线程包装），CLI 只调度该异步入口，不能把同步扫描直接放进事件循环。正常退出可以额外删除“从未成功 append 任何消息”的当前临时会话文件与空工具目录；无论是否采用该优化，无有效记录会话的 30 天兜底都必须保留。
 
 ### 3.3 `novacode.memory`
 
@@ -204,17 +211,18 @@ class MemoryStore:
     def read_index_locked(self) -> str: ...
     def apply_locked(self, actions: list[MemoryAction]) -> ApplyReport: ...
     def render_index_locked(self) -> str: ...
+    def recover_locked(self) -> None: ...
 
 
 class MemoryExtractor:
     def __init__(
         self,
-        provider: Provider,
         user_store: MemoryStore,
         project_store: MemoryStore,
         on_index_changed: Callable[[str], None],
     ) -> None: ...
 
+    def bind_provider(self, provider: Provider) -> None: ...
     def submit(self, turn: MemoryTurn) -> None: ...
     async def run(self) -> None: ...
     async def close(self) -> None: ...
@@ -235,9 +243,13 @@ class MemoryGovernor:
 
 固定路由为：`user`、`feedback` 只允许用户级 store，`project`、`reference` 只允许项目级 store。目标层级由 `MemoryKind` 推导，模型无权另传目录。记忆文件 frontmatter 至少写入稳定 UUID、`type`、`title`、`created`、`updated`；正文必须是可独立理解的陈述，时间敏感信息使用绝对日期，索引项包含类型、标题、简述和相对链接。
 
-`MemoryStore` 的 `lock` 是提取与治理共用的进程内目录锁。调用方按“用户级、项目级”固定顺序获取两个锁，避免死锁；`read_index_locked()` 和 `apply_locked()` 只允许在持锁状态调用。`apply_locked()` 先在内存中按 delete、update/merge、create 顺序构造候选文件集和候选索引，再同时检查最多 200 行、UTF-8 大小不超过 25KB。某一操作超限时只拒绝该操作并回到它执行前的候选状态；磁盘上从未出现超限索引，也不触发治理兜底。合法批次通过同目录临时文件与 `os.replace()` 提交；越界路径、非法类型、错误路由、缺失目标和非法文件名被拒绝。
+`MemoryStore` 的 `lock` 是提取与治理共用的进程内目录锁。调用方按“用户级、项目级”固定顺序获取两个锁，避免死锁；`recover_locked()`、`read_index_locked()` 和 `apply_locked()` 只允许在持锁状态调用，后两者在首次读取或提交前先执行恢复。`apply_locked()` 先在内存中按 delete、update/merge、create 顺序构造候选文件集和候选索引，再同时检查最多 200 行、UTF-8 大小不超过 25KB。某一操作超限时只拒绝该操作并回到它执行前的候选状态；磁盘上从未出现超限索引，也不触发治理兜底。越界路径、非法类型、错误路由、缺失目标和非法文件名被拒绝。
 
-`MemoryExtractor.submit()` 只做 `asyncio.Queue.put_nowait()`。`run()` 是唯一消费者，严格按提交顺序处理：固定顺序获取两个 store 锁，重新读取最新索引，将最近一轮 user/final assistant、两级完整索引、固定路由和 create/update/delete/no-op 约束发送给 provider，且 `Request.tools=[]`；随后解析、校验、容量预演和提交，最后刷新 prompt 使用的两级索引快照。LLM、解析或写入失败只记录日志并释放两个锁，下一项继续。
+合格批次使用 memory 目录内唯一的 `.memory-transaction.json` journal/manifest 实现多文件 roll-forward，而不声称多个 `os.replace()` 具有批次原子性。锁内流程固定为：生成全部正文目标临时文件和候选 `MEMORY.md`；在 journal 中记录事务 ID、临时/目标相对路径、目标摘要、候选 index 摘要及提交后待删除清单；逐个 `fsync` 临时正文、候选 index 和 journal，并同步目录项；按 manifest 替换或创建全部正文，最后用 `os.replace()` 替换 `MEMORY.md` 作为 commit marker；index 提交后才删除旧正文，最后删除临时文件和 journal 并再次同步目录。目标替换必须可通过“目标已是预期摘要”幂等重放，且不得覆盖 manifest 之外的文件。
+
+`recover_locked()` 在启动/load 前检查 journal。若当前 index 尚未达到 manifest 的已提交状态，则按摘要幂等完成所有剩余正文替换，确认索引引用的正文均存在后最后替换候选 `MEMORY.md`；若 index 已提交，则只完成待删除项和临时文件/journal 清理。候选 index 与旧 index 摘要相同的事务按“尚未确认提交”处理并安全重放，避免仅更新正文时误判。这样任何替换阶段崩溃后都不会留下悬空索引，提交后不再被索引的旧正文和所有临时文件最终都会被清理，同时仍在 journal 建立前完成 200 行/25KB 预演。
+
+`MemoryExtractor` 构造时只创建队列并保存 stores/callback，不启动 worker。`bind_provider(provider)` 是一次性生命周期边界：拒绝空 provider 和绑定到不同 provider 的第二次调用，保存 provider 后通过 app 持有的 task 启动唯一 `run()` 消费者；绑定成功前 `submit()` 必须拒绝任务。绑定后 `submit()` 只做 `asyncio.Queue.put_nowait()`。`run()` 严格按提交顺序处理：固定顺序获取两个 store 锁，重新读取最新索引，将最近一轮 user/final assistant、两级完整索引、固定路由和 create/update/delete/no-op 约束发送给 provider，且 `Request.tools=[]`；随后解析、校验、容量预演和事务提交，最后刷新 prompt 使用的两级索引快照。LLM、解析或写入失败只记录日志并释放两个锁，下一项继续。`close()` 先停止接收新项，再排空队列或受控取消当前项，并保证 task、store 锁和 provider 引用不泄漏到下一会话。
 
 `MemoryGovernor` 只编排门控、锁、受限子 Agent 和通知，不自行增加记忆事实。治理目标是合并重复、删除过时、修正有证据的矛盾、把相对日期改成绝对日期，并使索引满足双限额。治理使用与提取相同的 store 锁和提交校验。
 
@@ -285,7 +297,11 @@ class Conversation:
 
 所有 `add_*()` 先构造完整 `Message`，在 `Conversation` 的 `RLock` 内调用 `before_append(message)`，成功后才 append 深拷贝。`replace_history()` 同理先调用 `before_replace(messages)`，成功后才替换内存；默认钩子为空时保持现有行为。`NovaCodeApp` 将当前 `SessionWriter.append_message` 与 `append_compaction` 绑定为钩子。这样 TUI 用户消息、Agent assistant/tool 消息和 ch08 历史替换共享一个提交点，不建立平行写入路径。
 
-恢复时先用 `open_session_context()` 构造目标 `SessionContext`，再为目标会话新建完整 `SessionRuntime`：全新的 `ContentReplacementState`、`RecoveryState`、`CompactCircuitBreaker`，目标 session，归零的 `usage_anchor` 与 `anchor_msg_len`，以及按活动时间计算的 `resume_reminder`。恢复压缩显式把该目标 runtime 传给 ch08 压缩入口，绝不复用临时会话的 session-scoped 状态。随后用 `Conversation.from_messages()` 装入已校验历史并绑定目标 writer；初始装入不回写旧消息。
+恢复时先用 `open_session_context()` 构造最终目标 `SessionContext`，再为目标会话准备完整的最终 `SessionRuntime`：全新的 `ContentReplacementState`、`RecoveryState`、`CompactCircuitBreaker`，目标 session，归零的 `usage_anchor` 与 `anchor_msg_len`，以及按活动时间计算的 `resume_reminder`。已校验历史先由 `Conversation.from_messages()` 装入 detached candidate；初始装入不回写旧消息。
+
+恢复候选压缩由 app 内两个窄 helper 管理：`_compact_resume_candidate(candidate, staging_runtime)` 只在 `<sessions_dir>/.resume-staging-<transaction_id>/tool-results/` 对应的一次性 staging `SessionRuntime` 上调用 ch08，绝不把最终目标 runtime 传给候选压缩；`_promote_staged_spills(candidate, staging_dir, target_spill_dir)` 逐个迁移文件到目标目录，为每个目标选择未占用名称、记录本次新建目标清单，并只重写候选消息中与 staging 文件匹配的 spill 路径。helper 不覆盖目标已有文件，失败时依据清单删除本次新文件并递归清理 staging，不能扫描后删除目标目录中的其他文件。
+
+候选压缩成功后的唯一提交顺序是：迁移并重写 spill 路径 → 通过目标 writer 完整写入 `compact_begin`/替换历史/`compact_commit` → commit `fsync` 成功后进入短临界区原子切换 `Conversation`、writer 和最终目标 runtime。压缩、迁移或事务提交任一步失败都关闭新 writer、保持旧活动引用不变并清理 staging；append-only JSONL 若残留未提交压缩记录，由 reader 按既有事务规则忽略。若 commit 已成功而最终引用切换失败，旧活动会话仍不变，目标存档保留已提交事务供下次恢复，且 staging/迁移清单仍完成清理。
 
 会话切换只有一个时序：先在旧会话仍有效时完整准备并验证新 writer、目标 runtime 与新 `Conversation`；准备失败则关闭已创建的新资源并保持旧会话。准备成功后进入短切换临界区，禁止新的消息提交，并原子替换 `conv`、writer 和整个 `SessionRuntime` 引用，随后恢复向新会话提交。退出临界区后再等待旧 writer 已进入的 append 完成并关闭旧 writer；此时关闭失败只记录日志，不能回切已经可能接收新消息的状态。
 
@@ -329,9 +345,9 @@ def build_system_prompt(
 
 ### 4.4 Agent 与 TUI：窄接口注入
 
-`Agent` 新增可选的 `instructions: str` 与 `memory_index: Callable[[], str]`，每轮开始仍调用现有 `prompt.build_system_prompt()`，从 callable 获取最新合规索引。`run_force_compact()` 增加可选 `runtime: SessionRuntime | None = None`；普通压缩使用当前 runtime，恢复候选压缩必须显式传入刚创建的目标 runtime。`Event` 增加可选 `memory_turn: MemoryTurn | None`；只有无待执行工具调用的最终回复分支填充它。持久化异常转为 `Event.err`，不再继续请求模型或写内存。
+`Agent` 新增可选的 `instructions: str` 与 `memory_index: Callable[[], str]`，每轮开始仍调用现有 `prompt.build_system_prompt()`，从 callable 获取最新合规索引。`run_force_compact()` 增加可选 `runtime: SessionRuntime | None = None`；普通压缩使用当前 runtime，恢复候选压缩必须显式传入一次性 staging runtime，最终目标 runtime 只在成功提交后参与引用切换。`Event` 增加可选 `memory_turn: MemoryTurn | None`；只有无待执行工具调用的最终回复分支填充它。持久化异常转为 `Event.err`，不再继续请求模型或写内存。
 
-`NovaCodeApp` 新增 `project_root`、`session_context`、必选 `SessionWriter`、可选 `MemoryExtractor`、可选 `MemoryGovernor` 与缓存索引字段。provider 选择成功后先调用 `writer.bind_model(provider.model)`，成功才创建 Agent 并开放输入；绑定失败显示可处理错误并保持输入禁用。`_dispatch()` 捕获用户消息写盘失败，失败时不渲染用户气泡、不启动 Agent。消费到最终事件时先渲染回复并恢复输入，再对非空 `memory_turn` 调用 `MemoryExtractor.submit()`；入队是同步常数时间操作，提取不阻塞下一轮。
+`NovaCodeApp` 新增 `project_root`、`session_context`、必选 `SessionWriter`、未绑定的可选 `MemoryExtractor`、可选 `MemoryGovernor` 与缓存索引字段。provider 选择成功后保持输入禁用，先调用 `writer.bind_model(provider.model)`，再调用 `extractor.bind_provider(provider)` 并登记唯一 worker task，最后创建 Agent；全部成功才开放输入。任一步失败都显示可处理错误、关闭本次已启动的 extractor worker并保持输入禁用，同一 app 不允许把 extractor 重绑到不同 provider。`_dispatch()` 捕获用户消息写盘失败，失败时不渲染用户气泡、不启动 Agent。消费到最终事件时先渲染回复并恢复输入，再对非空 `memory_turn` 调用已绑定的 `MemoryExtractor.submit()`；入队是同步常数时间操作，提取不阻塞下一轮。
 
 `commands.py` 只注册 `/resume`；`resume.py` 负责把 `SessionInfo` 转为 `OptionList` 项、处理选择和调用 app 的恢复方法。`SessionState` 增加 `RESUMING`，不扩展通用命令解析器。
 
@@ -348,18 +364,19 @@ cli._amain()
        -> session ID + message_path + tool-results path
   -> InstructionLoader(project_root, ~/.novacode).load()
   -> create user/project MemoryStore
+       -> recover each directory journal under its lock
        -> read two MEMORY.md indexes if present
   -> SessionWriter(sessions_dir, session_id, model="")
        -> failure: show session initialization error and return nonzero; do not enter TUI
   -> build prompt from cached instructions + indexes
-  -> create MemoryExtractor worker
+  -> create unbound MemoryExtractor queue (no provider, no worker)
   -> NovaCodeApp(... all optional services ...)
-  -> schedule clean_expired(days=30)
+  -> schedule clean_expired_async(days=30) -> asyncio.to_thread(sync worker)
   -> MemoryGovernor.maybe_schedule() lazy check
   -> enter interactive TUI
 ```
 
-provider 选择成功后、输入框可用前，`NovaCodeApp` 原子调用 `writer.bind_model(provider.model)`；首条消息只从该绑定值写入 model，多 provider 选择不会产生虚假消息。指令或索引缺失按空内容兼容；`SessionWriter` 初始化失败是会话启动错误，CLI 显示错误并返回非零，绝不启动可接收消息但无法持久化的 TUI。只有后台清理、提取和治理失败可隔离记录且不阻断交互。
+provider 选择成功后、输入框可用前，`NovaCodeApp` 依次调用 `writer.bind_model(provider.model)`、`extractor.bind_provider(provider)` 并启动唯一消费者，再创建 Agent；全部成功才开放消息输入。首条消息只从 writer 绑定值写入 model，extractor 同一会话拒绝二次绑定到不同 provider，多 provider 选择不会产生虚假消息或多 worker。指令或索引缺失按空内容兼容；`SessionWriter` 初始化失败是会话启动错误，CLI 显示错误并返回非零，绝不启动可接收消息但无法持久化的 TUI。writer/extractor 绑定失败保持输入禁用；只有已启动后的清理、提取单项和治理失败可隔离记录且不阻断其余交互。
 
 ### 5.2 消息追加
 
@@ -390,12 +407,15 @@ writer 抛错时 `Conversation` 不变。用户消息失败则不渲染且不启
        -> apply last valid committed compact transaction
        -> truncate at last complete tool-chain boundary
   -> build detached Conversation.from_messages(messages)
-  -> open_session_context(original ID) and create a fresh target SessionRuntime
+  -> open_session_context(original ID) and prepare final target SessionRuntime
   -> estimate tokens with ch08 estimator
-       -> over safe threshold: run existing compact flow with target runtime
+       -> over safe threshold: create one-shot staging spill dir + staging SessionRuntime
+       -> run existing compact flow only with staging runtime
        -> failure: show error, keep current session unchanged
   -> open SessionWriter with selected original ID
   -> if detached history was compacted:
+       promote staged spills to target tool-results with a migration manifest
+       rewrite candidate spill paths
        writer.append_compaction(candidate.messages())
   -> create live Conversation.from_messages(candidate, writer hooks)
   -> if last_activity > 24 hours: set ephemeral system reminder
@@ -403,10 +423,11 @@ writer 抛错时 `Conversation` 不变。用户消息失败则不渲染且不启
   -> short critical section: block new submits and atomically swap all three references
   -> resume submits to the new session
   -> wait for in-flight old append and close old writer; log close failure without rollback
+  -> remove staging; on failure remove only manifest-listed new target files
   -> continue appending to original JSONL and tool-results directory
 ```
 
-恢复前默认创建的新会话文件不自动删除。压缩在 detached candidate 上完成并显式使用目标会话的全新 runtime，只有压缩成功且压缩事务 commit 已 `fsync` 后才进入切换临界区；切换前失败不会改变当前会话。原子切换后沿用原 session ID 和全新 session-scoped 状态，旧 writer 关闭失败只降级记录，不回滚已切换状态。
+恢复前默认创建的新会话文件不自动删除。压缩在 detached candidate 和一次性 staging runtime 上完成，不触碰最终目标 runtime；staging spill 全部迁移并重写路径后，只有目标压缩事务 commit 已 `fsync` 才进入切换临界区。切换前失败不会改变当前活动会话，迁移清理严格按清单删除本次新文件且不删除目标已有文件；未提交 JSONL 事务由恢复器忽略。原子切换后沿用原 session ID 和全新最终 session-scoped 状态，旧 writer 关闭失败只降级记录，不回滚已切换状态。
 
 ### 5.4 自动提取
 
@@ -464,18 +485,21 @@ startup or later lazy check
 | 压缩事务中断 | 内存不执行该次替换；恢复忽略整笔未提交事务 | 保留事务前完整历史并记录诊断 |
 | JSONL 单行损坏或末行截断 | 跳过该行，后续有效行继续读取 | 会话仍可恢复并续写 |
 | 工具链不完整或错序 | 截断到此前最后完整边界 | 日志记录截断原因和 ID，不输出工具正文 |
-| 恢复压缩失败 | 当前 TUI 会话和目标存档均不切换 | 显示错误，允许重新选择或取消 |
+| 恢复压缩、spill 迁移或事务提交失败 | 当前 TUI 活动引用不切换；目标 JSONL 未提交事务由 reader 忽略 | 删除 staging；按迁移清单仅删除本次新目标文件，保留目标已有文件，显示错误 |
 | 单个过期会话删除失败 | 其他清理项继续 | 分项日志；不阻塞启动 |
+| 无有效记录的过期会话 | 以 JSONL/tool-results 最大 mtime 判定 | 同步 worker 在线程中清理，避免空会话永久遗留或阻塞事件循环 |
 | 提取模型、解析、容量或写入失败 | 当前队列项失败，锁释放；主会话不变 | 结构化日志，继续下一项 |
 | 普通提取导致索引超限 | 只拒绝导致超限的操作 | 保留该操作前文件与索引，不启动治理 |
+| MemoryStore 多文件提交中断 | journal 保留完整目标摘要和待删除清单 | 下次 load 在锁内 roll-forward；先保证正文，再提交 index，最后删除与清理 |
+| extractor 未绑定或重复绑定不同 provider | 不启动第二个 worker，不接收提取项 | 输入保持禁用或记录生命周期错误，关闭已启动资源 |
 | 提取与治理同时写同一目录 | 共用 `MemoryStore.lock` 串行 | 固定双锁顺序避免死锁 |
 | 两进程同时治理 | 非阻塞文件锁与 PID 状态最多放行一个 | 未获锁者门控失败并返回 |
 | 治理失败或取消 | 恢复获取前 mtime | 简短失败通知，不包含记忆正文 |
 | 会话切换准备失败 | 尚未进入引用交换临界区 | 关闭新资源并保持旧会话，不改变任何活动引用 |
 | 会话切换后的旧 writer 关闭失败 | 新引用已经原子生效 | 记录日志且不回切，后续消息只进入新 writer |
-| 退出 | 停止新 append，等待临界区，关闭当前 writer | 取消或收尾绑定旧项目的后台任务，禁止写错目标 |
+| 退出 | 停止新 append 与 extractor submit，等待临界区，关闭当前 writer | 排空或受控取消唯一消费者，清理 staging；取消或收尾绑定旧项目的后台任务，禁止写错目标 |
 
-后台任务由 `NovaCodeApp` 统一持有引用。退出时：先停止新输入，关闭提取队列并等待当前项到安全提交点或取消，取消治理并按失败语义恢复锁 mtime，等待清理任务结束或取消，最后关闭 writer。切换项目或会话不复用旧项目的 extractor/governor；仅恢复同项目会话时沿用 memory 服务。
+后台任务由 `NovaCodeApp` 统一持有引用。退出时：先停止新输入和新 extractor submit，关闭提取队列并等待当前项到安全提交点或受控取消，取消治理并按失败语义恢复锁 mtime，等待线程包装的清理任务结束或取消，清理任何恢复 staging，最后关闭 writer。当前临时会话从未成功持久化任何消息时可以额外删除其空 JSONL/工具目录，但定期清理仍按 30 天兜底处理所有无有效记录会话。切换项目或会话不复用旧项目的 extractor/governor；仅恢复同项目会话时沿用已绑定的 memory 服务。
 
 ## 7. 文件布局
 
@@ -491,12 +515,12 @@ src/novacode/
 │   ├── writer.py            # SessionWriter、append、flush/fsync、压缩事务
 │   ├── reader.py            # 坏行隔离、事务恢复、工具链截断
 │   ├── listing.py           # *.jsonl 扫描与有效活动时间排序
-│   └── cleanup.py           # 30 天后台清理与局部失败隔离
+│   └── cleanup.py           # 同步磁盘 worker、异步线程包装、空会话 30 天兜底
 ├── memory/
 │   ├── __init__.py          # 导出类型、store、extractor、governor
 │   ├── types.py             # MemoryKind、MemoryAction、MemoryTurn、ApplyReport
-│   ├── store.py             # 固定路由、目录锁、frontmatter、索引双限额与原子提交
-│   ├── extractor.py         # 单消费者队列、无工具 LLM 提取、完整临界区
+│   ├── store.py             # 固定路由、目录锁、索引双限额与 journal roll-forward
+│   ├── extractor.py         # provider 延迟绑定、单消费者队列、完整临界区
 │   ├── governor.py          # 五门控、PID/mtime 锁、受限后台治理与通知
 │   └── prompts.py           # 提取与治理的结构化提示和解析约束
 ├── conversation.py         # 提交前钩子、from_messages、replace_history 复用
@@ -511,7 +535,7 @@ src/novacode/
 ├── tui/
 │   ├── commands.py          # 仅注册 /resume
 │   ├── resume.py            # 恢复列表与选择交互
-│   └── app.py               # writer/memory 生命周期、RESUMING 状态、原子切换
+│   └── app.py               # 绑定生命周期、恢复 staging、RESUMING 状态、原子切换
 └── cli.py                   # 按启动顺序装配服务与后台任务
 
 tests/
@@ -539,13 +563,16 @@ tests/
 | 会话格式 | 单文件追加式 JSONL | 可逐行恢复、局部隔离损坏、无需数据库 |
 | 消息一致性 | `Conversation` 提交前钩子 | 所有入口统一实现磁盘先于内存，未启用时零行为变化 |
 | 压缩持久化 | begin/messages/commit 事务 | 追加语义下识别完整替换，崩溃时可回到事务前历史 |
-| 恢复压缩 | detached candidate 上复用 ch08 | 压缩失败不污染当前会话或目标存档 |
+| 恢复压缩 | detached candidate + staging runtime 上复用 ch08 | 目标 spill 只在候选成功后按清单迁移，失败不污染活动会话或删除目标已有文件 |
 | 工具链恢复 | 严格 ID 与顺序校验后截断 | 不把模型置于无法继续的半完成工具状态 |
 | 记忆路由 | 类型到用户级/项目级的固定映射 | 模型只能提出语义操作，不能选择任意路径 |
 | 记忆去重 | LLM 读取最新完整索引后判断 | 不增加第二套模糊检索机制 |
 | 索引容量 | 锁内候选预演，逐操作拒绝 | 永不落盘超限文件，且允许 delete/update 先释放容量 |
+| 记忆批次提交 | 同目录 journal + index commit marker + roll-forward | 多个文件替换不伪装成原子批次，崩溃后无悬空索引并清理未索引正文 |
 | 提取并发 | 每项目一个单消费者队列 | 保证每轮都处理且后一轮读取前一轮最新结果 |
+| 提取 provider | 构造时未绑定，TUI 选择后一次性绑定 | CLI 无需在 provider 选择前伪造依赖，且同一会话不会启动多个消费者 |
 | 治理并发 | store 锁 + 跨进程治理锁 | 同目录写入互斥，同时避免多进程重复治理 |
+| 清理调度 | 同步 worker + `asyncio.to_thread()` | 保留简单文件逻辑，同时不阻塞事件循环并覆盖无有效记录会话 |
 | 过期提醒 | 现有 `Request.reminder` | 维持 system 语义，不篡改历史消息文件 |
 | 历史入口 | 一个 `/resume` 命令与一个 TUI 状态 | 满足主动恢复，不扩展通用命令框架 |
 
@@ -564,12 +591,14 @@ tests/
 
 - 四层指令顺序、独占行引用、5 层边界、分支复用、真实路径越界和二进制拒绝；
 - session ID 与两种关联路径、每次 append 的 flush/fsync、写盘失败不改内存、未提交压缩事务回滚；
-- 坏行继续读取、完整工具链保留、两类不完整边界截断、按记录活动时间列表、首条有效 user 摘要及固定降级标题和 30 天清理；
-- 恢复超阈值先压缩、失败不切换、超过 24 小时仅注入 system reminder、原 ID 续写；
-- 四类记忆固定路由、frontmatter 和相对链接、create/update/delete/no-op、200 行与 25KB 双限额；
-- 连续最终回复逐轮入队、单消费者顺序、后一项读取最新索引、提取请求工具列表为空；
+- 坏行继续读取、完整工具链保留、两类不完整边界截断、按记录活动时间列表、首条有效 user 摘要、有效/无效记录活动时间和线程包装的 30 天清理；
+- 恢复超阈值使用 staging runtime、spill 迁移与路径重写、分阶段失败按清单清理、超过 24 小时仅注入 system reminder、原 ID 续写；
+- 四类记忆固定路由、frontmatter 和相对链接、create/update/delete/no-op、200 行与 25KB 双限额、每个替换阶段的 journal 崩溃恢复；
+- extractor 构造后未启动、一次性 provider 绑定、连续最终回复逐轮入队、单消费者顺序、后一项读取最新索引、提取请求工具列表为空；
 - 五道治理门控、10 分钟扫描节流、活/死/未知 PID、1 小时兜底、并发只获一锁、失败恢复 mtime；
 - 受限子 Agent 拒绝 shell、源码和边界外写入，治理期间主会话可继续输入，通知不含正文；
 - 无指令、无 memory、无历史或后台任务失败时仍能启动；writer 初始化/model 绑定失败时禁止消息提交；切换/退出无跨 session 写入且切换后旧 writer 关闭失败不回滚。
 
-最终按项目约定在 tmux 中启动 NovaCode，执行真实多轮对话、工具调用、压缩、退出与 `/resume`，并对照本章 Checklist 逐项验收。文档本身先执行旧名称/错误路径扫描与 `git diff --check`，确保 Plan 只描述当前或明确计划新增的 NovaCode 模块。
+实现前先用 T10 规定的 Windows 全量命令记录基线。实现后只修复可由提交范围或最小复现证明为 ch09 引入的回归；既有或无关失败记录命令、退出码、关键输出和归因，作为请求扩大范围的阻塞证据，不修改本章范围外代码。
+
+最终 tmux 只在 Linux/WSL 中使用临时 HOME、临时 workspace 和独立 tmux socket；把真实 provider 所需配置安全复制到临时 HOME 并设为 600，通过 `PYTHONPATH=<repo>/src` 从临时 workspace 启动，trap/finally 清理临时目录和 socket，绝不修改真实 `~/.novacode/` 或仓库工作树。tmux 仅验证真实 provider 可稳定观察的冷启动、四层指令基本优先级、合法引用、真实工具调用、退出/恢复、24 小时样本和已提交压缩恢复；四类精确路由、提取延迟、治理门控/异常和全部崩溃注入由自动化测试负责，不要求模型在 E2E 中确定地产生指定结构化操作。文档本身先执行旧名称/错误路径扫描与 `git diff --check`，确保 Plan 只描述当前或明确计划新增的 NovaCode 模块。

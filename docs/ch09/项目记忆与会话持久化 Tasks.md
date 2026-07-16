@@ -113,14 +113,14 @@
 3. `load_session(path)` 从头逐行解析；坏 JSON、未知类型或字段非法只追加诊断并继续后续有效行。压缩事务只有在 begin、连续完整替换消息和 commit 的事务 ID、数量、序号、摘要全部一致时才替换事务前历史；未提交、损坏或不一致事务整体忽略。
 4. 在压缩状态解释完成后严格校验工具链：assistant 的 tool calls 只能由紧随其后的 tool message 按相同 ID 和顺序完整返回；未闭合、部分返回或错序时从发起链的 assistant 之前截断，孤立 tool result 从其自身之前截断，同时保留此前最后完整边界。
 5. `list_sessions(sessions_dir)` 只扫描 `*.jsonl`，以最后一条有效记录的活动时间倒序排序；无有效消息的文件不返回。标题取首条有效 user 内容的单行截断摘要，没有有效 user 时固定为 `（无用户消息）`；同时返回首条 model、有效活动时间和文件大小，不读取工具结果正文。
-6. `clean_expired(sessions_dir, now, max_age=timedelta(days=30))` 复用相同有效活动时间，仅删除严格超过 30 天的 JSONL 及同 ID 工具结果目录；单项删除失败记录后继续，不阻塞调用方。
-7. 按职责补充测试：`tests/session/test_writer.py` 覆盖普通往返、压缩三阶段成功、begin 后中断、部分替换中断及摘要/序号不一致；`tests/session/test_reader.py` 覆盖末行截断后续读、完整和两类不完整工具链；`tests/session/test_listing_cleanup.py` 覆盖记录时间排序、降级标题、无有效消息跳过、29 天 23 小时保留、30 天 1 分删除及局部清理失败。
+6. `clean_expired(sessions_dir, now, max_age=timedelta(days=30))` 保持同步磁盘 worker：有有效记录时复用最后有效活动时间；无有效记录时使用 `max(JSONL mtime, 同 ID tool-results 目录 mtime)`，目录不存在则只取 JSONL mtime。仅删除严格超过 30 天的 JSONL 及同 ID 工具结果目录，单项删除失败记录后继续。另提供公开异步入口 `clean_expired_async()`，使用 `await asyncio.to_thread(clean_expired, ...)` 或行为清楚等价的线程包装，供后台 task 调度，不能在事件循环中直接执行同步扫描。
+7. 按职责补充测试：`tests/session/test_writer.py` 覆盖普通往返、压缩三阶段成功、begin 后中断、部分替换中断及摘要/序号不一致；`tests/session/test_reader.py` 覆盖末行截断后续读、完整和两类不完整工具链；`tests/session/test_listing_cleanup.py` 覆盖记录时间排序、降级标题、无有效消息不进入恢复列表、有效记录与空/全损坏 JSONL 的活动时间判定、tool-results mtime 边界、29 天 23 小时保留、30 天 1 分删除、异步入口在线程执行及局部清理失败。
 
 **验证：**
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q
 ```
-预期：全部通过；只采用最后一笔完整提交的压缩事务，会话列表按有效记录时间排序，清理失败彼此隔离。
+预期：全部通过；只采用最后一笔完整提交的压缩事务，会话列表按有效记录时间排序，无有效记录会话仍有 30 天清理兜底，异步入口不阻塞事件循环且清理失败彼此隔离。
 
 ## T5：实现主动恢复 UI 与完整 SessionRuntime 原子切换
 
@@ -137,18 +137,19 @@
 
 **步骤：**
 1. 在 `commands.py` 只新增 `/resume` 注册；在 `app.py` 为 `SessionState` 新增 `RESUMING`。`resume.py` 将 `SessionInfo` 转为 Textual `OptionList` 项，支持选择和取消，不扩展通用命令解析器，也不自动恢复最近会话。
-2. 恢复选择后先调用 `load_session()`，用 `Conversation.from_messages()` 建立无写盘钩子的 detached candidate；用 `open_session_context()` 保留原 ID，并创建包含全新 `ContentReplacementState`、`RecoveryState`、`CompactCircuitBreaker`、归零锚点和目标 session 的完整 `SessionRuntime`。
-3. 给 `Agent.run_force_compact()` 增加可选 `runtime: SessionRuntime | None = None`。候选历史超出当前安全阈值时，显式把目标 runtime 传给现有 ch08 压缩入口；压缩失败显示可见错误、关闭新资源并保持当前会话和目标存档不变。
-4. 候选压缩成功时，先为原 ID 打开 `SessionWriter.open_existing()`，把 detached candidate 的替换历史通过 `append_compaction()` 完整提交，再创建绑定该 writer 钩子的 live `Conversation`。恢复历史本身不逐条回写。
-5. 根据最后活动时间设置目标 runtime 的 `resume_reminder`：严格超过 24 小时时生成仅用于当前请求的 system reminder，提醒重新读取易变资料；提醒不加入 `Conversation`、不写 JSONL、不伪装为 user。新会话该字段为空。
-6. 切换前完整准备并验证新 writer、目标 runtime 和 live conversation。进入短临界区后禁止新消息提交，原子替换 `conv`、writer 与整个 runtime 引用，再恢复提交；退出临界区后等待旧 writer 已进入的 append 完成并关闭。切换前失败保持旧引用，切换后旧 writer 关闭失败只记录且不回滚。
-7. 测试列表选择/取消、原 ID 续写、目标工具目录、23 小时 59 分无提醒、24 小时 1 分有临时提醒、恢复超阈值使用目标 runtime、压缩失败不切换、准备失败清理新资源、切换中禁止提交、旧 append 排空和旧 writer 关闭失败不回切。
+2. 恢复选择后先调用 `load_session()`，用 `Conversation.from_messages()` 建立无写盘钩子的 detached candidate；用 `open_session_context()` 保留原 ID，并准备包含全新 `ContentReplacementState`、`RecoveryState`、`CompactCircuitBreaker`、归零锚点和目标 session 的最终 `SessionRuntime`。
+3. 给 `Agent.run_force_compact()` 增加可选 `runtime: SessionRuntime | None = None`。候选历史超出当前安全阈值时，创建 `<sessions_dir>/.resume-staging-<transaction_id>/tool-results/` 及一次性 staging `SessionRuntime`，显式把 staging runtime 传给现有 ch08 压缩入口，绝不让 detached candidate 使用最终目标 runtime。压缩失败显示可见错误、删除 staging、关闭新资源并保持当前活动会话不变。
+4. 在 `app.py` 实现窄 helper：一个只负责在 staging runtime 压缩；另一个把 staging spill 迁入目标 `tool-results/`、为每个目标选择未占用名称、记录本次新文件清单并重写候选消息路径。迁移不得覆盖目标已有文件；部分失败只按清单删除本次新文件并删除 staging，不扫描或删除目标目录已有文件。
+5. 候选压缩成功时，先完成 spill 迁移和路径重写，再为原 ID 打开 `SessionWriter.open_existing()`，把 detached candidate 的替换历史通过 `append_compaction()` 完整提交；commit 完成 `fsync` 后才创建绑定该 writer 钩子的 live `Conversation`。恢复历史本身不逐条回写；失败后 JSONL 中残留的未提交事务由 reader 忽略。
+6. 根据最后活动时间设置最终目标 runtime 的 `resume_reminder`：严格超过 24 小时时生成仅用于当前请求的 system reminder，提醒重新读取易变资料；提醒不加入 `Conversation`、不写 JSONL、不伪装为 user。新会话该字段为空。
+7. 切换前完整准备并验证新 writer、最终目标 runtime 和 live conversation。进入短临界区后禁止新消息提交，原子替换 `conv`、writer 与整个 runtime 引用，再恢复提交；退出临界区后等待旧 writer 已进入的 append 完成并关闭。切换前失败保持旧引用，commit 已成功但引用切换失败时目标存档保留有效事务供下次恢复；切换后旧 writer 关闭失败只记录且不回滚。所有路径最终删除 staging，并只按迁移清单回收本次新文件。
+8. 测试列表选择/取消、原 ID 续写、目标工具目录、23 小时 59 分无提醒、24 小时 1 分有临时提醒、恢复超阈值只使用 staging runtime、spill 路径重写、目标同名文件不覆盖，以及压缩/迁移/事务提交各阶段失败不切换且精确清理；继续覆盖准备失败、切换中禁止提交、旧 append 排空和旧 writer 关闭失败不回切。
 
 **验证：**
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/session/test_reader.py tests/test_agent.py tests/test_tui.py -q
 ```
-预期：全部通过；恢复成功后所有新消息和工具结果只进入被选中的原 session ID，任何切换前失败均不改变活动会话。
+预期：全部通过；恢复成功后所有新消息和迁移后的工具结果只进入被选中的原 session ID，任何切换前失败均不改变活动会话，staging 和本次部分迁移文件被清理且目标已有文件不受影响。
 
 ## T6：实现记忆类型、固定路由、独立文件与双限额索引存储
 
@@ -166,15 +167,16 @@
 2. 实现 `MemoryStore(directory, allowed_kinds)` 及其 `asyncio.Lock`。用户级 store 只允许 `user/feedback`，项目级 store 只允许 `project/reference`；目标目录由 kind 推导，拒绝模型指定的层级、非法文件名、路径越界、类型错路由和缺失目标。
 3. 每条记忆保存为独立 Markdown 文件，YAML frontmatter 至少包含稳定 UUID、`type`、`title`、`created`、`updated`；正文独立可理解，时间敏感信息使用绝对日期。每个目录的 `MEMORY.md` 只保存类型、标题、简述和可点击相对链接，不嵌入正文。
 4. `read_index_locked()`、`render_index_locked()`、`apply_locked()` 仅允许持锁调用。`apply_locked()` 在内存中按 delete、update/merge、create 顺序逐项构造候选文件和候选索引；每项后同时检查不超过 200 行及 UTF-8 大小不超过 25KB。
-5. 任一操作导致候选超限时，只拒绝该操作并恢复到该操作前候选状态，记录结构化诊断；不得短暂落盘超限索引，也不得启动治理兜底。合法变更通过同目录临时文件和 `os.replace()` 原子提交，并在成功后返回准确计数。
-6. 在 `prompts.py` 定义提取和治理的结构化提示约束及响应解析入口，但不调用 provider；提示明确固定路由、四种操作、完整索引判断重复/冲突及禁止工具调用。
-7. 测试四类路由、frontmatter、相对链接、四种操作、非法层级/文件名/越界、稳定 created 与更新后的 updated、原子失败回滚、第 201 行、超过 25KB、先 delete/update 释放容量后 create 成功，以及索引不含正文。
+5. 任一操作导致候选超限时，只拒绝该操作并恢复到该操作前候选状态，记录结构化诊断；不得短暂落盘超限索引，也不得启动治理兜底。容量预演通过后，在 memory 目录写 `.memory-transaction.json` journal/manifest，记录事务 ID、全部正文临时/目标相对路径及摘要、候选 index 摘要和提交后待删除清单；逐个 `fsync` 正文临时文件、候选 `MEMORY.md`、journal 与相关目录项。
+6. 持锁按 journal 逐个替换或创建正文，最后用 `os.replace()` 替换 `MEMORY.md` 作为 commit marker；index 提交后才删除旧正文，随后清理临时文件和 journal。实现 `recover_locked()` 并在启动/load 前调用：index 未提交时按摘要幂等完成剩余正文替换、确认无悬空引用后最后提交 index；index 已提交时完成待删除和清理。候选 index 与旧 index 摘要相同时按未确认提交安全重放，不能因为多个 `os.replace()` 而声称批次原子。
+7. 在 `prompts.py` 定义提取和治理的结构化提示约束及响应解析入口，但不调用 provider；提示明确固定路由、四种操作、完整索引判断重复/冲突及禁止工具调用。
+8. 测试四类路由、frontmatter、相对链接、四种操作、非法层级/文件名/越界、稳定 created 与更新后的 updated、第 201 行、超过 25KB、先 delete/update 释放容量后 create 成功，以及索引不含正文。对 journal 写入后、每个正文替换/创建、index commit 前后、待删除项和 journal 清理逐阶段注入崩溃并重新 load，断言 roll-forward 后没有悬空索引，未被最终索引引用的正文和所有临时文件最终清理，200 行/25KB 预演语义不变。
 
 **验证：**
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py -q
 ```
-预期：全部通过；任何时刻磁盘上的 `MEMORY.md` 都同时满足 200 行和 25KB 两项限制。
+预期：全部通过；任何时刻可提交的 `MEMORY.md` 都同时满足 200 行和 25KB 两项限制，任一替换阶段崩溃后 load 可幂等恢复且无悬空索引或永久未索引正文。
 
 ## T7：实现每轮自动提取的单消费者队列与完整锁区间
 
@@ -187,18 +189,18 @@
 **依赖：** T6。
 
 **步骤：**
-1. 实现 `MemoryExtractor(provider, user_store, project_store, on_index_changed)`；`submit(MemoryTurn)` 只执行 `asyncio.Queue.put_nowait()`，不等待 provider、不修改会话历史，队列只由一个 `run()` 消费者按提交顺序处理。
-2. 每项任务固定按用户级、项目级顺序获取两个 store 锁；持锁后重新读取最新两级完整索引，并在持锁期间完成 provider 推理、结构化解析、操作校验、双限额预演和原子提交，最后刷新 prompt 使用的两级索引快照。
+1. 实现 `MemoryExtractor(user_store, project_store, on_index_changed)`；构造只创建队列并保存 stores/callback，不接收 provider、不启动 worker。新增一次性 `bind_provider(provider: Provider) -> None`：拒绝空值和绑定到不同 provider 的第二次调用，并由 app 在成功绑定后启动唯一 `run()` 消费者；绑定前 `submit()` 拒绝任务。
+2. 绑定后 `submit(MemoryTurn)` 只执行 `asyncio.Queue.put_nowait()`，不等待 provider、不修改会话历史。每项任务固定按用户级、项目级顺序获取两个 store 锁；持锁后先恢复 journal、重新读取最新两级完整索引，并在持锁期间完成 provider 推理、结构化解析、操作校验、双限额预演和事务提交，最后刷新 prompt 使用的两级索引快照。
 3. provider 请求仅包含最近一轮 user 与最终 assistant、两级完整索引、固定类型路由和四种操作约束，并显式设置 `Request.tools=[]`。是否保存、重复、冲突及 create/update/delete/no-op 由 LLM 基于最新索引判断，不增加 embedding 或相似度机制。
 4. 逐项校验 action、kind、推导路由、filename 和规范化边界；`no-op` 不产生变更，非法操作只计入拒绝并记录无敏感正文诊断。
-5. 模型错误、解析错误、容量拒绝或写入错误只使当前队列项失败；在 `finally` 释放全部锁和队列执行权，继续下一项。`close()` 停止接收新项，并等待当前项到安全提交点或按可控方式取消，不能遗留锁。
-6. 在 `tests/memory/test_extractor.py` 测试三轮快速提交时立即返回且严格串行；延迟第一项后，第二项必须在第一项提交或失败收尾后读取最新索引；再覆盖空工具定义、固定双锁顺序、no-op、非法操作、provider/解析/写入失败继续下一项、索引刷新和安全关闭。
+5. 模型错误、解析错误、容量拒绝或写入错误只使当前队列项失败；在 `finally` 释放全部锁和队列执行权，继续下一项。`close()` 先停止接收新项，并等待当前项到安全提交点或按可控方式取消，不能遗留 task、锁或可向下一会话写入的 provider 引用。
+6. 在 `tests/memory/test_extractor.py` 测试构造后无 worker、绑定前 submit 拒绝、一次绑定只启动一个消费者、不同 provider 二次绑定拒绝；再测试三轮快速提交立即返回且严格串行，延迟第一项后第二项必须在第一项提交或失败收尾后读取最新索引，并覆盖空工具定义、固定双锁顺序、journal 恢复后读取、no-op、非法操作、provider/解析/写入失败继续下一项、索引刷新和排空/受控取消关闭。
 
 **验证：**
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/memory/test_extractor.py -q
 ```
-预期：全部通过；同一项目最多一个提取推理在运行，后一项始终读取前一项完成后的最新索引。
+预期：全部通过；绑定前没有 worker 或任务，同一会话只能绑定一个 provider 且最多一个提取推理在运行，后一项始终读取前一项完成后的最新索引。
 
 ## T8：实现记忆治理五门控、跨进程锁与失败恢复
 
@@ -215,7 +217,7 @@
 2. 依次检查至少一个 memory 目录存在、距 `.consolidate-lock` 最近成功 mtime 至少 24 小时、`list_sessions()` 至少返回 5 个可恢复会话、成功获取跨进程锁；任一失败立即返回且不创建后台任务。
 3. `.consolidate-lock` 保存运行中 PID，mtime 表示最近一次成功治理。先用 OS 非阻塞文件锁保证并发最多一个持有者；PID 确认存活时不论锁龄都不抢占，PID 确认死亡时原子回收，仅在平台无法可靠判断 PID 时以超过 1 小时作为兜底，未知且未超时则保留。
 4. 获锁后保存原 mtime。治理成功时清除运行态 PID、更新成功 mtime 并释放；失败、取消或异常时恢复原 mtime 后释放，使失败不会推迟下一次满足 24 小时门槛的治理。
-5. 后台任务按固定顺序获取目标 `MemoryStore.lock`，调用受限子 Agent：只暴露会话 JSONL 与两级 memory 的读取能力、目标 memory 目录的受约束写入能力；不注册 shell，不允许源码、边界外路径或未经现有资料支持的新事实。变更仍经 `MemoryStore` 校验和原子提交。
+5. 后台任务按固定顺序获取目标 `MemoryStore.lock`，调用受限子 Agent：只暴露会话 JSONL 与两级 memory 的读取能力、目标 memory 目录的受约束写入能力；不注册 shell，不允许源码、边界外路径或未经现有资料支持的新事实。变更仍经 `MemoryStore` 校验、双限额预演和 journal 事务提交。
 6. 治理负责合并重复、删除过时、修正确有证据的矛盾、把相对日期改为绝对日期并修剪索引。任务不阻塞启动、Agent Loop 或输入；结束后只通知状态与 create/update/delete 计数，不包含记忆正文。
 7. `close()` 取消或收尾后台治理，并按失败语义恢复 mtime、释放 store 锁和跨进程锁。测试五道门控、扫描节流、活/死/未知 PID、1 小时边界、双检查竞争、成功更新时间、异常/取消恢复、受限能力、非阻塞与无正文通知。
 
@@ -246,14 +248,14 @@
 1. 将 `optional_modules(instructions="", memory_index="")` 和 `build_system_prompt(instructions="", memory_index="")` 接到现有模块组装：`自定义指令` 保持 priority 80，`长期记忆` 保持 priority 100；空内容省略。记忆索引固定用户级在前、项目级在后，用清晰标题分隔，只注入两个 `MEMORY.md`，不注入独立正文。
 2. 给 `Agent` 增加可选 `instructions: str` 与 `memory_index: Callable[[], str]`；每轮开始仍调用现有 `build_system_prompt()`，指令使用启动缓存，记忆 callable 返回最近一次成功提交后的合规索引。`SessionRuntime` 增加可选 `resume_reminder`，并通过现有 `Request.reminder` 以 system 语义注入。
 3. `Event` 增加 `memory_turn: MemoryTurn | None`；只有 assistant 最终回复已成功持久化且无待执行 tool calls 时填充。`Conversation` 抛出的持久化异常转为 `Event.err`，停止本轮 provider 请求或后续内存写入，不吞掉错误。
-4. 扩展 `NovaCodeApp` 注入 `project_root`、`session_context`、必选 writer、可选 extractor/governor 和缓存索引。provider 选定后必须先原子调用 `writer.bind_model(provider.model)`，成功才创建 Agent 并开放输入；绑定失败显示可处理错误并保持输入禁用。
+4. 扩展 `NovaCodeApp` 注入 `project_root`、`session_context`、必选 writer、构造后未绑定的可选 extractor、可选 governor 和缓存索引。provider 选定后保持输入禁用，必须依次调用 `writer.bind_model(provider.model)`、`extractor.bind_provider(provider)` 并启动唯一消费者，成功创建 Agent 后才开放输入；任一步失败显示可处理错误、关闭本次已启动的 worker 并保持输入禁用，同一会话禁止重绑到不同 provider。
 5. 消息追加流固定为：`Conversation.add_*()` 持有 conversation 锁，writer 持有自身锁完成 serialize → append → flush → fsync，再更新内存。用户消息失败时不渲染气泡、不启动 Agent；assistant/tool 失败时以可见错误收尾。
 6. 最终事件消费顺序固定为：先渲染回复并恢复输入，再对非空 `memory_turn` 调用 `MemoryExtractor.submit()`；每个最终回复提交一次，不加轮数或关键词门槛，入队不得阻塞下一轮。
-7. 在 `cli._amain()` 按唯一启动顺序装配：解析项目根和 sessions 目录 → 新建 session context → 加载并缓存四层指令 → 创建两级 store 并读取索引 → 初始化未绑定 model 的 writer → 组装 prompt/创建 extractor → 注入 app → 后台调度 30 天清理 → governor 懒检查 → 进入 TUI。writer 初始化失败显示错误并返回非零；指令/索引缺失与后台失败按空值或日志降级。
-8. 恢复流复用 T5：`/resume` 列表 → 读取并截断到完整边界 → detached candidate → 全新目标 runtime → 必要时在目标 runtime 压缩 → 压缩事务提交 → live conversation → 原子切换 → 关闭旧 writer；临时新会话存档不自动删除。
+7. 在 `cli._amain()` 按唯一启动顺序装配：解析项目根和 sessions 目录 → 新建 session context → 加载并缓存四层指令 → 创建两级 store、锁内 roll-forward journal 并读取索引 → 初始化未绑定 model 的 writer → 组装 prompt/创建未绑定且无 worker 的 extractor → 注入 app → 后台调度 `clean_expired_async()`（内部 `asyncio.to_thread`）→ governor 懒检查 → 进入 TUI provider 选择。writer 初始化失败显示错误并返回非零；指令/索引缺失与后台失败按空值或日志降级。
+8. 恢复流复用 T5：`/resume` 列表 → 读取并截断到完整边界 → detached candidate → 一次性 staging runtime → 必要时只在 staging 压缩 → spill 迁移清单/路径重写 → 目标压缩事务提交 → live conversation + 最终目标 runtime → 原子切换 → 关闭旧 writer；临时新会话存档不自动删除，任一失败保持旧活动会话并精确清理 staging 和本次迁移文件。
 9. 自动提取流复用 T7：最终回复持久化 → 渲染/恢复输入 → put_nowait → 固定双锁 → 最新索引 → 无工具推理 → 校验/预演/提交 → 刷新快照。治理流复用 T8，后台任务与主交互隔离。
-10. 退出时先停止新输入和提交，关闭 extractor 队列并等待安全点，取消 governor 并恢复失败 mtime，等待或取消 cleanup，最后排空并关闭当前 writer；不得让旧项目或旧 session 的后台任务写入新目标。
-11. 更新测试，覆盖两个 prompt 模块的空/非空与顺序、首条 model 绑定、五条数据流、每轮提取、持久化错误、后台降级、主动恢复、切换和退出无跨 session 写入；在现有 `tests/test_mcp_cli.py` 中覆盖 `_amain()` 的装配顺序、writer 初始化失败返回非零且不启动 TUI，以及 cleanup/governor 异常只记录并继续进入交互。
+10. 退出时先停止新输入、writer 提交和 extractor submit，关闭 extractor 队列并排空或受控取消唯一消费者，取消 governor 并恢复失败 mtime，等待或取消线程包装的 cleanup，清理恢复 staging，最后排空并关闭当前 writer；可删除从未成功持久化消息的当前临时会话，但所有无有效记录会话仍保留 30 天兜底，不得让旧项目或旧 session 的后台任务写入新目标。
+11. 更新测试，覆盖两个 prompt 模块的空/非空与顺序、writer/extractor 顺序绑定、五条数据流、每轮提取、持久化错误、后台降级、主动恢复 staging、切换和退出无跨 session 写入；在现有 `tests/test_mcp_cli.py` 中覆盖 `_amain()` 的装配顺序、writer 初始化失败返回非零且不启动 TUI、任一绑定失败不开放输入，以及 cleanup 在线程包装中运行、cleanup/governor 异常只记录并继续其余初始化。
 
 **验证：**
 ```powershell
@@ -277,20 +279,20 @@
 - Test: `tests/test_tui.py`
 - Test: `tests/test_mcp_cli.py`
 - Verify: `docs/ch09/项目记忆与会话持久化 Spec.md`（AC1–AC27 权威验收依据）
-- Reference: `docs/ch09/项目记忆与会话持久化 Checklist.md`（Task 4 生成的镜像执行清单）
+- Reference: `docs/ch09/项目记忆与会话持久化 Checklist.md`（本次文档更新流程生成的镜像执行清单）
 
 **依赖：** T9。
 
 **步骤：**
-1. 以已批准 Spec 的 AC1–AC27 为唯一权威验收依据，建立“AC 编号 → 自动化测试或 tmux 场景 → 证据”的逐项映射；即使 Checklist 缺失，也必须能直接依据 Spec 完成自动化验收。
-2. 实施前检查 Task 4 生成的 Checklist 是否逐项镜像 AC1–AC27 的编号和语义；Checklist 有缺失或冲突时以 Spec 为准并退回 Task 4 修正，在一致的 Checklist 可用前不开始 tmux 逐项场景。
-3. 逐个运行四个新增模块测试，确认指令、会话、记忆存储/提取和治理边界均可在无真实 provider、无 TUI 条件下验证。
-4. 运行 Conversation、prompt、Agent、TUI 与 CLI 集成测试，确认可选能力为空时保持既有行为，持久化失败可见且不造成内存领先于磁盘，writer 初始化失败和后台降级符合启动契约。
-5. 使用当前项目 `.venv` 运行全量 pytest、ruff check、ruff format 检查、compileall 和 `git diff --check`；任何失败都必须定位到具体任务并修复后重跑，不能以“与本章无关”代替通过。
-6. tmux 验收只能在 Linux/WSL、项目 `.venv` 和 tmux 均可用、真实 provider 已配置且 Checklist 已确认与 AC1–AC27 一致时执行。先用 `tmux new-session -d -s novacode-ch09 -c "$PWD"` 创建以项目目录为 cwd 的持久 shell，再用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 在该 shell 中启动 NovaCode。输入真实请求，让 NovaCode 读取项目文件、调用至少一个工具并给出最终回复；观察 user/assistant/tool 记录写入当前 JSONL，最终回复显示后输入立即可用，提取在后台执行。当前环境不满足前置条件时明确标记“未执行”，不得声称通过。
-7. 在同一 tmux pane 中触发足以走 ch08 压缩路径的多轮对话，输入 `/exit` 正常退出 NovaCode；持久 shell 必须仍然存在并返回命令提示符，此时采集 writer 关闭、后台任务收尾和无跨 session 写入作为 AC26 正常关闭证据。随后再次用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 在同一 shell 重启并执行 `/resume`；选择刚才会话，确认完整工具链恢复、原 ID 续写、压缩事务可恢复且没有消息写入临时会话。需要并行观察日志时可在同一 tmux session 分 pane，不销毁验收 session。
-8. 准备超过 24 小时的恢复样本并确认仅当前上下文收到 system reminder；准备超过 30 天的存档并确认后台清理 JSONL 和同 ID 工具结果目录，同时交互仍可继续。
-9. 按 AC1–AC27 的映射逐项记录证据；一致的 Checklist 只作为镜像操作清单。重点核对四层指令、五条数据流、四类记忆路由、索引双限额、单消费者顺序、治理五门控、锁失败恢复以及切换/退出生命周期。只有全部证据采集完成后才运行 `tmux kill-session -t novacode-ch09` 清理环境；该命令不作为 AC26 正常退出或资源排空的验收证据。
+1. 在任何 ch09 实现改动前，使用下方 Windows 全量 pytest、ruff check、ruff format、compileall 和 `git diff --check` 命令记录基线，保存命令、退出码和关键输出。以已批准 Spec 的 AC1–AC27 为唯一权威验收依据，建立“AC 编号 → 自动化测试或 tmux 场景 → 证据”的逐项映射；即使 Checklist 缺失，也必须能直接依据 Spec 完成自动化验收。
+2. 实施前检查 `docs/ch09/项目记忆与会话持久化 Checklist.md` 是否逐项镜像 AC1–AC27 的编号和语义；Checklist 有缺失或冲突时以 Spec 为准并先修正文档，在一致的 Checklist 可用前不开始 tmux 场景。
+3. 逐个运行四个新增模块测试。自动化测试必须确定性覆盖：指令精确展开边界；会话坏行、工具链和所有压缩/staging 崩溃点；有效/无效记录清理及线程包装；四类记忆精确路由；MemoryStore journal 每个替换阶段；extractor 延迟绑定、提取延迟和串行化；治理门控、异常、锁竞争和失败恢复。上述场景不得依赖真实 provider 或 tmux 中模型碰巧输出指定结构化操作。
+4. 运行 Conversation、prompt、Agent、TUI 与 CLI 集成测试，确认 writer → extractor 的 provider 绑定顺序、可选能力为空时保持既有行为、持久化失败可见且不造成内存领先于磁盘、恢复 staging 精确清理、异步 cleanup 不阻塞、切换/退出排空以及后台降级符合契约。
+5. 实现后重新运行与基线相同的全量命令。只有能通过最小复现、提交范围或前后对比证明由 ch09 引入的失败才在本任务内修复；既有或无关失败必须记录命令、退出码、关键输出和归因，作为阻塞证据请求范围扩展，不得擅自修改 ch09 无关代码，也不得把未通过记录成通过。
+6. tmux 验收只能在 Linux/WSL、仓库 Linux `.venv`、tmux 和真实 provider 配置均可用，且 Checklist 与 AC1–AC27 一致时执行。先保存 `REAL_HOME` 与 `REPO`，创建临时根、临时 HOME、临时 workspace 和独立 tmux socket；只把 provider 启动必需配置复制到临时 HOME 的 `.novacode/` 并设权限 600，使用 trap/finally 在退出时关闭独立 tmux server 并删除临时目录/socket。不得修改真实 `~/.novacode/`、真实项目指令/记忆或仓库工作树；当前环境缺少任一前置时记录“未执行”及原因。
+7. 通过 `PYTHONPATH="$REPO/src"` 从临时 workspace 启动 NovaCode。tmux 只采集真实 provider 可稳定观察的烟雾/生命周期证据：冷启动；临时 HOME/workspace 中四层指令的基本优先级；一个合法独占行引用；一次真实工具调用；最终回复后继续输入；`/exit` 返回持久 shell；重启 `/resume` 后原 ID 续写。不要要求模型确定地产生四类记忆、固定提取延迟、治理操作或故障结果。
+8. 在隔离 workspace 准备超过 24 小时的恢复样本，确认只向当前上下文注入 system reminder；用自动化测试先构造并验证已提交压缩事务，再在 tmux 中恢复该已提交样本并确认原 ID 续写。未提交事务、30 天空会话清理、staging/journal 崩溃注入和治理异常继续以自动化测试为权威证据，不在真实 provider 会话中破坏性注入。
+9. 按 AC1–AC27 映射记录自动化与 tmux 证据；Checklist 只作为镜像操作清单。正常 `/exit` 是 writer/extractor 收尾证据，最终关闭独立 tmux server 仅用于环境清理，不作为 AC26 证据。trap/finally 结束后确认临时目录和 socket 已删除，真实 HOME 与仓库 `git status` 未因 tmux 验收发生变化。
 
 **验证：**
 ```powershell
@@ -304,12 +306,25 @@
 .\.venv\Scripts\python.exe -m compileall src
 git diff --check
 ```
-预期：所有 Windows 自动化命令退出码为 0，`git diff --check` 无输出，且 AC1–AC27 均有自动化或待执行的 tmux 证据映射。
+预期：记录实施前基线并完成实施后对比；ch09 引入的回归全部修复。若存在既有或无关失败，保留命令、退出码、关键输出和归因并请求范围扩展，不修改无关代码；`git diff --check` 无输出，且 AC1–AC27 均有自动化或待执行的隔离 tmux 证据映射。
 
 满足 tmux 前置条件后，在 Linux/WSL 中运行：
 ```bash
-tmux new-session -d -s novacode-ch09 -c "$PWD"
-tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter
-tmux attach-session -t novacode-ch09
+REAL_HOME="$HOME"
+REPO="$PWD"
+TMP_ROOT="$(mktemp -d)"
+export HOME="$TMP_ROOT/home"
+WORKSPACE="$TMP_ROOT/workspace"
+TMUX_SOCKET="$TMP_ROOT/tmux.sock"
+mkdir -p "$HOME/.novacode" "$WORKSPACE"
+install -m 600 "$REAL_HOME/.novacode/config.yaml" "$HOME/.novacode/config.yaml"
+cleanup_ch09_e2e() {
+  tmux -S "$TMUX_SOCKET" kill-server 2>/dev/null || true
+  rm -rf "$TMP_ROOT"
+}
+trap cleanup_ch09_e2e EXIT
+tmux -S "$TMUX_SOCKET" new-session -d -s novacode-ch09 -c "$WORKSPACE"
+tmux -S "$TMUX_SOCKET" send-keys -t novacode-ch09:0.0 "HOME='$HOME' PYTHONPATH='$REPO/src' '$REPO/.venv/bin/python' -m novacode" Enter
+tmux -S "$TMUX_SOCKET" attach-session -t novacode-ch09
 ```
-预期：真实对话、工具调用、压缩、`/exit` 正常关闭和 `/resume` 逐项满足 Spec AC；`/exit` 后 tmux shell 与 session 仍存在，可在同一 pane 再次 send-keys 启动或分 pane 取证。全部证据记录后才运行 `tmux kill-session -t novacode-ch09` 做最终清理，该命令不作为 AC26 正常退出或资源排空的验收证据。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。
+预期：真实 provider 只验证冷启动、四层指令基本优先级、合法引用、真实工具调用、最终回复后继续输入、`/exit`、`/resume`、24 小时样本和已提交压缩恢复；`/exit` 后持久 shell 仍存在。四类精确路由、提取延迟、治理门控/异常和崩溃注入以自动化测试为准。全部证据记录后由 trap/finally 清理独立 socket 与临时 HOME/workspace，真实 `~/.novacode/` 和仓库工作树不发生变化；关闭 tmux server 不作为 AC26 正常退出或资源排空证据。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。
