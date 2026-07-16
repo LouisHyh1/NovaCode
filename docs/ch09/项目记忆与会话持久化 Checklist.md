@@ -50,7 +50,7 @@
 
 - [ ] 分别传入空和非空的指令、用户级索引、项目级索引，检查系统 prompt；预期非空内容进入独立的 `自定义指令` 与 `长期记忆` 模块，空内容省略对应模块，长期记忆只含索引且用户级在前、项目级在后。（AC24）
 - [ ] 在无指令、无 memory 目录、无历史会话，以及后台清理或治理抛错的场景启动；预期 `NovaCodeApp` 均能进入交互状态并隔离记录后台错误；另验证 writer 初始化或 model 绑定失败时不开放消息提交。（AC25）
-- [ ] 在 append 临界区内切换会话或退出，并给旧 writer 的关闭操作注入失败；预期先停止旧提交并等待已进入的 append 完成，再关闭句柄，消息不会跨 session ID，后台任务不会写入错误项目；原子切换后旧 writer 关闭失败只记录且不回滚新会话。（AC26）
+- [ ] 用自动化生命周期测试在 append 临界区内切换会话或退出，并给旧 writer 的关闭操作注入失败；预期测试证明先停止旧提交并排空已进入临界区的 append，再原子切换活动引用并关闭旧句柄，消息不会跨 session ID，后台任务不会写入错误项目；原子切换后旧 writer 关闭失败只记录且不回滚新会话。（AC26）
 - [ ] 检查实现依赖、目录结构和运行数据流；预期继续复用 `NovaCodeApp`、prompt 模块槽位、文件工具、`Conversation.replace_history()`、`src/novacode/compact/` 与 ch08 工具结果机制，没有引入 Spec 排除的数据库、向量检索、额外恢复命令或平行压缩实现。（AC27）
 
 ## tmux 端到端
@@ -66,6 +66,6 @@
 - [ ] 快速连续完成多轮真实对话并让首个提取任务延迟，预期每轮都入队、最终回复和下一轮不等待，提取仍由单消费者串行处理，后续任务读取前项提交后的最新索引。（AC16、AC23）
 - [ ] 准备满足治理门控的样本与重复、过时记忆，在 tmux 中触发治理；预期 `.consolidate-lock` 的 24 小时、10 分钟、5 个会话和 PID/mtime 规则生效，治理合并重复、删除过时项，只写目标 memory 目录，并以一条计数通知结束；再模拟失败，预期恢复旧 mtime 且主流程不阻塞。（AC19–AC23）
 - [ ] 在 tmux 中触发 ch08 压缩，确认完整追加式压缩事务提交后退出；重新启动并通过 `/resume` 选择原会话，预期用原 session ID 恢复已提交替换历史、继续写入原 JSONL 和工具结果目录，且没有建立平行压缩格式。（AC10、AC11、AC26、AC27）
-- [ ] 在 NovaCode 中输入 `/exit` 并等待返回持久 shell，随后从 shell 重新打开或重命名刚关闭的 JSONL，再用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 启动新会话并检查两次运行的存档；预期正常退出已排空并关闭 writer、后台提取与治理受控取消或收尾，文件句柄不再占用旧 JSONL，且新消息没有写入旧 session ID。（AC26）
+- [ ] 在 NovaCode 中输入 `/exit` 并等待返回持久 shell，验证旧会话 JSONL 的最后一行是完整可解析的 JSON，并记录该文件的大小与 mtime；再用 `tmux send-keys -t novacode-ch09:0.0 '.venv/bin/python -m novacode' Enter` 启动新会话、完成一轮对话后复查旧文件，预期旧文件大小与 mtime 均不再变化且新消息只进入新 session ID；结合自动化生命周期测试，证明已进入临界区的 append 被排空、活动引用完成切换、旧 writer 随后关闭，后台提取与治理受控取消或收尾。（AC26）
 
 完成全部证据记录后，运行 `tmux kill-session -t novacode-ch09` 只清理 tmux 会话；该命令不作为 AC26 正常退出或资源排空的验收证据。
