@@ -48,7 +48,7 @@
 - Create: `src/novacode/session/codec.py`
 - Create: `src/novacode/session/writer.py`
 - Modify: `src/novacode/conversation.py`
-- Test: `tests/test_session.py`
+- Test: `tests/session/test_writer.py`
 - Test: `tests/test_conversation.py`
 
 **依赖：** T1。
@@ -64,7 +64,7 @@
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_session.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/session/test_writer.py -q
 ```
 预期：全部通过；失败注入下 `Conversation` 内存不接受该条消息且调用方得到 `SessionWriteError`；磁盘可能保留完整合法行或部分字节，仅不完整或非法行由恢复器隔离，完整合法行可能在重启后被恢复，append-only 文件不做物理回滚；成功路径中完整行的 append、flush、fsync 先于内存变更。
 
@@ -73,7 +73,7 @@
 **文件：**
 - Create: `src/novacode/instructions/__init__.py`
 - Create: `src/novacode/instructions/loader.py`
-- Test: `tests/test_instructions.py`
+- Test: `tests/instructions/test_loader.py`
 
 **依赖：** T2。
 
@@ -87,7 +87,7 @@
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_instructions.py -q
+.\.venv\Scripts\python.exe -m pytest tests/instructions/test_loader.py -q
 ```
 预期：全部通过；四层内容按规定顺序出现，所有失败场景只跳过局部内容并产生无正文诊断。
 
@@ -101,7 +101,9 @@
 - Create: `src/novacode/session/reader.py`
 - Create: `src/novacode/session/listing.py`
 - Create: `src/novacode/session/cleanup.py`
-- Test: `tests/test_session.py`
+- Test: `tests/session/test_writer.py`
+- Test: `tests/session/test_reader.py`
+- Test: `tests/session/test_listing_cleanup.py`
 
 **依赖：** T3。
 
@@ -112,11 +114,11 @@
 4. 在压缩状态解释完成后严格校验工具链：assistant 的 tool calls 只能由紧随其后的 tool message 按相同 ID 和顺序完整返回；未闭合、部分返回或错序时从发起链的 assistant 之前截断，孤立 tool result 从其自身之前截断，同时保留此前最后完整边界。
 5. `list_sessions(sessions_dir)` 只扫描 `*.jsonl`，以最后一条有效记录的活动时间倒序排序；无有效消息的文件不返回。标题取首条有效 user 内容的单行截断摘要，没有有效 user 时固定为 `（无用户消息）`；同时返回首条 model、有效活动时间和文件大小，不读取工具结果正文。
 6. `clean_expired(sessions_dir, now, max_age=timedelta(days=30))` 复用相同有效活动时间，仅删除严格超过 30 天的 JSONL 及同 ID 工具结果目录；单项删除失败记录后继续，不阻塞调用方。
-7. 扩充 `tests/test_session.py`：覆盖普通往返、末行截断后续读、压缩三阶段成功、begin 后中断、部分替换中断、摘要/序号不一致、完整和两类不完整工具链、记录时间排序、降级标题、无有效消息跳过、29 天 23 小时保留、30 天 1 分删除及局部清理失败。
+7. 按职责补充测试：`tests/session/test_writer.py` 覆盖普通往返、压缩三阶段成功、begin 后中断、部分替换中断及摘要/序号不一致；`tests/session/test_reader.py` 覆盖末行截断后续读、完整和两类不完整工具链；`tests/session/test_listing_cleanup.py` 覆盖记录时间排序、降级标题、无有效消息跳过、29 天 23 小时保留、30 天 1 分删除及局部清理失败。
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_session.py -q
+.\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q
 ```
 预期：全部通过；只采用最后一笔完整提交的压缩事务，会话列表按有效记录时间排序，清理失败彼此隔离。
 
@@ -127,7 +129,7 @@
 - Modify: `src/novacode/tui/commands.py`
 - Modify: `src/novacode/tui/app.py`
 - Modify: `src/novacode/agent/__init__.py`
-- Test: `tests/test_session.py`
+- Test: `tests/session/test_reader.py`
 - Test: `tests/test_agent.py`
 - Test: `tests/test_tui.py`
 
@@ -144,7 +146,7 @@
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_session.py tests/test_agent.py tests/test_tui.py -q
+.\.venv\Scripts\python.exe -m pytest tests/session/test_reader.py tests/test_agent.py tests/test_tui.py -q
 ```
 预期：全部通过；恢复成功后所有新消息和工具结果只进入被选中的原 session ID，任何切换前失败均不改变活动会话。
 
@@ -155,7 +157,7 @@
 - Create: `src/novacode/memory/types.py`
 - Create: `src/novacode/memory/store.py`
 - Create: `src/novacode/memory/prompts.py`
-- Test: `tests/test_memory.py`
+- Test: `tests/memory/test_store.py`
 
 **依赖：** T5。
 
@@ -170,7 +172,7 @@
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q
+.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py -q
 ```
 预期：全部通过；任何时刻磁盘上的 `MEMORY.md` 都同时满足 200 行和 25KB 两项限制。
 
@@ -180,7 +182,7 @@
 - Create: `src/novacode/memory/extractor.py`
 - Modify: `src/novacode/memory/prompts.py`
 - Modify: `src/novacode/memory/__init__.py`
-- Test: `tests/test_memory.py`
+- Test: `tests/memory/test_extractor.py`
 
 **依赖：** T6。
 
@@ -190,11 +192,11 @@
 3. provider 请求仅包含最近一轮 user 与最终 assistant、两级完整索引、固定类型路由和四种操作约束，并显式设置 `Request.tools=[]`。是否保存、重复、冲突及 create/update/delete/no-op 由 LLM 基于最新索引判断，不增加 embedding 或相似度机制。
 4. 逐项校验 action、kind、推导路由、filename 和规范化边界；`no-op` 不产生变更，非法操作只计入拒绝并记录无敏感正文诊断。
 5. 模型错误、解析错误、容量拒绝或写入错误只使当前队列项失败；在 `finally` 释放全部锁和队列执行权，继续下一项。`close()` 停止接收新项，并等待当前项到安全提交点或按可控方式取消，不能遗留锁。
-6. 测试三轮快速提交时立即返回且严格串行；延迟第一项后，第二项必须在第一项提交或失败收尾后读取最新索引；再覆盖空工具定义、固定双锁顺序、no-op、非法操作、provider/解析/写入失败继续下一项、索引刷新和安全关闭。
+6. 在 `tests/memory/test_extractor.py` 测试三轮快速提交时立即返回且严格串行；延迟第一项后，第二项必须在第一项提交或失败收尾后读取最新索引；再覆盖空工具定义、固定双锁顺序、no-op、非法操作、provider/解析/写入失败继续下一项、索引刷新和安全关闭。
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q
+.\.venv\Scripts\python.exe -m pytest tests/memory/test_extractor.py -q
 ```
 预期：全部通过；同一项目最多一个提取推理在运行，后一项始终读取前一项完成后的最新索引。
 
@@ -204,7 +206,7 @@
 - Create: `src/novacode/memory/governor.py`
 - Modify: `src/novacode/memory/prompts.py`
 - Modify: `src/novacode/memory/__init__.py`
-- Test: `tests/test_memory_governor.py`
+- Test: `tests/memory/test_governor.py`
 
 **依赖：** T7。
 
@@ -219,7 +221,7 @@
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_memory_governor.py -q
+.\.venv\Scripts\python.exe -m pytest tests/memory/test_governor.py -q
 ```
 预期：全部通过；五道门控全部满足时才创建一个后台任务，失败或取消后锁 mtime 等于治理前值。
 
@@ -262,10 +264,13 @@
 ## T10：完成自动化回归与 tmux 真实对话验收
 
 **文件：**
-- Test: `tests/test_instructions.py`
-- Test: `tests/test_session.py`
-- Test: `tests/test_memory.py`
-- Test: `tests/test_memory_governor.py`
+- Test: `tests/instructions/test_loader.py`
+- Test: `tests/session/test_writer.py`
+- Test: `tests/session/test_reader.py`
+- Test: `tests/session/test_listing_cleanup.py`
+- Test: `tests/memory/test_store.py`
+- Test: `tests/memory/test_extractor.py`
+- Test: `tests/memory/test_governor.py`
 - Test: `tests/test_conversation.py`
 - Test: `tests/test_prompt.py`
 - Test: `tests/test_agent.py`
@@ -289,10 +294,9 @@
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/test_instructions.py -q
-.\.venv\Scripts\python.exe -m pytest tests/test_session.py -q
-.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q
-.\.venv\Scripts\python.exe -m pytest tests/test_memory_governor.py -q
+.\.venv\Scripts\python.exe -m pytest tests/instructions/test_loader.py -q
+.\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q
+.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py tests/memory/test_extractor.py tests/memory/test_governor.py -q
 .\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py tests/test_mcp_cli.py -q
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\ruff.exe check .
