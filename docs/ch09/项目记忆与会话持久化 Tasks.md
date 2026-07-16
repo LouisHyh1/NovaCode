@@ -66,7 +66,7 @@
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_session.py -q
 ```
-预期：全部通过；失败注入下 `Conversation` 内存不接受该条消息且调用方得到 `SessionWriteError`；磁盘残留由恢复器隔离，不承诺物理回滚，成功路径中完整行的 append、flush、fsync 先于内存变更。
+预期：全部通过；失败注入下 `Conversation` 内存不接受该条消息且调用方得到 `SessionWriteError`；磁盘可能保留完整合法行或部分字节，仅不完整或非法行由恢复器隔离，完整合法行可能在重启后被恢复，append-only 文件不做物理回滚；成功路径中完整行的 append、flush、fsync 先于内存变更。
 
 ## T3：实现四层项目指令加载与安全引用展开
 
