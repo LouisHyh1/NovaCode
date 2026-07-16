@@ -22,21 +22,23 @@
 **文件：**
 - Modify: `src/novacode/compact/state.py`
 - Test: `tests/compact/test_state.py`
+- Test: `tests/compact/test_layer1.py`
+- Test: `tests/compact/test_layer2_manage.py`
 
 **依赖：** 无。
 
 **步骤：**
-1. 将 `SessionContext` 固定为 `session_id`、`message_path`、`spill_dir` 三个字段；`message_path` 指向 `<workspace>/.novacode/sessions/<session_id>.jsonl`，`spill_dir` 指向同 ID 目录下的 `tool-results/`，两者不能互相嵌套或改用不同 ID。
+1. 按批准 Plan 的构造契约将 `SessionContext` 固定为 `session_id`、`message_path`、`spill_dir` 三个必选字段；`message_path` 指向 `<workspace>/.novacode/sessions/<session_id>.jsonl`，`spill_dir` 指向同 ID 目录下的 `tool-results/`，两者不能互相嵌套或改用不同 ID。同步把 compact 测试中现有两参数或位置参数构造改为显式传入三字段，避免用兼容默认值掩盖调用点遗漏。
 2. 实现 `new_session_id(now: datetime | None = None) -> str`：使用本地时间生成 `YYYYMMDD-HHMMSS`，追加 `secrets.token_hex(2)` 产生的 4 位小写十六进制后缀；对注入的 `now` 保持确定性时间部分，随机后缀仍校验格式。
 3. 修改 `new_session_context(workspace: str) -> SessionContext`：创建 sessions 根目录与 `spill_dir`，返回同一 session ID 对应的消息路径；不预写消息记录。
 4. 新增 `open_session_context(workspace: str, session_id: str) -> SessionContext`：先用完整正则校验 ID，再要求消息文件已经存在；只打开原 ID 的关联路径，不重命名、不迁移、不创建替代消息文件。
-5. 在 `tests/compact/test_state.py` 覆盖格式、同 ID 双路径、工具目录创建、非法 ID、消息文件缺失和恢复原路径；保留 ch08 只消费 `spill_dir` 的既有测试。
+5. 在 `tests/compact/test_state.py` 覆盖格式、同 ID 双路径、工具目录创建、非法 ID、消息文件缺失和恢复原路径；更新 `tests/compact/test_layer1.py` 与 `tests/compact/test_layer2_manage.py` 的 `SessionContext` 构造，并运行整个 `tests/compact/`，确认 ch08 的 Layer 1、Layer 2、token 恢复和端到端压缩仍只按既有职责消费 `spill_dir`。
 
 **验证：**
 ```powershell
-pytest tests/compact/test_state.py -q
+.\.venv\Scripts\python.exe -m pytest tests/compact -q
 ```
-预期：全部通过；生成 ID 匹配 `^\d{8}-\d{6}-[0-9a-f]{4}$`，消息文件路径和工具结果目录共享同一 ID。
+预期：整个 compact 测试集合通过；生成 ID 匹配 `^\d{8}-\d{6}-[0-9a-f]{4}$`，消息文件路径和工具结果目录共享同一 ID，现有两参数构造点全部迁移到批准的三字段契约。
 
 ## T2：建立 SessionWriter 与 Conversation 的先盘后内存提交点
 
@@ -58,13 +60,13 @@ pytest tests/compact/test_state.py -q
 4. 实现 `append_message()`：持有同一个 writer 锁完成序列化、写入一整行、`flush`、`os.fsync`；任一步失败都统一抛 `SessionWriteError`。实现 `close()`：禁止后续追加，等待已进入锁区的追加完成后关闭句柄，多次关闭保持幂等。
 5. 给 `Conversation` 增加 `before_append: Callable[[Message], None] | None` 和 `before_replace: Callable[[list[Message]], None] | None`。所有 `add_*()` 在 `Conversation` 的 `RLock` 内先构造完整消息、调用 `before_append`，成功后才深拷贝进内存；`replace_history()` 同样先调用 `before_replace`，成功后才替换。
 6. 实现 `Conversation.from_messages()`：深拷贝装入已校验历史并绑定可选钩子，初始装入不得触发写盘。默认无钩子时保持当前行为。
-7. 测试 user、assistant、tool 消息字段与顺序、首条 model、未绑定拒绝、bind 冲突、flush/fsync、并发串行、关闭语义，以及序列化/写入/flush/fsync 失败均不改变 `Conversation`；另测 `from_messages()` 不回写旧历史。
+7. 测试 user、assistant、tool 消息字段与顺序、首条 model、未绑定拒绝、bind 冲突、flush/fsync、并发串行、关闭语义，以及序列化/写入/flush/fsync 失败均不改变 `Conversation`；写入失败后磁盘允许残留完整或部分字节，禁止通过重写或截断 append-only 文件回滚，由 T4 恢复器把不完整或非法行当坏行隔离；另测 `from_messages()` 不回写旧历史。
 
 **验证：**
 ```powershell
-pytest tests/test_conversation.py tests/test_session.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_session.py -q
 ```
-预期：全部通过；失败注入下磁盘与内存都不接受该条消息，成功路径中磁盘提交先于内存变更。
+预期：全部通过；失败注入下 `Conversation` 内存不接受该条消息且调用方得到 `SessionWriteError`；磁盘残留由恢复器隔离，不承诺物理回滚，成功路径中完整行的 append、flush、fsync 先于内存变更。
 
 ## T3：实现四层项目指令加载与安全引用展开
 
@@ -85,7 +87,7 @@ pytest tests/test_conversation.py tests/test_session.py -q
 
 **验证：**
 ```powershell
-pytest tests/test_instructions.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_instructions.py -q
 ```
 预期：全部通过；四层内容按规定顺序出现，所有失败场景只跳过局部内容并产生无正文诊断。
 
@@ -104,7 +106,7 @@ pytest tests/test_instructions.py -q
 **依赖：** T3。
 
 **步骤：**
-1. 在 `types.py` 定义不可变 `SessionInfo(session_id, title, model, last_activity, file_size, path)` 和 `SessionLoadResult(session_id, messages, model, last_activity, diagnostics)`；从 `session.__init__` 导出 writer、reader、listing、cleanup 的公开接口。
+1. 在 `types.py` 定义 `@dataclass(frozen=True)` 的 `SessionInfo(session_id, title, model, last_activity, file_size, path)`；`SessionLoadResult(session_id, messages, model, last_activity, diagnostics)` 使用普通 `@dataclass`，其中 `diagnostics` 以 `field(default_factory=list)` 创建并允许 reader 逐行追加；从 `session.__init__` 导出 writer、reader、listing、cleanup 的公开接口。
 2. 在 `codec.py` 增加规范 JSON 序列化与 SHA-256 稳定摘要。`SessionWriter.append_compaction(replacement)` 使用唯一事务 ID，并在同一 writer 锁内依次追加 `compact_begin`、带连续序号的全部 `compact_message`、`compact_commit`；每行都执行 write/flush/fsync，只有 commit 完成 fsync 后才返回成功。
 3. `load_session(path)` 从头逐行解析；坏 JSON、未知类型或字段非法只追加诊断并继续后续有效行。压缩事务只有在 begin、连续完整替换消息和 commit 的事务 ID、数量、序号、摘要全部一致时才替换事务前历史；未提交、损坏或不一致事务整体忽略。
 4. 在压缩状态解释完成后严格校验工具链：assistant 的 tool calls 只能由紧随其后的 tool message 按相同 ID 和顺序完整返回；未闭合、部分返回或错序时从发起链的 assistant 之前截断，孤立 tool result 从其自身之前截断，同时保留此前最后完整边界。
@@ -114,7 +116,7 @@ pytest tests/test_instructions.py -q
 
 **验证：**
 ```powershell
-pytest tests/test_session.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_session.py -q
 ```
 预期：全部通过；只采用最后一笔完整提交的压缩事务，会话列表按有效记录时间排序，清理失败彼此隔离。
 
@@ -142,7 +144,7 @@ pytest tests/test_session.py -q
 
 **验证：**
 ```powershell
-pytest tests/test_session.py tests/test_agent.py tests/test_tui.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_session.py tests/test_agent.py tests/test_tui.py -q
 ```
 预期：全部通过；恢复成功后所有新消息和工具结果只进入被选中的原 session ID，任何切换前失败均不改变活动会话。
 
@@ -168,7 +170,7 @@ pytest tests/test_session.py tests/test_agent.py tests/test_tui.py -q
 
 **验证：**
 ```powershell
-pytest tests/test_memory.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q
 ```
 预期：全部通过；任何时刻磁盘上的 `MEMORY.md` 都同时满足 200 行和 25KB 两项限制。
 
@@ -192,7 +194,7 @@ pytest tests/test_memory.py -q
 
 **验证：**
 ```powershell
-pytest tests/test_memory.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q
 ```
 预期：全部通过；同一项目最多一个提取推理在运行，后一项始终读取前一项完成后的最新索引。
 
@@ -217,7 +219,7 @@ pytest tests/test_memory.py -q
 
 **验证：**
 ```powershell
-pytest tests/test_memory_governor.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_memory_governor.py -q
 ```
 预期：全部通过；五道门控全部满足时才创建一个后台任务，失败或取消后锁 mtime 等于治理前值。
 
@@ -234,6 +236,7 @@ pytest tests/test_memory_governor.py -q
 - Test: `tests/test_prompt.py`
 - Test: `tests/test_agent.py`
 - Test: `tests/test_tui.py`
+- Test: `tests/test_mcp_cli.py`
 
 **依赖：** T8。
 
@@ -248,11 +251,11 @@ pytest tests/test_memory_governor.py -q
 8. 恢复流复用 T5：`/resume` 列表 → 读取并截断到完整边界 → detached candidate → 全新目标 runtime → 必要时在目标 runtime 压缩 → 压缩事务提交 → live conversation → 原子切换 → 关闭旧 writer；临时新会话存档不自动删除。
 9. 自动提取流复用 T7：最终回复持久化 → 渲染/恢复输入 → put_nowait → 固定双锁 → 最新索引 → 无工具推理 → 校验/预演/提交 → 刷新快照。治理流复用 T8，后台任务与主交互隔离。
 10. 退出时先停止新输入和提交，关闭 extractor 队列并等待安全点，取消 governor 并恢复失败 mtime，等待或取消 cleanup，最后排空并关闭当前 writer；不得让旧项目或旧 session 的后台任务写入新目标。
-11. 更新测试，覆盖两个 prompt 模块的空/非空与顺序、首条 model 绑定、五条数据流、每轮提取、持久化错误、后台降级、主动恢复、切换和退出无跨 session 写入。
+11. 更新测试，覆盖两个 prompt 模块的空/非空与顺序、首条 model 绑定、五条数据流、每轮提取、持久化错误、后台降级、主动恢复、切换和退出无跨 session 写入；在现有 `tests/test_mcp_cli.py` 中覆盖 `_amain()` 的装配顺序、writer 初始化失败返回非零且不启动 TUI，以及 cleanup/governor 异常只记录并继续进入交互。
 
 **验证：**
 ```powershell
-pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py tests/test_mcp_cli.py -q
 ```
 预期：全部通过；启动加载、消息追加、恢复会话、自动提取、记忆治理五条数据流均按规定顺序执行，失败边界不污染内存或活动会话。
 
@@ -267,32 +270,41 @@ pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests
 - Test: `tests/test_prompt.py`
 - Test: `tests/test_agent.py`
 - Test: `tests/test_tui.py`
-- Verify: `docs/ch09/项目记忆与会话持久化 Checklist.md`
+- Test: `tests/test_mcp_cli.py`
+- Verify: `docs/ch09/项目记忆与会话持久化 Spec.md`（AC1–AC27 权威验收依据）
+- Reference: `docs/ch09/项目记忆与会话持久化 Checklist.md`（Task 4 生成的镜像执行清单）
 
 **依赖：** T9。
 
 **步骤：**
-1. 逐个运行四个新增模块测试，确认指令、会话、记忆存储/提取和治理边界均可在无真实 provider、无 TUI 条件下验证。
-2. 运行 Conversation、prompt、Agent 与 TUI 集成测试，确认可选能力为空时保持既有行为，持久化失败可见且不造成磁盘/内存分叉。
-3. 运行全量 pytest、ruff check、ruff format 检查、compileall 和 `git diff --check`；任何失败都必须定位到具体任务并修复后重跑，不能以“与本章无关”代替通过。
-4. 在配置好真实 provider 的环境中启动独立 tmux 会话，运行 `uv run nova`，输入真实请求：让 NovaCode 读取一个项目文件、调用至少一个工具并给出最终回复；观察每条 user/assistant/tool 记录已写入当前 JSONL，最终回复显示后输入立即可用，记忆提取在后台执行。
-5. 在 tmux 中触发足以走 ch08 压缩路径的多轮对话，退出后重新启动并执行 `/resume`；选择刚才会话，确认完整工具链恢复、原 ID 续写、压缩事务可恢复且没有消息写入临时会话。
-6. 准备超过 24 小时的恢复样本并确认仅当前上下文收到 system reminder；准备超过 30 天的存档并确认后台清理 JSONL 和同 ID 工具结果目录，同时交互仍可继续。
-7. 对照 `docs/ch09/项目记忆与会话持久化 Checklist.md` 逐项记录证据；重点核对四层指令、五条数据流、四类记忆路由、索引双限额、单消费者顺序、治理五门控、锁失败恢复以及切换/退出生命周期。
+1. 以已批准 Spec 的 AC1–AC27 为唯一权威验收依据，建立“AC 编号 → 自动化测试或 tmux 场景 → 证据”的逐项映射；即使 Checklist 缺失，也必须能直接依据 Spec 完成自动化验收。
+2. 实施前检查 Task 4 生成的 Checklist 是否逐项镜像 AC1–AC27 的编号和语义；Checklist 有缺失或冲突时以 Spec 为准并退回 Task 4 修正，在一致的 Checklist 可用前不开始 tmux 逐项场景。
+3. 逐个运行四个新增模块测试，确认指令、会话、记忆存储/提取和治理边界均可在无真实 provider、无 TUI 条件下验证。
+4. 运行 Conversation、prompt、Agent、TUI 与 CLI 集成测试，确认可选能力为空时保持既有行为，持久化失败可见且不造成内存领先于磁盘，writer 初始化失败和后台降级符合启动契约。
+5. 使用当前项目 `.venv` 运行全量 pytest、ruff check、ruff format 检查、compileall 和 `git diff --check`；任何失败都必须定位到具体任务并修复后重跑，不能以“与本章无关”代替通过。
+6. tmux 验收只能在 Linux/WSL、项目 `.venv` 和 tmux 均可用、真实 provider 已配置且 Checklist 已确认与 AC1–AC27 一致时执行。启动独立 tmux 会话，用 `.venv/bin/python -m novacode` 发起真实请求：让 NovaCode 读取项目文件、调用至少一个工具并给出最终回复；观察 user/assistant/tool 记录写入当前 JSONL，最终回复显示后输入立即可用，提取在后台执行。当前环境不满足前置条件时明确标记“未执行”，不得声称通过。
+7. 在同一 tmux 验收中触发足以走 ch08 压缩路径的多轮对话，退出后重新启动并执行 `/resume`；选择刚才会话，确认完整工具链恢复、原 ID 续写、压缩事务可恢复且没有消息写入临时会话。
+8. 准备超过 24 小时的恢复样本并确认仅当前上下文收到 system reminder；准备超过 30 天的存档并确认后台清理 JSONL 和同 ID 工具结果目录，同时交互仍可继续。
+9. 按 AC1–AC27 的映射逐项记录证据；一致的 Checklist 只作为镜像操作清单。重点核对四层指令、五条数据流、四类记忆路由、索引双限额、单消费者顺序、治理五门控、锁失败恢复以及切换/退出生命周期。
 
 **验证：**
 ```powershell
-pytest tests/test_instructions.py -q
-pytest tests/test_session.py -q
-pytest tests/test_memory.py -q
-pytest tests/test_memory_governor.py -q
-pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py -q
-pytest -q
-ruff check .
-ruff format --check .
-python -m compileall -q src
+.\.venv\Scripts\python.exe -m pytest tests/test_instructions.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_session.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_memory.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_memory_governor.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py tests/test_mcp_cli.py -q
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\ruff.exe check .
+.\.venv\Scripts\ruff.exe format --check .
+.\.venv\Scripts\python.exe -m compileall src
 git diff --check
-tmux new-session -d -s novacode-ch09 "uv run nova"
+```
+预期：所有 Windows 自动化命令退出码为 0，`git diff --check` 无输出，且 AC1–AC27 均有自动化或待执行的 tmux 证据映射。
+
+满足 tmux 前置条件后，在 Linux/WSL 中运行：
+```bash
+tmux new-session -d -s novacode-ch09 ".venv/bin/python -m novacode"
 tmux attach-session -t novacode-ch09
 ```
-预期：所有自动化命令退出码为 0，`git diff --check` 无输出；tmux 中真实对话、工具调用、压缩、退出和 `/resume` 均通过 Checklist，最终可用 `tmux kill-session -t novacode-ch09` 结束验收会话。
+预期：真实对话、工具调用、压缩、退出和 `/resume` 逐项满足 Spec AC；完成后运行 `tmux kill-session -t novacode-ch09`。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。
