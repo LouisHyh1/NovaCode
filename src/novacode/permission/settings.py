@@ -24,6 +24,7 @@ _FRIENDLY_MAP: dict[str, str] = {
     "edit_file": "Edit",
     "glob": "Glob",
     "grep": "Grep",
+    "manage_memory": "ManageMemory",
 }
 
 
@@ -34,7 +35,7 @@ def friendly_name(internal: str) -> str:
 
 # ── 工具分类 ────────────────────────────────────────────────────
 
-_WRITE_TOOLS = {"write_file", "edit_file"}
+_WRITE_TOOLS = {"write_file", "edit_file", "manage_memory"}
 
 
 def categorize(internal: str, read_only: bool) -> Category:

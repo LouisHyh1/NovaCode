@@ -97,8 +97,9 @@ def test_main_closes_mcp_manager(monkeypatch: pytest.MonkeyPatch, tmp_path):
     monkeypatch.setattr(cli.mcp_client, "new_manager", fake_new_manager)
 
     class FakeApp:
-        def __init__(self, providers, registry, version, driver_class=None, engine=None):
+        def __init__(self, providers, registry, version, driver_class=None, engine=None, **kwargs):
             app_seen["registry"] = registry
+            app_seen.update(kwargs)
 
         async def run_async(self):
             return None
@@ -110,6 +111,96 @@ def test_main_closes_mcp_manager(monkeypatch: pytest.MonkeyPatch, tmp_path):
 
     assert app_seen["registry"].get("mcp__demo__echo") is not None
     assert manager.closed is True
+
+
+@pytest.mark.asyncio
+async def test_cli_assembles_session_instructions_memory_and_background_services(
+    monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
+    manager = DummyManager()
+    project = tmp_path / "project"
+    project.mkdir()
+    config = project / ".novacode" / "config.yaml"
+    config.parent.mkdir()
+    config.write_text(
+        "providers:\n  - name: test\n    protocol: openai\n    api_key: x\n    model: test\n",
+        encoding="utf-8",
+    )
+    (project / "NOVACODE.md").write_text("project instructions", encoding="utf-8")
+    captured = {}
+
+    monkeypatch.chdir(project)
+    monkeypatch.setattr(cli, "_user_novacode_root", lambda: tmp_path / "home" / ".novacode")
+    monkeypatch.setattr(cli.mcp_client, "load_config", lambda root: SimpleNamespace(servers={}))
+
+    async def fake_new_manager(cfg, version):
+        return manager
+
+    monkeypatch.setattr(cli.mcp_client, "new_manager", fake_new_manager)
+
+    class FakeApp:
+        def __init__(self, *args, **kwargs):
+            captured.update(kwargs)
+            captured["registry"] = args[1]
+            self.cleanup_task = None
+            self.governor = None
+
+        async def run_async(self):
+            return None
+
+        async def _shutdown_resources(self):
+            if self.cleanup_task is not None:
+                await self.cleanup_task
+            captured["writer"].close()
+
+        def notify_background(self, notice):
+            pass
+
+    monkeypatch.setattr(cli, "NovaCodeApp", FakeApp)
+
+    assert await cli._amain() == 0
+
+    assert captured["project_root"] == project.resolve()
+    assert captured["session_context"].session_id in captured["session_context"].message_path
+    assert captured["writer"].path.parent == project / ".novacode" / "sessions"
+    assert captured["extractor"].provider is None
+    assert captured["instructions"] == "project instructions"
+    assert callable(captured["memory_index"])
+    assert captured["registry"].get("manage_memory") is not None
+    assert manager.closed is True
+
+
+@pytest.mark.asyncio
+async def test_writer_initialization_failure_returns_nonzero_without_starting_tui(
+    monkeypatch: pytest.MonkeyPatch, tmp_path, capsys
+) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    config = project / ".novacode" / "config.yaml"
+    config.parent.mkdir()
+    config.write_text(
+        "providers:\n  - name: test\n    protocol: openai\n    api_key: x\n    model: test\n",
+        encoding="utf-8",
+    )
+    monkeypatch.chdir(project)
+    monkeypatch.setattr(cli, "_user_novacode_root", lambda: tmp_path / "home" / ".novacode")
+    started = False
+
+    class BrokenWriter:
+        def __init__(self, *args, **kwargs):
+            raise OSError("read-only disk")
+
+    class ForbiddenApp:
+        def __init__(self, *args, **kwargs):
+            nonlocal started
+            started = True
+
+    monkeypatch.setattr(cli, "SessionWriter", BrokenWriter)
+    monkeypatch.setattr(cli, "NovaCodeApp", ForbiddenApp)
+
+    assert await cli._amain() == 1
+    assert started is False
+    assert "session writer" in capsys.readouterr().err.lower()
 
 
 def test_main_missing_config_returns_clean_error(monkeypatch: pytest.MonkeyPatch, tmp_path, capsys):

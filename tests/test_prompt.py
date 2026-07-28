@@ -51,13 +51,36 @@ class TestModuleAssembly:
             f"nova={idx_nova}, extra={idx_extra}, constraint={idx_constraint}"
         )
 
-    def test_optional_modules_have_empty_content(self):
-        """三个可选空槽 content 均为空字符串。"""
+    def test_optional_modules_keep_memory_capability_when_index_is_empty(self):
         mods = optional_modules()
         assert len(mods) == 3
-        for m in mods:
-            assert m.content == "", f"{m.name} should have empty content"
+        assert mods[0].content == ""
+        assert mods[1].content == ""
+        assert "manage_memory" in mods[2].content
         assert [m.priority for m in mods] == [80, 90, 100]
+
+    def test_optional_instruction_and_memory_modules_are_ordered_and_omitted_when_empty(self):
+        empty = build_system_prompt(instructions="", memory_index="")
+        populated = build_system_prompt(
+            instructions="Prefer small patches.",
+            memory_index="## User memory index\n\n- user preference",
+        )
+
+        assert "# 自定义指令" not in empty
+        assert "# 长期记忆" in empty
+        assert "manage_memory" in empty
+        assert "# 自定义指令" in populated
+        assert "Prefer small patches." in populated
+        assert "# 长期记忆" in populated
+        assert populated.index("# 自定义指令") < populated.index("# 长期记忆")
+
+    def test_memory_prompt_requires_tool_and_forbids_ad_hoc_files(self):
+        prompt = build_system_prompt()
+
+        assert "manage_memory" in prompt
+        assert "write_file" in prompt and "edit_file" in prompt
+        assert ".nova_memory.md" in prompt
+        assert "not written" in prompt.lower()
 
     def test_assemble_skips_empty(self):
         """AC2 — 空 content 模块被跳过，不产生多余空行。"""

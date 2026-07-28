@@ -2,7 +2,7 @@
 
 ## 1. 目标与边界
 
-本章在 NovaCode 现有 Agent Loop、Textual TUI、模块化 prompt 和 ch08 上下文压缩之上增加四项能力：四层项目指令、追加式 JSONL 会话、每轮自动记忆提取、受门控的记忆治理。实现以文件系统和 Python 标准库为主，不复制 Agent Loop、文件工具、工具结果落盘或上下文压缩机制。
+本章在 NovaCode 现有 Agent Loop、Textual TUI、模块化 prompt 和 ch08 上下文压缩之上增加四项能力：四层项目指令、追加式 JSONL 会话、显式 `manage_memory` 写入与隐式后台提取、受门控的记忆治理。实现以文件系统和 Python 标准库为主，不复制 Agent Loop、文件工具、工具结果落盘或上下文压缩机制。
 
 全局约束如下：
 
@@ -20,8 +20,8 @@
 | `src/novacode/conversation.py` | 线程安全地维护 `Message` 列表，已有 `replace_history()` | 增加“提交前”持久化钩子和 `from_messages()`；钩子成功后才修改内存 |
 | `src/novacode/compact/` | `manage_context()` 完成工具结果落盘、摘要和 `replace_history()` | 保留算法；历史替换继续走 `Conversation.replace_history()`，由同一持久化钩子写压缩事务 |
 | `src/novacode/compact/state.py` | `SessionContext` 只含 UUID 与 `spill_dir` | 改为可读 session ID，并显式保存消息路径和工具结果目录 |
-| `src/novacode/prompt/__init__.py`、`modules.py` | 已预留 `自定义指令`、`长期记忆` 可选模块 | 给可选模块传入实际文本，仍由现有 priority 排序 |
-| `src/novacode/agent/__init__.py` | Agent Loop 直接向 `Conversation` 写 user/assistant/tool 消息 | 继续使用这些方法；持久化失败转为可见错误；最终回复事件携带可提取的一轮数据 |
+| `src/novacode/prompt/__init__.py`、`modules.py` | 已预留 `自定义指令`、`长期记忆` 可选模块 | 注入实际索引；空索引也保留正式记忆工具规则，仍由现有 priority 排序 |
+| `src/novacode/agent/__init__.py` | Agent Loop 直接向 `Conversation` 写 user/assistant/tool 消息 | 继续使用这些方法；持久化失败转为可见错误；跟踪显式记忆请求与工具结果，阻止无工具成功声明 |
 | `src/novacode/tui/commands.py`、`app.py` | 只有 `/exit`、`/plan`、`/do`、`/compact` | 只增加本章需要的 `/resume` 入口和恢复选择态 |
 | `src/novacode/cli.py` | 负责配置、权限、工具、MCP 和 TUI 启动 | 按规定顺序创建指令、会话、记忆与后台服务并注入 `NovaCodeApp` |
 
@@ -153,7 +153,7 @@ async def clean_expired_async(
 
 ### 3.3 `novacode.memory`
 
-记忆层将“模型判断”和“执行器约束”分开：模型决定是否值得保存、重复或冲突；执行器只接受固定类型、固定路由和目录内文件名。两个 `MEMORY.md` 仅存索引，正文各自存于独立 Markdown 文件。
+记忆层将“模型判断”和“执行器约束”分开：显式“记住、更新、忘记”由 `manage_memory` 直接执行并返回可验证结果；后台 `MemoryExtractor` 只负责隐式长期信息。执行器只接受固定类型和固定路由，不向模型暴露目录或文件名。两个 `MEMORY.md` 仅存索引，正文各自存于独立 Markdown 文件。
 
 ```python
 import asyncio
@@ -214,6 +214,21 @@ class MemoryStore:
     def recover_locked(self) -> None: ...
 
 
+class ManageMemoryTool:
+    read_only = False
+
+    def __init__(
+        self,
+        user_store: MemoryStore,
+        project_store: MemoryStore,
+        on_index_changed: Callable[[str], None],
+    ) -> None: ...
+
+    def name(self) -> str: ...
+    def parameters(self) -> dict: ...
+    async def execute(self, args: str): ...
+
+
 class MemoryExtractor:
     def __init__(
         self,
@@ -241,7 +256,7 @@ class MemoryGovernor:
     async def close(self) -> None: ...
 ```
 
-固定路由为：`user`、`feedback` 只允许用户级 store，`project`、`reference` 只允许项目级 store。目标层级由 `MemoryKind` 推导，模型无权另传目录。记忆文件 frontmatter 至少写入稳定 UUID、`type`、`title`、`created`、`updated`；正文必须是可独立理解的陈述，时间敏感信息使用绝对日期，索引项包含类型、标题、简述和相对链接。
+固定路由为：`user`、`feedback` 只允许用户级 store，`project`、`reference` 只允许项目级 store。`manage_memory` 只暴露 action、kind、memory ID 和内容字段，create UUID 由代码生成，模型无权另传目录或文件名。记忆文件 frontmatter 至少写入稳定 UUID、`type`、`title`、`created`、`updated`；正文必须是可独立理解的陈述，时间敏感信息使用绝对日期，索引项包含类型、标题、简述和相对链接。
 
 `MemoryStore` 同时持有提取与治理共用的进程内 `asyncio.Lock` 和每目录独立的跨进程 `.memory-write.lock`。跨进程锁以标准库原子独占创建或等价互斥实现并记录 PID；活 PID 不可抢占，死 PID或明确陈旧锁按与治理锁相同的安全判定回收。它与 `.consolidate-lock` 分工明确：后者只控制治理调度，前者控制所有实际 memory 读取恢复和写入临界区。`recover_locked()`、`read_index_locked()`、`apply_locked()`、extractor 完整推理事务和 governor 写阶段均同时持有两种锁。需要两级目录时固定按用户级→项目级获取并反向释放，异常路径也不得反序。`apply_locked()` 在双锁内完成候选构造和 200 行/25KB 检查。
 
@@ -249,7 +264,9 @@ class MemoryGovernor:
 
 `recover_locked()` 在双锁内运行。无正式 journal 时可删除未被现有 index 引用的 txn 临时文件，因为它们从未进入提交协议；正式 journal 有效时，index 未提交则按摘要幂等完成正文并最后提交 index，index 已提交则完成待删除项和清理。正式 journal 无法解析、schema/摘要校验失败或引用越界时不得猜测或继续写：将 store 标记为 recovery-required，记录不含正文的错误，保留 journal/临时文件和可能被当前或新 index 引用的正文，并阻断后续 extractor/governor 写入，等待人工诊断。
 
-`MemoryExtractor` 构造时只创建队列并保存 stores/callback，不启动 worker。`bind_provider(provider)` 是一次性生命周期边界：拒绝空 provider 和绑定到不同 provider 的第二次调用，保存 provider 后通过 app 持有的 task 启动唯一 `run()` 消费者；绑定成功前 `submit()` 必须拒绝任务。绑定后 `submit()` 只做 `asyncio.Queue.put_nowait()`。`run()` 严格按提交顺序处理：固定顺序获取两个 store 锁，重新读取最新索引，将最近一轮 user/final assistant、两级完整索引、固定路由和 create/update/delete/no-op 约束发送给 provider，且 `Request.tools=[]`；随后解析、校验、容量预演和事务提交，最后刷新 prompt 使用的两级索引快照。LLM、解析或写入失败只记录日志并释放两个锁，下一项继续。`close()` 先停止接收新项，再排空队列或受控取消当前项，并保证 task、store 锁和 provider 引用不泄漏到下一会话。
+`manage_memory` 与 extractor 共用相同 stores、锁顺序、事务和索引刷新回调。权限层将它归为 WRITE：Default=Ask、Accept Edits=Allow、Plan=Deny、Bypass=Allow。Agent 在本轮开始识别常见中英文显式记忆表达，记录所有 `manage_memory` 结果；只有全部相关调用成功才允许成功终态，未调用、拒绝或失败时替换为确定性的“记忆未写入”。普通记忆系统咨询不进入保护分支。
+
+`MemoryExtractor` 构造时只创建队列并保存 stores/callback，不启动 worker。`bind_provider(provider)` 是一次性生命周期边界：拒绝空 provider 和绑定到不同 provider 的第二次调用，保存 provider 后通过 app 持有的 task 启动唯一 `run()` 消费者；绑定成功前 `submit()` 必须拒绝任务。绑定后 `submit()` 只做 `asyncio.Queue.put_nowait()`。`run()` 严格按提交顺序处理：固定顺序获取两个 store 锁，重新读取最新索引，将最近一轮 user/final assistant、两级完整索引、完整 JSON 字段契约、四类定义、各 action 必填字段、固定路由、去重和纯 JSON 约束发送给 provider，且 `Request.tools=[]`；显式记忆请求不得返回空数组，已由工具满足时返回 no-op。随后沿用严格 JSON 解析、校验、容量预演和事务提交，最后刷新 prompt 使用的两级索引快照，不增加代码围栏猜测或第二套解析器。LLM、解析或写入失败只记录日志并释放两个锁，下一项继续。`close()` 先停止接收新项，再排空队列或受控取消当前项，并保证 task、store 锁和 provider 引用不泄漏到下一会话。
 
 `MemoryGovernor` 只编排门控、锁、受限子 Agent 和通知，不自行增加记忆事实。治理目标是合并重复、删除过时、修正有证据的矛盾、把相对日期改成绝对日期，并使索引满足双限额。治理使用与提取相同的 store 锁和提交校验。
 
@@ -341,11 +358,11 @@ def build_system_prompt(
 ) -> str: ...
 ```
 
-`自定义指令` 保持 priority 80，`长期记忆` 保持 priority 100；空内容由 `assemble_system()` 现有逻辑省略。长期记忆文本固定按用户级索引在前、项目级索引在后拼接，非空层之间用清晰标题分隔，只注入 `MEMORY.md`，不注入独立正文。指令在启动时加载并缓存；记忆索引只在启动和成功提交后刷新。
+`自定义指令` 保持 priority 80，`长期记忆` 保持 priority 100；空指令由 `assemble_system()` 省略，空索引仍保留正式工具、成功依据和禁止 `.nova_memory.md` 替代文件的规则。索引非空时固定按用户级在前、项目级在后拼接，只注入 `MEMORY.md`，不注入独立正文。指令在启动时加载并缓存；记忆索引只在启动和成功提交后刷新。
 
 ### 4.4 Agent 与 TUI：窄接口注入
 
-`Agent` 新增可选的 `instructions: str` 与 `memory_index: Callable[[], str]`，每轮开始仍调用现有 `prompt.build_system_prompt()`，从 callable 获取最新合规索引。`run_force_compact()` 增加可选 `runtime: SessionRuntime | None = None`；普通压缩使用当前 runtime，恢复候选压缩必须显式传入一次性 staging runtime，最终目标 runtime 只在成功提交后参与引用切换。`Event` 增加可选 `memory_turn: MemoryTurn | None`；只有无待执行工具调用的最终回复分支填充它。持久化异常转为 `Event.err`，不再继续请求模型或写内存。
+`Agent` 新增可选的 `instructions: str` 与 `memory_index: Callable[[], str]`，每轮开始仍调用现有 `prompt.build_system_prompt()`，从 callable 获取最新合规索引。它同时识别本轮是否为显式记忆操作并跟踪 `manage_memory` 是否成功；成功才允许确认写入，未调用、拒绝或失败统一输出确定性未写入结果。`run_force_compact()` 增加可选 `runtime: SessionRuntime | None = None`；普通压缩使用当前 runtime，恢复候选压缩必须显式传入一次性 staging runtime，最终目标 runtime 只在成功提交后参与引用切换。`Event` 增加可选 `memory_turn: MemoryTurn | None`；只有无待执行工具调用的最终回复分支填充它。持久化异常转为 `Event.err`，不再继续请求模型或写内存。
 
 `NovaCodeApp` 新增 `project_root`、`session_context`、必选 `SessionWriter`、未绑定的可选 `MemoryExtractor`、可选 `MemoryGovernor` 与缓存索引字段。provider 选择成功后保持输入禁用，先调用 `writer.bind_model(provider.model)`，再调用 `extractor.bind_provider(provider)` 并登记唯一 worker task，最后创建 Agent；全部成功才开放输入。任一步失败都显示可处理错误、关闭本次已启动的 extractor worker并保持输入禁用，同一 app 不允许把 extractor 重绑到不同 provider。`_dispatch()` 捕获用户消息写盘失败，失败时不渲染用户气泡、不启动 Agent。消费到最终事件时先渲染回复并恢复输入，再对非空 `memory_turn` 调用已绑定的 `MemoryExtractor.submit()`；入队是同步常数时间操作，提取不阻塞下一轮。
 
@@ -522,9 +539,10 @@ src/novacode/
 │   ├── listing.py           # *.jsonl 扫描与有效活动时间排序
 │   └── cleanup.py           # 同步磁盘 worker、异步线程包装、空会话 30 天兜底
 ├── memory/
-│   ├── __init__.py          # 导出类型、store、extractor、governor
+│   ├── __init__.py          # 导出类型、store、tool、extractor、governor
 │   ├── types.py             # MemoryKind、MemoryAction、MemoryTurn、ApplyReport
 │   ├── store.py             # 固定路由、目录锁、索引双限额与 journal roll-forward
+│   ├── tool.py              # 显式 manage_memory、参数校验、固定路由与索引刷新
 │   ├── extractor.py         # provider 延迟绑定、单消费者队列、完整临界区
 │   ├── governor.py          # 五门控、PID/mtime 锁、受限后台治理与通知
 │   └── prompts.py           # 提取与治理的结构化提示和解析约束
@@ -549,6 +567,7 @@ tests/
 ├── session/test_reader.py
 ├── session/test_listing_cleanup.py
 ├── memory/test_store.py
+├── memory/test_tool.py
 ├── memory/test_extractor.py
 ├── memory/test_governor.py
 ├── test_conversation.py
@@ -571,6 +590,7 @@ tests/
 | 恢复压缩 | detached candidate + staging runtime 上复用 ch08 | 目标 spill 只在候选成功后按清单迁移，失败不污染活动会话或删除目标已有文件 |
 | 工具链恢复 | 严格 ID 与顺序校验后截断 | 不把模型置于无法继续的半完成工具状态 |
 | 记忆路由 | 类型到用户级/项目级的固定映射 | 模型只能提出语义操作，不能选择任意路径 |
+| 显式记忆 | 正式 WRITE 工具 + Agent 结果门禁 | 只有真实成功结果可确认写入，拒绝或失败不会静默成功 |
 | 记忆去重 | LLM 读取最新完整索引后判断 | 不增加第二套模糊检索机制 |
 | 索引容量 | 锁内候选预演，逐操作拒绝 | 永不落盘超限文件，且允许 delete/update 先释放容量 |
 | 记忆批次提交 | 同目录 journal + index commit marker + roll-forward | 多个文件替换不伪装成原子批次，崩溃后无悬空索引并清理未索引正文 |
@@ -588,7 +608,7 @@ tests/
 | F1–F8 | 3.1 指令位置、顺序、分隔、引用深度、访问链、边界、容错、prompt 缓存 |
 | F9–F14 | 3.2 session ID 关联路径、消息结构、磁盘先行、追加锁、压缩事务 |
 | F15–F21 | 3.2 与 5.3 会话列表、坏行、工具链、压缩、原 ID 续写、24 小时提醒、30 天清理 |
-| F22–F30 | 3.3 与 5.4 四类路由、独立文件、索引双限额、每轮队列、无工具请求、LLM 去重、完整锁区间 |
+| F22–F30 | 3.3 与 5.4 显式工具、四类路由、权限/终态、独立文件、索引双限额、隐式提取队列、严格 JSON 契约、LLM 去重与完整锁区间 |
 | F31–F37 | 3.3 与 5.5 治理职责、五门控、扫描节流、PID/mtime、受限子 Agent、后台通知 |
 | F38–F42 | 4、5.1、6 prompt 模块、启动/每轮/退出生命周期、现有模块复用与空配置兼容 |
 
@@ -598,8 +618,9 @@ tests/
 - session ID 与两种关联路径、每次 append 的 flush/fsync、写盘失败不改内存、未提交压缩事务回滚；
 - 坏行继续读取、完整工具链保留、两类不完整边界截断、按记录活动时间列表、首条有效 user 摘要、有效/无效记录活动时间和线程包装的 30 天清理；
 - 恢复超阈值使用 staging runtime、spill 迁移与路径重写、分阶段失败按清单清理、超过 24 小时仅注入 system reminder、原 ID 续写；
-- 四类记忆固定路由、frontmatter 和相对链接、create/update/delete/no-op、200 行与 25KB 双限额、每个替换阶段的 journal 崩溃恢复；
-- extractor 构造后未启动、一次性 provider 绑定、连续最终回复逐轮入队、单消费者顺序、后一项读取最新索引、提取请求工具列表为空；
+- `manage_memory` 四类固定路由、UUID 生成、create/update/delete、参数/ID/锁/事务失败、四模式权限、Agent 成功/拒绝/失败终态；
+- frontmatter 和相对链接、200 行与 25KB 双限额、每个替换阶段的 journal 崩溃恢复；
+- extractor 完整字段契约、显式请求非空规则、严格 JSON 解析、一次性 provider 绑定、单消费者顺序、最新索引和空工具列表；
 - 五道治理门控、10 分钟扫描节流、活/死/未知 PID、1 小时兜底、并发只获一锁、失败恢复 mtime；
 - 受限子 Agent 拒绝 shell、源码和边界外写入，治理期间主会话可继续输入，通知不含正文；
 - 无指令、无 memory、无历史或后台任务失败时仍能启动；writer 初始化/model 绑定失败时禁止消息提交；切换/退出无跨 session 写入且切换后旧 writer 关闭失败不回滚。

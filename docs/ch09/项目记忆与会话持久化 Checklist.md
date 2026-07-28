@@ -5,7 +5,7 @@
 ## 静态质量
 
 - [ ] 在任何 ch09 实现改动前先运行本节全部 Windows 自动化命令并保存基线命令、退出码和关键输出；实现后用相同命令复跑并对比。只修复能由最小复现、提交范围或前后对比证明为 ch09 引入的回归；既有或无关失败记录命令、输出和归因，作为阻塞证据请求扩大范围，不擅自修改 ch09 无关代码，也不把未通过记录为通过。（AC27）
-- [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest tests/instructions/test_loader.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py tests/memory/test_extractor.py tests/memory/test_governor.py -q`，预期三组新增模块测试均退出码为 0，并分别覆盖指令、会话、记忆提取与治理边界。（AC1–AC23）
+- [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest tests/instructions/test_loader.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q`、`.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py tests/memory/test_tool.py tests/memory/test_extractor.py tests/memory/test_governor.py -q`，预期三组新增模块测试均退出码为 0，并分别覆盖指令、会话、显式记忆工具、隐式提取与治理边界。（AC1–AC23）
 - [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py tests/test_mcp_cli.py -q`，预期集成测试退出码为 0，且空配置兼容、持久化失败、主动恢复、后台降级和生命周期断言均通过。（AC24–AC27）
 - [ ] 在 Windows 项目根运行 `.\.venv\Scripts\python.exe -m pytest -q`、`.\.venv\Scripts\ruff.exe check .`、`.\.venv\Scripts\ruff.exe format --check .`、`.\.venv\Scripts\python.exe -m compileall src` 和 `git diff --check`，预期所有命令退出码为 0、无测试失败、无 lint/格式/编译错误且无空白错误；同时检查依赖清单和文档未引入数据库、向量检索、embedding、RAG 记忆检索、完整 Slash Command 框架或第二套压缩格式。（AC27）
 
@@ -31,12 +31,12 @@
 - [ ] 分别恢复最后活动时间为 23 小时 59 分和 24 小时 1 分的会话；预期前者无提醒，后者只在当前上下文末尾获得 system 语义的过期提醒，原 JSONL 不新增伪造的历史消息。（AC12）
 - [ ] 分别准备最后有效记录时间为 29 天 23 小时和 30 天 1 分的会话，再准备无有效记录但 JSONL/tool-results mtime 位于边界两侧的空或全损坏会话，并在清理期间持续操作主界面；预期同步磁盘 worker 通过 `asyncio.to_thread()` 或清楚等价方式在后台执行，有效会话按记录时间、无效会话按 `max(JSONL mtime, tool-results mtime)` 判定，只删除严格超过 30 天者，单项失败被隔离且主界面保持可响应。（AC13）
 
-## 自动记忆
+## 长期记忆：显式工具与隐式提取
 
-- [ ] 让提取模型分别返回 `user`、`feedback`、`project`、`reference` 的 create 操作；预期前两类只写入 `~/.novacode/memory/`，后两类只写入 `<project_root>/.novacode/memory/`，模型不能自行改变目标层级。（AC14）
+- [ ] 用 `manage_memory` 分别 create `user`、`feedback`、`project`、`reference`；预期前两类只写用户目录，后两类只写项目目录，create UUID 由代码生成，schema 不暴露 filename/path。再验证 Default/Accept Edits/Plan/Bypass 为 Ask/Allow/Deny/Allow，成功、拒绝、锁失败和事务失败均产生准确终态。（AC14、AC17）
 - [ ] 创建一条记忆并检查独立 Markdown 文件与同目录 `MEMORY.md`；预期 frontmatter 至少包含稳定 ID、`type`、`title`、`created`、`updated`，正文可独立理解，索引项包含类型、标题、摘要和可点击相对链接且不嵌入完整正文。（AC15）
 - [ ] 构造 `MemoryExtractor` 后先确认未启动 worker 且绑定前拒绝 submit；TUI provider 选择成功后一次性绑定并只启动一个消费者，再绑定不同 provider 被拒绝。随后快速完成三轮不含待执行工具调用的最终回复并延迟第一项任务；预期每轮立即且仅入队一次，回复显示和下一轮输入不等待，提取请求 `tools=[]`，后续任务在前一项提交或失败收尾后按顺序启动并重新读取最新两级索引；关闭时停止接收并排空或受控取消。（AC16）
-- [ ] 分别提交合法 create、update、delete、no-op、语义重复内容、类型或目标层级非法的 create 以及越界文件名；预期前三种操作正确更新文件和索引、no-op 不变更，重复内容由读取完整最新索引的模型选择 no-op 或合并到既有条目，非法或越界操作被拒绝且主会话继续运行。（AC17）
+- [ ] 显式请求覆盖 create/update/delete、非法字段、错误 ID、索引刷新，以及模型未调用工具却回复“已记住”的场景；预期只有成功工具结果允许确认，其他情况替换为“记忆未写入”，普通记忆系统咨询保持原回复。后台提取提示包含完整字段契约、四类定义、action 必填字段、去重和纯 JSON 约束，显式请求不得返回空数组且严格解析不接受代码围栏。（AC17）
 - [ ] 验证全部 txn 临时文件使用唯一 ID：note/index `fsync` 后写 `.memory-transaction.<txn>.tmp`，`fsync` 后以 `os.replace()` 发布 `.memory-transaction.json` 并 fsync 目录，正式 journal 出现前不替换正文。覆盖发布前崩溃、发布后各阶段、无正式 journal 孤儿清理；损坏/校验失败/越界 journal 必须标记 recovery-required、阻断提取和治理写入并保留文件，不得静默删除。200 行/25KB 预演保持不变。（AC18）
 
 ## 记忆治理
@@ -49,7 +49,7 @@
 
 ## 集成
 
-- [ ] 分别传入空和非空的指令、用户级索引、项目级索引，检查系统 prompt；预期非空内容进入独立的 `自定义指令` 与 `长期记忆` 模块，空内容省略对应模块，长期记忆只含索引且用户级在前、项目级在后。（AC24）
+- [ ] 分别传入空和非空的指令、用户级索引、项目级索引，检查系统 prompt；预期空索引时仍保留 `manage_memory`、成功依据和禁止 `write_file/edit_file` 创建 `.nova_memory.md` 的规则，非空索引只追加用户级在前、项目级在后的索引，空指令仍省略。（AC24）
 - [ ] 在无指令、无 memory 目录、无历史会话，以及后台清理或治理抛错的场景启动；预期 `NovaCodeApp` 可完成 provider 选择并进入交互状态。另验证 writer 初始化失败不进入 TUI，writer model 绑定或 extractor provider 绑定失败时输入保持禁用；只有依次完成 writer 绑定、extractor 一次性绑定/单 worker 启动和 Agent 创建后才开放提交。（AC25）
 - [ ] 用自动化生命周期测试区分 compact commit 前后：commit 前失败清理 staging 和清单内本次迁移文件且目标 JSONL 不变；commit 后 runtime 切换失败只删 staging，保留目标迁移文件与已提交事务，旧活动引用不变并可再次 `/resume`。同时验证 writer/extractor 排空、无跨 session 写入及旧 writer 关闭失败不回滚。（AC26）
 - [ ] 检查实现依赖、目录结构、运行数据流和验收边界；预期继续复用 `NovaCodeApp`、prompt 模块槽位、文件工具、`Conversation.replace_history()`、`src/novacode/compact/` 与 ch08 工具结果机制，没有引入 Spec 排除的数据库、向量检索、额外恢复命令或平行压缩实现；四类精确路由、提取延迟、治理门控/异常和崩溃注入均由自动化测试确定性覆盖，tmux 不承担这些模型不可控断言。（AC27）
@@ -63,6 +63,7 @@
 - [ ] 保存 `REAL_HOME` 和 `REPO`，用 `mktemp -d` 创建临时根，在其中创建 HOME/workspace/socket；用 `install -m 600` 复制 provider 所需配置，注册 trap/finally，使用 `tmux -S <temp-socket>` 创建持久 shell，并发送 `HOME=<temp-home> PYTHONPATH=<repo>/src <repo>/.venv/bin/python -m novacode` 冷启动。预期只在临时 workspace 创建会话数据，首条记录含 model，消息文件和工具结果目录共享 ID，真实 HOME 与仓库 `git status` 不变。（AC6–AC8、AC25、AC27）
 - [ ] 只在临时 HOME/workspace 配置四层可区分指令和一个合法独占行 `@rules/style.md`，重启真实对话；预期可观察到低到高的基本优先级及合法引用内容。精确展开深度、环路、越界、二进制与失败诊断只使用 `tests/instructions/test_loader.py` 的确定性证据，不要求真实模型逐项表现。（AC1–AC5、AC27）
 - [ ] 在 tmux 中请求 NovaCode 读取项目文件并完成至少一次真实工具调用，预期 JSONL 保存 user、带完整 tool calls 的 assistant、按 ID/顺序配对的 tool results 和最终 assistant；最终回复显示后输入立即可用。（AC7、AC9、AC16）
+- [ ] 输入“记住我目前的方向是 Agent 开发，最常使用 Python”，在 Default 模式批准一次 `manage_memory`；预期临时 HOME 的 `.novacode/memory/` 生成 `MEMORY.md` 和独立 UUID 记忆文件，workspace 无 `.nova_memory.md`，会话记录未调用 `write_file/edit_file`。正常 `/exit` 后重启并询问常用语言，预期从索引召回 Python。（AC14、AC17、AC24、AC27）
 - [ ] 在 NovaCode 中输入 `/exit` 并等待返回同一持久 shell，再从该 shell 重启并执行 `/resume`；选择刚才会话后完成一轮真实对话，预期恢复完整工具链、使用原 session ID 续写，旧临时会话不接收消息。坏行、未提交事务、staging 失败和崩溃注入以自动化测试为权威证据，不在真实 provider 会话中强制注入。（AC8–AC11、AC26）
 - [ ] 在隔离 workspace 准备超过 24 小时的恢复样本并在 tmux 中恢复，预期只向当前上下文注入 system reminder；30 天有效/无效记录清理及线程非阻塞性只使用 `tests/session/test_listing_cleanup.py` 的确定性证据。（AC12、AC13）
 - [ ] 先用自动化测试构造并验证完整提交的 ch08 压缩事务，再在 tmux 中 `/resume` 该样本；预期使用原 session ID 恢复已提交替换历史并继续写入原 JSONL/工具结果目录。四类精确路由、提取延迟、治理门控/异常、staging/journal 崩溃注入全部保留为自动化验收，不要求模型确定地产生指定结构化操作。（AC10、AC14–AC23、AC27）

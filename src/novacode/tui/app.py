@@ -1,10 +1,16 @@
 """Textual TUI application — NovaCodeApp."""
 
 import asyncio
+import logging
 import os
+import shutil
 import time
+import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
 from enum import Enum
+from pathlib import Path
 
 from rich.text import Text
 from textual import events, on
@@ -15,18 +21,32 @@ from textual.message import Message as TMessage
 from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
-from novacode.agent import Agent, ApprovalRequest, Phase
+from novacode.agent import Agent, ApprovalRequest, Phase, SessionRuntime
+from novacode.compact import (
+    CompactCircuitBreaker,
+    ContentReplacementState,
+    RecoveryState,
+    SessionContext,
+    open_session_context,
+)
+from novacode.compact.const import auto_compact_threshold
+from novacode.compact.token import estimate_tokens
 from novacode.config import ProviderConfig, effective_context_window
 from novacode.conversation import Conversation
 from novacode.llm import Provider as LLMProvider
 from novacode.llm import new_provider
+from novacode.memory import MemoryExtractor, MemoryGovernor
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
+from novacode.prompt import system_reminder
+from novacode.session import SessionInfo, SessionWriter, list_sessions, load_session
 from novacode.tool import Registry
 from novacode.tui.commands import dispatch_command, format_compact_notice
+from novacode.tui.resume import build_resume_options
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
 
 SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -40,6 +60,7 @@ class SessionState(Enum):
     IDLE = "idle"
     STREAMING = "streaming"
     APPROVING = "approving"
+    RESUMING = "resuming"
 
 
 class ChatInput(TextArea):
@@ -95,6 +116,13 @@ class NovaCodeApp(App):
         version: str | None = None,
         driver_class: type | None = None,
         engine: Engine | None = None,
+        project_root: Path | None = None,
+        session_context: SessionContext | None = None,
+        writer: SessionWriter | None = None,
+        extractor: MemoryExtractor | None = None,
+        governor: MemoryGovernor | None = None,
+        instructions: str = "",
+        memory_index: str | Callable[[], str] = "",
     ) -> None:
         super().__init__(driver_class=driver_class)
         self._version = version or __version__
@@ -102,7 +130,21 @@ class NovaCodeApp(App):
         self.provider: LLMProvider | None = None
         self.provider_cfg: ProviderConfig | None = None
         self.agent: Agent | None = None
-        self.conv = Conversation()
+        self.project_root = Path(project_root or Path.cwd()).resolve()
+        self.session_context = session_context
+        self.writer = writer
+        self.extractor = extractor
+        self.governor = governor
+        self.instructions = instructions
+        self._memory_index = memory_index if callable(memory_index) else lambda: memory_index
+        self._extractor_task: asyncio.Task[None] | None = None
+        self.cleanup_task: asyncio.Task | None = None
+        self._shutdown_started = False
+        self._pending_background_notices: list[str] = []
+        self.conv = Conversation(
+            writer.append_message if writer is not None else None,
+            writer.append_compaction if writer is not None else None,
+        )
         self._tool_registry = registry
         self.engine = engine
         self.state = SessionState.SELECTING if len(providers) > 1 else SessionState.IDLE
@@ -126,6 +168,9 @@ class NovaCodeApp(App):
         self._spinner_idx: int = 0
         self._spinner_timer = None
         self._last_ai_text: str = ""
+        self._session_switch_lock = asyncio.Lock()
+        self._resume_sessions: dict[str, SessionInfo] = {}
+        self._resume_list: OptionList | None = None
 
     # ── compose ─────────────────────────────────────────────────
 
@@ -140,7 +185,7 @@ class NovaCodeApp(App):
                 )
         yield VerticalScroll(id="chat-area")
         with Vertical(id="input-area"):
-            yield ChatInput(id="chat-input")
+            yield ChatInput(id="chat-input", disabled=True)
             with Horizontal(id="status-bar"):
                 yield Static("", id="mode-label")
                 yield Static("", id="model-label")
@@ -163,16 +208,38 @@ class NovaCodeApp(App):
             self.query_one("#chat-area").display = False
             self.query_one("#input-area").display = False
 
+        for notice in self._pending_background_notices:
+            self._show_system(notice)
+        self._pending_background_notices.clear()
+
+    async def on_unmount(self) -> None:
+        await self._shutdown_resources()
+
+    def notify_background(self, notice: str) -> None:
+        try:
+            self._show_system(notice)
+        except Exception:
+            self._pending_background_notices.append(notice)
+
     def _select_provider(self, provider_cfg: ProviderConfig) -> None:
-        self.provider_cfg = provider_cfg
-        self.provider = new_provider(provider_cfg)
-        self.agent = Agent(
-            self.provider,
-            self._tool_registry,
-            self._version,
-            self.engine,
-            context_window=effective_context_window(provider_cfg),
-        )
+        try:
+            chat_input = self.query_one("#chat-input", ChatInput)
+            chat_input.disabled = True
+        except Exception:
+            chat_input = None
+        try:
+            provider = new_provider(provider_cfg)
+        except Exception as exc:
+            logger.warning("provider creation failed: %s", type(exc).__name__)
+            self.state = SessionState.SELECTING
+            self._show_system("Provider initialization failed; input remains disabled.")
+            return
+        if not self._initialize_provider(provider_cfg, provider):
+            self.state = SessionState.SELECTING
+            self._show_system("Provider initialization failed; input remains disabled.")
+            return
+
+        assert self.provider is not None
         self._update_mode_label()
         work_dir = os.getcwd()
         self.query_one("#title-bar", Static).update(self._make_banner(provider_cfg.model, work_dir))
@@ -183,8 +250,38 @@ class NovaCodeApp(App):
             select.first().display = False
         self.query_one("#chat-area").display = True
         self.query_one("#input-area").display = True
-        self.query_one("#chat-input", ChatInput).focus()
+        if chat_input is not None:
+            chat_input.disabled = False
+            chat_input.focus()
         self.state = SessionState.IDLE
+
+    def _initialize_provider(self, provider_cfg: ProviderConfig, provider: LLMProvider) -> bool:
+        runtime = self._new_runtime(self.session_context) if self.session_context else None
+        try:
+            if self.writer is not None:
+                self.writer.bind_model(provider.model)
+            if self.extractor is not None:
+                self.extractor.bind_provider(provider)
+                self._extractor_task = asyncio.create_task(self.extractor.run())
+            self.agent = Agent(
+                provider,
+                self._tool_registry,
+                self._version,
+                self.engine,
+                runtime=runtime,
+                context_window=effective_context_window(provider_cfg),
+                instructions=self.instructions,
+                memory_index=self._memory_index,
+            )
+        except Exception as exc:
+            logger.warning("provider resource binding failed: %s", type(exc).__name__)
+            self.agent = None
+            if self.extractor is not None and self._extractor_task is not None:
+                asyncio.create_task(self.extractor.close())
+            return False
+        self.provider_cfg = provider_cfg
+        self.provider = provider
+        return True
 
     # ── right-click copy ───────────────────────────────────────
 
@@ -237,6 +334,13 @@ class NovaCodeApp(App):
 
     @on(OptionList.OptionSelected)
     async def _on_option_selected(self, event: OptionList.OptionSelected) -> None:
+        if event.option_list.id == "resume-list":
+            session_id = str(event.option.id or "")
+            info = self._resume_sessions.get(session_id)
+            if info is not None:
+                await self.resume_session(info)
+            self._close_resume_list()
+            return
         if event.option_list.id != "provider-list":
             return
         index = event.option_index
@@ -287,6 +391,10 @@ class NovaCodeApp(App):
         self.exit()
 
     def action_cancel(self) -> None:
+        if self.state == SessionState.RESUMING:
+            self._close_resume_list()
+            self.state = SessionState.IDLE
+            return
         if self.state in (SessionState.STREAMING, SessionState.APPROVING):
             self._signal_turn_cancel()
 
@@ -380,8 +488,243 @@ class NovaCodeApp(App):
             return self._tool_registry.read_only_definitions()
         return self._tool_registry.definitions()
 
+    @staticmethod
+    def _new_runtime(
+        session_context: SessionContext,
+        resume_reminder: str = "",
+    ) -> SessionRuntime:
+        return SessionRuntime(
+            replacement=ContentReplacementState(),
+            recovery=RecoveryState(),
+            auto_tracking=CompactCircuitBreaker(),
+            session=session_context,
+            resume_reminder=resume_reminder,
+        )
+
+    async def _begin_resume(self) -> None:
+        if self.session_context is None:
+            self._show_system("恢复失败：当前会话未启用持久化")
+            return
+        sessions = list_sessions(Path(self.session_context.message_path).parent)
+        if not sessions:
+            self._show_system("没有可恢复的历史会话")
+            return
+        self._resume_sessions = {info.session_id: info for info in sessions}
+        self._resume_list = OptionList(*build_resume_options(sessions), id="resume-list")
+        self.state = SessionState.RESUMING
+        chat = self.query_one("#chat-area", VerticalScroll)
+        await chat.mount(self._resume_list)
+        self._resume_list.focus()
+
+    def _close_resume_list(self) -> None:
+        if self._resume_list is not None:
+            try:
+                self._resume_list.remove()
+            except Exception:
+                pass
+        self._resume_list = None
+        self._resume_sessions = {}
+        if self.state == SessionState.RESUMING:
+            self.state = SessionState.IDLE
+
+    async def resume_session(self, info: SessionInfo) -> bool:
+        if self.writer is None or self.session_context is None or self.agent is None:
+            self._show_system("恢复失败：当前会话资源不完整")
+            return False
+
+        old_writer = self.writer
+        staging_root: Path | None = None
+        promoted: list[Path] = []
+        new_writer: SessionWriter | None = None
+        committed = False
+        switched = False
+        self.state = SessionState.RESUMING
+        try:
+            loaded = load_session(info.path)
+            if not loaded.messages or not loaded.model:
+                raise ValueError("会话没有可恢复的有效消息")
+            target_context = open_session_context(str(self.project_root), info.session_id)
+            candidate = Conversation.from_messages(loaded.messages)
+            reminder = self._build_resume_reminder(loaded.last_activity)
+            target_runtime = self._new_runtime(target_context, reminder)
+            compacted = self._needs_resume_compaction(candidate)
+
+            if compacted:
+                staging_root = info.path.parent / f".resume-staging-{uuid.uuid4().hex}"
+                staging_spill = staging_root / "tool-results"
+                staging_spill.mkdir(parents=True)
+                staging_context = SessionContext(
+                    session_id=staging_root.name,
+                    message_path=str(staging_root / "messages.jsonl"),
+                    spill_dir=str(staging_spill),
+                )
+                await self._compact_resume_candidate(
+                    candidate,
+                    self._new_runtime(staging_context),
+                )
+                promoted = self._promote_staged_spills(
+                    candidate,
+                    staging_spill,
+                    Path(target_context.spill_dir),
+                )
+
+            new_writer = SessionWriter.open_existing(
+                info.path.parent,
+                info.session_id,
+                loaded.model,
+            )
+            if compacted:
+                new_writer.append_compaction(candidate.messages())
+                committed = True
+            live_conversation = Conversation.from_messages(
+                candidate.messages(),
+                new_writer.append_message,
+                new_writer.append_compaction,
+            )
+            async with self._session_switch_lock:
+                self._swap_session(
+                    live_conversation,
+                    new_writer,
+                    target_runtime,
+                    target_context,
+                )
+            switched = True
+            new_writer = None
+            try:
+                await asyncio.to_thread(old_writer.close)
+            except Exception as exc:
+                logger.warning("old session writer close failed: %s", exc)
+            self._show_system(f"已恢复会话 {info.session_id}")
+            return True
+        except Exception as exc:
+            if new_writer is not None:
+                try:
+                    new_writer.close()
+                except Exception:
+                    pass
+            if promoted and not committed:
+                self._remove_promoted(promoted)
+            if committed and not switched:
+                self._show_system(f"恢复已提交但未切换：{exc}")
+            else:
+                self._show_system(f"恢复失败：{exc}")
+            return False
+        finally:
+            if staging_root is not None:
+                shutil.rmtree(staging_root, ignore_errors=True)
+            if self.state == SessionState.RESUMING:
+                self.state = SessionState.IDLE
+
+    def _needs_resume_compaction(self, candidate: Conversation) -> bool:
+        if self.agent is None:
+            return False
+        estimated = estimate_tokens(0, candidate.messages(), 0)
+        return estimated > auto_compact_threshold(self.agent.context_window)
+
+    async def _compact_resume_candidate(
+        self,
+        candidate: Conversation,
+        staging_runtime: SessionRuntime,
+    ) -> None:
+        if self.agent is None:
+            raise RuntimeError("no active agent")
+        await self.agent.run_force_compact(
+            candidate,
+            self._current_tool_defs(),
+            runtime=staging_runtime,
+        )
+
+    def _promote_staged_spills(
+        self,
+        candidate: Conversation,
+        staging_spill_dir: Path,
+        target_spill_dir: Path,
+    ) -> list[Path]:
+        target_spill_dir.mkdir(parents=True, exist_ok=True)
+        promoted: list[Path] = []
+        path_map: dict[str, str] = {}
+        try:
+            for source in sorted(staging_spill_dir.rglob("*")):
+                if not source.is_file():
+                    continue
+                target = self._reserve_spill_path(target_spill_dir, source.name)
+                try:
+                    shutil.copyfile(source, target)
+                    source.unlink()
+                except Exception:
+                    target.unlink(missing_ok=True)
+                    raise
+                promoted.append(target)
+                path_map[str(source)] = str(target)
+
+            messages = candidate.messages()
+            for message in messages:
+                for result in message.tool_results:
+                    for source, target in path_map.items():
+                        result.content = result.content.replace(source, target)
+            candidate.replace_history(messages)
+            return promoted
+        except Exception:
+            self._remove_promoted(promoted)
+            raise
+
+    @staticmethod
+    def _reserve_spill_path(directory: Path, filename: str) -> Path:
+        original = Path(filename)
+        counter = 0
+        while True:
+            suffix = "" if counter == 0 else f"-{counter}"
+            candidate = directory / f"{original.stem}{suffix}{original.suffix}"
+            try:
+                descriptor = os.open(candidate, os.O_WRONLY | os.O_CREAT | os.O_EXCL)
+            except FileExistsError:
+                counter += 1
+                continue
+            os.close(descriptor)
+            return candidate
+
+    @staticmethod
+    def _remove_promoted(paths: list[Path]) -> None:
+        for path in paths:
+            try:
+                path.unlink(missing_ok=True)
+            except OSError:
+                logger.warning("promoted spill cleanup failed: %s", path)
+
+    def _swap_session(
+        self,
+        conversation: Conversation,
+        writer: SessionWriter,
+        runtime: SessionRuntime,
+        context: SessionContext,
+    ) -> None:
+        if self.agent is None:
+            raise RuntimeError("no active agent")
+        self.conv = conversation
+        self.writer = writer
+        self.session_context = context
+        self.agent.runtime = runtime
+
+    @staticmethod
+    def _build_resume_reminder(
+        last_activity: datetime | None,
+        now: datetime | None = None,
+    ) -> str:
+        if last_activity is None:
+            return ""
+        current = (now or datetime.now(UTC)).astimezone(UTC)
+        if current - last_activity.astimezone(UTC) <= timedelta(hours=24):
+            return ""
+        return system_reminder(
+            "该恢复会话的历史信息可能已经过期。继续前请重新读取会变化的文件、配置和外部资料。"
+        )
+
     async def _dispatch(self, text: str) -> None:
-        self.conv.add_user(text)
+        try:
+            self.conv.add_user(text)
+        except Exception as exc:
+            self._show_system(f"Session persistence failed: {exc}")
+            return
         chat = self.query_one("#chat-area", VerticalScroll)
         # 用户消息
         user_row = Vertical(classes="user-row")
@@ -498,13 +841,18 @@ class NovaCodeApp(App):
                 if ev.iter > 0:
                     self.iter = ev.iter
 
-                if ev.done:
-                    self._finish_with_assistant(self._accumulated_text)
-                    return
-
                 if ev.text:
                     self._accumulated_text += ev.text
                     self._update_streaming_label()
+
+                if ev.done:
+                    self._finish_with_assistant(self._accumulated_text)
+                    if ev.memory_turn is not None and self.extractor is not None:
+                        try:
+                            self.extractor.submit(ev.memory_turn)
+                        except Exception as exc:
+                            self._show_system(f"Memory extraction enqueue failed: {exc}")
+                    return
 
             if self.turn_cancel is not None and self.turn_cancel.is_set():
                 self._show_system("(response interrupted)")
@@ -628,3 +976,47 @@ class NovaCodeApp(App):
         widget = Static(Text(f"  {text}", style="dim"), classes="message system-message")
         chat.mount(widget)
         self._scroll_chat()
+
+    async def _shutdown_resources(self) -> None:
+        if self._shutdown_started:
+            return
+        self._shutdown_started = True
+        try:
+            self.query_one("#chat-input", ChatInput).disabled = True
+        except Exception:
+            pass
+
+        if self.extractor is not None:
+            try:
+                await self.extractor.close()
+            except Exception as exc:
+                logger.warning("memory extractor close failed: %s", type(exc).__name__)
+        if self._extractor_task is not None:
+            try:
+                await self._extractor_task
+            except asyncio.CancelledError:
+                pass
+            except Exception as exc:
+                logger.warning("memory extractor worker failed: %s", type(exc).__name__)
+            self._extractor_task = None
+
+        if self.governor is not None:
+            try:
+                await self.governor.close()
+            except Exception as exc:
+                logger.warning("memory governor close failed: %s", type(exc).__name__)
+
+        if self.cleanup_task is not None:
+            try:
+                await self.cleanup_task
+            except asyncio.CancelledError:
+                pass
+            except Exception as exc:
+                logger.warning("session cleanup failed: %s", type(exc).__name__)
+            self.cleanup_task = None
+
+        if self.writer is not None and hasattr(self.writer, "close"):
+            try:
+                await asyncio.to_thread(self.writer.close)
+            except Exception as exc:
+                logger.warning("session writer close failed: %s", type(exc).__name__)

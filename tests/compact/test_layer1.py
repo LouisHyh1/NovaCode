@@ -6,7 +6,9 @@ from novacode.llm import Message, ToolResult
 
 
 def test_spill_single_is_idempotent(tmp_path: Path) -> None:
-    session = SessionContext(session_id="s", spill_dir=str(tmp_path))
+    session = SessionContext(
+        session_id="s", message_path=str(tmp_path / "s.jsonl"), spill_dir=str(tmp_path)
+    )
 
     spill_single(session, "tool1", "first")
     spill_single(session, "tool1", "second")
@@ -26,7 +28,9 @@ def test_build_preview_contains_required_fields(tmp_path: Path) -> None:
 
 
 def test_offload_and_snip_replaces_large_result_and_freezes_preview(tmp_path: Path) -> None:
-    session = SessionContext(session_id="s", spill_dir=str(tmp_path))
+    session = SessionContext(
+        session_id="s", message_path=str(tmp_path / "s.jsonl"), spill_dir=str(tmp_path)
+    )
     state = ContentReplacementState()
     large = "x" * 60000
     msgs = [Message(role="tool", tool_results=[ToolResult(tool_call_id="t1", content=large)])]
@@ -44,7 +48,9 @@ def test_offload_and_snip_replaces_large_result_and_freezes_preview(tmp_path: Pa
 
 
 def test_offload_and_snip_enforces_aggregate_limit(tmp_path: Path) -> None:
-    session = SessionContext(session_id="s", spill_dir=str(tmp_path))
+    session = SessionContext(
+        session_id="s", message_path=str(tmp_path / "s.jsonl"), spill_dir=str(tmp_path)
+    )
     state = ContentReplacementState()
     results = [ToolResult(tool_call_id=f"t{i}", content=str(i) * 80000) for i in range(3)]
     msgs = [Message(role="tool", tool_results=results)]

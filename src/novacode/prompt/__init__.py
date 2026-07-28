@@ -52,13 +52,13 @@ def assemble_system(mods: list[Module]) -> str:
     return "\n\n".join(parts)
 
 
-def build_system_prompt() -> str:
+def build_system_prompt(instructions: str = "", memory_index: str = "") -> str:
     """装配完整稳定系统提示（固定模块 + 可选空槽）。
 
     可选空槽 content 为空 → 自动跳过，不产生多余空行。
     此函数输出逐字节确定，不含环境 / 时间相关内容（N1）。
     """
-    return assemble_system(fixed_modules() + optional_modules())
+    return assemble_system(fixed_modules() + optional_modules(instructions, memory_index))
 
 
 __all__ = [

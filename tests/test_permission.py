@@ -337,6 +337,7 @@ class TestCategorize:
     def test_write_tools(self):
         assert categorize("write_file", False) == Category.WRITE
         assert categorize("edit_file", False) == Category.WRITE
+        assert categorize("manage_memory", False) == Category.WRITE
 
     def test_exec_tools(self):
         assert categorize("bash", False) == Category.EXEC
@@ -545,6 +546,23 @@ class TestModeFallback:
         d, reason = e.check(Mode.PLAN, _write_call("test.txt"), False)
         assert d == Decision.DENY
         assert "计划模式拒绝" in reason
+
+    @pytest.mark.parametrize(
+        ("mode", "expected"),
+        [
+            (Mode.DEFAULT, Decision.ASK),
+            (Mode.ACCEPT_EDITS, Decision.ALLOW),
+            (Mode.PLAN, Decision.DENY),
+            (Mode.BYPASS, Decision.ALLOW),
+        ],
+    )
+    def test_manage_memory_is_a_write_operation(self, tmp_path, mode, expected):
+        e = self._engine(tmp_path)
+        call = ToolCall(id="m1", name="manage_memory", input='{"action":"create"}')
+
+        decision, _ = e.check(mode, call, False)
+
+        assert decision == expected
 
     def test_plan_exec_deny(self, tmp_path):
         """Plan 模式：命令执行硬拒绝（含安全命令）。"""

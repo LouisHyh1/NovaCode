@@ -10,15 +10,19 @@ from novacode.agent import (
     MAX_UNKNOWN_RUN,
     NOTICE_CANCELLED,
     NOTICE_MAX_ITER,
+    NOTICE_MEMORY_NOT_WRITTEN,
+    NOTICE_MEMORY_WRITTEN,
     NOTICE_UNKNOWN_TOOLS,
     Agent,
     Phase,
+    SessionRuntime,
 )
 from novacode.conversation import Conversation
 from novacode.llm import (
     ROLE_ASSISTANT,
     ROLE_TOOL,
     ROLE_USER,
+    Message,
     Request,
     StreamEvent,
     ToolCall,
@@ -28,6 +32,52 @@ from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.permission.rule import RuleSet
 from novacode.tool import Registry, Result
+
+
+@pytest.mark.asyncio
+async def test_run_force_compact_uses_explicit_runtime(
+    tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from novacode.compact import (
+        CompactCircuitBreaker,
+        ContentReplacementState,
+        ManageOutput,
+        RecoveryState,
+        SessionContext,
+    )
+
+    def runtime(name: str) -> SessionRuntime:
+        return SessionRuntime(
+            replacement=ContentReplacementState(),
+            recovery=RecoveryState(),
+            auto_tracking=CompactCircuitBreaker(),
+            session=SessionContext(
+                session_id=name,
+                message_path=str(tmp_path / f"{name}.jsonl"),
+                spill_dir=str(tmp_path / name / "tool-results"),
+            ),
+            usage_anchor=123,
+            anchor_msg_len=4,
+        )
+
+    active = runtime("active")
+    staging = runtime("staging")
+    seen: list[SessionRuntime] = []
+
+    async def fake_manage(input_):
+        seen.append(staging if input_.session is staging.session else active)
+        return ManageOutput(10, 5)
+
+    monkeypatch.setattr("novacode.agent.manage_context", fake_manage)
+    agent = Agent(FakeProvider([]), Registry(), runtime=active)
+
+    result = await agent.run_force_compact(Conversation(), [], runtime=staging)
+
+    assert result == (10, 5)
+    assert seen == [staging]
+    assert staging.usage_anchor == 0 and staging.anchor_msg_len == 0
+    assert active.usage_anchor == 123 and active.anchor_msg_len == 4
+
 
 # ── Fake 工具 ──────────────────────────────────────────────
 
@@ -113,6 +163,189 @@ class FakeProviderWithUsage(FakeProvider):
             self._usage_idx += 1
         self.call_count += 1
         yield StreamEvent(done=True)
+
+
+@pytest.mark.asyncio
+async def test_agent_refreshes_optional_prompt_and_emits_persisted_memory_turn() -> None:
+    provider = FakeProvider(
+        [[StreamEvent(text="first answer")], [StreamEvent(text="second answer")]]
+    )
+    memory = ["first index"]
+    agent = Agent(
+        provider,
+        Registry(),
+        instructions="project rule",
+        memory_index=lambda: memory[0],
+    )
+
+    first = Conversation()
+    first.add_user("first question")
+    first_events = [event async for event in agent.run(first, Mode.DEFAULT, asyncio.Event())]
+    memory[0] = "second index"
+    second = Conversation()
+    second.add_user("second question")
+    _ = [event async for event in agent.run(second, Mode.DEFAULT, asyncio.Event())]
+
+    done = next(event for event in first_events if event.done)
+    assert done.memory_turn is not None
+    assert done.memory_turn.user_content == "first question"
+    assert done.memory_turn.assistant_content == "first answer"
+    assert "project rule" in provider.requests[0].system.stable
+    assert "first index" in provider.requests[0].system.stable
+    assert "second index" in provider.requests[1].system.stable
+
+
+class FakeManageMemoryTool:
+    read_only = False
+
+    def __init__(self, result: Result) -> None:
+        self.result = result
+
+    def name(self) -> str:
+        return "manage_memory"
+
+    def description(self) -> str:
+        return "Manage memory."
+
+    def parameters(self) -> dict:
+        return {"type": "object", "properties": {}}
+
+    async def execute(self, args: str) -> Result:
+        return self.result
+
+
+def _empty_engine() -> Engine:
+    return Engine(
+        root=".",
+        blacklist=[],
+        user=RuleSet(),
+        project=RuleSet(),
+        local=RuleSet(),
+        local_path="",
+    )
+
+
+@pytest.mark.asyncio
+async def test_explicit_memory_claim_without_tool_is_replaced_by_failure() -> None:
+    provider = FakeProvider([[StreamEvent(text="已记住，我以后会使用 Python。")]])
+    conv = Conversation()
+    conv.add_user("记住我最常使用 Python")
+
+    events = [
+        event
+        async for event in Agent(provider, Registry()).run(conv, Mode.DEFAULT, asyncio.Event())
+    ]
+
+    assert "".join(event.text for event in events) == NOTICE_MEMORY_NOT_WRITTEN
+    assert conv.messages()[-1].content == NOTICE_MEMORY_NOT_WRITTEN
+
+
+@pytest.mark.asyncio
+async def test_successful_manage_memory_allows_confirmed_terminal_reply() -> None:
+    registry = Registry()
+    registry.register(FakeManageMemoryTool(Result('{"ok":true,"memory_id":"m1"}')))
+    provider = FakeProvider(
+        [
+            [StreamEvent(tool_calls=[ToolCall("m1", "manage_memory", "{}")])],
+            [StreamEvent(text="已通过记忆工具保存。")],
+        ]
+    )
+    conv = Conversation()
+    conv.add_user("记住我最常使用 Python")
+
+    events = [
+        event async for event in Agent(provider, registry).run(conv, Mode.BYPASS, asyncio.Event())
+    ]
+
+    assert "已通过记忆工具保存" in "".join(event.text for event in events)
+    assert conv.messages()[-1].content == "已通过记忆工具保存。"
+
+
+@pytest.mark.asyncio
+async def test_successful_manage_memory_without_model_text_has_confirmed_terminal_reply() -> None:
+    registry = Registry()
+    registry.register(FakeManageMemoryTool(Result('{"ok":true,"memory_id":"m1"}')))
+    provider = FakeProvider([[StreamEvent(tool_calls=[ToolCall("m1", "manage_memory", "{}")])], []])
+    conv = Conversation()
+    conv.add_user("记住我最常使用 Python")
+
+    events = [
+        event async for event in Agent(provider, registry).run(conv, Mode.BYPASS, asyncio.Event())
+    ]
+
+    assert NOTICE_MEMORY_WRITTEN in "".join(event.text for event in events)
+    assert conv.messages()[-1].content == NOTICE_MEMORY_WRITTEN
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("deny", [False, True])
+async def test_failed_or_denied_manage_memory_has_deterministic_failure(deny) -> None:
+    registry = Registry()
+    registry.register(FakeManageMemoryTool(Result("记忆未写入：事务失败", is_error=True)))
+    provider = FakeProvider([[StreamEvent(tool_calls=[ToolCall("m1", "manage_memory", "{}")])]])
+    conv = Conversation()
+    conv.add_user("请记住我的方向是 Agent 开发")
+    mode = Mode.DEFAULT if deny else Mode.BYPASS
+    agent = Agent(provider, registry, engine=_empty_engine() if deny else None)
+    events = []
+
+    async for event in agent.run(conv, mode, asyncio.Event()):
+        if event.approval is not None:
+            event.approval.respond.set_result(Outcome.DENY_ONCE)
+        events.append(event)
+
+    assert NOTICE_MEMORY_NOT_WRITTEN in "".join(event.text for event in events)
+    assert conv.messages()[-1].content == NOTICE_MEMORY_NOT_WRITTEN
+
+
+@pytest.mark.asyncio
+async def test_memory_system_question_does_not_trigger_write_guard() -> None:
+    provider = FakeProvider([[StreamEvent(text="它通过索引提供长期上下文。")]])
+    conv = Conversation()
+    conv.add_user("记忆系统如何工作？")
+
+    events = [
+        event
+        async for event in Agent(provider, Registry()).run(conv, Mode.DEFAULT, asyncio.Event())
+    ]
+
+    assert "".join(event.text for event in events) == "它通过索引提供长期上下文。"
+
+
+@pytest.mark.asyncio
+async def test_how_to_update_memory_question_does_not_trigger_write_guard() -> None:
+    provider = FakeProvider([[StreamEvent(text="需要调用 manage_memory。")]])
+    conv = Conversation()
+    conv.add_user("如何更新记忆？")
+
+    events = [
+        event
+        async for event in Agent(provider, Registry()).run(conv, Mode.DEFAULT, asyncio.Event())
+    ]
+
+    assert "".join(event.text for event in events) == "需要调用 manage_memory。"
+
+
+@pytest.mark.asyncio
+async def test_assistant_persistence_failure_is_visible_and_never_emits_memory_turn() -> None:
+    provider = FakeProvider([[StreamEvent(text="answer")]])
+
+    def persist(message) -> None:
+        if message.role == ROLE_ASSISTANT:
+            raise OSError("disk full")
+
+    conv = Conversation.from_messages(
+        [Message(role=ROLE_USER, content="q")],
+        before_append=persist,
+    )
+    events = [
+        event
+        async for event in Agent(provider, Registry()).run(conv, Mode.DEFAULT, asyncio.Event())
+    ]
+
+    assert any(event.err is not None and "disk full" in str(event.err) for event in events)
+    assert not any(event.memory_turn is not None for event in events)
+    assert conv.last_role() == ROLE_USER
 
 
 class DelayedProvider:

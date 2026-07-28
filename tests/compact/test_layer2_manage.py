@@ -50,7 +50,11 @@ def _input(tmp_path: Path, conv: Conversation, provider: SummaryProvider, trigge
         replacement=ContentReplacementState(),
         recovery=RecoveryState(),
         auto_tracking=CompactCircuitBreaker(),
-        session=SessionContext("s", str(tmp_path)),
+        session=SessionContext(
+            session_id="s",
+            message_path=str(tmp_path / "s.jsonl"),
+            spill_dir=str(tmp_path),
+        ),
         usage_anchor=0,
         anchor_msg_len=0,
         estimated_token=1000,

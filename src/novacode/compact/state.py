@@ -1,14 +1,15 @@
 """Session-local compaction state."""
 
 import copy
+import secrets
 import threading
-import uuid
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
 from novacode.compact.const import MAX_CONSECUTIVE_AUTO_COMPACT_FAILURES
+from novacode.session.types import SESSION_ID_RE
 
 
 @dataclass
@@ -18,9 +19,10 @@ class FileReadRecord:
     timestamp: datetime
 
 
-@dataclass
+@dataclass(frozen=True)
 class SessionContext:
     session_id: str
+    message_path: str
     spill_dir: str
 
 
@@ -87,8 +89,31 @@ class RecoveryState:
         return sorted(records, key=lambda r: r.timestamp, reverse=True)
 
 
-def new_session_context(workspace: str) -> SessionContext:
-    session_id = uuid.uuid4().hex
-    spill_dir = Path(workspace) / ".novacode" / "sessions" / session_id / "tool-results"
+def new_session_id(now: datetime | None = None) -> str:
+    started_at = now or datetime.now()
+    return f"{started_at:%Y%m%d-%H%M%S}-{secrets.token_hex(2)}"
+
+
+def _session_context(workspace: str, session_id: str) -> SessionContext:
+    sessions_dir = Path(workspace) / ".novacode" / "sessions"
+    message_path = sessions_dir / f"{session_id}.jsonl"
+    spill_dir = sessions_dir / session_id / "tool-results"
     spill_dir.mkdir(parents=True, exist_ok=True)
-    return SessionContext(session_id=session_id, spill_dir=str(spill_dir))
+    return SessionContext(
+        session_id=session_id,
+        message_path=str(message_path),
+        spill_dir=str(spill_dir),
+    )
+
+
+def new_session_context(workspace: str) -> SessionContext:
+    return _session_context(workspace, new_session_id())
+
+
+def open_session_context(workspace: str, session_id: str) -> SessionContext:
+    if SESSION_ID_RE.fullmatch(session_id) is None:
+        raise ValueError(f"invalid session ID: {session_id}")
+    message_path = Path(workspace) / ".novacode" / "sessions" / f"{session_id}.jsonl"
+    if not message_path.is_file():
+        raise FileNotFoundError(message_path)
+    return _session_context(workspace, session_id)

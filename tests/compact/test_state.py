@@ -1,19 +1,62 @@
+import re
+from datetime import datetime
 from pathlib import Path
+
+import pytest
 
 from novacode.compact.state import (
     CompactCircuitBreaker,
     ContentReplacementState,
     RecoveryState,
     new_session_context,
+    new_session_id,
+    open_session_context,
 )
 
 
 def test_session_context_creates_spill_dir(tmp_path: Path) -> None:
     session = new_session_context(str(tmp_path))
 
-    assert session.session_id
+    assert re.fullmatch(r"\d{8}-\d{6}-[0-9a-f]{4}", session.session_id)
+    assert Path(session.message_path) == (
+        tmp_path / ".novacode" / "sessions" / f"{session.session_id}.jsonl"
+    )
+    assert not Path(session.message_path).exists()
     assert Path(session.spill_dir).is_dir()
-    assert Path(session.spill_dir).parent.name == session.session_id
+    assert Path(session.spill_dir) == (
+        tmp_path / ".novacode" / "sessions" / session.session_id / "tool-results"
+    )
+
+
+def test_new_session_id_uses_local_time_and_random_hex_suffix() -> None:
+    session_id = new_session_id(datetime(2026, 7, 20, 9, 8, 7))
+
+    assert re.fullmatch(r"20260720-090807-[0-9a-f]{4}", session_id)
+
+
+def test_open_session_context_reuses_existing_paths(tmp_path: Path) -> None:
+    session_id = "20260720-090807-abcd"
+    sessions_dir = tmp_path / ".novacode" / "sessions"
+    sessions_dir.mkdir(parents=True)
+    message_path = sessions_dir / f"{session_id}.jsonl"
+    message_path.write_text("{}\n", encoding="utf-8")
+
+    session = open_session_context(str(tmp_path), session_id)
+
+    assert Path(session.message_path) == message_path
+    assert Path(session.spill_dir) == sessions_dir / session_id / "tool-results"
+    assert Path(session.spill_dir).is_dir()
+
+
+@pytest.mark.parametrize("session_id", ["bad", "20260720-090807-XYZ1", "../session"])
+def test_open_session_context_rejects_invalid_id(tmp_path: Path, session_id: str) -> None:
+    with pytest.raises(ValueError, match="session ID"):
+        open_session_context(str(tmp_path), session_id)
+
+
+def test_open_session_context_requires_message_file(tmp_path: Path) -> None:
+    with pytest.raises(FileNotFoundError):
+        open_session_context(str(tmp_path), "20260720-090807-abcd")
 
 
 def test_replacement_state_freezes_decision() -> None:

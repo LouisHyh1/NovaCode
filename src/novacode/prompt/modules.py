@@ -141,9 +141,22 @@ multi-line comment blocks. Do not create planning documents unless asked.""",
     ]
 
 
-def optional_modules() -> list[Module]:
+def optional_modules(instructions: str = "", memory_index: str = "") -> list[Module]:
+    instruction_content = f"# 自定义指令\n\n{instructions.strip()}" if instructions.strip() else ""
+    memory_rules = """\
+# 长期记忆
+
+- For explicit requests to remember, update, or forget information, you MUST call
+  `manage_memory`; only a successful tool result confirms the memory operation.
+- Never use `write_file` or `edit_file` to create `.nova_memory.md` or any substitute
+  memory file.
+- If `manage_memory` is unavailable, denied, or fails, state clearly that the memory
+  was not written. Never claim success without a successful tool result."""
+    memory_content = memory_rules
+    if memory_index.strip():
+        memory_content += f"\n\n{memory_index.strip()}"
     return [
-        Module(name="自定义指令", priority=80, content=""),
+        Module(name="自定义指令", priority=80, content=instruction_content),
         Module(name="已激活 Skill", priority=90, content=""),
-        Module(name="长期记忆", priority=100, content=""),
+        Module(name="长期记忆", priority=100, content=memory_content),
     ]

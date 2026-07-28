@@ -178,29 +178,34 @@
 ```
 预期：全部通过；任何时刻可提交的 `MEMORY.md` 都同时满足 200 行和 25KB 两项限制，任一替换阶段崩溃后 load 可幂等恢复且无悬空索引或永久未索引正文。
 
-## T7：实现每轮自动提取的单消费者队列与完整锁区间
+## T7：实现显式记忆工具与隐式提取队列
 
 **文件：**
+- Create: `src/novacode/memory/tool.py`
 - Create: `src/novacode/memory/extractor.py`
 - Modify: `src/novacode/memory/prompts.py`
 - Modify: `src/novacode/memory/__init__.py`
+- Modify: `src/novacode/permission/settings.py`
+- Test: `tests/memory/test_tool.py`
 - Test: `tests/memory/test_extractor.py`
 
 **依赖：** T6。
 
 **步骤：**
-1. 实现 `MemoryExtractor(user_store, project_store, on_index_changed)`；构造只创建队列并保存 stores/callback，不接收 provider、不启动 worker。新增一次性 `bind_provider(provider: Provider) -> None`：拒绝空值和绑定到不同 provider 的第二次调用，并由 app 在成功绑定后启动唯一 `run()` 消费者；绑定前 `submit()` 拒绝任务。
-2. 绑定后 `submit(MemoryTurn)` 只执行 `asyncio.Queue.put_nowait()`。每项任务固定按用户级→项目级获取各 store 的进程内锁和 `.memory-write.lock`，持双锁完成恢复、最新索引读取、provider 推理、校验和提交，最后反向释放；任何路径不得反序。
-3. provider 请求仅包含最近一轮 user 与最终 assistant、两级完整索引、固定类型路由和四种操作约束，并显式设置 `Request.tools=[]`。是否保存、重复、冲突及 create/update/delete/no-op 由 LLM 基于最新索引判断，不增加 embedding 或相似度机制。
-4. 逐项校验 action、kind、推导路由、filename 和规范化边界；`no-op` 不产生变更，非法操作只计入拒绝并记录无敏感正文诊断。
-5. 模型错误、解析错误、容量拒绝或写入错误只使当前队列项失败；在 `finally` 释放全部锁和队列执行权，继续下一项。`close()` 先停止接收新项，并等待当前项到安全提交点或按可控方式取消，不能遗留 task、锁或可向下一会话写入的 provider 引用。
-6. 在 `tests/memory/test_extractor.py` 测试构造后无 worker、绑定前 submit 拒绝、一次绑定只启动一个消费者、不同 provider 二次绑定拒绝；再测试三轮快速提交立即返回且严格串行，延迟第一项后第二项必须在第一项提交或失败收尾后读取最新索引，并覆盖空工具定义、固定双锁顺序、journal 恢复后读取、no-op、非法操作、provider/解析/写入失败继续下一项、索引刷新和排空/受控取消关闭。
+1. 实现 `ManageMemoryTool(user_store, project_store, on_index_changed)`，名称固定 `manage_memory`、`read_only=False`。schema 只暴露 action、四种 kind、memory ID 与 title/summary/content，create UUID 由代码生成，不接受文件路径或 filename。
+2. 工具按固定路由和用户级→项目级顺序获取锁，复用 `MemoryStore.apply_locked()`、journal 和索引刷新回调；create/update/delete 成功返回结构化成功结果，非法字段、错误 ID、锁失败、容量/事务失败返回明确错误。拒绝日志只含累计计数、action/kind 和错误类型，不含正文。
+3. 权限系统把 `manage_memory` 归为 WRITE：Default Ask、Accept Edits Allow、Plan Deny、Bypass Allow；Plan 模式工具定义中不出现它，防御性强制调用仍硬拒绝。
+4. 实现 `MemoryExtractor(user_store, project_store, on_index_changed)`；构造只创建队列并保存 stores/callback，不接收 provider、不启动 worker。新增一次性 `bind_provider(provider: Provider) -> None`：拒绝空值和绑定到不同 provider 的第二次调用，并由 app 在成功绑定后启动唯一 `run()` 消费者；绑定前 `submit()` 拒绝任务。
+5. 绑定后 `submit(MemoryTurn)` 只执行 `asyncio.Queue.put_nowait()`。每项任务固定按用户级→项目级获取各 store 的进程内锁和 `.memory-write.lock`，持双锁完成恢复、最新索引读取、provider 推理、校验和提交，最后反向释放；任何路径不得反序。
+6. provider 请求包含最近一轮 user/final assistant、两级完整索引、完整 JSON 字段契约、四类定义、各 action 必填字段、固定路由、去重和纯 JSON 输出约束，并显式设置 `Request.tools=[]`。显式请求不得返回空数组，已由工具满足时返回 no-op；保留严格解析，不增加代码围栏猜测或第二套解析器。
+7. 模型错误、解析错误、容量拒绝或写入错误只使当前队列项失败；在 `finally` 释放全部锁和队列执行权，继续下一项。`close()` 先停止接收新项，并等待当前项到安全提交点或按可控方式取消，不能遗留 task、锁或可向下一会话写入的 provider 引用。
+8. `tests/memory/test_tool.py` 覆盖四类路由、create/update/delete、非法字段/ID、锁/事务失败、索引刷新和 schema 不暴露路径；`test_extractor.py` 覆盖完整提示契约、绑定生命周期、严格串行、最新索引、严格解析、失败隔离和关闭。
 
 **验证：**
 ```powershell
-.\.venv\Scripts\python.exe -m pytest tests/memory/test_extractor.py -q
+.\.venv\Scripts\python.exe -m pytest tests/memory/test_tool.py tests/memory/test_extractor.py -q
 ```
-预期：全部通过；绑定前没有 worker 或任务，同一会话只能绑定一个 provider 且最多一个提取推理在运行，后一项始终读取前一项完成后的最新索引。
+预期：全部通过；显式工具的路由、权限与终态可确定验证；绑定前没有 worker 或任务，同一会话只能绑定一个 provider 且最多一个提取推理在运行，后一项始终读取前一项完成后的最新索引。
 
 ## T8：实现记忆治理五门控、跨进程锁与失败恢复
 
@@ -245,13 +250,13 @@
 **依赖：** T8。
 
 **步骤：**
-1. 将 `optional_modules(instructions="", memory_index="")` 和 `build_system_prompt(instructions="", memory_index="")` 接到现有模块组装：`自定义指令` 保持 priority 80，`长期记忆` 保持 priority 100；空内容省略。记忆索引固定用户级在前、项目级在后，用清晰标题分隔，只注入两个 `MEMORY.md`，不注入独立正文。
-2. 给 `Agent` 增加可选 `instructions: str` 与 `memory_index: Callable[[], str]`；每轮开始仍调用现有 `build_system_prompt()`，指令使用启动缓存，记忆 callable 返回最近一次成功提交后的合规索引。`SessionRuntime` 增加可选 `resume_reminder`，并通过现有 `Request.reminder` 以 system 语义注入。
+1. 将 `optional_modules(instructions="", memory_index="")` 和 `build_system_prompt(instructions="", memory_index="")` 接到现有模块组装：`自定义指令` 保持 priority 80，`长期记忆` 保持 priority 100；空索引仍说明显式操作必须调用 `manage_memory`、只有成功工具结果可确认写入、禁止 `write_file/edit_file` 创建 `.nova_memory.md` 替代文件。非空索引固定用户级在前、项目级在后，只注入两个 `MEMORY.md`，不注入独立正文。
+2. 给 `Agent` 增加可选 `instructions: str` 与 `memory_index: Callable[[], str]`；每轮开始仍调用现有 `build_system_prompt()`，并识别常见中英文显式“记住、更新、忘记”请求。跟踪本轮 `manage_memory` 是否成功：未调用、拒绝或失败却声称成功时替换为确定性未写入结果；成功工具结果才允许确认；普通记忆系统咨询不触发保护。`SessionRuntime` 增加可选 `resume_reminder`，并通过现有 `Request.reminder` 以 system 语义注入。
 3. `Event` 增加 `memory_turn: MemoryTurn | None`；只有 assistant 最终回复已成功持久化且无待执行 tool calls 时填充。`Conversation` 抛出的持久化异常转为 `Event.err`，停止本轮 provider 请求或后续内存写入，不吞掉错误。
 4. 扩展 `NovaCodeApp` 注入 `project_root`、`session_context`、必选 writer、构造后未绑定的可选 extractor、可选 governor 和缓存索引。provider 选定后保持输入禁用，必须依次调用 `writer.bind_model(provider.model)`、`extractor.bind_provider(provider)` 并启动唯一消费者，成功创建 Agent 后才开放输入；任一步失败显示可处理错误、关闭本次已启动的 worker 并保持输入禁用，同一会话禁止重绑到不同 provider。
 5. 消息追加流固定为：`Conversation.add_*()` 持有 conversation 锁，writer 持有自身锁完成 serialize → append → flush → fsync，再更新内存。用户消息失败时不渲染气泡、不启动 Agent；assistant/tool 失败时以可见错误收尾。
 6. 最终事件消费顺序固定为：先渲染回复并恢复输入，再对非空 `memory_turn` 调用 `MemoryExtractor.submit()`；每个最终回复提交一次，不加轮数或关键词门槛，入队不得阻塞下一轮。
-7. 在 `cli._amain()` 按唯一启动顺序装配：解析项目根和 sessions 目录 → 新建 session context → 加载并缓存四层指令 → 创建两级 store、锁内 roll-forward journal 并读取索引 → 初始化未绑定 model 的 writer → 组装 prompt/创建未绑定且无 worker 的 extractor → 注入 app → 后台调度 `clean_expired_async()`（内部 `asyncio.to_thread`）→ governor 懒检查 → 进入 TUI provider 选择。writer 初始化失败显示错误并返回非零；指令/索引缺失与后台失败按空值或日志降级。
+7. 在 `cli._amain()` 按唯一启动顺序装配：解析项目根和 sessions 目录 → 新建 session context → 加载并缓存四层指令 → 创建两级 store、锁内恢复并读取索引 → 初始化 writer/extractor → 在默认工具与 MCP 工具之间注册共享 stores/callback 的 `manage_memory` → 注入 app → 后台调度清理与治理 → 进入 TUI provider 选择。writer 初始化失败显示错误并返回非零；指令/索引缺失与后台失败按空值或日志降级。
 8. 恢复流复用 T5：`/resume` 列表 → detached candidate → staging runtime → spill 迁移/路径重写 → 目标压缩事务提交 → 原子切换。staging 源目录始终清理；commit `fsync` 前失败才按清单删除本次目标新文件，commit `fsync` 后切换失败则保留目标文件、报告“已提交但未切换”并保持旧活动引用，供下次 `/resume` 使用。
 9. 自动提取流复用 T7：最终回复持久化 → 渲染/恢复输入 → put_nowait → 固定双锁 → 最新索引 → 无工具推理 → 校验/预演/提交 → 刷新快照。治理流复用 T8，后台任务与主交互隔离。
 10. 退出时先停止新输入、writer 提交和 extractor submit，关闭 extractor 队列并排空或受控取消唯一消费者，取消 governor 并恢复失败 mtime，等待或取消线程包装的 cleanup，清理恢复 staging，最后排空并关闭当前 writer；可删除从未成功持久化消息的当前临时会话，但所有无有效记录会话仍保留 30 天兜底，不得让旧项目或旧 session 的后台任务写入新目标。
@@ -271,6 +276,7 @@
 - Test: `tests/session/test_reader.py`
 - Test: `tests/session/test_listing_cleanup.py`
 - Test: `tests/memory/test_store.py`
+- Test: `tests/memory/test_tool.py`
 - Test: `tests/memory/test_extractor.py`
 - Test: `tests/memory/test_governor.py`
 - Test: `tests/test_conversation.py`
@@ -286,11 +292,11 @@
 **步骤：**
 1. 在任何 ch09 实现改动前，使用下方 Windows 全量 pytest、ruff check、ruff format、compileall 和 `git diff --check` 命令记录基线，保存命令、退出码和关键输出。以已批准 Spec 的 AC1–AC27 为唯一权威验收依据，建立“AC 编号 → 自动化测试或 tmux 场景 → 证据”的逐项映射；即使 Checklist 缺失，也必须能直接依据 Spec 完成自动化验收。
 2. 实施前检查 `docs/ch09/项目记忆与会话持久化 Checklist.md` 是否逐项镜像 AC1–AC27 的编号和语义；Checklist 有缺失或冲突时以 Spec 为准并先修正文档，在一致的 Checklist 可用前不开始 tmux 场景。
-3. 逐个运行四个新增模块测试。自动化测试必须确定性覆盖：指令精确展开边界；会话坏行、工具链和所有压缩/staging 崩溃点；有效/无效记录清理及线程包装；四类记忆精确路由；MemoryStore journal 每个替换阶段；extractor 延迟绑定、提取延迟和串行化；治理门控、异常、锁竞争和失败恢复。上述场景不得依赖真实 provider 或 tmux 中模型碰巧输出指定结构化操作。
-4. 运行 Conversation、prompt、Agent、TUI 与 CLI 集成测试，确认 writer → extractor 的 provider 绑定顺序、可选能力为空时保持既有行为、持久化失败可见且不造成内存领先于磁盘、恢复 staging 精确清理、异步 cleanup 不阻塞、切换/退出排空以及后台降级符合契约。
+3. 逐个运行新增模块测试。自动化测试必须确定性覆盖：指令精确展开边界；会话坏行、工具链和所有压缩/staging 崩溃点；有效/无效记录清理及线程包装；`manage_memory` 四类路由、操作校验、锁/事务错误；MemoryStore journal 每个替换阶段；extractor 完整提示契约、延迟绑定和串行化；治理门控、异常、锁竞争和失败恢复。上述场景不得依赖真实 provider 或 tmux 中模型碰巧输出指定结构化操作。
+4. 运行 Conversation、prompt、Agent、TUI 与 CLI 集成测试，确认工具注册与四模式权限、空索引提示仍说明记忆能力、显式请求成功/拒绝/失败终态、普通咨询不触发保护、writer → extractor 的 provider 绑定顺序、持久化失败、恢复 staging、异步 cleanup、切换/退出和后台降级符合契约。
 5. 实现后重新运行与基线相同的全量命令。只有能通过最小复现、提交范围或前后对比证明由 ch09 引入的失败才在本任务内修复；既有或无关失败必须记录命令、退出码、关键输出和归因，作为阻塞证据请求范围扩展，不得擅自修改 ch09 无关代码，也不得把未通过记录成通过。
 6. tmux 验收只能在 Linux/WSL、仓库 Linux `.venv`、tmux 和真实 provider 配置均可用，且 Checklist 与 AC1–AC27 一致时执行。先保存 `REAL_HOME` 与 `REPO`，创建临时根、临时 HOME、临时 workspace 和独立 tmux socket；只把 provider 启动必需配置复制到临时 HOME 的 `.novacode/` 并设权限 600，使用 trap/finally 在退出时关闭独立 tmux server 并删除临时目录/socket。不得修改真实 `~/.novacode/`、真实项目指令/记忆或仓库工作树；当前环境缺少任一前置时记录“未执行”及原因。
-7. 通过 `PYTHONPATH="$REPO/src"` 从临时 workspace 启动 NovaCode。tmux 只采集真实 provider 可稳定观察的烟雾/生命周期证据：冷启动；临时 HOME/workspace 中四层指令的基本优先级；一个合法独占行引用；一次真实工具调用；最终回复后继续输入；`/exit` 返回持久 shell；重启 `/resume` 后原 ID 续写。不要要求模型确定地产生四类记忆、固定提取延迟、治理操作或故障结果。
+7. 通过 `PYTHONPATH="$REPO/src"` 从临时 workspace 启动 NovaCode。除既有烟雾/生命周期外，输入“记住我目前的方向是 Agent 开发，最常使用 Python”，在 Default 模式批准一次 `manage_memory`，验证临时 HOME 中生成 `memory/MEMORY.md` 与独立记忆文件、会话未调用 `write_file` 且 workspace 无 `.nova_memory.md`；正常退出并重启后询问常用语言，确认 prompt 索引召回 Python。四类后台提取、固定延迟、治理操作和故障结果仍不交给真实模型断言。
 8. 在隔离 workspace 准备超过 24 小时的恢复样本，确认只向当前上下文注入 system reminder；用自动化测试先构造并验证已提交压缩事务，再在 tmux 中恢复该已提交样本并确认原 ID 续写。未提交事务、30 天空会话清理、staging/journal 崩溃注入和治理异常继续以自动化测试为权威证据，不在真实 provider 会话中破坏性注入。
 9. 按 AC1–AC27 映射记录自动化与 tmux 证据；Checklist 只作为镜像操作清单。正常 `/exit` 是 writer/extractor 收尾证据，最终关闭独立 tmux server 仅用于环境清理，不作为 AC26 证据。trap/finally 结束后确认临时目录和 socket 已删除，真实 HOME 与仓库 `git status` 未因 tmux 验收发生变化。
 
@@ -298,7 +304,7 @@
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/instructions/test_loader.py -q
 .\.venv\Scripts\python.exe -m pytest tests/session/test_writer.py tests/session/test_reader.py tests/session/test_listing_cleanup.py -q
-.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py tests/memory/test_extractor.py tests/memory/test_governor.py -q
+.\.venv\Scripts\python.exe -m pytest tests/memory/test_store.py tests/memory/test_tool.py tests/memory/test_extractor.py tests/memory/test_governor.py -q
 .\.venv\Scripts\python.exe -m pytest tests/test_conversation.py tests/test_prompt.py tests/test_agent.py tests/test_tui.py tests/test_mcp_cli.py -q
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\ruff.exe check .
@@ -327,4 +333,4 @@ tmux -S "$TMUX_SOCKET" new-session -d -s novacode-ch09 -c "$WORKSPACE"
 tmux -S "$TMUX_SOCKET" send-keys -t novacode-ch09:0.0 "HOME='$HOME' PYTHONPATH='$REPO/src' '$REPO/.venv/bin/python' -m novacode" Enter
 tmux -S "$TMUX_SOCKET" attach-session -t novacode-ch09
 ```
-预期：真实 provider 只验证冷启动、四层指令基本优先级、合法引用、真实工具调用、最终回复后继续输入、`/exit`、`/resume`、24 小时样本和已提交压缩恢复；`/exit` 后持久 shell 仍存在。四类精确路由、提取延迟、治理门控/异常和崩溃注入以自动化测试为准。全部证据记录后由 trap/finally 清理独立 socket 与临时 HOME/workspace，真实 `~/.novacode/` 和仓库工作树不发生变化；关闭 tmux server 不作为 AC26 正常退出或资源排空证据。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。
+预期：真实 provider 验证冷启动、真实工具调用、显式记忆批准写入、无替代文件、重启召回 Python、`/exit`、`/resume`、24 小时样本和已提交压缩恢复；`/exit` 后持久 shell仍存在。四类后台精确路由、提取延迟、治理门控/异常和崩溃注入以自动化测试为准。全部证据记录后由 trap/finally 清理独立 socket 与临时 HOME/workspace，真实 `~/.novacode/` 和仓库工作树不发生变化；关闭 tmux server 不作为 AC26 正常退出或资源排空证据。若 Linux/WSL、tmux、真实 provider 或一致 Checklist 任一不可用，记录“未执行”及缺失条件，不得记录为通过。

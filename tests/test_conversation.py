@@ -1,5 +1,7 @@
 """Tests for conversation module."""
 
+import pytest
+
 from novacode.conversation import Conversation
 from novacode.llm import ROLE_ASSISTANT, ROLE_TOOL, ROLE_USER, Message, ToolCall, ToolResult
 
@@ -46,8 +48,6 @@ def test_replace_history_deep_copies_and_rejects_none() -> None:
     replacement[0].tool_results[0].content = "mutated"
 
     assert conv.messages()[0].tool_results[0].content == "result"
-
-    import pytest
 
     with pytest.raises(TypeError):
         conv.replace_history(None)  # type: ignore[arg-type]
@@ -102,3 +102,47 @@ def test_last_role_tool() -> None:
     conv = Conversation()
     conv.add_tool_results([ToolResult(tool_call_id="t1", content="ok")])
     assert conv.last_role() == ROLE_TOOL
+
+
+def test_before_append_runs_before_memory_change_and_can_reject() -> None:
+    observed_lengths: list[int] = []
+    conv: Conversation
+
+    def before_append(message: Message) -> None:
+        observed_lengths.append(conv.length())
+        if message.content == "reject":
+            raise OSError("disk failed")
+
+    conv = Conversation(before_append=before_append)
+    conv.add_user("accepted")
+
+    with pytest.raises(OSError, match="disk failed"):
+        conv.add_assistant("reject")
+
+    assert observed_lengths == [0, 1]
+    assert [message.content for message in conv.messages()] == ["accepted"]
+
+
+def test_before_replace_runs_before_memory_change_and_can_reject() -> None:
+    conv = Conversation(before_replace=lambda _: (_ for _ in ()).throw(OSError("compact failed")))
+    conv.add_user("original")
+
+    with pytest.raises(OSError, match="compact failed"):
+        conv.replace_history([Message(role=ROLE_USER, content="replacement")])
+
+    assert [message.content for message in conv.messages()] == ["original"]
+
+
+def test_from_messages_deep_copies_without_replaying_hooks() -> None:
+    calls: list[str] = []
+    source = [Message(role=ROLE_USER, content="restored")]
+
+    conv = Conversation.from_messages(
+        source, before_append=lambda message: calls.append(message.role)
+    )
+    source[0].content = "mutated"
+
+    assert calls == []
+    assert conv.messages()[0].content == "restored"
+    conv.add_assistant("new")
+    assert calls == [ROLE_ASSISTANT]

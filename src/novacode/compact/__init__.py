@@ -7,6 +7,8 @@ from novacode.compact.state import (
     RecoveryState,
     SessionContext,
     new_session_context,
+    new_session_id,
+    open_session_context,
 )
 
 __all__ = [
@@ -19,4 +21,6 @@ __all__ = [
     "TriggerKind",
     "manage_context",
     "new_session_context",
+    "new_session_id",
+    "open_session_context",
 ]

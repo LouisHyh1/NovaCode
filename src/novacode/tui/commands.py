@@ -39,6 +39,10 @@ async def handle_compact(app: Any) -> None:
     app._show_system(format_compact_notice(CompactPhase.AFTER_AUTO, before, after, None))
 
 
+async def handle_resume(app: Any) -> None:
+    await app._begin_resume()
+
+
 async def handle_unknown(app: Any) -> None:
     app._show_system("未知命令")
 
@@ -48,6 +52,7 @@ BUILTIN_COMMANDS: dict[str, CommandHandler] = {
     "/plan": handle_plan,
     "/do": handle_do,
     "/compact": handle_compact,
+    "/resume": handle_resume,
 }
 
 

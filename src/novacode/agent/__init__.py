@@ -3,7 +3,8 @@
 import asyncio
 import json
 import logging
-from collections.abc import AsyncIterator
+import re
+from collections.abc import AsyncIterator, Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
@@ -34,6 +35,7 @@ from novacode.llm import (
 from novacode.llm import (
     Usage as LLMUsage,
 )
+from novacode.memory import MemoryTurn
 from novacode.permission import Decision, Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.permission.persist import persist_local_allow
@@ -50,6 +52,19 @@ NOTICE_MAX_ITER = "（已达最大迭代轮数 25，自动停止；可继续发�
 NOTICE_UNKNOWN_TOOLS = "（连续多轮只请求到未注册的工具，自动停止。）"
 NOTICE_STREAM_ERR = "（请求出错，本轮已中断。）"
 NOTICE_CANCELLED = "（已取消。）"
+NOTICE_MEMORY_NOT_WRITTEN = "记忆未写入：manage_memory 未成功执行。"
+NOTICE_MEMORY_WRITTEN = "记忆已写入：manage_memory 已成功执行。"
+
+_EXPLICIT_MEMORY_RE = re.compile(
+    r"(?:请|帮我|务必|要)?记住(?:我|这|以下|：|:|\s)|"
+    r"保存到(?:长期)?记忆|更新[^。！？?]{0,12}记忆|"
+    r"忘记(?:我|这|关于|之前)|从(?:长期)?记忆[^。！？?]{0,12}删除|"
+    r"\bremember\s+(?:that|this|my|i\b)|"
+    r"\bsave\b[^.!?]{0,40}\b(?:to|in)\s+(?:long-term\s+)?memory\b|"
+    r"\bupdate\b[^.!?]{0,40}\bmemory\b|"
+    r"\b(?:forget|remove|delete)\b[^.!?]{0,40}\b(?:memory|that|this|my)\b",
+    re.IGNORECASE,
+)
 
 
 class Phase(Enum):
@@ -116,6 +131,7 @@ class Event:
     done: bool = False
     err: Exception | None = None
     compact: CompactEvent | None = None
+    memory_turn: MemoryTurn | None = None
 
 
 @dataclass
@@ -126,6 +142,7 @@ class SessionRuntime:
     session: SessionContext
     usage_anchor: int = 0
     anchor_msg_len: int = 0
+    resume_reminder: str = ""
 
 
 @dataclass
@@ -140,6 +157,17 @@ class _StreamState:
 def _args_preview(args: str) -> str:
     """工具参数截断预览（最多 80 字符）。"""
     return args[:80] + "…" if len(args) > 80 else args
+
+
+def _is_explicit_memory_request(text: str) -> bool:
+    if re.search(
+        r"(?:如何|怎么|怎样|什么是|介绍|解释)[^。！？?]{0,20}(?:记忆|记住|忘记)|"
+        r"\b(?:how|what|explain)\b[^.!?]{0,40}\b(?:memory|remember|forget)\b",
+        text,
+        re.IGNORECASE,
+    ):
+        return False
+    return _EXPLICIT_MEMORY_RE.search(text) is not None
 
 
 async def _cancel_and_wait(task: asyncio.Task) -> None:
@@ -163,6 +191,8 @@ class Agent:
         *,
         runtime: SessionRuntime | None = None,
         context_window: int = 200_000,
+        instructions: str = "",
+        memory_index: Callable[[], str] | None = None,
     ) -> None:
         self._provider = provider
         self._registry = registry
@@ -176,6 +206,8 @@ class Agent:
             session=new_session_context(str(Path.cwd())),
         )
         self.context_window = context_window
+        self.instructions = instructions
+        self.memory_index = memory_index or (lambda: "")
         self._run_lock = asyncio.Lock()
 
     def _manage_input(
@@ -184,19 +216,21 @@ class Agent:
         defs: list[ToolDefinition],
         trigger: TriggerKind,
         estimated: int,
+        runtime: SessionRuntime | None = None,
     ) -> ManageInput:
+        selected = runtime or self.runtime
         return ManageInput(
             conv=conv,
             provider=self._provider,
             model=self._provider.model,
             context_window=self.context_window,
             tool_defs=defs,
-            replacement=self.runtime.replacement,
-            recovery=self.runtime.recovery,
-            auto_tracking=self.runtime.auto_tracking,
-            session=self.runtime.session,
-            usage_anchor=self.runtime.usage_anchor,
-            anchor_msg_len=self.runtime.anchor_msg_len,
+            replacement=selected.replacement,
+            recovery=selected.recovery,
+            auto_tracking=selected.auto_tracking,
+            session=selected.session,
+            usage_anchor=selected.usage_anchor,
+            anchor_msg_len=selected.anchor_msg_len,
             estimated_token=estimated,
             trigger=trigger,
         )
@@ -205,14 +239,22 @@ class Agent:
         self,
         conv: Conversation,
         tool_defs: list[ToolDefinition],
+        runtime: SessionRuntime | None = None,
     ) -> tuple[int, int]:
         async with self._run_lock:
+            selected = runtime or self.runtime
             estimated = estimate_tokens(0, conv.messages(), 0)
             out = await manage_context(
-                self._manage_input(conv, tool_defs, TriggerKind.MANUAL, estimated)
+                self._manage_input(
+                    conv,
+                    tool_defs,
+                    TriggerKind.MANUAL,
+                    estimated,
+                    selected,
+                )
             )
-            self.runtime.usage_anchor = 0
-            self.runtime.anchor_msg_len = 0
+            selected.usage_anchor = 0
+            selected.anchor_msg_len = 0
             return out.before_tokens, out.after_tokens
 
     async def run(
@@ -222,7 +264,10 @@ class Agent:
         cancel: asyncio.Event,
     ) -> AsyncIterator[Event]:
         env = prompt.gather_environment(self._version, self._provider.model)
-        sys = prompt.build_system_prompt()
+        sys = prompt.build_system_prompt(
+            instructions=self.instructions,
+            memory_index=self.memory_index(),
+        )
         env_text = env.render()
 
         if mode == Mode.PLAN:
@@ -231,17 +276,30 @@ class Agent:
             defs = self._registry.definitions()
 
         unknown_run = 0
+        latest_user = next(
+            (
+                message.content
+                for message in reversed(conv.messages())
+                if message.role == "user" and message.content.strip()
+            ),
+            "",
+        )
+        explicit_memory = _is_explicit_memory_request(latest_user)
+        memory_succeeded = False
 
         for it in range(1, MAX_ITERATIONS + 1):
             yield Event(iter=it)
             if cancel.is_set():
-                self._finish_cancelled(conv)
+                persistence_err = self._persist_assistant_tail(conv, NOTICE_CANCELLED)
+                if persistence_err is not None:
+                    yield Event(err=persistence_err)
                 return
 
-            reminder = ""
+            reminders = [self.runtime.resume_reminder] if self.runtime.resume_reminder else []
             if mode == Mode.PLAN:
                 full = it == 1 or (it - 1) % PLAN_REMINDER_INTERVAL == 0
-                reminder = prompt.plan_reminder(full)
+                reminders.append(prompt.plan_reminder(full))
+            reminder = "\n\n".join(reminders)
 
             estimated = estimate_tokens(
                 self.runtime.usage_anchor,
@@ -262,7 +320,9 @@ class Agent:
                 if emit_auto:
                     yield Event(compact=CompactEvent(phase=CompactPhase.AFTER_AUTO, err=e))
                 yield Event(err=e)
-                self._ensure_assistant_tail(conv, NOTICE_STREAM_ERR)
+                persistence_err = self._persist_assistant_tail(conv, NOTICE_STREAM_ERR)
+                if persistence_err is not None:
+                    yield Event(err=persistence_err)
                 return
             if emit_auto:
                 yield Event(
@@ -277,7 +337,14 @@ class Agent:
             while True:
                 stream_state = _StreamState()
                 async for ev in self._stream_once(
-                    conv, defs, sys, env_text, reminder, cancel, stream_state
+                    conv,
+                    defs,
+                    sys,
+                    env_text,
+                    reminder,
+                    cancel,
+                    stream_state,
+                    emit_text=not explicit_memory or memory_succeeded,
                 ):
                     yield ev
 
@@ -288,12 +355,16 @@ class Agent:
 
                 if err is None:
                     if stream_state.cancelled:
-                        self._finish_cancelled(conv)
+                        persistence_err = self._persist_assistant_tail(conv, NOTICE_CANCELLED)
+                        if persistence_err is not None:
+                            yield Event(err=persistence_err)
                         return
                     break
 
                 if cancel.is_set():
-                    self._finish_cancelled(conv)
+                    persistence_err = self._persist_assistant_tail(conv, NOTICE_CANCELLED)
+                    if persistence_err is not None:
+                        yield Event(err=persistence_err)
                     return
 
                 if isinstance(err, PromptTooLongError) and not emergency_retried:
@@ -314,7 +385,9 @@ class Agent:
                             )
                         )
                         yield Event(err=e)
-                        self._ensure_assistant_tail(conv, NOTICE_STREAM_ERR)
+                        persistence_err = self._persist_assistant_tail(conv, NOTICE_STREAM_ERR)
+                        if persistence_err is not None:
+                            yield Event(err=persistence_err)
                         return
                     yield Event(
                         compact=CompactEvent(
@@ -331,7 +404,9 @@ class Agent:
                         continue
 
                 yield Event(err=err)
-                self._ensure_assistant_tail(conv, NOTICE_STREAM_ERR)
+                persistence_err = self._persist_assistant_tail(conv, NOTICE_STREAM_ERR)
+                if persistence_err is not None:
+                    yield Event(err=persistence_err)
                 return
 
             if usage is not None:
@@ -347,11 +422,27 @@ class Agent:
                 )
 
             if not calls:
-                conv.add_assistant(self._ensure_final(text))
-                yield Event(done=True)
+                if explicit_memory and not memory_succeeded:
+                    final = NOTICE_MEMORY_NOT_WRITTEN
+                elif explicit_memory and memory_succeeded and not text.strip():
+                    final = NOTICE_MEMORY_WRITTEN
+                else:
+                    final = self._ensure_final(text)
+                try:
+                    conv.add_assistant(final)
+                except Exception as exc:
+                    yield Event(err=exc)
+                    return
+                if explicit_memory and (not memory_succeeded or not text.strip()):
+                    yield Event(text=final)
+                yield Event(done=True, memory_turn=self._memory_turn(conv, final))
                 return
 
-            conv.add_assistant_with_tool_calls(text, calls)
+            try:
+                conv.add_assistant_with_tool_calls(text, calls)
+            except Exception as exc:
+                yield Event(err=exc)
+                return
             unknown_run = unknown_run + 1 if self._all_unknown(calls) else 0
 
             # 通过队列并行运行 _execute_batched——支持人在回路事件穿插
@@ -399,7 +490,31 @@ class Agent:
                 results = []
                 completed = False
 
-            conv.add_tool_results(results)
+            try:
+                conv.add_tool_results(results)
+            except Exception as exc:
+                yield Event(err=exc)
+                return
+
+            memory_results = [
+                result
+                for call, result in zip(calls, results, strict=True)
+                if call.name == "manage_memory"
+            ]
+            if memory_results:
+                memory_succeeded = all(not result.is_error for result in memory_results)
+                if explicit_memory and not memory_succeeded:
+                    try:
+                        conv.add_assistant(NOTICE_MEMORY_NOT_WRITTEN)
+                    except Exception as exc:
+                        yield Event(err=exc)
+                        return
+                    yield Event(
+                        text=NOTICE_MEMORY_NOT_WRITTEN,
+                        done=True,
+                        memory_turn=self._memory_turn(conv, NOTICE_MEMORY_NOT_WRITTEN),
+                    )
+                    return
 
             # Plan 模式硬拒绝：输出确定性收尾，不让模型自由总结误报成功
             if mode == Mode.PLAN and any(getattr(r, "is_policy_denial", False) for r in results):
@@ -408,23 +523,52 @@ class Agent:
                     "未对文件系统做任何修改。"
                     "如需执行，请使用 /do 或切换到 ACCEPT_EDITS/BYPASS 模式。"
                 )
-                conv.add_assistant(terminal_text)
-                yield Event(text=terminal_text, done=True)
+                try:
+                    conv.add_assistant(terminal_text)
+                except Exception as exc:
+                    yield Event(err=exc)
+                    return
+                yield Event(
+                    text=terminal_text,
+                    done=True,
+                    memory_turn=self._memory_turn(conv, terminal_text),
+                )
                 return
 
             if not completed:
-                self._ensure_assistant_tail(conv, NOTICE_CANCELLED)
+                persistence_err = self._persist_assistant_tail(conv, NOTICE_CANCELLED)
+                if persistence_err is not None:
+                    yield Event(err=persistence_err)
                 return
 
             if unknown_run >= MAX_UNKNOWN_RUN:
-                yield Event(notice=NOTICE_UNKNOWN_TOOLS)
-                self._ensure_assistant_tail(conv, NOTICE_UNKNOWN_TOOLS)
-                yield Event(done=True)
+                notice = (
+                    NOTICE_MEMORY_NOT_WRITTEN
+                    if explicit_memory and not memory_succeeded
+                    else NOTICE_UNKNOWN_TOOLS
+                )
+                yield Event(notice=notice)
+                persistence_err = self._persist_assistant_tail(conv, notice)
+                if persistence_err is not None:
+                    yield Event(err=persistence_err)
+                    return
+                yield Event(
+                    done=True,
+                    memory_turn=self._memory_turn(conv, notice),
+                )
                 return
 
-        yield Event(notice=NOTICE_MAX_ITER)
-        self._ensure_assistant_tail(conv, NOTICE_MAX_ITER)
-        yield Event(done=True)
+        notice = (
+            NOTICE_MEMORY_NOT_WRITTEN
+            if explicit_memory and not memory_succeeded
+            else NOTICE_MAX_ITER
+        )
+        yield Event(notice=notice)
+        persistence_err = self._persist_assistant_tail(conv, notice)
+        if persistence_err is not None:
+            yield Event(err=persistence_err)
+            return
+        yield Event(done=True, memory_turn=self._memory_turn(conv, notice))
 
     async def _stream_once(
         self,
@@ -435,6 +579,8 @@ class Agent:
         reminder: str,
         cancel: asyncio.Event,
         state: _StreamState,
+        *,
+        emit_text: bool = True,
     ) -> AsyncIterator[Event]:
         req = Request(
             messages=conv.messages(),
@@ -472,7 +618,8 @@ class Agent:
                     state.calls = ev.tool_calls
                 if ev.text:
                     state.text += ev.text
-                    yield Event(text=ev.text)
+                    if emit_text:
+                        yield Event(text=ev.text)
         finally:
             if next_task is not None:
                 await _cancel_and_wait(next_task)
@@ -806,9 +953,27 @@ class Agent:
             return text
         return "（工具已执行完毕。如果你需要更多分析，请继续提问，我会基于已有结果给出详细回答。）"
 
+    @staticmethod
+    def _memory_turn(conv: Conversation, assistant_content: str) -> MemoryTurn | None:
+        user_content = next(
+            (
+                message.content
+                for message in reversed(conv.messages())
+                if message.role == "user" and message.content.strip()
+            ),
+            "",
+        )
+        if not user_content or not assistant_content.strip():
+            return None
+        return MemoryTurn(user_content=user_content, assistant_content=assistant_content)
+
     def _ensure_assistant_tail(self, conv: Conversation, fallback: str) -> None:
         if conv.last_role() != "assistant":
             conv.add_assistant(fallback)
 
-    def _finish_cancelled(self, conv: Conversation) -> None:
-        self._ensure_assistant_tail(conv, NOTICE_CANCELLED)
+    def _persist_assistant_tail(self, conv: Conversation, fallback: str) -> Exception | None:
+        try:
+            self._ensure_assistant_tail(conv, fallback)
+        except Exception as exc:
+            return exc
+        return None
