@@ -11,6 +11,7 @@ from novacode.memory import (
     MemoryRecoveryRequired,
     MemoryStore,
 )
+from novacode.memory.store import _pid_alive
 
 USER_ID = "11111111-1111-4111-8111-111111111111"
 
@@ -230,6 +231,10 @@ async def test_process_lock_does_not_steal_live_pid_and_recovers_dead_pid(tmp_pa
     async with store.locked():
         assert lock_path.exists()
     assert not lock_path.exists()
+
+
+def test_pid_alive_recognizes_current_process_without_signalling_it() -> None:
+    assert _pid_alive(os.getpid()) is True
 
 
 @pytest.mark.asyncio
