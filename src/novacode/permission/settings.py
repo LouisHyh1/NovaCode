@@ -1,6 +1,7 @@
 """配置加载与映射——Settings YAML、friendly_name、categorize、extract_target。"""
 
 import json
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -8,7 +9,7 @@ import yaml
 
 from novacode.llm import ToolCall
 from novacode.permission import Category
-from novacode.permission.rule import RuleSet, parse_rule
+from novacode.permission.rule import RuleSet, parse_rule_detailed
 
 
 class SettingsError(Exception):
@@ -256,13 +257,17 @@ def to_rule_set(s: Settings) -> RuleSet:
     """将 Settings 转为 RuleSet：allow/deny 各条 parse_rule，非法条目跳过。"""
     ruleset = RuleSet()
     for item in s.permissions.allow:
-        rule, ok = parse_rule(item)
-        if ok:
+        rule, err = parse_rule_detailed(item)
+        if rule is not None:
             rule.allow = True
             ruleset.allow.append(rule)
+        else:
+            print(f"rule {item!r} parse failed: {err}", file=sys.stderr)
     for item in s.permissions.deny:
-        rule, ok = parse_rule(item)
-        if ok:
+        rule, err = parse_rule_detailed(item)
+        if rule is not None:
             rule.allow = False
             ruleset.deny.append(rule)
+        else:
+            print(f"rule {item!r} parse failed: {err}", file=sys.stderr)
     return ruleset

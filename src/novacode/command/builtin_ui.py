@@ -5,6 +5,7 @@ from novacode.permission import Mode
 
 
 async def handle_exit(ui: UI) -> None:
+    await ui.end_session()
     ui.quit()
 
 

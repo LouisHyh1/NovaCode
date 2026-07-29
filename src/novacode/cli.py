@@ -8,7 +8,7 @@ from contextlib import AsyncExitStack
 from datetime import UTC, datetime
 from pathlib import Path
 
-from novacode import __version__
+from novacode import __version__, hook
 from novacode import mcp as mcp_client
 from novacode.compact import new_session_context
 from novacode.instructions import InstructionLoader
@@ -95,6 +95,7 @@ async def _amain() -> int:
     engine, engine_err = new_engine(root_text)
     if engine_err is not None:
         print(f"权限引擎降级: {engine_err}", file=sys.stderr)
+    hook_engine = hook.load(root)
 
     registry = new_default_registry()
     registry.register(
@@ -109,6 +110,7 @@ async def _amain() -> int:
         mcp_mgr = await mcp_client.new_manager(mcp_cfg, version=__version__)
     except Exception:
         await asyncio.to_thread(writer.close)
+        await hook_engine.close()
         raise
     app = None
     try:
@@ -136,6 +138,7 @@ async def _amain() -> int:
             __version__,
             driver_class=NoAltScreenDriver,
             engine=engine,
+            hook_engine=hook_engine,
             project_root=root,
             session_context=session_context,
             writer=writer,
@@ -155,10 +158,13 @@ async def _amain() -> int:
         await app.run_async()
     finally:
         if app is not None and hasattr(app, "_shutdown_resources"):
+            if hasattr(app, "end_session"):
+                await app.end_session()
             await app._shutdown_resources()
         else:
             await asyncio.to_thread(writer.close)
         await mcp_mgr.close()
+        await hook_engine.close()
     return 0
 
 

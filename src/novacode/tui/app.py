@@ -38,6 +38,8 @@ from novacode.compact.const import auto_compact_threshold
 from novacode.compact.token import estimate_tokens
 from novacode.config import ProviderConfig, effective_context_window
 from novacode.conversation import Conversation
+from novacode.hook import Engine as HookEngine
+from novacode.hook import Event as HookEvent
 from novacode.llm import Provider as LLMProvider
 from novacode.llm import new_provider
 from novacode.memory import MemoryExtractor, MemoryGovernor
@@ -133,6 +135,7 @@ class NovaCodeApp(App):
         version: str | None = None,
         driver_class: type | None = None,
         engine: Engine | None = None,
+        hook_engine: HookEngine | None = None,
         project_root: Path | None = None,
         session_context: SessionContext | None = None,
         writer: SessionWriter | None = None,
@@ -181,6 +184,9 @@ class NovaCodeApp(App):
         self._command_args = ""
         self.completion = CompletionMenu()
         self.engine = engine
+        self.hook_engine = hook_engine
+        self._session_started = False
+        self._session_ended = False
         self.state = SessionState.SELECTING if len(providers) > 1 else SessionState.IDLE
         self.turn_start = 0.0
         self._agent_task: asyncio.Task[None] | None = None
@@ -236,9 +242,10 @@ class NovaCodeApp(App):
         t.append(work_dir, style="#c9d1d9")
         return t
 
-    def on_mount(self) -> None:
+    async def on_mount(self) -> None:
         if len(self.providers) == 1:
             self._select_provider(self.providers[0])
+            await self.dispatch_session_start()
         else:
             self.query_one("#chat-area").display = False
             self.query_one("#input-area").display = False
@@ -309,6 +316,7 @@ class NovaCodeApp(App):
                 context_window=effective_context_window(provider_cfg),
                 instructions=self.instructions,
                 memory_index=self._memory_index,
+                hook_engine=self.hook_engine,
             )
             self._load_skill_tool.set_agent(self.agent)
             self.skill_executor = SkillExecutor(
@@ -395,6 +403,7 @@ class NovaCodeApp(App):
         index = event.option_index
         assert index is not None
         self._select_provider(self.providers[index])
+        await self.dispatch_session_start()
 
     # ── keys ────────────────────────────────────────────────────
 
@@ -450,6 +459,7 @@ class NovaCodeApp(App):
         if self.state in (SessionState.STREAMING, SessionState.APPROVING):
             self._signal_turn_cancel()
             return
+        await self.end_session()
         self.exit()
 
     def action_cancel(self) -> None:
@@ -549,6 +559,14 @@ class NovaCodeApp(App):
 
         if self.state != SessionState.IDLE:
             return
+        outcome = await self._dispatch_hook(
+            HookEvent.USER_PROMPT_SUBMIT,
+            prompt=text,
+        )
+        if outcome.blocked:
+            self.query_one("#chat-input", ChatInput).text = event.text
+            self.println(f"[hook {outcome.blocking_hook_name}] {outcome.reason}")
+            return
         await self._dispatch(text)
 
     async def dispatch_slash(self, text: str) -> bool:
@@ -634,6 +652,48 @@ class NovaCodeApp(App):
     def session_id(self) -> str:
         return self.session_context.session_id if self.session_context is not None else ""
 
+    def hook_sources(self) -> list[str]:
+        return self.hook_engine.sources if self.hook_engine is not None else []
+
+    def hook_rules(self):
+        return self.hook_engine.rules if self.hook_engine is not None else []
+
+    def _hook_payload(self, **values) -> dict:
+        return {
+            "session_id": self.session_id(),
+            "cwd": str(self.project_root),
+            "mode": str(self._mode),
+            **values,
+        }
+
+    async def _dispatch_hook(self, event: HookEvent, **values):
+        from novacode.hook import DispatchResult
+
+        if self.hook_engine is None:
+            return DispatchResult()
+        result = await self.hook_engine.dispatch(event, self._hook_payload(**values))
+        if self.agent is not None:
+            self.agent.runtime.append_reminders(result.injected_prompts)
+        return result
+
+    async def dispatch_session_start(self) -> None:
+        if self.agent is None or (self._session_started and not self._session_ended):
+            return
+        await self._dispatch_hook(HookEvent.SESSION_START)
+        self._session_started = True
+        self._session_ended = False
+
+    async def dispatch_session_resume(self) -> None:
+        await self._dispatch_hook(HookEvent.SESSION_RESUME)
+        self._session_started = True
+        self._session_ended = False
+
+    async def end_session(self) -> None:
+        if not self._session_started or self._session_ended:
+            return
+        await self._dispatch_hook(HookEvent.SESSION_END)
+        self._session_ended = True
+
     def quit(self) -> None:
         self.exit()
 
@@ -642,7 +702,9 @@ class NovaCodeApp(App):
             self.error("压缩失败：当前没有可用 Agent")
             return
         try:
-            before, after = await self.agent.run_force_compact(self.conv, self._current_tool_defs())
+            before, after = await self.agent.run_force_compact(
+                self.conv, self._current_tool_defs(), mode=self._mode
+            )
         except Exception as exc:
             self.println(format_compact_notice(CompactPhase.AFTER_AUTO, 0, 0, exc))
             return
@@ -669,7 +731,9 @@ class NovaCodeApp(App):
                 new_writer.append_compaction,
             )
             async with self._session_switch_lock:
+                await self.end_session()
                 self.agent.runtime.reset_for_new_session(context)
+                await self.agent.runtime.reset_hooks_for_new_session()
                 self.agent.clear_active_skills()
                 self.session_context = context
                 self.writer = new_writer
@@ -682,6 +746,7 @@ class NovaCodeApp(App):
             await self.query_one("#chat-area", VerticalScroll).remove_children()
             await asyncio.to_thread(old_writer.close)
             self.println("已清空当前会话，开启新 session")
+            await self.dispatch_session_start()
         except Exception as exc:
             if new_writer is not None:
                 await asyncio.to_thread(new_writer.close)
@@ -851,6 +916,10 @@ class NovaCodeApp(App):
                 new_writer.append_compaction,
             )
             async with self._session_switch_lock:
+                await self.end_session()
+                if self.hook_engine is not None:
+                    await self.hook_engine.reset_for_new_session()
+                target_runtime.hook_engine = self.hook_engine
                 self._swap_session(
                     live_conversation,
                     new_writer,
@@ -864,6 +933,7 @@ class NovaCodeApp(App):
             except Exception as exc:
                 logger.warning("old session writer close failed: %s", exc)
             self._show_system(f"已恢复会话 {info.session_id}")
+            await self.dispatch_session_resume()
             return True
         except Exception as exc:
             if new_writer is not None:

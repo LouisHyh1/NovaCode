@@ -2,6 +2,7 @@
 
 from typing import Protocol
 
+from novacode.hook.rule import Rule as HookRule
 from novacode.permission import Mode
 
 
@@ -19,10 +20,13 @@ class UI(Protocol):
     def memory_files(self) -> list[str]: ...
     def session_path(self) -> str: ...
     def session_id(self) -> str: ...
+    def hook_sources(self) -> list[str]: ...
+    def hook_rules(self) -> list[HookRule]: ...
     def quit(self) -> None: ...
     async def force_compact(self) -> None: ...
     async def open_resume_menu(self) -> None: ...
     async def clear_and_new_session(self) -> None: ...
+    async def end_session(self) -> None: ...
     def command_args(self) -> str: ...
     async def append_assistant_message(self, message: str, request: str = "") -> None: ...
     def idle(self) -> bool: ...
@@ -70,6 +74,12 @@ class NopUI:
     def session_id(self) -> str:
         return ""
 
+    def hook_sources(self) -> list[str]:
+        return []
+
+    def hook_rules(self) -> list[HookRule]:
+        return []
+
     def quit(self) -> None:
         pass
 
@@ -80,6 +90,9 @@ class NopUI:
         pass
 
     async def clear_and_new_session(self) -> None:
+        pass
+
+    async def end_session(self) -> None:
         pass
 
     def command_args(self) -> str:

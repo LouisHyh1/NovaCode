@@ -1,6 +1,6 @@
 [project]
 name = "novacode"
-version = "0.1.8"
+version = "0.1.9"
 description = "NovaCode — a terminal AI coding assistant"
 requires-python = ">=3.12"
 dependencies = [

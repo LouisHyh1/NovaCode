@@ -1,5 +1,6 @@
-"""12 条内置斜杠命令的集中注册入口。"""
+"""13 条内置斜杠命令的集中注册入口。"""
 
+from novacode.command.builtin_hooks import handle_hooks
 from novacode.command.builtin_local import (
     handle_memory,
     handle_permission,
@@ -26,6 +27,7 @@ def register_builtins(registry: Registry) -> None:
         Command("do", "执行上方已经确认的计划", Kind.PROMPT, handle_do),
         Command("exit", "退出 NovaCode", Kind.UI, handle_exit),
         Command("help", "显示可用命令", Kind.LOCAL, make_help_handler(registry)),
+        Command("hooks", "列出已加载的生命周期 Hook", Kind.LOCAL, handle_hooks),
         Command("memory", "显示已加载的记忆文件", Kind.LOCAL, handle_memory),
         Command("permission", "显示当前权限模式", Kind.LOCAL, handle_permission),
         Command("plan", "切换到计划模式", Kind.UI, handle_plan),

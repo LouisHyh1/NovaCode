@@ -19,7 +19,7 @@ def test_completion_activates_filters_and_hides() -> None:
 
     menu.update("/", registry)
     assert menu.active is True
-    assert len(menu.items) == 12
+    assert len(menu.items) == 13
 
     menu.update("/s", registry)
     assert [command.name for command in menu.items] == ["session", "status"]
@@ -65,7 +65,7 @@ async def test_completion_keyboard_integration(tmp_path, monkeypatch: pytest.Mon
 
         await pilot.press("/")
         assert app.completion.active is True
-        assert len(app.completion.items) == 13
+        assert len(app.completion.items) == 14
         assert any(command.name == "skill" for command in app.completion.items)
 
         await pilot.press("s")
