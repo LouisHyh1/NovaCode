@@ -219,6 +219,17 @@ class Agent:
         self.instructions = instructions
         self.memory_index = memory_index or (lambda: "")
         self._run_lock = asyncio.Lock()
+        self.active_skills: dict[str, str] = {}
+        self._skill_catalog = ""
+
+    def activate_skill(self, name: str, prompt_body: str) -> None:
+        self.active_skills[name] = prompt_body
+
+    def clear_active_skills(self) -> None:
+        self.active_skills.clear()
+
+    def set_skill_catalog(self, catalog: str) -> None:
+        self._skill_catalog = catalog
 
     def _manage_input(
         self,
@@ -278,8 +289,6 @@ class Agent:
             instructions=self.instructions,
             memory_index=self.memory_index(),
         )
-        env_text = env.render()
-
         if mode == Mode.PLAN:
             defs = self._registry.read_only_definitions()
         else:
@@ -306,6 +315,11 @@ class Agent:
                 return
 
             reminders = [self.runtime.resume_reminder] if self.runtime.resume_reminder else []
+            env_text = prompt.build_environment_context(
+                env.render(),
+                self.active_skills,
+                self._skill_catalog,
+            )
             if mode == Mode.PLAN:
                 full = it == 1 or (it - 1) % PLAN_REMINDER_INTERVAL == 0
                 reminders.append(prompt.plan_reminder(full))

@@ -75,6 +75,18 @@ def _request() -> ApprovalRequest:
     )
 
 
+def test_provider_selection_is_idempotent(monkeypatch: pytest.MonkeyPatch) -> None:
+    app = _make_app()
+    app.provider = MagicMock()
+    app.agent = MagicMock()
+    factory = MagicMock(side_effect=AssertionError("must not reinitialize"))
+    monkeypatch.setattr("novacode.tui.app.new_provider", factory)
+
+    app._select_provider(app.providers[0])
+
+    factory.assert_not_called()
+
+
 # ── unit: outcome index ───────────────────────────────────────
 
 
@@ -101,7 +113,8 @@ async def test_dispatch_slash_known_unknown_and_non_command() -> None:
     app._show_system.reset_mock()
     assert await app.dispatch_slash("/Help") is True
     help_text = app._show_system.call_args.args[0]
-    assert len(help_text.splitlines()) == 12
+    assert len(help_text.splitlines()) == 13
+    assert "/skill" in help_text
 
 
 @pytest.mark.asyncio
@@ -174,6 +187,7 @@ async def test_clear_starts_new_persistent_session_and_resets_usage(tmp_path: Pa
     app._usage_in = 100
     app._usage_out = 20
     app.conv.add_user("old")
+    app.agent.activate_skill("old-skill", "old SOP")
 
     await app.clear_and_new_session()
 
@@ -181,6 +195,7 @@ async def test_clear_starts_new_persistent_session_and_resets_usage(tmp_path: Pa
     assert app.session_context.session_id != old_context.session_id
     assert app.writer is not old_writer
     assert app.conv.messages() == []
+    assert app.agent.active_skills == {}
     assert app.usage_in() == app.usage_out() == 0
     assert old_writer.path.exists()
     app.println.assert_called_once_with("已清空当前会话，开启新 session")

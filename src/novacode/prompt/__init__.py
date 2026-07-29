@@ -61,6 +61,22 @@ def build_system_prompt(instructions: str = "", memory_index: str = "") -> str:
     return assemble_system(fixed_modules() + optional_modules(instructions, memory_index))
 
 
+def build_environment_context(
+    environment: str,
+    active_skills: dict[str, str] | None = None,
+    skill_catalog: str = "",
+    agent_catalog: str = "",
+) -> str:
+    """把动态目录与已激活 SOP 拼到非缓存环境块。"""
+    parts = [part for part in (environment, skill_catalog, agent_catalog) if part.strip()]
+    if active_skills:
+        entries = "\n\n".join(
+            f"### Skill: {name}\n\n{body}" for name, body in active_skills.items()
+        )
+        parts.append(f"## Active Skills\n\n{entries}")
+    return "\n\n".join(parts)
+
+
 __all__ = [
     # 模块化
     "Module",
@@ -68,6 +84,7 @@ __all__ = [
     "optional_modules",
     "assemble_system",
     "build_system_prompt",
+    "build_environment_context",
     # 环境
     "Environment",
     "gather_environment",

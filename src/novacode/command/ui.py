@@ -23,6 +23,8 @@ class UI(Protocol):
     async def force_compact(self) -> None: ...
     async def open_resume_menu(self) -> None: ...
     async def clear_and_new_session(self) -> None: ...
+    def command_args(self) -> str: ...
+    async def append_assistant_message(self, message: str, request: str = "") -> None: ...
     def idle(self) -> bool: ...
 
 
@@ -78,6 +80,12 @@ class NopUI:
         pass
 
     async def clear_and_new_session(self) -> None:
+        pass
+
+    def command_args(self) -> str:
+        return ""
+
+    async def append_assistant_message(self, message: str, request: str = "") -> None:
         pass
 
     def idle(self) -> bool:

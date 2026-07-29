@@ -39,6 +39,9 @@ def test_completion_zero_match_and_multiline() -> None:
     menu.update("/s\nnext", registry)
     assert menu.active is False
 
+    menu.update("/skill info test-skill", registry)
+    assert menu.active is False
+
 
 def test_completion_cursor_stays_in_eight_row_window() -> None:
     menu, registry = _menu()
@@ -53,21 +56,28 @@ def test_completion_cursor_stays_in_eight_row_window() -> None:
 
 
 @pytest.mark.asyncio
-async def test_completion_keyboard_integration() -> None:
+async def test_completion_keyboard_integration(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr("novacode.skills.loader.USER_SKILLS_DIR", str(tmp_path / "user-skills"))
     app = _make_app()
     async with app.run_test(size=(100, 40)) as pilot:
         app.dispatch_slash = AsyncMock(return_value=True)
 
         await pilot.press("/")
         assert app.completion.active is True
-        assert len(app.completion.items) == 12
+        assert len(app.completion.items) == 13
+        assert any(command.name == "skill" for command in app.completion.items)
 
         await pilot.press("s")
-        assert [command.name for command in app.completion.items] == ["session", "status"]
+        assert [command.name for command in app.completion.items] == [
+            "session",
+            "skill",
+            "status",
+        ]
 
         await pilot.press("down", "enter")
         await pilot.pause()
-        app.dispatch_slash.assert_awaited_once_with("/status")
+        app.dispatch_slash.assert_awaited_once_with("/skill")
         app.dispatch_slash.reset_mock()
 
         await pilot.press("/", "s")

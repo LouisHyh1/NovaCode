@@ -18,7 +18,12 @@ class CompletionMenu:
 
     def update(self, input_text: str, registry: Registry) -> None:
         text = input_text.strip()
-        if not text.startswith("/") or "\n" in input_text or "\r" in input_text:
+        if (
+            not text.startswith("/")
+            or any(char.isspace() for char in text)
+            or "\n" in input_text
+            or "\r" in input_text
+        ):
             self.hide()
             return
         self.items = registry.prefix_match(text)

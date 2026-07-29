@@ -7,7 +7,7 @@ import shutil
 import time
 import uuid
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime, timedelta
 from enum import Enum
 from pathlib import Path
@@ -22,8 +22,10 @@ from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
 from novacode.agent import Agent, ApprovalRequest, CompactPhase, Phase, SessionRuntime
-from novacode.command import Kind, parse, register_builtins
+from novacode.command import Kind, arguments, parse, register_builtins
 from novacode.command import Registry as CommandRegistry
+from novacode.command.builtin_skill import register_skill_management
+from novacode.command.skill_register import register_skill_commands
 from novacode.compact import (
     CompactCircuitBreaker,
     ContentReplacementState,
@@ -43,7 +45,10 @@ from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.prompt import system_reminder
 from novacode.session import SessionInfo, SessionWriter, list_sessions, load_session
+from novacode.skills import SkillExecutor, SkillLoader
 from novacode.tool import Registry as ToolRegistry
+from novacode.tool.install_skill import InstallSkillTool
+from novacode.tool.load_skill import LoadSkill
 from novacode.tui.commands import format_compact_notice
 from novacode.tui.complete import CompletionMenu
 from novacode.tui.resume import build_resume_options
@@ -158,8 +163,22 @@ class NovaCodeApp(App):
             writer.append_compaction if writer is not None else None,
         )
         self._tool_registry = registry
+        self.skill_loader = SkillLoader(self.project_root)
+        self.skill_loader.load_all()
+        self.skill_executor: SkillExecutor | None = None
+        self._load_skill_tool = LoadSkill()
+        self._load_skill_tool.set_loader(self.skill_loader)
+        self._tool_registry.register(self._load_skill_tool)
+        self._install_skill_tool = InstallSkillTool(
+            self.skill_loader,
+            Path.home() / ".novacode" / "skills",
+            self._sync_skills,
+        )
+        self._tool_registry.register(self._install_skill_tool)
         self.cmd_registry = CommandRegistry()
         register_builtins(self.cmd_registry)
+        register_skill_management(self.cmd_registry, self.skill_loader, self._sync_skills)
+        self._command_args = ""
         self.completion = CompletionMenu()
         self.engine = engine
         self.state = SessionState.SELECTING if len(providers) > 1 else SessionState.IDLE
@@ -238,6 +257,8 @@ class NovaCodeApp(App):
             self._pending_background_notices.append(notice)
 
     def _select_provider(self, provider_cfg: ProviderConfig) -> None:
+        if self.provider is not None and self.agent is not None:
+            return
         try:
             chat_input = self.query_one("#chat-input", ChatInput)
             chat_input.disabled = True
@@ -289,8 +310,20 @@ class NovaCodeApp(App):
                 instructions=self.instructions,
                 memory_index=self._memory_index,
             )
+            self._load_skill_tool.set_agent(self.agent)
+            self.skill_executor = SkillExecutor(
+                self.agent,
+                conversation=lambda: self.conv,
+                provider_factory=lambda model: new_provider(replace(provider_cfg, model=model)),
+            )
+            self._sync_skills()
         except Exception as exc:
-            logger.warning("provider resource binding failed: %s", type(exc).__name__)
+            logger.warning(
+                "provider resource binding failed: %s: %s",
+                type(exc).__name__,
+                exc,
+                exc_info=True,
+            )
             self.agent = None
             if self.extractor is not None and self._extractor_task is not None:
                 asyncio.create_task(self.extractor.close())
@@ -531,9 +564,12 @@ class NovaCodeApp(App):
             self.error("请等待当前任务完成")
             return True
         try:
+            self._command_args = arguments(text)
             await command.handler(self)
         except Exception as exc:
             self.error(str(exc))
+        finally:
+            self._command_args = ""
         return True
 
     def println(self, message: str) -> None:
@@ -551,6 +587,22 @@ class NovaCodeApp(App):
 
     async def inject_and_send(self, display_label: str, preset_prompt: str) -> None:
         await self._dispatch(preset_prompt, display_label)
+
+    def command_args(self) -> str:
+        return self._command_args
+
+    async def append_assistant_message(self, message: str, request: str = "") -> None:
+        if not message:
+            return
+        if request:
+            self.conv.add_user(request)
+        self.conv.add_assistant(message)
+        self._last_ai_text = message
+        chat = self.query_one("#chat-area", VerticalScroll)
+        row = Vertical(classes="ai-row")
+        await chat.mount(row)
+        await row.mount(Markdown(message, classes="message ai-message"))
+        self._scroll_chat()
 
     def usage_in(self) -> int:
         return self._usage_in
@@ -618,6 +670,7 @@ class NovaCodeApp(App):
             )
             async with self._session_switch_lock:
                 self.agent.runtime.reset_for_new_session(context)
+                self.agent.clear_active_skills()
                 self.session_context = context
                 self.writer = new_writer
                 self.conv = conversation
@@ -637,9 +690,34 @@ class NovaCodeApp(App):
     def idle(self) -> bool:
         return self.state == SessionState.IDLE
 
+    def _sync_skills(self) -> None:
+        catalog = self.skill_loader.get_catalog()
+        text = ""
+        if catalog:
+            items = "\n".join(f"- {name}: {description}" for name, description in catalog)
+            text = (
+                "## Available Skills\n\n"
+                f"{items}\n\n"
+                "If the user's request matches a Skill, call LoadSkill with its name."
+            )
+        if self.agent is not None:
+            self.agent.set_skill_catalog(text)
+        if self.skill_executor is not None:
+            register_skill_commands(
+                self.cmd_registry,
+                self.skill_loader,
+                self.skill_executor,
+            )
+
     def _handle_completion_key(self, event: events.Key) -> bool:
         if not self.completion.active:
             return False
+        if event.key == "enter":
+            text = self.query_one("#chat-input", ChatInput).text.strip()
+            if any(char.isspace() for char in text):
+                self.completion.hide()
+                self._render_completion()
+                return False
         if event.key == "up":
             self.completion.move_up()
         elif event.key == "down":

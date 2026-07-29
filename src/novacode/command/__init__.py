@@ -2,7 +2,7 @@
 
 from novacode.command.builtins import register_builtins
 from novacode.command.command import Command, Handler, Kind
-from novacode.command.dispatch import parse
+from novacode.command.dispatch import arguments, parse
 from novacode.command.registry import Registry
 from novacode.command.ui import UI, NopUI
 
@@ -13,6 +13,7 @@ __all__ = [
     "NopUI",
     "Registry",
     "UI",
+    "arguments",
     "parse",
     "register_builtins",
 ]

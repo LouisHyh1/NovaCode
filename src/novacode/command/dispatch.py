@@ -2,7 +2,7 @@
 
 
 def parse(input_text: str) -> tuple[str, bool]:
-    """返回命令名和是否为斜杠输入；本期不接受任何参数。"""
+    """返回命令名和是否为斜杠输入。"""
     text = input_text.strip()
     if not text.startswith("/"):
         return "", False
@@ -11,7 +11,12 @@ def parse(input_text: str) -> tuple[str, bool]:
         return "", True
     if body[0].isspace():
         return "", True
-    parts = body.split(maxsplit=1)
-    if len(parts) != 1 or not parts[0]:
-        return "", True
-    return parts[0].lower(), True
+    return body.split(maxsplit=1)[0].lower(), True
+
+
+def arguments(input_text: str) -> str:
+    text = input_text.strip()
+    if not text.startswith("/"):
+        return ""
+    parts = text[1:].split(maxsplit=1)
+    return parts[1].strip() if len(parts) == 2 else ""
