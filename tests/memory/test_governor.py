@@ -8,7 +8,7 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from novacode.memory import MemoryAction, MemoryGovernor, MemoryKind, MemoryStore
-from novacode.memory.governor import _ConsolidationLock
+from novacode.memory.governor import _ConsolidationLock, _pid_status
 
 NOW = datetime(2026, 7, 20, 12, tzinfo=UTC)
 
@@ -160,6 +160,10 @@ def test_consolidation_lock_pid_and_unknown_age_rules(
     stale = _ConsolidationLock(path)
     assert stale.acquire() is True
     stale.release(success=False)
+
+
+def test_pid_status_recognizes_current_process_without_signalling_it() -> None:
+    assert _pid_status(os.getpid()) is True
 
 
 @pytest.mark.asyncio

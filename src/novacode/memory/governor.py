@@ -258,6 +258,8 @@ def _parse_pid(content: bytes) -> int | None:
 def _pid_status(pid: int) -> bool | None:
     if pid <= 0:
         return False
+    if os.name == "nt":
+        return _windows_pid_status(pid)
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
@@ -269,6 +271,31 @@ def _pid_status(pid: int) -> bool | None:
             return False
         return None
     return True
+
+
+def _windows_pid_status(pid: int) -> bool | None:
+    """通过 Win32 进程句柄查询存活状态，不向目标进程发送信号。"""
+    import ctypes
+    from ctypes import wintypes
+
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    open_process = kernel32.OpenProcess
+    open_process.argtypes = (wintypes.DWORD, wintypes.BOOL, wintypes.DWORD)
+    open_process.restype = wintypes.HANDLE
+    close_handle = kernel32.CloseHandle
+    close_handle.argtypes = (wintypes.HANDLE,)
+    close_handle.restype = wintypes.BOOL
+
+    handle = open_process(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if handle:
+        close_handle(handle)
+        return True
+    error = ctypes.get_last_error()
+    if error == 87:  # ERROR_INVALID_PARAMETER：PID 不存在。
+        return False
+    if error == 5:  # ERROR_ACCESS_DENIED：进程存在但不可查询。
+        return True
+    return None
 
 
 def _try_os_lock(file) -> bool:

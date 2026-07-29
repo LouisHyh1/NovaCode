@@ -77,6 +77,7 @@ class RecoveryState:
     def record_file(self, path: str, content: str) -> None:
         abs_path = str(Path(path).resolve())
         with self._lock:
+            self._files.pop(abs_path, None)
             self._files[abs_path] = FileReadRecord(
                 path=abs_path,
                 content=content,
@@ -86,6 +87,8 @@ class RecoveryState:
     def snapshot(self) -> list[FileReadRecord]:
         with self._lock:
             records = copy.deepcopy(list(self._files.values()))
+        # Python 排序稳定；先反转可让相同时间戳按最近记录优先。
+        records.reverse()
         return sorted(records, key=lambda r: r.timestamp, reverse=True)
 
 

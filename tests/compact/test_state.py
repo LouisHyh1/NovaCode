@@ -112,10 +112,20 @@ def test_circuit_breaker_trips_after_three_failures_and_resets() -> None:
     assert breaker.tripped() is True
 
 
-def test_recovery_state_snapshot_is_sorted_copy(tmp_path: Path) -> None:
+def test_recovery_state_snapshot_is_sorted_copy(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     recovery = RecoveryState()
     a = tmp_path / "a.txt"
     b = tmp_path / "b.txt"
+    timestamp = datetime(2026, 7, 20, 9, 8, 7)
+
+    class FrozenDateTime:
+        @staticmethod
+        def now(_tz):
+            return timestamp
+
+    monkeypatch.setattr("novacode.compact.state.datetime", FrozenDateTime)
 
     recovery.record_file(str(a), "old")
     recovery.record_file(str(b), "new")
@@ -125,3 +135,8 @@ def test_recovery_state_snapshot_is_sorted_copy(tmp_path: Path) -> None:
     fresh = recovery.snapshot()
     assert [Path(r.path).name for r in fresh] == ["b.txt", "a.txt"]
     assert fresh[0].content == "new"
+
+    recovery.record_file(str(a), "latest")
+    reread = recovery.snapshot()
+    assert [Path(r.path).name for r in reread] == ["a.txt", "b.txt"]
+    assert reread[0].content == "latest"
