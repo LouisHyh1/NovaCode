@@ -144,6 +144,16 @@ class SessionRuntime:
     anchor_msg_len: int = 0
     resume_reminder: str = ""
 
+    def reset_for_new_session(self, session: SessionContext) -> None:
+        """为新会话重置所有跨轮上下文状态。"""
+        self.replacement = ContentReplacementState()
+        self.recovery = RecoveryState()
+        self.auto_tracking = CompactCircuitBreaker()
+        self.session = session
+        self.usage_anchor = 0
+        self.anchor_msg_len = 0
+        self.resume_reminder = ""
+
 
 @dataclass
 class _StreamState:

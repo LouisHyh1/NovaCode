@@ -5,6 +5,7 @@ import copy
 import errno
 import hashlib
 import json
+import logging
 import os
 import re
 import time
@@ -23,6 +24,8 @@ from novacode.memory.types import (
     MemoryLockError,
     MemoryRecoveryRequired,
 )
+
+logger = logging.getLogger(__name__)
 
 INDEX_NAME = "MEMORY.md"
 JOURNAL_NAME = ".memory-transaction.json"
@@ -109,6 +112,14 @@ class MemoryStore:
     @property
     def lock(self) -> asyncio.Lock:
         return self._lock
+
+    def list_files(self) -> list[str]:
+        """列出当前记忆目录中的 Markdown 文件名。"""
+        try:
+            return sorted(path.name for path in self.directory.glob("*.md") if path.is_file())
+        except OSError as exc:
+            logger.warning("memory file listing failed for %s: %s", self.directory, exc)
+            return []
 
     @asynccontextmanager
     async def locked(self, *, create: bool = True) -> AsyncIterator[None]:

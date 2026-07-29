@@ -3,11 +3,12 @@
 import asyncio
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from novacode.agent import Agent, ApprovalRequest, CompactPhase, Event, SessionRuntime
+from novacode.command.builtin_prompt import REVIEW_DIRECTIVE
 from novacode.compact import (
     CompactCircuitBreaker,
     ContentReplacementState,
@@ -24,11 +25,12 @@ from novacode.permission.rule import RuleSet
 from novacode.session import SessionWriteError, SessionWriter, list_sessions, load_session
 from novacode.tool import Registry
 from novacode.tui.app import (
+    ChatInput,
     NovaCodeApp,
     SessionState,
     _outcome_for_index,
 )
-from novacode.tui.commands import dispatch_command, format_compact_notice
+from novacode.tui.commands import format_compact_notice
 from novacode.tui.resume import format_session_option
 
 # ── helpers ──────────────────────────────────────────────────
@@ -87,22 +89,102 @@ class TestOutcomeIndex:
         assert _outcome_for_index(2) == Outcome.DENY_ONCE
 
 
-def test_dispatch_command_known_unknown_and_non_command() -> None:
-    handler, is_command = dispatch_command("/compact")
-    assert is_command is True
-    assert handler is not None
+@pytest.mark.asyncio
+async def test_dispatch_slash_known_unknown_and_non_command() -> None:
+    app = _make_app()
+    app._show_system = MagicMock()
 
-    handler, is_command = dispatch_command("/resume")
-    assert is_command is True
-    assert handler is not None
+    assert await app.dispatch_slash("hello") is False
+    assert await app.dispatch_slash("/missing") is True
+    app._show_system.assert_called_with("未知命令：输入 /help 查看可用命令")
 
-    handler, is_command = dispatch_command("/missing")
-    assert is_command is True
-    assert handler is not None
+    app._show_system.reset_mock()
+    assert await app.dispatch_slash("/Help") is True
+    help_text = app._show_system.call_args.args[0]
+    assert len(help_text.splitlines()) == 12
 
-    handler, is_command = dispatch_command("hello")
-    assert is_command is False
-    assert handler is None
+
+@pytest.mark.asyncio
+async def test_dispatch_plan_is_local_and_do_injects() -> None:
+    app = _make_app()
+    app._show_system = MagicMock()
+    app.conv = MagicMock()
+
+    assert await app.dispatch_slash("/plan") is True
+    assert app.mode() == Mode.PLAN
+    app.conv.add_user.assert_not_called()
+
+    app._dispatch = AsyncMock()
+    assert await app.dispatch_slash("/do") is True
+    assert app.mode() == Mode.DEFAULT
+    app._dispatch.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_dispatch_rejects_ui_command_while_busy() -> None:
+    app = _make_app()
+    app.state = SessionState.STREAMING
+    app.error = MagicMock()
+
+    assert await app.dispatch_slash("/plan") is True
+
+    app.error.assert_called_once_with("请等待当前任务完成")
+    assert app.mode() == Mode.BYPASS
+
+
+@pytest.mark.asyncio
+async def test_submit_allows_local_command_while_busy() -> None:
+    app = _make_app()
+    app.provider = MagicMock(model="test-model")
+    app.state = SessionState.STREAMING
+    app._show_system = MagicMock()
+
+    await app._on_submit(ChatInput.Submitted("/permission"))
+
+    app._show_system.assert_called_once_with("bypassPermissions")
+
+
+@pytest.mark.asyncio
+async def test_review_persists_prompt_and_starts_turn(tmp_path: Path) -> None:
+    context = new_session_context(str(tmp_path))
+    writer = SessionWriter(Path(context.message_path).parent, context.session_id, "")
+    app = _make_app()
+    app.session_context = context
+    app.writer = writer
+    app.conv = Conversation(writer.append_message, writer.append_compaction)
+
+    async with app.run_test(size=(100, 30)):
+        app._start_stream = AsyncMock()
+        assert await app.dispatch_slash("/review") is True
+
+        assert app.conv.messages()[-1].content == REVIEW_DIRECTIVE
+        assert load_session(writer.path).messages[-1].content == REVIEW_DIRECTIVE
+        app._start_stream.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_clear_starts_new_persistent_session_and_resets_usage(tmp_path: Path) -> None:
+    app, old_writer = _resume_app(tmp_path)
+    old_context = app.session_context
+    chat = MagicMock()
+    chat.remove_children = MagicMock(return_value=asyncio.sleep(0))
+    app.query_one = MagicMock(return_value=chat)
+    app.println = MagicMock()
+    app.error = MagicMock()
+    app._usage_in = 100
+    app._usage_out = 20
+    app.conv.add_user("old")
+
+    await app.clear_and_new_session()
+
+    assert app.session_context is not old_context
+    assert app.session_context.session_id != old_context.session_id
+    assert app.writer is not old_writer
+    assert app.conv.messages() == []
+    assert app.usage_in() == app.usage_out() == 0
+    assert old_writer.path.exists()
+    app.println.assert_called_once_with("已清空当前会话，开启新 session")
+    app.writer.close()
 
 
 def _resume_app(tmp_path: Path) -> tuple[NovaCodeApp, SessionWriter]:

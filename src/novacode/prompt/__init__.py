@@ -32,7 +32,7 @@ def render_banner(version: str | None = None, cwd: str | None = None) -> str:
   NovaCode v{v}
   {d}
 
-Ready — type a message or /exit to quit.
+Ready — type a message or /help to view commands.
 """
 
 

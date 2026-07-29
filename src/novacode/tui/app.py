@@ -21,12 +21,15 @@ from textual.message import Message as TMessage
 from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
-from novacode.agent import Agent, ApprovalRequest, Phase, SessionRuntime
+from novacode.agent import Agent, ApprovalRequest, CompactPhase, Phase, SessionRuntime
+from novacode.command import Kind, parse, register_builtins
+from novacode.command import Registry as CommandRegistry
 from novacode.compact import (
     CompactCircuitBreaker,
     ContentReplacementState,
     RecoveryState,
     SessionContext,
+    new_session_context,
     open_session_context,
 )
 from novacode.compact.const import auto_compact_threshold
@@ -40,8 +43,9 @@ from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.prompt import system_reminder
 from novacode.session import SessionInfo, SessionWriter, list_sessions, load_session
-from novacode.tool import Registry
-from novacode.tui.commands import dispatch_command, format_compact_notice
+from novacode.tool import Registry as ToolRegistry
+from novacode.tui.commands import format_compact_notice
+from novacode.tui.complete import CompletionMenu
 from novacode.tui.resume import build_resume_options
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
 
@@ -71,10 +75,17 @@ class ChatInput(TextArea):
             super().__init__()
             self.text = text
 
-    def _on_key(self, event: "events.Key") -> None:
+    async def _on_key(self, event: "events.Key") -> None:
         # 审批态：按键委托给 App._update_approving，防止被 TextArea 吞掉
         if self.app.state == SessionState.APPROVING:
             self.app._update_approving(event.key)
+            event.stop()
+            event.prevent_default()
+            return
+        if self.app.state == SessionState.IDLE and self.app._handle_completion_key(event):
+            return
+        if event.key == "escape":
+            self.app.action_cancel()
             event.stop()
             event.prevent_default()
             return
@@ -87,6 +98,8 @@ class ChatInput(TextArea):
                 if self.text.strip():
                     self.post_message(self.Submitted(self.text))
                 self.clear()
+            return
+        await super()._on_key(event)
 
 
 def _next_mode(m: Mode) -> Mode:
@@ -105,14 +118,13 @@ class NovaCodeApp(App):
 
     BINDINGS = [
         Binding("ctrl+c", "handle_ctrl_c", "Ctrl+C", priority=True),
-        Binding("escape", "cancel", "Cancel", priority=True),
         Binding("ctrl+o", "toggle_tool_blocks", "Toggle tools", priority=True),
     ]
 
     def __init__(
         self,
         providers: list[ProviderConfig],
-        registry: Registry,
+        registry: ToolRegistry,
         version: str | None = None,
         driver_class: type | None = None,
         engine: Engine | None = None,
@@ -146,14 +158,17 @@ class NovaCodeApp(App):
             writer.append_compaction if writer is not None else None,
         )
         self._tool_registry = registry
+        self.cmd_registry = CommandRegistry()
+        register_builtins(self.cmd_registry)
+        self.completion = CompletionMenu()
         self.engine = engine
         self.state = SessionState.SELECTING if len(providers) > 1 else SessionState.IDLE
         self.turn_start = 0.0
         self._agent_task: asyncio.Task[None] | None = None
-        self.mode: Mode = engine.start_mode if engine else Mode.DEFAULT
+        self._mode: Mode = engine.start_mode if engine else Mode.DEFAULT
         self.iter: int = 0
-        self.usage_in: int = 0
-        self.usage_out: int = 0
+        self._usage_in: int = 0
+        self._usage_out: int = 0
         self.cur_tools: list[ToolDisplay] = []
         self.turn_cancel: asyncio.Event | None = None
         # 人在回路状态
@@ -186,6 +201,7 @@ class NovaCodeApp(App):
         yield VerticalScroll(id="chat-area")
         with Vertical(id="input-area"):
             yield ChatInput(id="chat-input", disabled=True)
+            yield Static("", id="completion-menu")
             with Horizontal(id="status-bar"):
                 yield Static("", id="mode-label")
                 yield Static("", id="model-label")
@@ -319,7 +335,7 @@ class NovaCodeApp(App):
             label = self.query_one("#mode-label", Static)
         except Exception:
             return
-        label.update(Text(f"  {self.mode.label()}", style=self._mode_style()))
+        label.update(Text(f"  {self._mode.label()}", style=self._mode_style()))
 
     def _mode_style(self) -> str:
         styles = {
@@ -328,7 +344,7 @@ class NovaCodeApp(App):
             Mode.PLAN: "bold #ffa500",
             Mode.BYPASS: "bold #f85149",
         }
-        return styles.get(self.mode, "dim")
+        return styles.get(self._mode, "dim")
 
     # ── provider selector ──────────────────────────────────────
 
@@ -349,17 +365,26 @@ class NovaCodeApp(App):
 
     # ── keys ────────────────────────────────────────────────────
 
-    def _on_key(self, event: "events.Key") -> None:
+    async def _on_key(self, event: "events.Key") -> None:
         """全局按键分派——处理 Shift+Tab 和 approving 态按键。"""
         key = event.key
+
+        if key == "escape":
+            self.action_cancel()
+            event.stop()
+            event.prevent_default()
+            return
+
+        if self.state == SessionState.IDLE and self._handle_completion_key(event):
+            return
 
         # Shift+Tab 循环切换权限模式（仅 idle 态）
         if key == "shift+tab" and self.state == SessionState.IDLE:
             event.stop()
             event.prevent_default()
-            self.mode = _next_mode(self.mode)
+            self._mode = _next_mode(self._mode)
             self._update_mode_label()
-            self._show_system(f"已切换到 {self.mode.label()} 模式")
+            self._show_system(f"已切换到 {self._mode.label()} 模式")
             return
 
         # Approving 态按键分派
@@ -371,7 +396,11 @@ class NovaCodeApp(App):
                 return
 
         # 默认处理链
-        super()._on_key(event)
+        await super()._on_key(event)
+
+    @on(TextArea.Changed, "#chat-input")
+    def _on_chat_input_changed(self, event: TextArea.Changed) -> None:
+        self._sync_completion_from_input(event.text_area.text)
 
     async def action_handle_ctrl_c(self) -> None:
         # 输入框中有选中文本 → 优先复制，不触发取消/退出
@@ -391,6 +420,11 @@ class NovaCodeApp(App):
         self.exit()
 
     def action_cancel(self) -> None:
+        if self.completion.active:
+            self.completion.hide()
+            self._render_completion()
+            self.query_one("#chat-input", ChatInput).focus()
+            return
         if self.state == SessionState.RESUMING:
             self._close_resume_list()
             self.state = SessionState.IDLE
@@ -469,22 +503,179 @@ class NovaCodeApp(App):
 
     @on(ChatInput.Submitted)
     async def _on_submit(self, event: ChatInput.Submitted) -> None:
-        if self.state != SessionState.IDLE or self.provider is None:
+        if self.provider is None:
             return
         text = event.text.strip() if event.text else ""
         if not text:
             return
 
-        handler, is_command = dispatch_command(text)
-        if is_command:
-            if handler is not None:
-                await handler(self)
+        if await self.dispatch_slash(text):
+            self.completion.hide()
+            self._render_completion()
             return
 
+        if self.state != SessionState.IDLE:
+            return
         await self._dispatch(text)
 
+    async def dispatch_slash(self, text: str) -> bool:
+        """分发斜杠命令；非命令输入返回 False。"""
+        name, is_slash = parse(text)
+        if not is_slash:
+            return False
+        command = self.cmd_registry.lookup(name)
+        if command is None:
+            self.println("未知命令：输入 /help 查看可用命令")
+            return True
+        if command.kind in (Kind.UI, Kind.PROMPT) and not self.idle():
+            self.error("请等待当前任务完成")
+            return True
+        try:
+            await command.handler(self)
+        except Exception as exc:
+            self.error(str(exc))
+        return True
+
+    def println(self, message: str) -> None:
+        self._show_system(message)
+
+    def error(self, message: str) -> None:
+        self._show_system(f"✖ {message}")
+
+    def mode(self) -> Mode:
+        return self._mode
+
+    def set_mode(self, mode: Mode) -> None:
+        self._mode = mode
+        self._update_mode_label()
+
+    async def inject_and_send(self, display_label: str, preset_prompt: str) -> None:
+        await self._dispatch(preset_prompt, display_label)
+
+    def usage_in(self) -> int:
+        return self._usage_in
+
+    def usage_out(self) -> int:
+        return self._usage_out
+
+    def model_name(self) -> str:
+        return self.provider.model if self.provider is not None else ""
+
+    def cwd(self) -> str:
+        return str(self.project_root)
+
+    def tool_count(self) -> int:
+        return self._tool_registry.count()
+
+    def memory_files(self) -> list[str]:
+        if self.extractor is not None:
+            stores = (self.extractor.project_store, self.extractor.user_store)
+        elif self.governor is not None:
+            stores = self.governor.stores
+        else:
+            return []
+        return [name for store in stores for name in store.list_files()]
+
+    def session_path(self) -> str:
+        return str(self.writer.path) if self.writer is not None else ""
+
+    def session_id(self) -> str:
+        return self.session_context.session_id if self.session_context is not None else ""
+
+    def quit(self) -> None:
+        self.exit()
+
+    async def force_compact(self) -> None:
+        if self.agent is None:
+            self.error("压缩失败：当前没有可用 Agent")
+            return
+        try:
+            before, after = await self.agent.run_force_compact(self.conv, self._current_tool_defs())
+        except Exception as exc:
+            self.println(format_compact_notice(CompactPhase.AFTER_AUTO, 0, 0, exc))
+            return
+        self.println(format_compact_notice(CompactPhase.AFTER_AUTO, before, after, None))
+
+    async def open_resume_menu(self) -> None:
+        await self._begin_resume()
+
+    async def clear_and_new_session(self) -> None:
+        if self.writer is None or self.agent is None or self.provider is None:
+            self.error("清空失败：当前会话资源不完整")
+            return
+        old_writer = self.writer
+        new_writer: SessionWriter | None = None
+        try:
+            context = new_session_context(str(self.project_root))
+            new_writer = SessionWriter(
+                Path(context.message_path).parent,
+                context.session_id,
+                self.provider.model,
+            )
+            conversation = Conversation(
+                new_writer.append_message,
+                new_writer.append_compaction,
+            )
+            async with self._session_switch_lock:
+                self.agent.runtime.reset_for_new_session(context)
+                self.session_context = context
+                self.writer = new_writer
+                self.conv = conversation
+                new_writer = None
+            self.iter = 0
+            self._usage_in = 0
+            self._usage_out = 0
+            self._last_ai_text = ""
+            await self.query_one("#chat-area", VerticalScroll).remove_children()
+            await asyncio.to_thread(old_writer.close)
+            self.println("已清空当前会话，开启新 session")
+        except Exception as exc:
+            if new_writer is not None:
+                await asyncio.to_thread(new_writer.close)
+            self.error(f"清空失败：{exc}")
+
+    def idle(self) -> bool:
+        return self.state == SessionState.IDLE
+
+    def _handle_completion_key(self, event: events.Key) -> bool:
+        if not self.completion.active:
+            return False
+        if event.key == "up":
+            self.completion.move_up()
+        elif event.key == "down":
+            self.completion.move_down()
+        elif event.key == "escape":
+            self.completion.hide()
+        elif event.key in ("enter", "tab"):
+            selected = self.completion.selected()
+            self.completion.hide()
+            self._render_completion()
+            if selected is None and event.key == "enter":
+                return False
+            if selected is not None:
+                self.query_one("#chat-input", ChatInput).clear()
+                asyncio.create_task(self.dispatch_slash(f"/{selected.name}"))
+        else:
+            return False
+        self._render_completion()
+        event.stop()
+        event.prevent_default()
+        return True
+
+    def _sync_completion_from_input(self, text: str) -> None:
+        self.completion.update(text, self.cmd_registry)
+        self._render_completion()
+
+    def _render_completion(self) -> None:
+        try:
+            widget = self.query_one("#completion-menu", Static)
+        except Exception:
+            return
+        widget.display = self.completion.active
+        widget.update(self.completion.render(self.size.width))
+
     def _current_tool_defs(self):
-        if self.mode == Mode.PLAN:
+        if self._mode == Mode.PLAN:
             return self._tool_registry.read_only_definitions()
         return self._tool_registry.definitions()
 
@@ -719,7 +910,7 @@ class NovaCodeApp(App):
             "该恢复会话的历史信息可能已经过期。继续前请重新读取会变化的文件、配置和外部资料。"
         )
 
-    async def _dispatch(self, text: str) -> None:
+    async def _dispatch(self, text: str, display_text: str | None = None) -> None:
         try:
             self.conv.add_user(text)
         except Exception as exc:
@@ -731,7 +922,7 @@ class NovaCodeApp(App):
         await chat.mount(user_row)
         rich_text = Text()
         rich_text.append("❯ ", style="bold #58a6ff")
-        rich_text.append(text, style="bold #c9d1d9")
+        rich_text.append(display_text or text, style="bold #c9d1d9")
         user_bubble = Static(rich_text, classes="message user-message")
         await user_row.mount(user_bubble)
         self._scroll_chat()
@@ -761,7 +952,7 @@ class NovaCodeApp(App):
             self.agent = Agent(self.provider, self._tool_registry, self._version, self.engine)
         agent = self.agent
         self._agent_task = asyncio.create_task(
-            self._consume_events(agent.run(self.conv, self.mode, self.turn_cancel))
+            self._consume_events(agent.run(self.conv, self._mode, self.turn_cancel))
         )
 
     # ── spinner ────────────────────────────────────────────────
@@ -832,8 +1023,8 @@ class NovaCodeApp(App):
                     self._mount_tool_block(ev.tool.name, td.args, ev.tool.result, ev.tool.is_error)
 
                 if ev.usage is not None:
-                    self.usage_in += ev.usage.input
-                    self.usage_out += ev.usage.output
+                    self._usage_in += ev.usage.input
+                    self._usage_out += ev.usage.output
 
                 if ev.notice:
                     self._show_system(ev.notice)

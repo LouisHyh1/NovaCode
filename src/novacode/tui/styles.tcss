@@ -141,6 +141,15 @@ Screen {
     color: $text;
 }
 
+#completion-menu {
+    display: none;
+    height: auto;
+    max-height: 8;
+    padding: 0 2;
+    color: $text-muted;
+    background: #222222;
+}
+
 #status-bar {
     height: auto;
     min-height: 1;
