@@ -1,6 +1,7 @@
 """ch12 Hook 系统的核心行为测试。"""
 
 import asyncio
+import os
 from pathlib import Path
 
 import httpx
@@ -34,6 +35,12 @@ from novacode.permission.matcher import (
 from novacode.permission.rule import parse_rule
 from novacode.permission.settings import PermissionsBlock, Settings, to_rule_set
 from novacode.tool import Registry, Result
+
+
+def _blocking_shell_command(reason: str) -> str:
+    if os.name == "nt":
+        return f"1>&2 <nul set /p={reason}& exit /b 2"
+    return f"echo {reason} >&2; exit 2"
 
 
 @pytest.mark.parametrize(
@@ -145,7 +152,7 @@ async def test_executor_shell_prompt_http_and_subagent(
 ) -> None:
     executor = Executor()
     blocked = await executor.run(
-        Rule("block", Event.PRE_TOOL_USE, ShellAction("echo blocked >&2; exit 2")),
+        Rule("block", Event.PRE_TOOL_USE, ShellAction(_blocking_shell_command("blocked"))),
         {"z": 1, "a": 2},
         blocking=True,
     )
@@ -199,7 +206,7 @@ async def test_engine_order_block_prompt_and_only_once() -> None:
             PromptAction("first"),
             only_once=True,
         ),
-        Rule("block", Event.PRE_TOOL_USE, ShellAction("echo no >&2; exit 2")),
+        Rule("block", Event.PRE_TOOL_USE, ShellAction(_blocking_shell_command("no"))),
         Rule("after", Event.PRE_TOOL_USE, PromptAction("must-not-run")),
     ]
     engine = Engine(rules, ["hooks.yaml"])
@@ -247,7 +254,7 @@ async def test_agent_pre_tool_hook_blocks_before_permission_and_execution() -> N
             Rule(
                 "block-write",
                 Event.PRE_TOOL_USE,
-                ShellAction("echo blocked >&2; exit 2"),
+                ShellAction(_blocking_shell_command("blocked")),
                 Condition(
                     CombineMode.ALL_OF,
                     [AtomCondition("tool_name", ExactMatcher("write_file"))],
