@@ -5,7 +5,6 @@ from collections.abc import Callable
 
 from novacode.conversation import Conversation
 from novacode.llm import ROLE_ASSISTANT, ROLE_USER, Message, Provider
-from novacode.permission import Mode
 from novacode.skills.parser import SkillDef, substitute_arguments
 
 SYSTEM_TOOL_NAMES = frozenset({"LoadSkill"})
@@ -31,7 +30,7 @@ class SkillExecutor:
         self.agent.activate_skill(skill.name, substitute_arguments(skill.prompt_body, args))
 
     async def execute_fork(self, skill: SkillDef, args: str) -> str:
-        from novacode.agent import Agent
+        from novacode.agent.launch import launch_fork
 
         try:
             fork_conv = self._build_fork_context(skill.context)
@@ -39,24 +38,7 @@ class SkillExecutor:
             provider = self.agent._provider
             if skill.model and self._provider_factory is not None:
                 provider = self._provider_factory(skill.model)
-            fork_agent = Agent(
-                provider,
-                self.agent._registry,
-                self.agent._version,
-                self.agent.engine,
-                context_window=self.agent.context_window,
-                instructions=self.agent.instructions,
-                memory_index=self.agent.memory_index,
-            )
-            result: list[str] = []
-            async for event in fork_agent.run(fork_conv, Mode.BYPASS, asyncio.Event()):
-                if event.text:
-                    result.append(event.text)
-                if event.err is not None:
-                    raise event.err
-                if event.done:
-                    break
-            return "".join(result)
+            return await launch_fork(self.agent, fork_conv, provider=provider)
         except asyncio.CancelledError:
             raise
         except Exception as exc:

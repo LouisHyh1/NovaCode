@@ -48,12 +48,16 @@ from novacode.permission.engine import Engine
 from novacode.prompt import system_reminder
 from novacode.session import SessionInfo, SessionWriter, list_sessions, load_session
 from novacode.skills import SkillExecutor, SkillLoader
+from novacode.subagent import Catalog as SubAgentCatalog
+from novacode.subagent import load_catalog as load_subagent_catalog
+from novacode.task import Manager as TaskManager
 from novacode.tool import Registry as ToolRegistry
 from novacode.tool.install_skill import InstallSkillTool
 from novacode.tool.load_skill import LoadSkill
 from novacode.tui.commands import format_compact_notice
 from novacode.tui.complete import CompletionMenu
 from novacode.tui.resume import build_resume_options
+from novacode.tui.tasks import build_task_notification
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
 
 SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
@@ -106,7 +110,6 @@ class ChatInput(TextArea):
                     self.post_message(self.Submitted(self.text))
                 self.clear()
             return
-        await super()._on_key(event)
 
 
 def _next_mode(m: Mode) -> Mode:
@@ -143,6 +146,8 @@ class NovaCodeApp(App):
         governor: MemoryGovernor | None = None,
         instructions: str = "",
         memory_index: str | Callable[[], str] = "",
+        task_mgr: TaskManager | None = None,
+        subagent_catalog: SubAgentCatalog | None = None,
     ) -> None:
         super().__init__(driver_class=driver_class)
         self._version = version or __version__
@@ -151,6 +156,9 @@ class NovaCodeApp(App):
         self.provider_cfg: ProviderConfig | None = None
         self.agent: Agent | None = None
         self.project_root = Path(project_root or Path.cwd()).resolve()
+        self.task_mgr = task_mgr or TaskManager()
+        self.subagent_catalog = subagent_catalog or load_subagent_catalog(self.project_root)
+        self._task_consumers: list[asyncio.Task] = []
         self.session_context = session_context
         self.writer = writer
         self.extractor = extractor
@@ -253,6 +261,10 @@ class NovaCodeApp(App):
         for notice in self._pending_background_notices:
             self._show_system(notice)
         self._pending_background_notices.clear()
+        self._task_consumers = [
+            asyncio.create_task(self._consume_task_done()),
+            asyncio.create_task(self._consume_task_approvals()),
+        ]
 
     async def on_unmount(self) -> None:
         await self._shutdown_resources()
@@ -318,6 +330,9 @@ class NovaCodeApp(App):
                 memory_index=self._memory_index,
                 hook_engine=self.hook_engine,
             )
+            agent_tool = self._tool_registry.get("Agent")
+            if agent_tool is not None and hasattr(agent_tool, "set_parent"):
+                agent_tool.set_parent(self.agent)
             self._load_skill_tool.set_agent(self.agent)
             self.skill_executor = SkillExecutor(
                 self.agent,
@@ -437,9 +452,6 @@ class NovaCodeApp(App):
                 event.prevent_default()
                 return
 
-        # 默认处理链
-        await super()._on_key(event)
-
     @on(TextArea.Changed, "#chat-input")
     def _on_chat_input_changed(self, event: TextArea.Changed) -> None:
         self._sync_completion_from_input(event.text_area.text)
@@ -476,10 +488,15 @@ class NovaCodeApp(App):
             self._signal_turn_cancel()
 
     def _signal_turn_cancel(self) -> None:
+        if self.turn_cancel is not None and self.turn_cancel.is_set():
+            if self._agent_task is not None and not self._agent_task.done():
+                self._agent_task.cancel()
+            self._finish_streaming()
+            return
         if self.turn_cancel is not None:
             self.turn_cancel.set()
-        if self.pending is not None and not self.pending.respond.done():
-            self.pending.respond.set_result(Outcome.DENY_ONCE)
+        if self.pending is not None:
+            self._commit_approval(Outcome.DENY_ONCE)
 
     def action_toggle_tool_blocks(self) -> None:
         """Ctrl+O 切换所有工具块展开/折叠（预留）。"""
@@ -1148,14 +1165,10 @@ class NovaCodeApp(App):
                     continue
 
                 if ev.approval is not None:
-                    # 人在回路——切到 APPROVING 态
+                    # 所有来源共用一个 FIFO，由唯一消费者逐个显示。
                     if self._accumulated_text.strip():
                         self._flush_preamble()
-                    self.pending = ev.approval
-                    self.approve_cursor = 0
-                    self.state = SessionState.APPROVING
-                    self._mount_approval_block()
-                    # 不要继续读事件——agent 正 await respond
+                    await self.task_mgr.subscribe_approvals().put(ev.approval)
                     continue
 
                 if ev.tool is not None and ev.tool.phase == Phase.START:
@@ -1201,6 +1214,27 @@ class NovaCodeApp(App):
             raise
         except Exception as e:
             self._finish_with_error(e)
+
+    async def _consume_task_done(self) -> None:
+        queue = self.task_mgr.subscribe_done()
+        while True:
+            task_id = await queue.get()
+            background = self.task_mgr.get(task_id)
+            if background is None or self.agent is None:
+                continue
+            self.agent.runtime.append_reminders([build_task_notification(background)])
+
+    async def _consume_task_approvals(self) -> None:
+        queue = self.task_mgr.subscribe_approvals()
+        while True:
+            request = await queue.get()
+            self.pending = request
+            self.approve_cursor = 0
+            self.state = SessionState.APPROVING
+            self._mount_approval_block()
+            await asyncio.shield(request.respond)
+            if self._agent_task is None:
+                self.state = SessionState.IDLE
 
     def _flush_preamble(self) -> None:
         text = self._accumulated_text
@@ -1320,6 +1354,12 @@ class NovaCodeApp(App):
         if self._shutdown_started:
             return
         self._shutdown_started = True
+        for task in self._task_consumers:
+            task.cancel()
+        if self._task_consumers:
+            await asyncio.gather(*self._task_consumers, return_exceptions=True)
+        self._task_consumers.clear()
+        await self.task_mgr.close()
         try:
             self.query_one("#chat-input", ChatInput).disabled = True
         except Exception:

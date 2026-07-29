@@ -26,6 +26,10 @@ class ProviderConfig:
 @dataclass
 class Config:
     providers: list[ProviderConfig] = field(default_factory=list)
+    enable_subagent_background: bool | None = None
+
+    def effective_enable_subagent_background(self) -> bool:
+        return self.enable_subagent_background is not False
 
 
 def load(path: str) -> Config:
@@ -65,7 +69,13 @@ def load(path: str) -> Config:
             )
         )
 
-    return Config(providers=providers)
+    background = raw.get(
+        "enable_subagent_background",
+        raw.get("enableSubAgentBackground"),
+    )
+    if background is not None and type(background) is not bool:
+        raise ConfigError("enable_subagent_background must be a boolean")
+    return Config(providers=providers, enable_subagent_background=background)
 
 
 def _validate_provider(entry: dict, prefix: str) -> None:

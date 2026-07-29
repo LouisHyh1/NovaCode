@@ -23,6 +23,9 @@ from novacode.memory import (
 )
 from novacode.memory.prompts import parse_actions
 from novacode.session import SessionWriter, clean_expired_async, load_session
+from novacode.subagent import load_catalog as load_subagent_catalog
+from novacode.task import Manager as TaskManager
+from novacode.task import SendMessageTool, TaskGetTool, TaskListTool, TaskStopTool
 from novacode.tool import Registry
 from novacode.tui.app import NovaCodeApp
 from novacode.tui.driver import NoAltScreenDriver
@@ -39,6 +42,9 @@ def main() -> None:
 async def _amain() -> int:
     if "--version" in sys.argv:
         print(__version__)
+        return 0
+    if "--help" in sys.argv or "-h" in sys.argv:
+        print("usage: nova [--version] [--help]")
         return 0
 
     cwd = os.getcwd()
@@ -105,6 +111,21 @@ async def _amain() -> int:
             lambda value: memory_cache.__setitem__(0, value),
         )
     )
+    task_mgr = TaskManager()
+    subagent_catalog = load_subagent_catalog(root)
+    registry.register(TaskListTool(task_mgr))
+    registry.register(TaskGetTool(task_mgr))
+    registry.register(TaskStopTool(task_mgr))
+    registry.register(SendMessageTool(task_mgr))
+    from novacode.agent.agent_tool import AgentTool
+
+    registry.register(
+        AgentTool(
+            subagent_catalog,
+            task_mgr,
+            bg_enabled=cfg.effective_enable_subagent_background(),
+        )
+    )
     try:
         mcp_cfg = mcp_client.load_config(root_text)
         mcp_mgr = await mcp_client.new_manager(mcp_cfg, version=__version__)
@@ -146,6 +167,8 @@ async def _amain() -> int:
             governor=governor,
             instructions=instructions,
             memory_index=lambda: memory_cache[0],
+            task_mgr=task_mgr,
+            subagent_catalog=subagent_catalog,
         )
         app_holder["app"] = app
         for notice in queued_notices:

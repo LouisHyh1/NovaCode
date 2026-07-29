@@ -165,6 +165,22 @@ def test_effective_context_window_defaults_and_override() -> None:
     )
 
 
+def test_enable_subagent_background(tmp_path: Path) -> None:
+    path = tmp_path / "config.yaml"
+    path.write_text(
+        "providers:\n"
+        "  - name: test\n"
+        "    protocol: openai\n"
+        "    api_key: key\n"
+        "    model: model\n"
+        "enable_subagent_background: false\n",
+        encoding="utf-8",
+    )
+    config = load(str(path))
+    assert config.enable_subagent_background is False
+    assert config.effective_enable_subagent_background() is False
+
+
 def test_pyproject_version_matches_runtime_version() -> None:
     from novacode import __version__
 

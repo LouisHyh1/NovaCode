@@ -824,6 +824,35 @@ async def test_cancel_side_effect_tool_finishes_quickly_with_paired_result():
     assert conv.last_role() == ROLE_ASSISTANT
 
 
+@pytest.mark.asyncio
+async def test_force_cancel_during_tool_keeps_history_paired():
+    """直接取消消费任务时，也不能留下悬空的 tool_use。"""
+    registry = Registry()
+    registry.register(BlockingTool("blocker", block_time=5.0))
+    provider = FakeProvider(
+        [[StreamEvent(tool_calls=[ToolCall(id="forced-1", name="blocker", input="{}")])]]
+    )
+    conv = Conversation()
+    conv.add_user("go")
+    agent = Agent(provider, registry)
+    started = asyncio.Event()
+
+    async def consume() -> None:
+        async for event in agent.run(conv, Mode.DEFAULT, asyncio.Event()):
+            if event.tool is not None and event.tool.phase == Phase.START:
+                started.set()
+
+    task = asyncio.create_task(consume())
+    await asyncio.wait_for(started.wait(), timeout=0.5)
+    task.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await task
+
+    messages = conv.messages()
+    tool_messages = [message for message in messages if message.role == ROLE_TOOL]
+    assert tool_messages[-1].tool_results[0].tool_call_id == "forced-1"
+
+
 # ── 场景 F：流出错 (AC5) ──────────────────────────────────
 
 

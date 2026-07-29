@@ -75,6 +75,32 @@ def _request() -> ApprovalRequest:
     )
 
 
+@pytest.mark.asyncio
+async def test_backspace_deletes_one_chinese_character() -> None:
+    app = _make_app()
+
+    async with app.run_test(size=(100, 30)) as pilot:
+        chat_input = app.query_one("#chat-input", ChatInput)
+        chat_input.text = "你好世界"
+        chat_input.cursor_location = (0, len(chat_input.text))
+        chat_input.focus()
+
+        await pilot.press("backspace")
+
+        assert chat_input.text == "你好世"
+
+        chat_input.text = "abcd"
+        chat_input.cursor_location = (0, len(chat_input.text))
+        await pilot.press("backspace")
+        assert chat_input.text == "abc"
+
+        chat_input.text = "你好世界"
+        selection_type = type(chat_input.selection)
+        chat_input.selection = selection_type((0, 1), (0, 3))
+        await pilot.press("backspace")
+        assert chat_input.text == "你界"
+
+
 def test_provider_selection_is_idempotent(monkeypatch: pytest.MonkeyPatch) -> None:
     app = _make_app()
     app.provider = MagicMock()
@@ -663,6 +689,30 @@ class TestTurnCancellation:
         app._agent_task.cancel()
 
     @pytest.mark.asyncio
+    async def test_second_ctrl_c_force_cancels_stuck_approval_turn(self):
+        """第一次优雅取消审批，若未退栈，第二次必须强制结束当前 turn。"""
+        app = _make_app()
+        request = _request()
+        app.pending = request
+        app.state = SessionState.APPROVING
+        app.turn_cancel = asyncio.Event()
+        app._agent_task = asyncio.create_task(asyncio.Event().wait())
+        app._finish_streaming = MagicMock(
+            side_effect=lambda: setattr(app, "state", SessionState.IDLE)
+        )
+
+        await app.action_handle_ctrl_c()
+        assert app.turn_cancel.is_set()
+        assert request.respond.result() == Outcome.DENY_ONCE
+        assert app.pending is None
+        assert app.state == SessionState.STREAMING
+
+        await app.action_handle_ctrl_c()
+        await asyncio.sleep(0)
+        assert app._agent_task.cancelled()
+        assert app.state == SessionState.IDLE
+
+    @pytest.mark.asyncio
     async def test_consumer_natural_cancel_end_returns_to_idle_once(self):
         app = _make_app()
         app.state = SessionState.STREAMING
@@ -766,6 +816,53 @@ async def test_done_event_restores_input_before_nonblocking_memory_submit() -> N
 
     app._finish_with_assistant.assert_called_once_with("")
     assert states == [SessionState.IDLE]
+
+
+@pytest.mark.asyncio
+async def test_main_and_subagent_approvals_are_displayed_in_fifo_order() -> None:
+    """主流程和后台 SubAgent 的审批不能互相覆盖。"""
+    app = _make_app()
+    app._mount_approval_block = MagicMock()
+    background_first = _request()
+    main_second = _request()
+    background_third = _request()
+    consumer = asyncio.create_task(app._consume_task_approvals())
+
+    async def wait_until_pending(request: ApprovalRequest) -> None:
+        for _ in range(100):
+            if app.pending is request:
+                return
+            await asyncio.sleep(0.001)
+        raise AssertionError(f"审批请求未按顺序显示: {request.name}")
+
+    try:
+        await app.task_mgr.subscribe_approvals().put(background_first)
+        await wait_until_pending(background_first)
+
+        async def main_events():
+            yield Event(approval=main_second)
+
+        await app._consume_events(main_events())
+        await app.task_mgr.subscribe_approvals().put(background_third)
+
+        assert app.pending is background_first
+        assert not main_second.respond.done()
+        assert not background_third.respond.done()
+
+        app._commit_approval(Outcome.ALLOW_ONCE)
+        await wait_until_pending(main_second)
+        assert background_first.respond.result() is Outcome.ALLOW_ONCE
+        assert not background_third.respond.done()
+
+        app._commit_approval(Outcome.ALLOW_ONCE)
+        await wait_until_pending(background_third)
+        assert main_second.respond.result() is Outcome.ALLOW_ONCE
+
+        app._commit_approval(Outcome.ALLOW_ONCE)
+        assert background_third.respond.result() is Outcome.ALLOW_ONCE
+    finally:
+        consumer.cancel()
+        await asyncio.gather(consumer, return_exceptions=True)
 
 
 @pytest.mark.asyncio
