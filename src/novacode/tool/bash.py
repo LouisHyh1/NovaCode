@@ -80,8 +80,8 @@ class BashTool:
 
 
 def _try_decode(data: bytes) -> str:
-    """多编码尝试解码，优先系统编码（解决 Windows 中文版 GBK 乱码）。"""
-    encodings = [locale.getpreferredencoding(False), "utf-8", "gbk", "cp936"]
+    """优先按 UTF-8 解码，失败后兼容 Windows 本地中文编码。"""
+    encodings = ["utf-8", locale.getpreferredencoding(False), "gbk", "cp936"]
     for enc in encodings:
         try:
             return data.decode(enc)

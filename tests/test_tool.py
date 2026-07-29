@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from novacode.tool import Registry, new_default_registry
-from novacode.tool.bash import BashTool
+from novacode.tool.bash import BashTool, _try_decode
 from novacode.tool.edit_file import EditFileTool
 from novacode.tool.glob_tool import GlobTool
 from novacode.tool.grep_tool import GrepTool
@@ -128,6 +128,11 @@ async def test_bash_echo():
     assert not r.is_error
     assert "hello" in r.content
     assert "exit_code: 0" in r.content
+
+
+@pytest.mark.parametrize("encoding", ["utf-8", "gbk"])
+def test_bash_output_decodes_common_cross_platform_encodings(encoding):
+    assert _try_decode("中文输出".encode(encoding)) == "中文输出"
 
 
 @pytest.mark.asyncio

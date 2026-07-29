@@ -1,6 +1,7 @@
 """权限系统测试——黑名单 + 沙箱 + 规则 + 引擎流水线 + 配置加载。"""
 
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -178,6 +179,12 @@ class TestSandbox:
         root = str(tmp_path.resolve())
         assert not sandbox_ok(root, "/etc/passwd")
         assert not sandbox_ok(root, "../outside")
+
+    @pytest.mark.parametrize("path", ["C:/Windows", r"\\server\share\secret.txt"])
+    def test_windows_absolute_path_is_not_relative_on_linux(self, tmp_path, path):
+        if os.name == "nt":
+            pytest.skip("该用例验证 POSIX 对 Windows 路径的识别")
+        assert not sandbox_ok(str(tmp_path.resolve()), path)
 
     def test_symlink_escape(self, tmp_path):
         """项目内的软链接指向项目外 → Deny。"""

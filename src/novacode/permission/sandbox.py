@@ -5,7 +5,7 @@
 """
 
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 
 def resolve_root(root: str) -> str:
@@ -43,13 +43,23 @@ def sandbox_ok(root: str, path: str) -> bool:
     """
     if not path:
         return True
+    # 非当前平台的绝对路径不能被当成项目内的普通相对路径。
+    native_absolute = os.path.isabs(path)
+    foreign_absolute = PurePosixPath(path).is_absolute() or PureWindowsPath(path).is_absolute()
+    if foreign_absolute and not native_absolute:
+        return False
+    if os.name != "nt" and PureWindowsPath(path).drive:
+        return False
     # 相对路径 → 绝对路径（相对 root）
-    if not os.path.isabs(path):
+    if not native_absolute:
         abs_path = os.path.normpath(os.path.join(root, path))
     else:
         abs_path = os.path.normpath(path)
     resolved = eval_symlinks_or_ancestor(abs_path)
-    # 前缀判断：用 os.sep 保证无斜杠差异
-    root_sep = root.rstrip(os.sep) + os.sep
-    resolved_sep = resolved.rstrip(os.sep) + os.sep
-    return resolved == root or resolved_sep.startswith(root_sep)
+    normalized_root = os.path.normcase(root)
+    normalized_resolved = os.path.normcase(resolved)
+    try:
+        return os.path.commonpath((normalized_root, normalized_resolved)) == normalized_root
+    except ValueError:
+        # Windows 不同盘符等情况没有共同路径，按项目外处理。
+        return False

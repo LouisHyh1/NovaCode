@@ -7,4 +7,9 @@ __pycache__/
 *.pyc
 novacode.egg-info/
 .pytest_cache/
+.ruff_cache/
+.tmp/
+.venv/
+.venv-linux/
+.venv-windows/
 .idea/
