@@ -46,6 +46,7 @@ async def test_agent_tool_schema_validation_and_inline(tmp_path) -> None:
         "prompt",
         "description",
         "subagent_type",
+        "isolation",
         "model",
         "run_in_background",
         "name",

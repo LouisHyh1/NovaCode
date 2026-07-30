@@ -2,6 +2,8 @@
 .novacode/config.local.yaml
 .novacode/settings.local.yaml
 .novacode/sessions/
+.novacode/worktrees/
+.novacode/worktree_session.json
 .env*
 __pycache__/
 *.pyc

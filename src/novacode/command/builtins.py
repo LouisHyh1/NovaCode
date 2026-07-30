@@ -16,6 +16,7 @@ from novacode.command.builtin_ui import (
     handle_plan,
     handle_resume,
 )
+from novacode.command.builtin_worktree import handle_worktree
 from novacode.command.command import Command, Kind
 from novacode.command.registry import Registry
 
@@ -35,6 +36,7 @@ def register_builtins(registry: Registry) -> None:
         Command("review", "请求 AI 审查当前代码上下文", Kind.PROMPT, handle_review),
         Command("session", "显示当前会话信息", Kind.LOCAL, handle_session),
         Command("status", "显示 NovaCode 运行状态", Kind.LOCAL, handle_status),
+        Command("worktree", "管理隔离的 Git Worktree", Kind.UI, handle_worktree),
     ]
     for command in commands:
         registry.register(command)

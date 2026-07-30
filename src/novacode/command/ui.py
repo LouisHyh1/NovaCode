@@ -1,9 +1,27 @@
 """命令处理器可访问的最小 UI 能力。"""
 
+from dataclasses import dataclass
 from typing import Protocol
 
 from novacode.hook.rule import Rule as HookRule
 from novacode.permission import Mode
+
+
+@dataclass
+class WorktreeSummary:
+    name: str
+    path: str
+    branch: str
+    active: bool
+    manual: bool
+
+
+class WorktreeAccessor(Protocol):
+    async def create(self, name: str) -> tuple[str, str]: ...
+    def list(self) -> list[WorktreeSummary]: ...
+    async def enter(self, name: str) -> str: ...
+    async def exit(self, action: str, discard: bool) -> bool: ...
+    async def remove(self, name: str, discard: bool) -> None: ...
 
 
 class UI(Protocol):
@@ -30,6 +48,7 @@ class UI(Protocol):
     def command_args(self) -> str: ...
     async def append_assistant_message(self, message: str, request: str = "") -> None: ...
     def idle(self) -> bool: ...
+    def worktree_accessor(self) -> WorktreeAccessor | None: ...
 
 
 class NopUI:
@@ -103,3 +122,6 @@ class NopUI:
 
     def idle(self) -> bool:
         return True
+
+    def worktree_accessor(self) -> WorktreeAccessor | None:
+        return None

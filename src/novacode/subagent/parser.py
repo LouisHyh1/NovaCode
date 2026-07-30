@@ -12,6 +12,7 @@ from novacode.subagent.definition import Definition, Source
 
 AGENT_NAME_REGEX = re.compile(r"^[A-Za-z][A-Za-z0-9_-]{0,31}$")
 VALID_MODELS = {"inherit", "haiku", "sonnet", "opus"}
+VALID_ISOLATIONS = {"", "worktree"}
 
 
 class DefinitionParseError(ValueError):
@@ -81,6 +82,13 @@ def parse_definition(data: bytes, file_path: str, source: Source) -> Definition:
     raw_background = meta.get("background", False)
     if type(raw_background) is not bool:
         raise DefinitionParseError("background must be a boolean")
+    isolation = str(meta.get("isolation") or "").strip()
+    if isolation not in VALID_ISOLATIONS:
+        print(
+            f'subagent {file_path}: unknown isolation "{isolation}", defaulting to none',
+            file=sys.stderr,
+        )
+        isolation = ""
 
     return Definition(
         name=name.strip(),
@@ -92,6 +100,7 @@ def parse_definition(data: bytes, file_path: str, source: Source) -> Definition:
         permission_mode=permission_mode,
         dont_ask=dont_ask,
         background=raw_background,
+        isolation=isolation,
         system_prompt=body,
         file_path=file_path,
         source=source,

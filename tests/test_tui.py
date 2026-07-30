@@ -139,7 +139,7 @@ async def test_dispatch_slash_known_unknown_and_non_command() -> None:
     app._show_system.reset_mock()
     assert await app.dispatch_slash("/Help") is True
     help_text = app._show_system.call_args.args[0]
-    assert len(help_text.splitlines()) == 14
+    assert len(help_text.splitlines()) == 15
     assert "/hooks" in help_text
     assert "/skill" in help_text
 

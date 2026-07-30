@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from novacode.permission.sensitive import is_sensitive_selector
-from novacode.tool import Result
+from novacode.tool import Result, resolve_path
 
 
 class GlobTool:
@@ -50,7 +50,7 @@ class GlobTool:
         pattern = data.get("pattern")
         if not pattern:
             return Result(content="缺少必填参数: pattern", is_error=True)
-        root = Path(data.get("path") or ".")
+        root = Path(resolve_path(data.get("path") or "."))
         if not root.exists():
             return Result(content=f"目录不存在: {root}", is_error=True)
         try:

@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from novacode.tool import Result
+from novacode.tool import Result, resolve_path
 
 
 class EditFileTool:
@@ -53,7 +53,7 @@ class EditFileTool:
             return Result(content="缺少必填参数: new_string", is_error=True)
         old = data["old_string"]
         new = data["new_string"]
-        p = Path(path_str)
+        p = Path(resolve_path(path_str))
         if not p.exists():
             return Result(content=f"文件不存在: {path_str}", is_error=True)
         try:

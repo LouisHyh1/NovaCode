@@ -7,7 +7,7 @@ import os
 import signal
 import subprocess
 
-from novacode.tool import Result, _truncate
+from novacode.tool import Result, _truncate, resolve_path
 
 
 class BashTool:
@@ -48,6 +48,7 @@ class BashTool:
             if os.name == "nt":
                 proc = await asyncio.create_subprocess_shell(
                     cmd,
+                    cwd=resolve_path(""),
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
@@ -55,6 +56,7 @@ class BashTool:
             else:
                 proc = await asyncio.create_subprocess_shell(
                     cmd,
+                    cwd=resolve_path(""),
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     start_new_session=True,

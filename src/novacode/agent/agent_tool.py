@@ -3,6 +3,7 @@
 import asyncio
 import json
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from novacode.agent import Agent
 from novacode.agent.context import current
@@ -13,6 +14,9 @@ from novacode.task import Manager, PartialState
 from novacode.tool import Result
 from novacode.tool.filter import FilterParams, apply_agent_tool_filter
 
+if TYPE_CHECKING:
+    from novacode.worktree import Manager as WorktreeManager
+
 AUTO_BACKGROUND_SECONDS = 120.0
 
 
@@ -21,6 +25,7 @@ class AgentArgs:
     prompt: str
     description: str
     subagent_type: str = ""
+    isolation: str = ""
     model: str = ""
     run_in_background: bool = False
     name: str = ""
@@ -40,11 +45,13 @@ class AgentTool:
         task_mgr: Manager,
         parent: Agent | None = None,
         bg_enabled: bool = True,
+        worktree_mgr: "WorktreeManager | None" = None,
     ) -> None:
         self.catalog = catalog
         self.task_mgr = task_mgr
         self.parent = parent
         self.bg_enabled = bg_enabled
+        self.worktree_mgr = worktree_mgr
 
     def name(self) -> str:
         return "Agent"
@@ -63,6 +70,11 @@ class AgentTool:
                 "prompt": {"type": "string"},
                 "description": {"type": "string"},
                 "subagent_type": {"type": "string"},
+                "isolation": {
+                    "type": "string",
+                    "enum": ["worktree"],
+                    "description": "在独立 Git Worktree 中执行 SubAgent",
+                },
                 "model": {
                     "type": "string",
                     "enum": ["haiku", "sonnet", "opus", "inherit"],
@@ -91,10 +103,14 @@ class AgentTool:
             return Result("prompt is required", is_error=True)
         if not isinstance(description, str) or not description.strip():
             return Result("description is required", is_error=True)
+        isolation = str(data.get("isolation") or "")
+        if isolation not in {"", "worktree"}:
+            return Result("isolation 仅支持 worktree", is_error=True)
         return AgentArgs(
             prompt=prompt,
             description=description,
             subagent_type=str(data.get("subagent_type") or ""),
+            isolation=isolation,
             model=str(data.get("model") or ""),
             run_in_background=data.get("run_in_background") is True,
             name=str(data.get("name") or ""),
@@ -151,7 +167,14 @@ class AgentTool:
         else:
             definition = self.catalog.fork_definition()
 
+        isolated = parsed.isolation == "worktree" or definition.isolation == "worktree"
+        if isolated and self.worktree_mgr is None:
+            return Result("Worktree 管理器未配置，无法启动隔离 SubAgent", is_error=True)
+
         background = definition.background or parsed.run_in_background or definition.is_fork()
+        if isolated:
+            # ch14 最小实现：隔离 SubAgent 强制前台，确保生命周期与清理完整结束。
+            background = False
         if background and not self.bg_enabled:
             return Result("后台禁用，无法 Fork 或启动后台 SubAgent", is_error=True)
 
@@ -171,9 +194,20 @@ class AgentTool:
             return Result(json.dumps({"task_id": task_id, "status": "async_launched"}))
 
         events: asyncio.Queue = asyncio.Queue()
-        handle = asyncio.create_task(
-            sub_agent.run_to_completion(conversation, parsed.prompt, events)
-        )
+        if isolated:
+            from novacode.agent.agent_worktree import execute_with_worktree
+
+            assert self.worktree_mgr is not None
+            coroutine = execute_with_worktree(
+                self.worktree_mgr,
+                sub_agent,
+                conversation,
+                parsed.prompt,
+                events,
+            )
+        else:
+            coroutine = sub_agent.run_to_completion(conversation, parsed.prompt, events)
+        handle = asyncio.create_task(coroutine)
         try:
             final_text = await asyncio.wait_for(
                 asyncio.shield(handle), timeout=AUTO_BACKGROUND_SECONDS

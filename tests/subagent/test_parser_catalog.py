@@ -49,9 +49,23 @@ def test_definition_fields_and_dont_ask() -> None:
     assert definition.permission_mode is Mode.DEFAULT
     assert definition.dont_ask is True
     assert definition.background is True
+    assert definition.isolation == ""
     assert definition.system_prompt == "system body"
     assert definition.file_path == "worker.md"
     assert definition.source is Source.PROJECT
+
+
+def test_isolation_parse_and_invalid_fallback(capsys: pytest.CaptureFixture[str]) -> None:
+    isolated = parse_definition(
+        _definition(extra="isolation: worktree\n"), "worker.md", Source.PROJECT
+    )
+    assert isolated.isolation == "worktree"
+
+    fallback = parse_definition(
+        _definition(extra="isolation: container\n"), "bad.md", Source.PROJECT
+    )
+    assert fallback.isolation == ""
+    assert "unknown isolation" in capsys.readouterr().err
 
 
 @pytest.mark.parametrize("missing", ["name", "description"])

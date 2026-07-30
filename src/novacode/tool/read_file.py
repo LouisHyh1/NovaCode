@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from novacode.tool import Result, _truncate
+from novacode.tool import Result, _truncate, resolve_path
 
 
 class ReadFileTool:
@@ -35,7 +35,7 @@ class ReadFileTool:
         path_str = data.get("path")
         if not path_str:
             return Result(content="缺少必填参数: path", is_error=True)
-        p = Path(path_str)
+        p = Path(resolve_path(path_str))
         if not p.exists():
             return Result(content=f"文件不存在: {path_str}", is_error=True)
         if p.is_dir():

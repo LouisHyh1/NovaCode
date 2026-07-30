@@ -5,7 +5,7 @@ import logging
 import os
 import sys
 from contextlib import AsyncExitStack
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from novacode import __version__, hook
@@ -113,6 +113,18 @@ async def _amain() -> int:
     )
     task_mgr = TaskManager()
     subagent_catalog = load_subagent_catalog(root)
+    worktree_cleanup_task = None
+    try:
+        from novacode.worktree import Manager as WorktreeManager
+
+        worktree_mgr = WorktreeManager(root)
+    except Exception as exc:
+        print(f"Worktree 管理器降级: {exc}", file=sys.stderr)
+        worktree_mgr = None
+    else:
+        worktree_cleanup_task = asyncio.create_task(
+            worktree_mgr.sweep_stale(datetime.now() - timedelta(hours=24))
+        )
     registry.register(TaskListTool(task_mgr))
     registry.register(TaskGetTool(task_mgr))
     registry.register(TaskStopTool(task_mgr))
@@ -124,6 +136,7 @@ async def _amain() -> int:
             subagent_catalog,
             task_mgr,
             bg_enabled=cfg.effective_enable_subagent_background(),
+            worktree_mgr=worktree_mgr,
         )
     )
     try:
@@ -169,6 +182,7 @@ async def _amain() -> int:
             memory_index=lambda: memory_cache[0],
             task_mgr=task_mgr,
             subagent_catalog=subagent_catalog,
+            worktree_mgr=worktree_mgr,
         )
         app_holder["app"] = app
         for notice in queued_notices:
@@ -188,6 +202,8 @@ async def _amain() -> int:
             await asyncio.to_thread(writer.close)
         await mcp_mgr.close()
         await hook_engine.close()
+        if worktree_cleanup_task is not None:
+            await asyncio.gather(worktree_cleanup_task, return_exceptions=True)
     return 0
 
 

@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from novacode.tool import Result
+from novacode.tool import Result, resolve_path
 
 
 class WriteFileTool:
@@ -42,7 +42,7 @@ class WriteFileTool:
         if "content" not in data:
             return Result(content="缺少必填参数: content", is_error=True)
         content = data["content"]
-        p = Path(path_str)
+        p = Path(resolve_path(path_str))
         try:
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(content, encoding="utf-8")

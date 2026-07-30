@@ -42,7 +42,7 @@ from novacode.memory import MemoryTurn
 from novacode.permission import Decision, Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.permission.persist import persist_local_allow
-from novacode.tool import DEFAULT_TIMEOUT, Registry
+from novacode.tool import DEFAULT_TIMEOUT, Registry, cwd_from_ctx, resolve_path
 
 logger = logging.getLogger(__name__)
 
@@ -271,7 +271,7 @@ class Agent:
         self._skill_catalog = ""
 
     def _hook_payload(self, mode: Mode, **values) -> dict:
-        cwd = self.engine.root if self.engine is not None else str(Path.cwd())
+        cwd = cwd_from_ctx() or (self.engine.root if self.engine is not None else str(Path.cwd()))
         return {
             "session_id": self.runtime.session.session_id,
             "cwd": cwd,
@@ -394,7 +394,11 @@ class Agent:
         self._active_conv = conv
         if self.permission_mode is not None:
             mode = self.permission_mode
-        env = prompt.gather_environment(self._version, self._provider.model)
+        env = prompt.gather_environment(
+            self._version,
+            self._provider.model,
+            cwd_from_ctx(),
+        )
         sys = (
             self.system_prompt
             if self.system_prompt is not None
@@ -1149,7 +1153,7 @@ class Agent:
             path = data.get("path")
             if not path:
                 return
-            abs_path = Path(path).resolve()
+            abs_path = Path(resolve_path(path))
             raw = await asyncio.to_thread(abs_path.read_bytes)
         except (OSError, json.JSONDecodeError, TypeError):
             return

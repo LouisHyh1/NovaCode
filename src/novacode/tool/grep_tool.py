@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 from novacode.permission.sensitive import is_sensitive_selector
-from novacode.tool import Result
+from novacode.tool import Result, resolve_path
 
 
 class GrepTool:
@@ -52,7 +52,7 @@ class GrepTool:
             rx = re.compile(pattern)
         except re.error as e:
             return Result(content=f"正则非法: {e}", is_error=True)
-        root = Path(data.get("path") or ".")
+        root = Path(resolve_path(data.get("path") or "."))
         glob_filter = data.get("glob")
         hits: list[str] = []
         file_count = 0

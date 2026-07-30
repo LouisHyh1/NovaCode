@@ -52,6 +52,7 @@ from novacode.subagent import Catalog as SubAgentCatalog
 from novacode.subagent import load_catalog as load_subagent_catalog
 from novacode.task import Manager as TaskManager
 from novacode.tool import Registry as ToolRegistry
+from novacode.tool import with_cwd
 from novacode.tool.install_skill import InstallSkillTool
 from novacode.tool.load_skill import LoadSkill
 from novacode.tui.commands import format_compact_notice
@@ -59,6 +60,7 @@ from novacode.tui.complete import CompletionMenu
 from novacode.tui.resume import build_resume_options
 from novacode.tui.tasks import build_task_notification
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
+from novacode.worktree import Manager as WorktreeManager
 
 SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 logger = logging.getLogger(__name__)
@@ -148,6 +150,7 @@ class NovaCodeApp(App):
         memory_index: str | Callable[[], str] = "",
         task_mgr: TaskManager | None = None,
         subagent_catalog: SubAgentCatalog | None = None,
+        worktree_mgr: WorktreeManager | None = None,
     ) -> None:
         super().__init__(driver_class=driver_class)
         self._version = version or __version__
@@ -158,6 +161,10 @@ class NovaCodeApp(App):
         self.project_root = Path(project_root or Path.cwd()).resolve()
         self.task_mgr = task_mgr or TaskManager()
         self.subagent_catalog = subagent_catalog or load_subagent_catalog(self.project_root)
+        self.worktree_mgr = worktree_mgr
+        session = worktree_mgr.current_session() if worktree_mgr is not None else None
+        self.active_cwd = session.worktree_path if session is not None else ""
+        self._worktree_adapter = None
         self._task_consumers: list[asyncio.Task] = []
         self.session_context = session_context
         self.writer = writer
@@ -649,7 +656,22 @@ class NovaCodeApp(App):
         return self.provider.model if self.provider is not None else ""
 
     def cwd(self) -> str:
-        return str(self.project_root)
+        return self._effective_cwd()
+
+    def _effective_cwd(self) -> str:
+        return self.active_cwd or str(self.project_root)
+
+    def _set_active_cwd(self, value: str) -> None:
+        self.active_cwd = value
+
+    def worktree_accessor(self):
+        if self.worktree_mgr is None:
+            return None
+        if self._worktree_adapter is None:
+            from novacode.tui.worktree_adapter import WorktreeAdapter
+
+            self._worktree_adapter = WorktreeAdapter(self.worktree_mgr, self._set_active_cwd)
+        return self._worktree_adapter
 
     def tool_count(self) -> int:
         return self._tool_registry.count()
@@ -1116,9 +1138,10 @@ class NovaCodeApp(App):
         if self.agent is None:
             self.agent = Agent(self.provider, self._tool_registry, self._version, self.engine)
         agent = self.agent
-        self._agent_task = asyncio.create_task(
-            self._consume_events(agent.run(self.conv, self._mode, self.turn_cancel))
-        )
+        with with_cwd(self._effective_cwd()):
+            self._agent_task = asyncio.create_task(
+                self._consume_events(agent.run(self.conv, self._mode, self.turn_cancel))
+            )
 
     # ── spinner ────────────────────────────────────────────────
 

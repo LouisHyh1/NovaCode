@@ -42,7 +42,7 @@ class Environment:
         return "\n".join(lines)
 
 
-def gather_environment(version: str, model: str) -> Environment:
+def gather_environment(version: str, model: str, working_dir: str | None = None) -> Environment:
     """采集当前运行环境信息。
 
     - working_dir: os.getcwd()，失败留空
@@ -56,7 +56,7 @@ def gather_environment(version: str, model: str) -> Environment:
     """
     # 工作目录
     try:
-        wd = os.getcwd()
+        wd = working_dir or os.getcwd()
     except OSError:
         wd = ""
 
@@ -77,6 +77,7 @@ def gather_environment(version: str, model: str) -> Environment:
     try:
         r = subprocess.run(
             ["git", "status", "--porcelain"],
+            cwd=wd or None,
             capture_output=True,
             text=True,
             timeout=2.0,
