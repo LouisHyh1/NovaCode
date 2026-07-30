@@ -1,5 +1,6 @@
 """NovaCode CLI entry — config loading and TUI startup."""
 
+import argparse
 import asyncio
 import logging
 import os
@@ -25,7 +26,7 @@ from novacode.memory.prompts import parse_actions
 from novacode.session import SessionWriter, clean_expired_async, load_session
 from novacode.subagent import load_catalog as load_subagent_catalog
 from novacode.task import Manager as TaskManager
-from novacode.task import SendMessageTool, TaskGetTool, TaskListTool, TaskStopTool
+from novacode.task import TaskStopTool
 from novacode.tool import Registry
 from novacode.tui.app import NovaCodeApp
 from novacode.tui.driver import NoAltScreenDriver
@@ -40,6 +41,7 @@ def main() -> None:
 
 
 async def _amain() -> int:
+    team_member_args = _parse_team_member_args(sys.argv[1:])
     if "--version" in sys.argv:
         print(__version__)
         return 0
@@ -47,13 +49,22 @@ async def _amain() -> int:
         print("usage: nova [--version] [--help]")
         return 0
 
+    if team_member_args is not None:
+        os.chdir(team_member_args.worktree)
     cwd = os.getcwd()
     root = Path(cwd).resolve()
     project_path = os.path.join(cwd, ".novacode", "config.yaml")
     user_path = os.path.join(os.path.expanduser("~"), ".novacode", "config.yaml")
     from novacode.config import ConfigError, load
 
-    if Path(project_path).exists():
+    explicit_path = team_member_args.config if team_member_args is not None else ""
+    if explicit_path and Path(explicit_path).exists():
+        try:
+            cfg = load(explicit_path)
+        except ConfigError as e:
+            print(f"Config error: {e}", file=sys.stderr)
+            return 1
+    elif Path(project_path).exists():
         try:
             cfg = load(project_path)
         except ConfigError as e:
@@ -112,6 +123,11 @@ async def _amain() -> int:
         )
     )
     task_mgr = TaskManager()
+    from novacode.team import Manager as TeamManager
+    from novacode.team.registry import AgentNameRegistry
+
+    name_registry = AgentNameRegistry()
+    task_mgr.set_name_registry(name_registry)
     subagent_catalog = load_subagent_catalog(root)
     worktree_cleanup_task = None
     try:
@@ -125,10 +141,30 @@ async def _amain() -> int:
         worktree_cleanup_task = asyncio.create_task(
             worktree_mgr.sweep_stale(datetime.now() - timedelta(hours=24))
         )
-    registry.register(TaskListTool(task_mgr))
-    registry.register(TaskGetTool(task_mgr))
+    team_mgr = TeamManager(Path.home(), root, worktree_mgr, task_mgr, name_registry)
+    team_mgr.configure_spawn(
+        subagent_catalog,
+        fork_teammate=cfg.features.fork_teammate,
+    )
+    task_mgr.on_task_done(team_mgr.handle_task_done)
+    from novacode.team.tools import (
+        SendMessageTool,
+        TaskCreateTool,
+        TaskGetTool,
+        TaskListTool,
+        TaskUpdateTool,
+        TeamCreateTool,
+        TeamDeleteTool,
+    )
+
+    registry.register(TaskListTool(team_mgr, task_mgr))
+    registry.register(TaskGetTool(team_mgr, task_mgr))
     registry.register(TaskStopTool(task_mgr))
-    registry.register(SendMessageTool(task_mgr))
+    registry.register(SendMessageTool(team_mgr, task_mgr))
+    registry.register(TeamCreateTool(team_mgr))
+    registry.register(TeamDeleteTool(team_mgr))
+    registry.register(TaskCreateTool(team_mgr))
+    registry.register(TaskUpdateTool(team_mgr))
     from novacode.agent.agent_tool import AgentTool
 
     registry.register(
@@ -137,6 +173,7 @@ async def _amain() -> int:
             task_mgr,
             bg_enabled=cfg.effective_enable_subagent_background(),
             worktree_mgr=worktree_mgr,
+            team_hook=team_mgr,
         )
     )
     try:
@@ -149,6 +186,19 @@ async def _amain() -> int:
     app = None
     try:
         _register_mcp_tools(registry, mcp_mgr, mcp_cfg)
+        if team_member_args is not None:
+            from novacode.cli_team_member import run_team_member
+
+            await run_team_member(
+                team_member_args,
+                config=cfg,
+                registry=registry,
+                team_manager=team_mgr,
+                catalog=subagent_catalog,
+                engine=engine,
+                hook_engine=hook_engine,
+            )
+            return 0
         app_holder = {}
         queued_notices: list[str] = []
 
@@ -183,6 +233,8 @@ async def _amain() -> int:
             task_mgr=task_mgr,
             subagent_catalog=subagent_catalog,
             worktree_mgr=worktree_mgr,
+            team_mgr=team_mgr,
+            coordinator_mode=_coordinator_enabled(cfg),
         )
         app_holder["app"] = app
         for notice in queued_notices:
@@ -205,6 +257,29 @@ async def _amain() -> int:
         if worktree_cleanup_task is not None:
             await asyncio.gather(worktree_cleanup_task, return_exceptions=True)
     return 0
+
+
+def _parse_team_member_args(argv: list[str]):
+    if "--team-member" not in argv:
+        return None
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("--team-member", action="store_true")
+    parser.add_argument("--team", required=True)
+    parser.add_argument("--member", required=True)
+    parser.add_argument("--agent-id", required=True)
+    parser.add_argument("--session-dir", required=True)
+    parser.add_argument("--worktree", required=True)
+    parser.add_argument("--agent-type", default="")
+    parser.add_argument("--model", default="")
+    parser.add_argument("--plan-mode", action="store_true")
+    parser.add_argument("--config", default="")
+    return parser.parse_args(argv)
+
+
+def _coordinator_enabled(config) -> bool:
+    from novacode.coordinator import is_enabled
+
+    return is_enabled(config)
 
 
 def _user_novacode_root() -> Path:

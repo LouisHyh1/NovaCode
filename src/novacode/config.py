@@ -24,9 +24,16 @@ class ProviderConfig:
 
 
 @dataclass
+class FeaturesConfig:
+    coordinator_mode: bool = False
+    fork_teammate: bool = False
+
+
+@dataclass
 class Config:
     providers: list[ProviderConfig] = field(default_factory=list)
     enable_subagent_background: bool | None = None
+    features: FeaturesConfig = field(default_factory=FeaturesConfig)
 
     def effective_enable_subagent_background(self) -> bool:
         return self.enable_subagent_background is not False
@@ -75,7 +82,20 @@ def load(path: str) -> Config:
     )
     if background is not None and type(background) is not bool:
         raise ConfigError("enable_subagent_background must be a boolean")
-    return Config(providers=providers, enable_subagent_background=background)
+    features_raw = raw.get("features", {})
+    if not isinstance(features_raw, dict):
+        raise ConfigError("features must be a mapping")
+    unknown_features = set(features_raw) - {"coordinator_mode", "fork_teammate"}
+    if unknown_features:
+        raise ConfigError(f"unknown features: {', '.join(sorted(unknown_features))}")
+    for name, value in features_raw.items():
+        if type(value) is not bool:
+            raise ConfigError(f"features.{name} must be a boolean")
+    return Config(
+        providers=providers,
+        enable_subagent_background=background,
+        features=FeaturesConfig(**features_raw),
+    )
 
 
 def _validate_provider(entry: dict, prefix: str) -> None:

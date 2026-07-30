@@ -45,6 +45,7 @@ def test_register_builtins_all_registered() -> None:
         "review",
         "session",
         "status",
+        "team",
         "worktree",
     ]
 
@@ -62,7 +63,7 @@ async def test_help_and_status_are_registry_driven() -> None:
     ui = RecordingUI()
 
     await registry.lookup("help").handler(ui)  # type: ignore[union-attr]
-    assert len(ui.messages[0].splitlines()) == 14
+    assert len(ui.messages[0].splitlines()) == 15
     assert all(f"/{command.name}" in ui.messages[0] for command in registry.visible())
 
     await registry.lookup("status").handler(ui)  # type: ignore[union-attr]

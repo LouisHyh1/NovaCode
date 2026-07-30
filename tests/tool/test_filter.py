@@ -28,3 +28,13 @@ def test_fork_keeps_agent_for_nested_guard() -> None:
         FilterParams(all=["Agent", "read_file"], source=0, background=True, fork=True)
     )
     assert result == ["Agent", "read_file"]
+
+
+def test_team_collaboration_tools_only_added_for_teammate() -> None:
+    names = ["read_file", "TaskCreate", "TaskGet", "TaskList", "TaskUpdate", "SendMessage"]
+    ordinary = apply_agent_tool_filter(FilterParams(all=names, source=0, background=False))
+    teammate = apply_agent_tool_filter(
+        FilterParams(all=names, source=0, background=False, teammate=True)
+    )
+    assert ordinary == ["read_file"]
+    assert teammate == names

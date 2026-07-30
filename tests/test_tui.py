@@ -65,6 +65,18 @@ def _make_app() -> NovaCodeApp:
     )
 
 
+@pytest.mark.asyncio
+async def test_coordinator_mode_status_and_tool_lock() -> None:
+    app = _make_app()
+    app.coordinator_mode = True
+    async with app.run_test(size=(100, 30)):
+        assert "[COORDINATOR]" in str(app.query_one("#mode-label").render())
+        assert app.agent is not None
+        assert "bash" in app.agent.allowed_tools
+        assert "write_file" not in app.agent.allowed_tools
+        assert "edit_file" not in app.agent.allowed_tools
+
+
 def _request() -> ApprovalRequest:
     loop = asyncio.get_running_loop()
     return ApprovalRequest(
@@ -139,7 +151,7 @@ async def test_dispatch_slash_known_unknown_and_non_command() -> None:
     app._show_system.reset_mock()
     assert await app.dispatch_slash("/Help") is True
     help_text = app._show_system.call_args.args[0]
-    assert len(help_text.splitlines()) == 15
+    assert len(help_text.splitlines()) == 16
     assert "/hooks" in help_text
     assert "/skill" in help_text
 

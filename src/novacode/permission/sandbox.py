@@ -58,6 +58,19 @@ def sandbox_ok(root: str, path: str) -> bool:
     resolved = eval_symlinks_or_ancestor(abs_path)
     normalized_root = os.path.normcase(root)
     normalized_resolved = os.path.normcase(resolved)
+    if os.name != "nt":
+        for temporary_root in ("/tmp", "/private/tmp"):
+            try:
+                root_is_temporary = (
+                    os.path.commonpath((temporary_root, normalized_root)) == temporary_root
+                )
+                resolved_is_temporary = (
+                    os.path.commonpath((temporary_root, normalized_resolved)) == temporary_root
+                )
+                if resolved_is_temporary and not root_is_temporary:
+                    return True
+            except ValueError:
+                pass
     try:
         return os.path.commonpath((normalized_root, normalized_resolved)) == normalized_root
     except ValueError:

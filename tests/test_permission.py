@@ -197,6 +197,12 @@ class TestSandbox:
         link.symlink_to(outside / "secret.txt")
         assert not sandbox_ok(str(root.resolve()), str(link.resolve()))
 
+    def test_system_temp_allowed_when_project_is_elsewhere(self, tmp_path):
+        root = "/opt/novacode-project"
+        assert sandbox_ok(root, "/tmp/novacode-output.txt")
+        assert sandbox_ok(root, "/private/tmp/novacode-output.txt")
+        assert not sandbox_ok(root, "/etc/passwd")
+
     def test_new_file_ancestor_fallback(self, tmp_path):
         """新建文件路径（含未创建中间目录）→ 回退到最近已存在祖先 → Allow。"""
         root = str(tmp_path.resolve())

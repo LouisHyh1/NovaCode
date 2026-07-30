@@ -181,6 +181,24 @@ def test_enable_subagent_background(tmp_path: Path) -> None:
     assert config.effective_enable_subagent_background() is False
 
 
+def test_team_features_loaded(tmp_path: Path) -> None:
+    path = tmp_path / "config.yaml"
+    path.write_text(
+        "providers:\n"
+        "  - name: test\n"
+        "    protocol: openai\n"
+        "    api_key: key\n"
+        "    model: model\n"
+        "features:\n"
+        "  coordinator_mode: true\n"
+        "  fork_teammate: true\n",
+        encoding="utf-8",
+    )
+    config = load(str(path))
+    assert config.features.coordinator_mode is True
+    assert config.features.fork_teammate is True
+
+
 def test_pyproject_version_matches_runtime_version() -> None:
     from novacode import __version__
 

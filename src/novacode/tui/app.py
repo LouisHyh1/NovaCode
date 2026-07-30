@@ -58,7 +58,7 @@ from novacode.tool.load_skill import LoadSkill
 from novacode.tui.commands import format_compact_notice
 from novacode.tui.complete import CompletionMenu
 from novacode.tui.resume import build_resume_options
-from novacode.tui.tasks import build_task_notification
+from novacode.tui.tasks import build_task_notification, build_team_update_reminder
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
 from novacode.worktree import Manager as WorktreeManager
 
@@ -151,6 +151,8 @@ class NovaCodeApp(App):
         task_mgr: TaskManager | None = None,
         subagent_catalog: SubAgentCatalog | None = None,
         worktree_mgr: WorktreeManager | None = None,
+        team_mgr=None,
+        coordinator_mode: bool = False,
     ) -> None:
         super().__init__(driver_class=driver_class)
         self._version = version or __version__
@@ -162,6 +164,9 @@ class NovaCodeApp(App):
         self.task_mgr = task_mgr or TaskManager()
         self.subagent_catalog = subagent_catalog or load_subagent_catalog(self.project_root)
         self.worktree_mgr = worktree_mgr
+        self.team_mgr = team_mgr
+        self.coordinator_mode = coordinator_mode
+        self.lead_mail_event = asyncio.Event()
         session = worktree_mgr.current_session() if worktree_mgr is not None else None
         self.active_cwd = session.worktree_path if session is not None else ""
         self._worktree_adapter = None
@@ -272,6 +277,8 @@ class NovaCodeApp(App):
             asyncio.create_task(self._consume_task_done()),
             asyncio.create_task(self._consume_task_approvals()),
         ]
+        if self.team_mgr is not None:
+            self._task_consumers.append(asyncio.create_task(self._consume_lead_mail()))
 
     async def on_unmount(self) -> None:
         await self._shutdown_resources()
@@ -337,6 +344,20 @@ class NovaCodeApp(App):
                 memory_index=self._memory_index,
                 hook_engine=self.hook_engine,
             )
+            if self.coordinator_mode:
+                from novacode.coordinator import allowed_tools, system_prompt_suffix
+
+                self.agent.set_allowed_tools(allowed_tools())
+                self.agent.append_system_prompt(system_prompt_suffix())
+            else:
+                hidden = {"TaskCreate", "TaskUpdate"}
+                self.agent.set_allowed_tools(
+                    [
+                        item.name
+                        for item in self._tool_registry.definitions()
+                        if item.name not in hidden
+                    ]
+                )
             agent_tool = self._tool_registry.get("Agent")
             if agent_tool is not None and hasattr(agent_tool, "set_parent"):
                 agent_tool.set_parent(self.agent)
@@ -398,7 +419,8 @@ class NovaCodeApp(App):
             label = self.query_one("#mode-label", Static)
         except Exception:
             return
-        label.update(Text(f"  {self._mode.label()}", style=self._mode_style()))
+        suffix = " [COORDINATOR]" if self.coordinator_mode else ""
+        label.update(Text(f"  {self._mode.label()}{suffix}", style=self._mode_style()))
 
     def _mode_style(self) -> str:
         styles = {
@@ -1246,6 +1268,19 @@ class NovaCodeApp(App):
             if background is None or self.agent is None:
                 continue
             self.agent.runtime.append_reminders([build_task_notification(background)])
+
+    async def _consume_lead_mail(self) -> None:
+        while True:
+            await asyncio.sleep(1.0)
+            if self.team_mgr is None or self.agent is None:
+                continue
+            messages = await self.team_mgr.poll_lead_mailboxes()
+            if messages:
+                self.agent.runtime.append_reminders([build_team_update_reminder(messages)])
+                self.lead_mail_event.set()
+            if self.lead_mail_event.is_set() and self.state == SessionState.IDLE:
+                self.lead_mail_event.clear()
+                await self._dispatch("[team-update] 队员发来新消息，请按 Coordinator 流程处理。")
 
     async def _consume_task_approvals(self) -> None:
         queue = self.task_mgr.subscribe_approvals()

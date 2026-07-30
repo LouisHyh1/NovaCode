@@ -4,6 +4,7 @@ import asyncio
 import sys
 import time
 import uuid
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import TYPE_CHECKING
@@ -57,6 +58,7 @@ class BackgroundTask:
     usage: Usage = field(default_factory=Usage)
     tool_count: int = 0
     last_activity: str = ""
+    cwd: str = ""
 
 
 class TaskNotFound(LookupError):  # noqa: N818 - 对外 API 名沿用章节文档
@@ -75,13 +77,26 @@ class Manager:
         self._by_name: dict[str, str] = {}
         self._done: asyncio.Queue[str] = asyncio.Queue(maxsize=32)
         self._approval_q: asyncio.Queue[ApprovalRequest] = asyncio.Queue()
+        self._name_registry = None
+        self._done_callbacks: list[Callable[[str], Awaitable[None]]] = []
 
-    async def launch(self, ag: "Agent", conv: Conversation, name: str, task: str) -> str:
-        task_id = f"task_{uuid.uuid4().hex[:8]}"
-        background = BackgroundTask(task_id, name, ag, conv, task)
+    async def launch(
+        self,
+        ag: "Agent",
+        conv: Conversation,
+        name: str,
+        task: str,
+        *,
+        task_id: str = "",
+        cwd: str = "",
+    ) -> str:
+        task_id = task_id or f"task_{uuid.uuid4().hex[:8]}"
+        background = BackgroundTask(task_id, name, ag, conv, task, cwd=cwd)
         self._tasks[task_id] = background
         if name:
             self._by_name[name] = task_id
+            if self._name_registry is not None:
+                self._name_registry.register(name, task_id)
         self._start(background, task if conv.last_role() != "user" else "")
         return task_id
 
@@ -111,14 +126,24 @@ class Manager:
         self._tasks[task_id] = background
         if name:
             self._by_name[name] = task_id
+            if self._name_registry is not None:
+                self._name_registry.register(name, task_id)
         background.watcher = asyncio.create_task(self._watch(background, events))
         return task_id
 
     def _start(self, background: BackgroundTask, task: str) -> None:
+        from novacode.tool import with_cwd
+
         events: asyncio.Queue = asyncio.Queue()
-        background.handle = asyncio.create_task(
-            background.sub_agent.run_to_completion(background.conv, task, events)
-        )
+        if background.cwd:
+            with with_cwd(background.cwd):
+                background.handle = asyncio.create_task(
+                    background.sub_agent.run_to_completion(background.conv, task, events)
+                )
+        else:
+            background.handle = asyncio.create_task(
+                background.sub_agent.run_to_completion(background.conv, task, events)
+            )
         background.watcher = asyncio.create_task(self._watch(background, events))
 
     async def _watch(self, background: BackgroundTask, events: asyncio.Queue) -> None:
@@ -140,6 +165,14 @@ class Manager:
                 self._done.put_nowait(background.id)
             except asyncio.QueueFull:
                 print(f"task notification queue full: {background.id}", file=sys.stderr)
+            for callback in self._done_callbacks:
+                try:
+                    await callback(background.id)
+                except Exception as exc:
+                    print(
+                        f"task done callback failed: {type(exc).__name__}: {exc}",
+                        file=sys.stderr,
+                    )
 
     @staticmethod
     async def _aggregate(background: BackgroundTask, events: asyncio.Queue) -> None:
@@ -182,6 +215,12 @@ class Manager:
     def subscribe_approvals(self) -> asyncio.Queue[ApprovalRequest]:
         return self._approval_q
 
+    def set_name_registry(self, registry) -> None:
+        self._name_registry = registry
+
+    def on_task_done(self, callback: Callable[[str], Awaitable[None]]) -> None:
+        self._done_callbacks.append(callback)
+
     async def close(self) -> None:
         """取消仍在运行的任务；会话退出后后台任务不持久化。"""
         running = [
@@ -206,11 +245,13 @@ class Manager:
             raise
 
     async def send_message(self, name: str, message: str) -> str:
-        task_id = self._by_name.get(name)
+        task_id = (
+            self._name_registry.resolve(name) if self._name_registry is not None else None
+        ) or self._by_name.get(name)
         background = self.get(task_id) if task_id is not None else None
         if background is None:
             raise TaskNotFound(name)
-        if background.status is not Status.COMPLETED:
+        if background.status is Status.RUNNING:
             raise TaskBusy(name)
         background.conv.add_user(message)
         background.status = Status.RUNNING

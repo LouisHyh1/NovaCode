@@ -241,6 +241,7 @@ class Agent:
         approval_upgrader: ApprovalUpgrader | None = None,
         allowed_tools: list[str] | None = None,
         subagent_name: str = "",
+        teammate_context=None,
     ) -> None:
         self._provider = provider
         self._registry = registry
@@ -265,6 +266,7 @@ class Agent:
         self.approval_upgrader = approval_upgrader
         self.allowed_tools = None if allowed_tools is None else frozenset(allowed_tools)
         self.subagent_name = subagent_name
+        self.teammate_context = teammate_context
         self._active_conv: Conversation | None = None
         self._run_lock = asyncio.Lock()
         self.active_skills: dict[str, str] = {}
@@ -302,6 +304,16 @@ class Agent:
 
     def set_skill_catalog(self, catalog: str) -> None:
         self._skill_catalog = catalog
+
+    def set_allowed_tools(self, names: list[str]) -> None:
+        self.allowed_tools = frozenset(names)
+
+    def append_system_prompt(self, suffix: str) -> None:
+        base = self.system_prompt or prompt.build_system_prompt(
+            instructions=self.instructions,
+            memory_index=self.memory_index(),
+        )
+        self.system_prompt = f"{base}\n\n{suffix}" if suffix else base
 
     @property
     def provider(self) -> Provider:
@@ -429,6 +441,11 @@ class Agent:
                 if persistence_err is not None:
                     yield Event(err=persistence_err)
                 return
+
+            if self.teammate_context is not None:
+                from novacode.agent.team_mailbox import ingest_team_mailbox
+
+                await ingest_team_mailbox(self)
 
             estimated = estimate_tokens(
                 self.runtime.usage_anchor,

@@ -15,6 +15,7 @@ from novacode.tool import Result
 from novacode.tool.filter import FilterParams, apply_agent_tool_filter
 
 if TYPE_CHECKING:
+    from novacode.agent.team_hook import TeamHook
     from novacode.worktree import Manager as WorktreeManager
 
 AUTO_BACKGROUND_SECONDS = 120.0
@@ -29,6 +30,8 @@ class AgentArgs:
     model: str = ""
     run_in_background: bool = False
     name: str = ""
+    team_name: str = ""
+    plan_mode_required: bool = False
 
 
 class AgentTool:
@@ -46,12 +49,14 @@ class AgentTool:
         parent: Agent | None = None,
         bg_enabled: bool = True,
         worktree_mgr: "WorktreeManager | None" = None,
+        team_hook: "TeamHook | None" = None,
     ) -> None:
         self.catalog = catalog
         self.task_mgr = task_mgr
         self.parent = parent
         self.bg_enabled = bg_enabled
         self.worktree_mgr = worktree_mgr
+        self.team_hook = team_hook
 
     def name(self) -> str:
         return "Agent"
@@ -60,7 +65,8 @@ class AgentTool:
         names = ", ".join(definition.name for definition in self.catalog.list())
         return (
             "启动独立 SubAgent 完成任务。指定 subagent_type 使用预定义角色；"
-            f"留空会 Fork 当前对话并在后台运行。可选角色: {names}"
+            f"留空会 Fork 当前对话并在后台运行。可选角色: {names}。"
+            "提供 team_name 时在该 Team 的独立 Worktree 中启动长期队员。"
         )
 
     def parameters(self) -> dict:
@@ -81,6 +87,8 @@ class AgentTool:
                 },
                 "run_in_background": {"type": "boolean"},
                 "name": {"type": "string"},
+                "team_name": {"type": "string"},
+                "plan_mode_required": {"type": "boolean"},
             },
             "required": ["prompt", "description"],
             "additionalProperties": False,
@@ -114,6 +122,8 @@ class AgentTool:
             model=str(data.get("model") or ""),
             run_in_background=data.get("run_in_background") is True,
             name=str(data.get("name") or ""),
+            team_name=str(data.get("team_name") or ""),
+            plan_mode_required=data.get("plan_mode_required") is True,
         )
 
     def _new_agent(self, definition: Definition, background: bool) -> Agent:
@@ -155,6 +165,32 @@ class AgentTool:
             return Result("Agent 工具尚未绑定主 Agent", is_error=True)
 
         caller = current()
+        if parsed.team_name:
+            if self.team_hook is None:
+                return Result("Team Manager 未配置", is_error=True)
+            if caller is not None and getattr(caller.agent, "teammate_context", None) is not None:
+                return Result("Team 队员不能继续向 Team 添加成员", is_error=True)
+            from novacode.agent.team_hook import TeamSpawnRequest
+
+            try:
+                content = await self.team_hook.spawn_teammate(
+                    TeamSpawnRequest(
+                        team_name=parsed.team_name,
+                        member_name=parsed.name,
+                        prompt=parsed.prompt,
+                        description=parsed.description,
+                        subagent_type=parsed.subagent_type,
+                        model=parsed.model,
+                        plan_mode_required=parsed.plan_mode_required,
+                        caller_agent=self.parent,
+                        caller_conversation=(
+                            caller.conversation if caller is not None else Conversation()
+                        ),
+                    )
+                )
+            except Exception as exc:
+                return Result(f"Team 队员启动失败: {exc}", is_error=True)
+            return Result(content)
         if caller is not None and is_fork_context(caller.conversation.messages()):
             return Result("Fork 子 Agent 不能再启动 Agent", is_error=True)
         if caller is not None and caller.agent.subagent_name:
