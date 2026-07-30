@@ -54,7 +54,9 @@ async def test_search_and_bash_tools_use_ctx_cwd(tmp_path: Path) -> None:
     with with_cwd(str(tmp_path)):
         glob = await GlobTool().execute(json.dumps({"pattern": "*.txt"}))
         grep = await GrepTool().execute(json.dumps({"pattern": "needle"}))
-        bash = await BashTool().execute(json.dumps({"command": "pwd"}))
+        bash = await BashTool().execute(
+            json.dumps({"command": 'python -c "import os; print(os.getcwd())"'})
+        )
     assert glob.content == "probe.txt"
     assert "probe.txt:1:needle" in grep.content
     assert str(tmp_path) in bash.content
