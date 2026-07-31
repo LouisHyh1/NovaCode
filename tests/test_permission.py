@@ -197,6 +197,7 @@ class TestSandbox:
         link.symlink_to(outside / "secret.txt")
         assert not sandbox_ok(str(root.resolve()), str(link.resolve()))
 
+    @pytest.mark.skipif(os.name == "nt", reason="POSIX 系统临时目录白名单")
     def test_system_temp_allowed_when_project_is_elsewhere(self, tmp_path):
         root = "/opt/novacode-project"
         assert sandbox_ok(root, "/tmp/novacode-output.txt")

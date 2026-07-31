@@ -42,7 +42,9 @@ async def test_create_sanitize_suffix_restore_and_delete(tmp_path, monkeypatch) 
     assert first.sanitized_name == "foo-bar-baz"
     assert second.sanitized_name == "foo-bar-baz-2"
     assert Path(first.config_path).is_file()
-    assert json.loads(Path(first.config_path).read_text())["backend"] == "in-process"
+    assert (
+        json.loads(Path(first.config_path).read_text(encoding="utf-8"))["backend"] == "in-process"
+    )
 
     restored = Manager(home, root, worktrees, FakeTaskManager(), AgentNameRegistry())
     assert [team.sanitized_name for team in restored.list()] == [
@@ -73,7 +75,7 @@ async def test_active_member_blocks_delete_and_reload_before_update(tmp_path, mo
         await manager.delete("demo")
 
     await stale_copy.set_member_active("alice", False)
-    disk = json.loads(Path(team.config_path).read_text())
+    disk = json.loads(Path(team.config_path).read_text(encoding="utf-8"))
     alice = next(item for item in disk["members"] if item["name"] == "alice")
     assert alice["is_active"] is False
 
@@ -81,7 +83,7 @@ async def test_active_member_blocks_delete_and_reload_before_update(tmp_path, mo
 def test_corrupt_team_config_is_skipped(tmp_path, capsys) -> None:
     directory = tmp_path / "home" / ".novacode" / "teams" / "broken"
     directory.mkdir(parents=True)
-    (directory / "config.json").write_text("{")
+    (directory / "config.json").write_text("{", encoding="utf-8")
     root = tmp_path / "repo"
     root.mkdir()
     manager = Manager(
@@ -98,4 +100,4 @@ def test_corrupt_team_config_is_skipped(tmp_path, capsys) -> None:
 def test_atomic_json_round_trip(tmp_path) -> None:
     path = tmp_path / "value.json"
     atomic_write_json(path, {"中文": True})
-    assert json.loads(path.read_text()) == {"中文": True}
+    assert json.loads(path.read_text(encoding="utf-8")) == {"中文": True}
