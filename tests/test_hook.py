@@ -33,7 +33,7 @@ from novacode.permission.matcher import (
     compile_matcher,
 )
 from novacode.permission.rule import parse_rule
-from novacode.permission.settings import PermissionsBlock, Settings, to_rule_set
+from novacode.permission.settings import PermissionsBlock, Settings, SettingsError, to_rule_set
 from novacode.tool import Registry, Result
 
 
@@ -62,17 +62,16 @@ def test_permission_matchers(pattern: str, value: str, expected: bool) -> None:
     assert compile_matcher(pattern, is_command=True).match(value) is expected
 
 
-def test_permission_rule_prefixes_and_error_log(capsys: pytest.CaptureFixture[str]) -> None:
+def test_permission_rule_prefixes_and_invalid_rule_failure() -> None:
     exact, ok = parse_rule("Bash(=git status)")
     assert ok and exact.matcher is not None
     assert exact.matcher.match("git status")
     assert not exact.matcher.match("git status -s")
 
-    rules = to_rule_set(
-        Settings(permissions=PermissionsBlock(allow=["Bash(~[invalid)", "Bash(git *)"]))
-    )
-    assert len(rules.allow) == 1
-    assert "parse failed" in capsys.readouterr().err
+    with pytest.raises(SettingsError, match="parse failed"):
+        to_rule_set(
+            Settings(permissions=PermissionsBlock(allow=["Bash(~[invalid)", "Bash(git *)"]))
+        )
 
 
 def test_condition_nested_path_and_combine_modes() -> None:

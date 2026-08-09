@@ -5,15 +5,15 @@ import pytest
 from novacode.agent import Agent
 from novacode.conversation import Conversation
 from novacode.llm import StreamEvent
-from novacode.task import BackgroundTask, Manager, Status
+from novacode.task import AgentRun, AgentRunManager, AgentRunStatus
 from novacode.tool import Registry
 from novacode.tui.app import NovaCodeApp
 from novacode.tui.tasks import build_task_notification
 
 
 def test_build_task_notification() -> None:
-    task = BackgroundTask("task_1", "worker", object(), object(), "work")
-    task.status = Status.COMPLETED
+    task = AgentRun("task_1", "worker", object(), object(), "work")
+    task.status = AgentRunStatus.COMPLETED
     task.result = "done"
     notification = build_task_notification(task)
     assert notification.startswith("<task-notification>")
@@ -32,7 +32,7 @@ async def test_consume_task_done_injects_runtime_reminder() -> None:
             yield StreamEvent(text="done")
             yield StreamEvent(done=True)
 
-    manager = Manager()
+    manager = AgentRunManager()
     agent = Agent(Provider(), Registry())
     child = Agent(Provider(), Registry())
 

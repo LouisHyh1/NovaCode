@@ -4,7 +4,6 @@ description: 只读代码探索 Agent，适合搜索、阅读和理清调用链
 disallowedTools:
   - write_file
   - edit_file
-model: haiku
 maxTurns: 30
 ---
 

@@ -16,7 +16,6 @@ class SpawnRequest:
     worktree_path: str
     session_dir: str
     agent_type: str
-    model: str
     initial_prompt: str
     plan_mode_required: bool
     config_path: str = ""
@@ -37,10 +36,6 @@ def new_backend(type_: BackendType, *, task_mgr=None) -> Backend:
         from novacode.team.backend.tmux import TmuxBackend
 
         return TmuxBackend()
-    if type_ is BackendType.ITERM2:
-        from novacode.team.backend.iterm2 import Iterm2Backend
-
-        return Iterm2Backend()
     from novacode.team.backend.inprocess import InProcessBackend
 
     if task_mgr is None:

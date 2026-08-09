@@ -25,8 +25,7 @@ from novacode.memory import (
 from novacode.memory.prompts import parse_actions
 from novacode.session import SessionWriter, clean_expired_async, load_session
 from novacode.subagent import load_catalog as load_subagent_catalog
-from novacode.task import AgentRunManager as TaskManager
-from novacode.task import TaskStopTool
+from novacode.task import AgentRunManager, TaskStopTool
 from novacode.tool import Registry
 from novacode.tui.app import NovaCodeApp
 from novacode.tui.driver import NoAltScreenDriver
@@ -122,7 +121,7 @@ async def _amain() -> int:
             lambda value: memory_cache.__setitem__(0, value),
         )
     )
-    task_mgr = TaskManager()
+    task_mgr = AgentRunManager()
     from novacode.team import Manager as TeamManager
     from novacode.team.registry import AgentNameRegistry
 
@@ -235,6 +234,9 @@ async def _amain() -> int:
             worktree_mgr=worktree_mgr,
             team_mgr=team_mgr,
             coordinator_mode=_coordinator_enabled(cfg),
+            startup_warnings=(
+                [f"权限配置已回退到内建默认策略：{engine_err}"] if engine_err is not None else []
+            ),
         )
         app_holder["app"] = app
         for notice in queued_notices:
@@ -270,7 +272,6 @@ def _parse_team_member_args(argv: list[str]):
     parser.add_argument("--session-dir", required=True)
     parser.add_argument("--worktree", required=True)
     parser.add_argument("--agent-type", default="")
-    parser.add_argument("--model", default="")
     parser.add_argument("--plan-mode", action="store_true")
     parser.add_argument("--config", default="")
     return parser.parse_args(argv)
@@ -284,25 +285,6 @@ def _coordinator_enabled(config) -> bool:
 
 def _user_novacode_root() -> Path:
     return Path.home() / ".novacode"
-
-
-def compose_legacy_session_controller(agent, prepare):
-    """在 CLI 组合根连接旧 Agent 适配器与显式会话控制器。"""
-    from dataclasses import replace
-
-    from novacode.adapters.legacy_agent_turn import LegacyAgentTurnEngine
-    from novacode.application.session_controller import (
-        SessionController,
-        SessionDependencies,
-    )
-
-    engine = LegacyAgentTurnEngine(agent)
-
-    async def prepare_with_legacy_engine(session_id: str):
-        candidate = await prepare(session_id)
-        return replace(candidate, engine=engine)
-
-    return SessionController(SessionDependencies(prepare_with_legacy_engine))
 
 
 async def _load_memory_indexes(user_store: MemoryStore, project_store: MemoryStore) -> str:

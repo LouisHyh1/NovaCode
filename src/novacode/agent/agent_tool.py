@@ -10,12 +10,7 @@ from novacode.agent.context import current
 from novacode.agent.fork import build_forked_messages, is_fork_context
 from novacode.conversation import Conversation
 from novacode.subagent import Catalog, Definition
-from novacode.task import (
-    AgentRunManager as Manager,
-)
-from novacode.task import (
-    AgentRunPartialState as PartialState,
-)
+from novacode.task import AgentRunManager, AgentRunPartialState
 from novacode.tool import Result
 from novacode.tool.filter import FilterParams, apply_agent_tool_filter
 
@@ -32,7 +27,6 @@ class AgentArgs:
     description: str
     subagent_type: str = ""
     isolation: str = ""
-    model: str = ""
     run_in_background: bool = False
     name: str = ""
     team_name: str = ""
@@ -50,7 +44,7 @@ class AgentTool:
     def __init__(
         self,
         catalog: Catalog,
-        task_mgr: Manager,
+        task_mgr: AgentRunManager,
         parent: Agent | None = None,
         bg_enabled: bool = True,
         worktree_mgr: "WorktreeManager | None" = None,
@@ -86,10 +80,6 @@ class AgentTool:
                     "enum": ["worktree"],
                     "description": "在独立 Git Worktree 中执行 SubAgent",
                 },
-                "model": {
-                    "type": "string",
-                    "enum": ["haiku", "sonnet", "opus", "inherit"],
-                },
                 "run_in_background": {"type": "boolean"},
                 "name": {"type": "string"},
                 "team_name": {"type": "string"},
@@ -110,6 +100,8 @@ class AgentTool:
             return Result(f"Agent 参数不是合法 JSON: {exc}", is_error=True)
         if not isinstance(data, dict):
             return Result("Agent 参数必须是对象", is_error=True)
+        if "model" in data:
+            return Result("model 参数已删除；SubAgent 始终继承父 Provider", is_error=True)
         prompt = data.get("prompt")
         description = data.get("description")
         if not isinstance(prompt, str) or not prompt.strip():
@@ -124,7 +116,6 @@ class AgentTool:
             description=description,
             subagent_type=str(data.get("subagent_type") or ""),
             isolation=isolation,
-            model=str(data.get("model") or ""),
             run_in_background=data.get("run_in_background") is True,
             name=str(data.get("name") or ""),
             team_name=str(data.get("team_name") or ""),
@@ -185,7 +176,6 @@ class AgentTool:
                         prompt=parsed.prompt,
                         description=parsed.description,
                         subagent_type=parsed.subagent_type,
-                        model=parsed.model,
                         plan_mode_required=parsed.plan_mode_required,
                         caller_agent=self.parent,
                         caller_conversation=(
@@ -263,7 +253,7 @@ class AgentTool:
                 parsed.name,
                 events,
                 handle,
-                PartialState(),
+                AgentRunPartialState(),
                 parsed.prompt,
             )
             return Result(json.dumps({"task_id": task_id, "status": "timed_out_to_background"}))

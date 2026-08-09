@@ -11,7 +11,7 @@ from novacode.agent.agent_worktree import (
     execute_with_worktree,
 )
 from novacode.subagent import load_catalog
-from novacode.task import Manager as TaskManager
+from novacode.task import AgentRunManager
 from novacode.tool import cwd_from_ctx, with_cwd
 from novacode.tool.write_file import WriteFileTool
 from novacode.worktree import AutoCleanupReport
@@ -117,7 +117,7 @@ def _write_isolated_agent(root: Path, *, background: bool = False) -> None:
 @pytest.mark.asyncio
 async def test_agent_tool_reports_missing_worktree_manager(tmp_path: Path) -> None:
     _write_isolated_agent(tmp_path)
-    tool = AgentTool(load_catalog(tmp_path), TaskManager(), parent=object())
+    tool = AgentTool(load_catalog(tmp_path), AgentRunManager(), parent=object())
     result = await tool.execute(
         json.dumps({"prompt": "work", "description": "test", "subagent_type": "isolated"})
     )
@@ -133,7 +133,7 @@ async def test_agent_tool_forces_isolated_background_inline(
     manager = object()
     tool = AgentTool(
         load_catalog(tmp_path),
-        TaskManager(),
+        AgentRunManager(),
         parent=object(),
         bg_enabled=False,
         worktree_mgr=manager,
@@ -170,7 +170,7 @@ async def test_agent_tool_accepts_call_level_worktree_isolation(
     manager = object()
     tool = AgentTool(
         load_catalog(tmp_path),
-        TaskManager(),
+        AgentRunManager(),
         parent=object(),
         worktree_mgr=manager,
     )

@@ -3,7 +3,7 @@
 import json
 from dataclasses import asdict
 
-from novacode.task.manager import Manager, TaskBusy, TaskNotFound
+from novacode.task.manager import AgentRunBusyError, AgentRunManager, AgentRunNotFoundError
 from novacode.tool import Result
 
 
@@ -46,7 +46,7 @@ class _SystemTool:
 
 
 class TaskListTool(_SystemTool):
-    def __init__(self, manager: Manager) -> None:
+    def __init__(self, manager: AgentRunManager) -> None:
         self.manager = manager
 
     def name(self) -> str:
@@ -64,7 +64,7 @@ class TaskListTool(_SystemTool):
 
 
 class TaskGetTool(_SystemTool):
-    def __init__(self, manager: Manager) -> None:
+    def __init__(self, manager: AgentRunManager) -> None:
         self.manager = manager
 
     def name(self) -> str:
@@ -92,7 +92,7 @@ class TaskGetTool(_SystemTool):
 class TaskStopTool(_SystemTool):
     read_only = False
 
-    def __init__(self, manager: Manager) -> None:
+    def __init__(self, manager: AgentRunManager) -> None:
         self.manager = manager
 
     def name(self) -> str:
@@ -114,7 +114,7 @@ class TaskStopTool(_SystemTool):
 class SendMessageTool(_SystemTool):
     read_only = False
 
-    def __init__(self, manager: Manager) -> None:
+    def __init__(self, manager: AgentRunManager) -> None:
         self.manager = manager
 
     def name(self) -> str:
@@ -142,6 +142,6 @@ class SendMessageTool(_SystemTool):
             return Result("name 和 message 为必填项", is_error=True)
         try:
             task_id = await self.manager.send_message(name, message)
-        except (TaskNotFound, TaskBusy) as exc:
+        except (AgentRunNotFoundError, AgentRunBusyError) as exc:
             return Result(f"无法续派任务: {exc}", is_error=True)
         return Result(json.dumps({"task_id": task_id, "status": "resumed"}))

@@ -44,7 +44,6 @@ class TeamMember:
     agent_id: AgentId
     active: bool | None = None
     agent_type: str = ""
-    model: str = ""
     worktree_path: str = ""
     branch: str = ""
     backend_type: str = "in-process"

@@ -20,6 +20,7 @@ class Provider:
         self.scripts = scripts
         self.index = 0
         self.requests: list[Request] = []
+        self.close_calls = 0
 
     async def stream(self, request: Request) -> AsyncIterator[StreamEvent]:
         self.requests.append(request)
@@ -28,6 +29,9 @@ class Provider:
         for event in script:
             yield event
         yield StreamEvent(done=True)
+
+    async def close(self) -> None:
+        self.close_calls += 1
 
 
 class Tool:
@@ -76,6 +80,7 @@ async def test_run_to_completion_tools_system_prompt_and_events(tmp_path) -> Non
         captured.append(events.get_nowait())
     assert any(event.tool and event.tool.phase is Phase.START for event in captured)
     assert any(event.text == "final" for event in captured)
+    assert provider.close_calls == 0
 
 
 @pytest.mark.asyncio

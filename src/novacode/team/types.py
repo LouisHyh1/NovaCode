@@ -11,7 +11,6 @@ from pathlib import Path
 
 class BackendType(StrEnum):
     TMUX = "tmux"
-    ITERM2 = "iterm2"
     IN_PROCESS = "in-process"
 
 
@@ -53,7 +52,6 @@ class TeammateInfo:
     name: str
     agent_id: str
     agent_type: str = ""
-    model: str = ""
     worktree_path: str = ""
     branch: str = ""
     backend_type: BackendType = BackendType.IN_PROCESS
@@ -67,7 +65,6 @@ class TeammateInfo:
             "name": self.name,
             "agent_id": self.agent_id,
             "agent_type": self.agent_type,
-            "model": self.model,
             "worktree_path": self.worktree_path,
             "branch": self.branch,
             "backend_type": self.backend_type.value,
@@ -83,7 +80,6 @@ class TeammateInfo:
             name=str(value.get("name", "")),
             agent_id=str(value.get("agent_id", "")),
             agent_type=str(value.get("agent_type", "")),
-            model=str(value.get("model", "")),
             worktree_path=str(value.get("worktree_path", "")),
             branch=str(value.get("branch", "")),
             backend_type=BackendType(value.get("backend_type", BackendType.IN_PROCESS)),
@@ -181,7 +177,6 @@ class Team:
             AgentId(info.agent_id),
             info.is_active,
             agent_type=info.agent_type,
-            model=info.model,
             worktree_path=info.worktree_path,
             branch=info.branch,
             backend_type=info.backend_type.value,

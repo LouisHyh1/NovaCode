@@ -5,9 +5,9 @@ import pytest
 
 from novacode.conversation import Conversation
 from novacode.task import (
-    Manager,
+    AgentRunManager,
+    AgentRunStatus,
     SendMessageTool,
-    Status,
     TaskGetTool,
     TaskListTool,
     TaskStopTool,
@@ -31,25 +31,25 @@ class Agent:
 
 @pytest.mark.asyncio
 async def test_launch_send_message_and_done_notifications() -> None:
-    manager = Manager()
+    manager = AgentRunManager()
     agent = Agent(["first", "second"])
     conv = Conversation()
     task_id = await manager.launch(agent, conv, "worker", "initial")
     assert await manager.subscribe_done().get() == task_id
     background = manager.get(task_id)
-    assert background.status is Status.COMPLETED
+    assert background.status is AgentRunStatus.COMPLETED
     assert background.result == "first"
 
     assert await manager.send_message("worker", "continue") == task_id
     assert await manager.subscribe_done().get() == task_id
-    assert background.status is Status.COMPLETED
+    assert background.status is AgentRunStatus.COMPLETED
     assert background.result == "second"
     assert conv.messages()[-1].content == "continue"
 
 
 @pytest.mark.asyncio
 async def test_stop_and_task_tools() -> None:
-    manager = Manager()
+    manager = AgentRunManager()
     task_id = await manager.launch(Agent([], block=True), Conversation(), "slow", "wait")
     await asyncio.sleep(0)
     listing = await TaskListTool(manager).execute("{}")
@@ -58,7 +58,7 @@ async def test_stop_and_task_tools() -> None:
     assert json.loads(detail.content)["name"] == "slow"
     stopped = await TaskStopTool(manager).execute(json.dumps({"task_id": task_id}))
     assert not stopped.is_error
-    assert manager.get(task_id).status is Status.CANCELLED
+    assert manager.get(task_id).status is AgentRunStatus.CANCELLED
     assert await manager.subscribe_done().get() == task_id
     unknown = await TaskGetTool(manager).execute('{"task_id":"missing"}')
     assert unknown.is_error
@@ -66,7 +66,7 @@ async def test_stop_and_task_tools() -> None:
 
 @pytest.mark.asyncio
 async def test_send_message_tool() -> None:
-    manager = Manager()
+    manager = AgentRunManager()
     task_id = await manager.launch(Agent(["one", "two"]), Conversation(), "worker", "one")
     await manager.subscribe_done().get()
     result = await SendMessageTool(manager).execute(

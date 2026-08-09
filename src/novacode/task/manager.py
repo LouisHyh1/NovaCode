@@ -61,11 +61,11 @@ class AgentRun:
     cwd: str = ""
 
 
-class TaskNotFound(LookupError):  # noqa: N818 - 对外 API 名沿用章节文档
+class AgentRunNotFoundError(LookupError):
     pass
 
 
-class TaskBusy(RuntimeError):  # noqa: N818 - 对外 API 名沿用章节文档
+class AgentRunBusyError(RuntimeError):
     pass
 
 
@@ -252,20 +252,12 @@ class AgentRunManager:
         ) or self._by_name.get(name)
         background = self.get(task_id) if task_id is not None else None
         if background is None:
-            raise TaskNotFound(name)
+            raise AgentRunNotFoundError(name)
         if background.status is AgentRunStatus.RUNNING:
-            raise TaskBusy(name)
+            raise AgentRunBusyError(name)
         background.conv.add_user(message)
         background.status = AgentRunStatus.RUNNING
         background.result = ""
         background.err = None
         self._start(background, "")
         return background.id
-
-
-# 兼容一个发布周期；这些名字只引用 Agent Run 类型，不创建第二份状态。
-BackgroundTask = AgentRun
-Manager = AgentRunManager
-PartialState = AgentRunPartialState
-Status = AgentRunStatus
-Usage = AgentRunUsage

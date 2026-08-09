@@ -420,6 +420,40 @@ async def test_resume_switch_failure_after_commit_keeps_promoted_files_and_old_r
     assert list(info.path.parent.glob(".resume-staging-*")) == []
 
 
+@pytest.mark.asyncio
+async def test_resume_read_failure_keeps_current_session(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    app, old_writer = _resume_app(tmp_path)
+    old_context = app.session_context
+    old_conv = app.conv
+    info = _target_session(tmp_path)
+    monkeypatch.setattr(
+        "novacode.tui.app.load_session",
+        MagicMock(side_effect=OSError("cannot read session")),
+    )
+
+    assert await app.resume_session(info) is False
+
+    assert app.session_context is old_context
+    assert app.conv is old_conv
+    assert app.writer is old_writer
+    old_writer.append_message(Message(role="user", content="still writable"))
+    assert app.state is SessionState.IDLE
+    assert "cannot read session" in app._show_system.call_args.args[0]
+
+
+@pytest.mark.asyncio
+async def test_startup_warning_is_shown_in_tui() -> None:
+    app = _make_app()
+    warning = "权限配置已回退到内建默认策略：settings.yaml: invalid YAML"
+    app._pending_background_notices.append(warning)
+    app._show_system = MagicMock()
+
+    async with app.run_test(size=(100, 30)):
+        app._show_system.assert_any_call(warning)
+
+
 def test_format_compact_notice_reports_growth_without_saying_drop() -> None:
     text = format_compact_notice(CompactPhase.AFTER_AUTO, 100, 150, None)
 

@@ -13,7 +13,6 @@ class TeamSpawnRequest:
     prompt: str
     description: str
     subagent_type: str = ""
-    model: str = ""
     plan_mode_required: bool = False
     caller_agent: Any = None
     caller_conversation: Any = None

@@ -28,8 +28,6 @@ def build_member_cmd(request: SpawnRequest) -> list[str]:
     ]
     if request.agent_type:
         command.extend(("--agent-type", request.agent_type))
-    if request.model:
-        command.extend(("--model", request.model))
     if request.plan_mode_required:
         command.append("--plan-mode")
     if request.config_path:

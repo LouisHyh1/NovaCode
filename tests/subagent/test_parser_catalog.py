@@ -31,7 +31,6 @@ def test_definition_fields_and_dont_ask() -> None:
             extra=(
                 "tools: [read_file]\n"
                 "disallowedTools: [bash]\n"
-                "model: sonnet\n"
                 "maxTurns: 7\n"
                 "permissionMode: dontAsk\n"
                 "background: true\n"
@@ -44,7 +43,6 @@ def test_definition_fields_and_dont_ask() -> None:
     assert definition.description == "test worker"
     assert definition.tools == ["read_file"]
     assert definition.disallowed_tools == ["bash"]
-    assert definition.model == "sonnet"
     assert definition.max_turns == 7
     assert definition.permission_mode is Mode.DEFAULT
     assert definition.dont_ask is True
@@ -75,16 +73,23 @@ def test_required_fields(missing: str) -> None:
         parse_definition(_definition(**kwargs), "bad.md", Source.USER)
 
 
-def test_invalid_model_and_mode_fallback(capsys: pytest.CaptureFixture[str]) -> None:
+def test_removed_model_is_rejected() -> None:
+    with pytest.raises(DefinitionParseError, match="model is no longer supported"):
+        parse_definition(
+            _definition(extra="model: gpt-4\n"),
+            "bad.md",
+            Source.USER,
+        )
+
+
+def test_invalid_mode_fallback(capsys: pytest.CaptureFixture[str]) -> None:
     definition = parse_definition(
-        _definition(extra="model: gpt-4\npermissionMode: weird\n"),
+        _definition(extra="permissionMode: weird\n"),
         "bad.md",
         Source.USER,
     )
-    assert definition.model == "inherit"
     assert definition.permission_mode is Mode.DEFAULT
     warning = capsys.readouterr().err
-    assert "unknown model" in warning
     assert "unknown permissionMode" in warning
 
 

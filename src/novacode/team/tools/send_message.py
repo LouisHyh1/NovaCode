@@ -3,7 +3,7 @@
 import json
 from datetime import UTC, datetime
 
-from novacode.task import AgentRunStatus as BackgroundStatus
+from novacode.task import AgentRunStatus
 from novacode.team.backend import new_backend
 from novacode.team.mailbox import Box, Message, MessageType
 from novacode.team.tools.common import current_teammate_context, parse_args, resolve_team
@@ -90,7 +90,7 @@ class SendMessageTool:
                 await backend.wake(target.pane_id, target.agent_id)
                 if target.backend_type is BackendType.IN_PROCESS and target.name != "lead":
                     background = self.background_manager.get(target.agent_id)
-                    if background is not None and background.status is not BackgroundStatus.RUNNING:
+                    if background is not None and background.status is not AgentRunStatus.RUNNING:
                         await team.set_member_active(target.name, True)
                         await self.background_manager.send_message(target.agent_id, content)
                 delivered.append(target.agent_id)

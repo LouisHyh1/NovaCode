@@ -16,6 +16,7 @@ from novacode.permission.rule import RuleSet
 from novacode.permission.sandbox import resolve_root, sandbox_ok
 from novacode.permission.sensitive import detect_sensitive_tool_call
 from novacode.permission.settings import (
+    Settings,
     SettingsError,
     categorize,
     extract_sandbox_path,
@@ -107,14 +108,14 @@ def new_engine(root: str) -> tuple[Engine, Exception | None]:
     致命错（仅 resolve_root 失败）也返回非 None 空规则安全引擎 + err。
     配置文件格式错误绝不致错，只降级该文件为空（N5）。
     """
-    err: Exception | None = None
+    diagnostics: list[str] = []
 
     # 解析项目根
     try:
         resolved_root = resolve_root(root)
     except Exception as e:
         resolved_root = root  # 退化为传入值
-        err = e
+        diagnostics.append(f"{root}: {e}")
 
     # 加载三层配置
     home = str(Path.home())
@@ -122,13 +123,31 @@ def new_engine(root: str) -> tuple[Engine, Exception | None]:
     project_path = f"{resolved_root}/.novacode/settings.yaml"
     local_path = f"{resolved_root}/.novacode/settings.local.yaml"
 
-    user_settings = _load_or_empty(user_path)
-    project_settings = _load_or_empty(project_path)
-    local_settings = _load_or_empty(local_path)
+    loaded = [_load_or_empty(path) for path in (user_path, project_path, local_path)]
+    for path, (_, error) in zip((user_path, project_path, local_path), loaded, strict=True):
+        if error is not None:
+            diagnostics.append(f"{path}: {error}")
 
-    user_rules = to_rule_set(user_settings)
-    project_rules = to_rule_set(project_settings)
-    local_rules = to_rule_set(local_settings)
+    if diagnostics:
+        user_settings = project_settings = local_settings = _empty_settings()
+        user_rules = project_rules = local_rules = RuleSet()
+    else:
+        user_settings, project_settings, local_settings = (item[0] for item in loaded)
+        compiled: list[RuleSet] = []
+        for path, settings in zip(
+            (user_path, project_path, local_path),
+            (user_settings, project_settings, local_settings),
+            strict=True,
+        ):
+            try:
+                compiled.append(to_rule_set(settings))
+            except SettingsError as exc:
+                diagnostics.append(f"{path}: {exc}")
+        if diagnostics:
+            user_settings = project_settings = local_settings = _empty_settings()
+            user_rules = project_rules = local_rules = RuleSet()
+        else:
+            user_rules, project_rules, local_rules = compiled
 
     # 启动默认模式：local > project > user
     start_mode = Mode.DEFAULT
@@ -148,17 +167,20 @@ def new_engine(root: str) -> tuple[Engine, Exception | None]:
         local_path=local_path,
         _start_mode=start_mode,
     )
-    return engine, err
+    error = SettingsError("; ".join(diagnostics)) if diagnostics else None
+    return engine, error
 
 
-def _load_or_empty(path: str):
-    """加载配置，任何失败返回空 Settings（N5 降级）。"""
-    from novacode.permission.settings import Settings
-
+def _load_or_empty(path: str) -> tuple[Settings, Exception | None]:
+    """加载配置并保留可供启动层展示的失败原因。"""
     try:
-        return load_settings(path)
-    except (SettingsError, Exception):
-        return Settings()
+        return load_settings(path), None
+    except Exception as exc:
+        return _empty_settings(), exc
+
+
+def _empty_settings() -> Settings:
+    return Settings()
 
 
 def _mode_fallback(mode: Mode, cat: Category) -> Decision:

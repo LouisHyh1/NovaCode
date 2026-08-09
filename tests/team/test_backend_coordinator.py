@@ -1,5 +1,6 @@
 import pytest
 
+from novacode.cli import _parse_team_member_args
 from novacode.config import Config, FeaturesConfig
 from novacode.coordinator import allowed_tools, is_enabled
 from novacode.team.backend import SpawnRequest
@@ -15,12 +16,17 @@ def test_backend_detection_priority(monkeypatch) -> None:
     monkeypatch.delenv("TMUX")
     monkeypatch.setenv("TERM_PROGRAM", "iTerm.app")
     monkeypatch.setattr("shutil.which", lambda name: "/bin/it2" if name == "it2" else None)
-    assert detect() is BackendType.ITERM2
+    assert detect() is BackendType.IN_PROCESS
     monkeypatch.delenv("TERM_PROGRAM")
     monkeypatch.setattr("shutil.which", lambda name: "/bin/tmux" if name == "tmux" else None)
     assert detect() is BackendType.TMUX
     monkeypatch.setattr("shutil.which", lambda name: None)
     assert detect() is BackendType.IN_PROCESS
+
+
+def test_removed_iterm2_backend_is_rejected() -> None:
+    with pytest.raises(ValueError):
+        BackendType("iterm2")
 
 
 def test_tmux_member_command_contains_agent_id_not_prompt() -> None:
@@ -31,7 +37,6 @@ def test_tmux_member_command_contains_agent_id_not_prompt() -> None:
         "/repo/wt",
         "/repo/session.jsonl",
         "general-purpose",
-        "",
         "secret initial prompt",
         True,
     )
@@ -39,6 +44,28 @@ def test_tmux_member_command_contains_agent_id_not_prompt() -> None:
     assert command[command.index("--agent-id") + 1] == "agent-123"
     assert "secret initial prompt" not in command
     assert "--plan-mode" in command
+    assert "--model" not in command
+
+
+def test_removed_team_member_model_argument_is_rejected() -> None:
+    with pytest.raises(SystemExit):
+        _parse_team_member_args(
+            [
+                "--team-member",
+                "--team",
+                "demo",
+                "--member",
+                "alice",
+                "--agent-id",
+                "agent-123",
+                "--session-dir",
+                "/repo/session.jsonl",
+                "--worktree",
+                "/repo/wt",
+                "--model",
+                "haiku",
+            ]
+        )
 
 
 @pytest.mark.parametrize(

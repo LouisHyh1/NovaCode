@@ -13,7 +13,7 @@ from novacode.conversation import Conversation
 from novacode.llm import Request, StreamEvent
 from novacode.permission import Mode
 from novacode.subagent import load_catalog
-from novacode.task import Manager
+from novacode.task import AgentRunManager
 from novacode.team import BackendType
 from novacode.team.mailbox import Box, Message, MessageType
 from novacode.team.manager import Manager as TeamManager
@@ -43,7 +43,7 @@ class Hook:
 async def test_agent_tool_team_branch_calls_hook(tmp_path) -> None:
     registry = Registry()
     hook = Hook()
-    tool = AgentTool(load_catalog(tmp_path), Manager(), team_hook=hook)
+    tool = AgentTool(load_catalog(tmp_path), AgentRunManager(), team_hook=hook)
     registry.register(tool)
     parent = Agent(Provider(), registry)
     tool.set_parent(parent)
@@ -102,7 +102,7 @@ async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatc
     worktrees = FakeWorktrees()
     worktrees.root = root / ".novacode" / "worktrees"
     worktrees.root.mkdir(parents=True)
-    task_manager = Manager()
+    task_manager = AgentRunManager()
     names = AgentNameRegistry()
     team_manager = TeamManager(tmp_path / "home", root, worktrees, task_manager, names)
     team_manager.configure_spawn(load_catalog(root))

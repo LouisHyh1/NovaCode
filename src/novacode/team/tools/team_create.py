@@ -16,7 +16,7 @@ class TeamCreateTool:
         return "TeamCreate"
 
     def description(self) -> str:
-        return "创建长期 Agent Team，并一次性选择 tmux、iTerm2 或 in-process 后端。"
+        return "创建长期 Agent Team，并一次性选择 tmux 或 in-process 后端。"
 
     def parameters(self) -> dict:
         return {

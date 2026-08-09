@@ -15,6 +15,7 @@ from novacode.permission.rule import Rule, RuleSet, match_pattern, parse_rule
 from novacode.permission.sandbox import eval_symlinks_or_ancestor, resolve_root, sandbox_ok
 from novacode.permission.settings import (
     Settings,
+    SettingsError,
     categorize,
     extract_sandbox_path,
     extract_target,
@@ -197,11 +198,11 @@ class TestSandbox:
         link.symlink_to(outside / "secret.txt")
         assert not sandbox_ok(str(root.resolve()), str(link.resolve()))
 
-    @pytest.mark.skipif(os.name == "nt", reason="POSIX 系统临时目录白名单")
-    def test_system_temp_allowed_when_project_is_elsewhere(self, tmp_path):
+    @pytest.mark.skipif(os.name == "nt", reason="POSIX 系统临时目录")
+    def test_system_temp_is_outside_project(self, tmp_path):
         root = "/opt/novacode-project"
-        assert sandbox_ok(root, "/tmp/novacode-output.txt")
-        assert sandbox_ok(root, "/private/tmp/novacode-output.txt")
+        assert not sandbox_ok(root, "/tmp/novacode-output.txt")
+        assert not sandbox_ok(root, "/private/tmp/novacode-output.txt")
         assert not sandbox_ok(root, "/etc/passwd")
 
     def test_new_file_ancestor_fallback(self, tmp_path):
@@ -472,7 +473,7 @@ class TestSettingsLoading:
         assert "Bash(git *)" in s.permissions.allow
         assert "Bash(rm *)" in s.permissions.deny
 
-    def test_to_rule_set_skips_invalid(self):
+    def test_to_rule_set_rejects_invalid_rule(self):
         s = Settings(
             permissions=__import__(
                 "novacode.permission.settings", fromlist=["PermissionsBlock"]
@@ -481,9 +482,8 @@ class TestSettingsLoading:
                 deny=[""],
             )
         )
-        rs = to_rule_set(s)
-        assert len(rs.allow) == 1
-        assert rs.allow[0].tool == "Bash"
+        with pytest.raises(SettingsError, match="Invalid"):
+            to_rule_set(s)
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -734,7 +734,7 @@ class TestEngineConstruction:
         assert err is not None  # 但有错误
 
     def test_config_degradation(self, tmp_path):
-        """格式非法文件 → 降级跳过，不抛异常。"""
+        """格式非法文件 → 保守降级并返回来源明确的诊断。"""
         root = tmp_path / "project"
         root.mkdir()
         bad_settings = root / ".novacode" / "settings.yaml"
@@ -742,8 +742,33 @@ class TestEngineConstruction:
         bad_settings.write_text("{ bad yaml !!! [[[", encoding="utf-8")
         e, err = new_engine(str(root.resolve()))
         assert e is not None
-        # 不应为致命错（只降级）
-        assert err is None
+        assert err is not None
+        assert str(bad_settings) in str(err)
+        assert e.start_mode is Mode.DEFAULT
+        assert e.user.allow == e.project.allow == e.local.allow == []
+
+    def test_invalid_local_config_discards_all_custom_allows(self, tmp_path, monkeypatch):
+        root = tmp_path / "project"
+        root.mkdir()
+        home = tmp_path / "home"
+        monkeypatch.setattr(Path, "home", classmethod(lambda cls: home))
+        user_dir = home / ".novacode"
+        project_dir = root / ".novacode"
+        user_dir.mkdir(parents=True)
+        project_dir.mkdir()
+        user_dir.joinpath("settings.yaml").write_text(
+            "permissions:\n  allow:\n    - Bash(git *)\n", encoding="utf-8"
+        )
+        project_dir.joinpath("settings.local.yaml").write_text(
+            "permissions:\n  allow:\n    - Bash(~[broken)\n", encoding="utf-8"
+        )
+
+        engine, err = new_engine(str(root))
+
+        assert err is not None
+        assert str(project_dir / "settings.local.yaml") in str(err)
+        assert engine.user.allow == engine.project.allow == engine.local.allow == []
+        assert engine.start_mode is Mode.DEFAULT
 
     def test_start_mode_priority(self, tmp_path):
         """启动模式按 local > project > user。"""

@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import Literal
 
 from novacode.permission import Mode
 
@@ -30,7 +29,6 @@ class Definition:
     description: str
     tools: list[str] = field(default_factory=list)
     disallowed_tools: list[str] = field(default_factory=list)
-    model: Literal["haiku", "sonnet", "opus", "inherit"] = "inherit"
     max_turns: int = 0
     permission_mode: Mode = Mode.DEFAULT
     dont_ask: bool = False

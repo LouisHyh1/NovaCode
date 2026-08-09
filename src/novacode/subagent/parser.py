@@ -11,7 +11,6 @@ from novacode.permission import Mode, parse_mode
 from novacode.subagent.definition import Definition, Source
 
 AGENT_NAME_REGEX = re.compile(r"^[A-Za-z][A-Za-z0-9_-]{0,31}$")
-VALID_MODELS = {"inherit", "haiku", "sonnet", "opus"}
 VALID_ISOLATIONS = {"", "worktree"}
 
 
@@ -55,14 +54,8 @@ def parse_definition(data: bytes, file_path: str, source: Source) -> Definition:
         raise DefinitionParseError("name must match ^[A-Za-z][A-Za-z0-9_-]{0,31}$")
     if not isinstance(description, str) or not description.strip():
         raise DefinitionParseError("description must be a non-empty string")
-
-    model = str(meta.get("model") or "inherit").strip()
-    if model not in VALID_MODELS:
-        print(
-            f'subagent {file_path}: unknown model "{model}", defaulting to inherit',
-            file=sys.stderr,
-        )
-        model = "inherit"
+    if "model" in meta:
+        raise DefinitionParseError("model is no longer supported; SubAgent inherits Provider")
 
     raw_mode = str(meta.get("permissionMode") or "default").strip()
     dont_ask = raw_mode.lower() == "dontask"
@@ -95,7 +88,6 @@ def parse_definition(data: bytes, file_path: str, source: Source) -> Definition:
         description=description.strip(),
         tools=_string_list(meta, "tools"),
         disallowed_tools=_string_list(meta, "disallowedTools"),
-        model=model,
         max_turns=raw_turns,
         permission_mode=permission_mode,
         dont_ask=dont_ask,

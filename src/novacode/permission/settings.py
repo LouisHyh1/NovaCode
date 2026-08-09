@@ -1,14 +1,13 @@
 """配置加载与映射——Settings YAML、friendly_name、categorize、extract_target。"""
 
 import json
-import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import yaml
 
 from novacode.llm import ToolCall
-from novacode.permission import Category
+from novacode.permission import Category, parse_mode
 from novacode.permission.rule import RuleSet, parse_rule_detailed
 
 
@@ -237,24 +236,31 @@ def load_settings(path: str) -> Settings:
 
     # default_mode
     dm = raw.get("default_mode", "")
-    if isinstance(dm, str):
-        settings.default_mode = dm
+    if not isinstance(dm, str):
+        raise SettingsError(f"default_mode must be a string: {path}")
+    if dm and not parse_mode(dm)[1]:
+        raise SettingsError(f"unknown default_mode {dm!r}: {path}")
+    settings.default_mode = dm
 
     # permissions block
     perms_raw = raw.get("permissions")
-    if isinstance(perms_raw, dict):
+    if perms_raw is not None:
+        if not isinstance(perms_raw, dict):
+            raise SettingsError(f"permissions must be a mapping: {path}")
         allow = perms_raw.get("allow", [])
         deny = perms_raw.get("deny", [])
-        if isinstance(allow, list):
-            settings.permissions.allow = [str(x) for x in allow if isinstance(x, str)]
-        if isinstance(deny, list):
-            settings.permissions.deny = [str(x) for x in deny if isinstance(x, str)]
+        if not isinstance(allow, list) or any(not isinstance(item, str) for item in allow):
+            raise SettingsError(f"permissions.allow must be a list of strings: {path}")
+        if not isinstance(deny, list) or any(not isinstance(item, str) for item in deny):
+            raise SettingsError(f"permissions.deny must be a list of strings: {path}")
+        settings.permissions.allow = allow
+        settings.permissions.deny = deny
 
     return settings
 
 
 def to_rule_set(s: Settings) -> RuleSet:
-    """将 Settings 转为 RuleSet：allow/deny 各条 parse_rule，非法条目跳过。"""
+    """将 Settings 转为 RuleSet；非法规则使整份配置失效。"""
     ruleset = RuleSet()
     for item in s.permissions.allow:
         rule, err = parse_rule_detailed(item)
@@ -262,12 +268,12 @@ def to_rule_set(s: Settings) -> RuleSet:
             rule.allow = True
             ruleset.allow.append(rule)
         else:
-            print(f"rule {item!r} parse failed: {err}", file=sys.stderr)
+            raise SettingsError(f"rule {item!r} parse failed: {err}")
     for item in s.permissions.deny:
         rule, err = parse_rule_detailed(item)
         if rule is not None:
             rule.allow = False
             ruleset.deny.append(rule)
         else:
-            print(f"rule {item!r} parse failed: {err}", file=sys.stderr)
+            raise SettingsError(f"rule {item!r} parse failed: {err}")
     return ruleset

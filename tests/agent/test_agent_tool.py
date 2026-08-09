@@ -13,7 +13,7 @@ from novacode.llm import Request, StreamEvent, ToolCall
 from novacode.permission import Outcome
 from novacode.permission.engine import new_engine
 from novacode.subagent import load_catalog
-from novacode.task import Manager
+from novacode.task import AgentRunManager
 from novacode.tool import Registry, Result
 
 
@@ -35,7 +35,7 @@ class Provider:
 @pytest.mark.asyncio
 async def test_agent_tool_schema_validation_and_inline(tmp_path) -> None:
     registry = Registry()
-    manager = Manager()
+    manager = AgentRunManager()
     tool = AgentTool(load_catalog(tmp_path), manager)
     registry.register(tool)
     parent = Agent(Provider(["child result"]), registry)
@@ -47,13 +47,16 @@ async def test_agent_tool_schema_validation_and_inline(tmp_path) -> None:
         "description",
         "subagent_type",
         "isolation",
-        "model",
         "run_in_background",
         "name",
         "team_name",
         "plan_mode_required",
     }
     assert (await tool.execute("{}")).is_error
+    removed_model = await tool.execute(
+        json.dumps({"prompt": "x", "description": "x", "model": "haiku"})
+    )
+    assert removed_model.is_error and "model 参数已删除" in removed_model.content
     unknown = await tool.execute(
         json.dumps({"prompt": "x", "description": "x", "subagent_type": "missing"})
     )
@@ -68,7 +71,7 @@ async def test_agent_tool_schema_validation_and_inline(tmp_path) -> None:
 @pytest.mark.asyncio
 async def test_agent_tool_background_and_nested_guard(tmp_path) -> None:
     registry = Registry()
-    manager = Manager()
+    manager = AgentRunManager()
     tool = AgentTool(load_catalog(tmp_path), manager)
     registry.register(tool)
     parent = Agent(Provider(["background result"]), registry)
@@ -103,7 +106,7 @@ async def test_agent_tool_background_and_nested_guard(tmp_path) -> None:
 @pytest.mark.asyncio
 async def test_background_switch_disabled_blocks_fork(tmp_path) -> None:
     registry = Registry()
-    tool = AgentTool(load_catalog(tmp_path), Manager(), bg_enabled=False)
+    tool = AgentTool(load_catalog(tmp_path), AgentRunManager(), bg_enabled=False)
     registry.register(tool)
     tool.set_parent(Agent(Provider(["unused"]), registry))
     result = await tool.execute(json.dumps({"prompt": "x", "description": "x"}))
@@ -149,7 +152,7 @@ async def test_main_agent_calls_agent_tool_and_child_cannot_see_agent(tmp_path) 
 
     provider = ScriptProvider()
     registry = Registry()
-    manager = Manager()
+    manager = AgentRunManager()
     tool = AgentTool(load_catalog(tmp_path), manager)
     registry.register(tool)
     parent = Agent(provider, registry)
@@ -175,7 +178,7 @@ async def test_inline_timeout_adopts_running_task(tmp_path, monkeypatch) -> None
 
     monkeypatch.setattr("novacode.agent.agent_tool.AUTO_BACKGROUND_SECONDS", 0.001)
     registry = Registry()
-    manager = Manager()
+    manager = AgentRunManager()
     tool = AgentTool(load_catalog(tmp_path), manager)
     registry.register(tool)
     tool.set_parent(Agent(SlowProvider(), registry))
@@ -214,7 +217,7 @@ async def test_cancelling_inline_agent_cancels_child_waiting_for_approval(tmp_pa
             return Result("hello")
 
     registry = Registry()
-    manager = Manager()
+    manager = AgentRunManager()
     tool = AgentTool(load_catalog(tmp_path), manager)
     registry.register(tool)
     registry.register(BashTool())

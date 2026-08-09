@@ -50,7 +50,7 @@ from novacode.session import SessionInfo, SessionWriter, list_sessions, load_ses
 from novacode.skills import SkillExecutor, SkillLoader
 from novacode.subagent import Catalog as SubAgentCatalog
 from novacode.subagent import load_catalog as load_subagent_catalog
-from novacode.task import AgentRunManager as TaskManager
+from novacode.task import AgentRunManager
 from novacode.tool import Registry as ToolRegistry
 from novacode.tool import with_cwd
 from novacode.tool.install_skill import InstallSkillTool
@@ -148,11 +148,12 @@ class NovaCodeApp(App):
         governor: MemoryGovernor | None = None,
         instructions: str = "",
         memory_index: str | Callable[[], str] = "",
-        task_mgr: TaskManager | None = None,
+        task_mgr: AgentRunManager | None = None,
         subagent_catalog: SubAgentCatalog | None = None,
         worktree_mgr: WorktreeManager | None = None,
         team_mgr=None,
         coordinator_mode: bool = False,
+        startup_warnings: list[str] | None = None,
     ) -> None:
         super().__init__(driver_class=driver_class)
         self._version = version or __version__
@@ -161,7 +162,7 @@ class NovaCodeApp(App):
         self.provider_cfg: ProviderConfig | None = None
         self.agent: Agent | None = None
         self.project_root = Path(project_root or Path.cwd()).resolve()
-        self.task_mgr = task_mgr or TaskManager()
+        self.task_mgr = task_mgr or AgentRunManager()
         self.subagent_catalog = subagent_catalog or load_subagent_catalog(self.project_root)
         self.worktree_mgr = worktree_mgr
         self.team_mgr = team_mgr
@@ -180,7 +181,7 @@ class NovaCodeApp(App):
         self._extractor_task: asyncio.Task[None] | None = None
         self.cleanup_task: asyncio.Task | None = None
         self._shutdown_started = False
-        self._pending_background_notices: list[str] = []
+        self._pending_background_notices = list(startup_warnings or [])
         self.conv = Conversation(
             writer.append_message if writer is not None else None,
             writer.append_compaction if writer is not None else None,
