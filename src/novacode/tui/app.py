@@ -275,6 +275,11 @@ class NovaCodeApp(App):
         except Exception:
             self._pending_background_notices.append(notice)
 
+    def _notify_subagent_hook(self, notice: str) -> None:
+        self.notify_background(notice)
+        if self.agent is not None:
+            self.agent.runtime.append_reminders([notice])
+
     def _select_provider(self, provider_cfg: ProviderConfig) -> None:
         if self.provider is not None and self.agent is not None:
             return
@@ -319,8 +324,6 @@ class NovaCodeApp(App):
                 self._extractor_task = asyncio.create_task(self.extractor.run())
             if self.governor is not None:
                 self.governor.bind_provider(provider)
-            if self.hook_engine is not None:
-                self.hook_engine.bind_provider(provider)
             self.agent = Agent(
                 provider,
                 self._tool_registry,
@@ -331,6 +334,12 @@ class NovaCodeApp(App):
                 memory_index=self._memory_index,
                 hook_engine=self.hook_engine,
             )
+            if self.hook_engine is not None:
+                self.hook_engine.bind_subagent_runtime(
+                    self.agent,
+                    self.subagent_catalog,
+                    self._notify_subagent_hook,
+                )
             self.session.bind_agent(self.agent, self._current_tool_defs)
             if self.coordinator_mode:
                 from novacode.coordinator import allowed_tools, system_prompt_suffix
@@ -1192,6 +1201,15 @@ class NovaCodeApp(App):
         if self._shutdown_started:
             return
         self._shutdown_started = True
+        try:
+            await self.end_session()
+        except Exception as exc:
+            logger.warning("session end hook failed: %s", type(exc).__name__)
+        if self.hook_engine is not None:
+            try:
+                await self.hook_engine.close()
+            except Exception as exc:
+                logger.warning("hook engine close failed: %s", type(exc).__name__)
         for task in self._task_consumers:
             task.cancel()
         if self._task_consumers:

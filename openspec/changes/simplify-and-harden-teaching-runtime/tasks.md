@@ -28,11 +28,11 @@
 
 ## 4. 实现受限的 SubAgent Hook
 
-- [ ] 4.1 用可控慢 Provider 测试定义 SubagentAction 的后台启动、非阻塞 Turn 和完成/失败/取消状态
-- [ ] 4.2 用父 Provider 创建强制 PLAN/只读的 Hook Agent，裁剪写工具、批准、Agent 和 Team 派生能力
-- [ ] 4.3 在 Hook Agent Run 内禁用所有 Hook 派发，并覆盖普通工具事件不会递归创建 SubagentAction
-- [ ] 4.4 将后台结果转换为带来源的 Session 通知和后续 reminder，确保不改写已结束 Turn
-- [ ] 4.5 在应用关闭时跟踪并收束 Hook 后台任务，验证任务异常不会泄漏或阻断主 Agent Run
+- [x] 4.1 用可控慢 Provider 测试定义 SubagentAction 的后台启动、非阻塞 Turn 和完成/失败/取消状态
+- [x] 4.2 用父 Provider 创建强制 PLAN/只读的 Hook Agent，裁剪写工具、批准、Agent 和 Team 派生能力
+- [x] 4.3 在 Hook Agent Run 内禁用所有 Hook 派发，并覆盖普通工具事件不会递归创建 SubagentAction
+- [x] 4.4 将后台结果转换为带来源的 Session 通知和后续 reminder，确保不改写已结束 Turn
+- [x] 4.5 在应用关闭时跟踪并收束 Hook 后台任务，验证任务异常不会泄漏或阻断主 Agent Run
 
 ## 5. 修正 Memory 自动化生命周期
 

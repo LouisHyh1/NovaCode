@@ -4,13 +4,19 @@ from __future__ import annotations
 
 import asyncio
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from novacode.hook.event import Event, is_blocking
 from novacode.hook.executor import ExecutionResult, Executor
 from novacode.hook.matcher import eval_condition
-from novacode.hook.rule import Payload, Rule
+from novacode.hook.rule import ActionType, Payload, Rule
 from novacode.llm import Provider
+
+if TYPE_CHECKING:
+    from novacode.agent import Agent
+    from novacode.subagent import Catalog
 
 
 @dataclass
@@ -34,6 +40,8 @@ class Engine:
         self._lock = asyncio.Lock()
         self._executor = executor or Executor()
         self._tasks: set[asyncio.Task[None]] = set()
+        self._notify: Callable[[str], None] | None = None
+        self._closed = False
 
     async def dispatch(self, event: Event, payload: Payload) -> DispatchResult:
         result = DispatchResult()
@@ -46,7 +54,7 @@ class Engine:
                     continue
                 if rule.only_once:
                     self._once_fired.add(rule.name)
-            if rule.asyncio_mode:
+            if rule.asyncio_mode or rule.action.type is ActionType.SUBAGENT:
                 task = asyncio.create_task(self._run_background(rule, event_payload))
                 self._tasks.add(task)
                 task.add_done_callback(self._tasks.discard)
@@ -67,6 +75,15 @@ class Engine:
     def bind_provider(self, provider: Provider) -> None:
         self._executor.bind_provider(provider)
 
+    def bind_subagent_runtime(
+        self,
+        parent: Agent,
+        catalog: Catalog,
+        notify: Callable[[str], None],
+    ) -> None:
+        self._executor.bind_subagent_runtime(parent, catalog)
+        self._notify = notify
+
     @property
     def provider(self) -> Provider | None:
         return self._executor.provider
@@ -76,8 +93,29 @@ class Engine:
             outcome = await self._executor.run(rule, payload, blocking=False)
             if outcome.err is not None:
                 self._log_failure(rule, outcome)
+                self._notify_status(rule, payload, "failed", str(outcome.err))
+            elif rule.action.type is ActionType.SUBAGENT:
+                self._notify_status(rule, payload, "completed", outcome.output)
         except asyncio.CancelledError:
+            if rule.action.type is ActionType.SUBAGENT:
+                self._notify_status(rule, payload, "cancelled")
             raise
+
+    def _notify_status(
+        self,
+        rule: Rule,
+        payload: Payload,
+        status: str,
+        detail: str = "",
+    ) -> None:
+        if self._notify is None:
+            return
+        source_event = str(payload.get("event", rule.event.value))
+        body = f"\n{detail}\n" if detail else "\n"
+        self._notify(
+            f'<hook-notification hook="{rule.name}" source_event="{source_event}" '
+            f'status="{status}">{body}</hook-notification>'
+        )
 
     @staticmethod
     def _log_failure(rule: Rule, outcome: ExecutionResult) -> None:
@@ -91,6 +129,9 @@ class Engine:
             self._once_fired.clear()
 
     async def close(self) -> None:
+        if self._closed:
+            return
+        self._closed = True
         for task in self._tasks:
             task.cancel()
         if self._tasks:

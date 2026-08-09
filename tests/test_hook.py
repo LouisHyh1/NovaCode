@@ -7,7 +7,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from novacode.agent import Phase
+from novacode.agent import Agent, Phase
 from novacode.agent.tool_runner import ToolRunner
 from novacode.command.builtin_hooks import handle_hooks
 from novacode.command.ui import NopUI
@@ -25,7 +25,7 @@ from novacode.hook.rule import (
     ShellAction,
     SubagentAction,
 )
-from novacode.llm import ToolCall
+from novacode.llm import StreamEvent, ToolCall
 from novacode.permission import Mode
 from novacode.permission.matcher import (
     ExactMatcher,
@@ -36,6 +36,7 @@ from novacode.permission.matcher import (
 )
 from novacode.permission.rule import parse_rule
 from novacode.permission.settings import PermissionsBlock, Settings, SettingsError, to_rule_set
+from novacode.subagent import load_catalog
 from novacode.tool import Registry, Result
 
 
@@ -43,6 +44,214 @@ def _blocking_shell_command(reason: str) -> str:
     if os.name == "nt":
         return f"1>&2 <nul set /p={reason}& exit /b 2"
     return f"echo {reason} >&2; exit 2"
+
+
+class _ControlledHookProvider:
+    name = "controlled-hook"
+    model = "controlled-hook"
+
+    def __init__(self) -> None:
+        self.started = asyncio.Event()
+        self.release = asyncio.Event()
+
+    async def stream(self, request):
+        self.started.set()
+        await self.release.wait()
+        yield StreamEvent(text="hook result")
+        yield StreamEvent(done=True)
+
+    async def close(self) -> None:
+        pass
+
+
+class _FailingHookProvider(_ControlledHookProvider):
+    async def stream(self, request):
+        self.started.set()
+        yield StreamEvent(err=RuntimeError("provider failed"))
+
+
+class _WriteAttemptProvider(_ControlledHookProvider):
+    def __init__(self) -> None:
+        super().__init__()
+        self.requests = []
+
+    async def stream(self, request):
+        self.requests.append(request)
+        self.started.set()
+        yield StreamEvent(tool_calls=[ToolCall("write-1", "write_file", '{"path":"x"}')])
+        yield StreamEvent(done=True)
+
+
+class _ReadThenAnswerProvider(_ControlledHookProvider):
+    def __init__(self) -> None:
+        super().__init__()
+        self.calls = 0
+
+    async def stream(self, request):
+        self.calls += 1
+        self.started.set()
+        if self.calls == 1:
+            yield StreamEvent(tool_calls=[ToolCall("read-1", "read_file", "{}")])
+        else:
+            yield StreamEvent(text="read complete")
+        yield StreamEvent(done=True)
+
+
+@pytest.mark.asyncio
+async def test_subagent_hook_runs_in_background_and_notifies_completion(tmp_path: Path) -> None:
+    provider = _ControlledHookProvider()
+    notices: list[str] = []
+    engine = Engine(
+        [Rule("review-stop", Event.STOP, SubagentAction("Plan", "review the turn"))],
+        [],
+    )
+    parent = Agent(provider, Registry(), hook_engine=engine)
+    engine.bind_subagent_runtime(parent, load_catalog(tmp_path), notices.append)
+
+    dispatch = asyncio.create_task(engine.dispatch(Event.STOP, {"session_id": "s1"}))
+    await asyncio.wait_for(provider.started.wait(), timeout=0.2)
+    await asyncio.wait_for(dispatch, timeout=0.2)
+    assert notices == []
+
+    provider.release.set()
+    for _ in range(100):
+        if notices:
+            break
+        await asyncio.sleep(0.001)
+    assert 'hook="review-stop"' in notices[0]
+    assert 'source_event="Stop"' in notices[0]
+    assert 'status="completed"' in notices[0]
+    assert "hook result" in notices[0]
+    await engine.close()
+
+
+@pytest.mark.asyncio
+async def test_subagent_hook_notifies_failure(tmp_path: Path) -> None:
+    provider = _FailingHookProvider()
+    notices: list[str] = []
+    engine = Engine(
+        [Rule("review-stop", Event.STOP, SubagentAction("Plan", "review the turn"))],
+        [],
+    )
+    parent = Agent(provider, Registry(), hook_engine=engine)
+    engine.bind_subagent_runtime(parent, load_catalog(tmp_path), notices.append)
+
+    await engine.dispatch(Event.STOP, {})
+    for _ in range(100):
+        if notices:
+            break
+        await asyncio.sleep(0.001)
+    assert 'status="failed"' in notices[0]
+    assert "provider failed" in notices[0]
+    await engine.close()
+
+
+@pytest.mark.asyncio
+async def test_subagent_hook_notifies_cancellation_on_close(tmp_path: Path) -> None:
+    provider = _ControlledHookProvider()
+    notices: list[str] = []
+    engine = Engine(
+        [Rule("review-stop", Event.STOP, SubagentAction("Plan", "review the turn"))],
+        [],
+    )
+    parent = Agent(provider, Registry(), hook_engine=engine)
+    engine.bind_subagent_runtime(parent, load_catalog(tmp_path), notices.append)
+
+    await engine.dispatch(Event.STOP, {})
+    await asyncio.wait_for(provider.started.wait(), timeout=0.2)
+    await engine.close()
+
+    assert 'status="cancelled"' in notices[0]
+
+
+@pytest.mark.asyncio
+async def test_subagent_hook_forces_plan_read_only_without_approval(tmp_path: Path) -> None:
+    agents = tmp_path / ".novacode" / "agents"
+    agents.mkdir(parents=True)
+    (agents / "unsafe.md").write_text(
+        """---
+name: unsafe
+description: unsafe test agent
+tools: [write_file]
+permissionMode: bypassPermissions
+dontAsk: false
+---
+try to write
+""",
+        encoding="utf-8",
+    )
+    provider = _WriteAttemptProvider()
+    write_tool = _WriteTool()
+    registry = Registry()
+    registry.register(write_tool)
+    notices: list[str] = []
+    engine = Engine(
+        [Rule("unsafe-stop", Event.STOP, SubagentAction("unsafe", "write a file"))],
+        [],
+    )
+    parent = Agent(provider, registry, hook_engine=engine)
+    engine.bind_subagent_runtime(parent, load_catalog(tmp_path), notices.append)
+
+    await engine.dispatch(Event.STOP, {})
+    for _ in range(100):
+        if notices:
+            break
+        await asyncio.sleep(0.001)
+
+    assert provider.requests[0].tools == []
+    assert write_tool.executed is False
+    assert 'status="completed"' in notices[0]
+    assert "计划模式已拒绝" in notices[0]
+    await engine.close()
+
+
+@pytest.mark.asyncio
+async def test_subagent_hook_tool_events_do_not_dispatch_recursive_hooks(tmp_path: Path) -> None:
+    class ReadTool:
+        read_only = True
+
+        def __init__(self) -> None:
+            self.executed = False
+
+        def name(self) -> str:
+            return "read_file"
+
+        def description(self) -> str:
+            return "read"
+
+        def parameters(self) -> dict:
+            return {"type": "object"}
+
+        async def execute(self, args: str) -> Result:
+            self.executed = True
+            return Result("contents")
+
+    provider = _ReadThenAnswerProvider()
+    read_tool = ReadTool()
+    registry = Registry()
+    registry.register(read_tool)
+    notices: list[str] = []
+    engine = Engine(
+        [
+            Rule("review-stop", Event.STOP, SubagentAction("Plan", "review the turn")),
+            Rule("recursive", Event.PRE_TOOL_USE, SubagentAction("Plan", "review tool")),
+        ],
+        [],
+    )
+    parent = Agent(provider, registry, hook_engine=engine)
+    engine.bind_subagent_runtime(parent, load_catalog(tmp_path), notices.append)
+
+    await engine.dispatch(Event.STOP, {})
+    for _ in range(100):
+        if notices:
+            break
+        await asyncio.sleep(0.001)
+
+    assert read_tool.executed is True
+    assert provider.calls == 2
+    assert len(notices) == 1
+    assert 'hook="review-stop"' in notices[0]
+    await engine.close()
 
 
 @pytest.mark.parametrize(
@@ -171,12 +380,13 @@ async def test_executor_shell_prompt_http_and_subagent(
         blocking=False,
     )
     assert prompted.prompt == "use zh-CN"
-    await executor.run(
+    subagent = await executor.run(
         Rule("stub", Event.STOP, SubagentAction("foo", "test")),
         {},
         blocking=False,
     )
-    assert "skipped: stub" in capsys.readouterr().err
+    assert isinstance(subagent.err, RuntimeError)
+    assert "runtime is not bound" in str(subagent.err)
     await executor.close()
 
     def respond(request: httpx.Request) -> httpx.Response:

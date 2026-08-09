@@ -6,18 +6,23 @@ import asyncio
 import json
 import sys
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 import httpx
 
 from novacode.hook.rule import (
-    ActionType,
     HttpAction,
     Payload,
+    PromptAction,
     Rule,
     ShellAction,
     SubagentAction,
 )
 from novacode.llm import Provider
+
+if TYPE_CHECKING:
+    from novacode.agent import Agent
+    from novacode.subagent import Catalog
 
 
 @dataclass
@@ -25,6 +30,7 @@ class ExecutionResult:
     blocked: bool = False
     reason: str = ""
     prompt: str = ""
+    output: str = ""
     err: Exception | None = None
 
 
@@ -33,6 +39,8 @@ class Executor:
         self._client = client or httpx.AsyncClient()
         self._owns_client = client is None
         self._provider: Provider | None = None
+        self._parent: Agent | None = None
+        self._catalog: Catalog | None = None
 
     @property
     def provider(self) -> Provider | None:
@@ -43,16 +51,20 @@ class Executor:
             raise RuntimeError("hook executor cannot bind a different provider")
         self._provider = provider
 
+    def bind_subagent_runtime(self, parent: Agent, catalog: Catalog) -> None:
+        self.bind_provider(parent.provider)
+        self._parent = parent
+        self._catalog = catalog
+
     async def run(self, rule: Rule, payload: Payload, *, blocking: bool) -> ExecutionResult:
         try:
-            if rule.action.type is ActionType.SHELL:
+            if isinstance(rule.action, ShellAction):
                 return await self._run_shell(rule.action, payload, blocking, rule.timeout_s)
-            if rule.action.type is ActionType.PROMPT:
+            if isinstance(rule.action, PromptAction):
                 return ExecutionResult(prompt=rule.action.text)
-            if rule.action.type is ActionType.HTTP:
+            if isinstance(rule.action, HttpAction):
                 return await self._run_http(rule.action, payload, blocking, rule.timeout_s)
-            self._run_subagent(rule.action, rule.name)
-            return ExecutionResult()
+            return await self._run_subagent(rule.action, rule.timeout_s)
         except asyncio.CancelledError:
             raise
         except Exception as exc:
@@ -123,12 +135,46 @@ class Executor:
         except (httpx.HTTPError, ValueError, KeyError) as exc:
             return ExecutionResult(err=exc)
 
-    @staticmethod
-    def _run_subagent(action: SubagentAction, hook_name: str) -> None:
-        print(
-            f"[hook subagent] not yet implemented, skipped: {hook_name}",
-            file=sys.stderr,
+    async def _run_subagent(self, action: SubagentAction, timeout_s: float) -> ExecutionResult:
+        parent = self._parent
+        catalog = self._catalog
+        if parent is None or catalog is None:
+            raise RuntimeError("subagent hook runtime is not bound")
+        definition = catalog.resolve(action.agent_name)
+        if definition is None:
+            raise ValueError(f"unknown hook subagent: {action.agent_name}")
+
+        from novacode.agent import Agent
+        from novacode.conversation import Conversation
+        from novacode.permission import Mode
+
+        allowed = [item.name for item in parent.registry.definitions()]
+        if definition.tools:
+            configured = set(definition.tools)
+            allowed = [name for name in allowed if name in configured]
+        denied = set(definition.disallowed_tools)
+        allowed = [name for name in allowed if name not in denied]
+        agent = Agent(
+            parent.provider,
+            parent.registry,
+            parent.version,
+            parent.engine,
+            context_window=parent.context_window,
+            instructions=parent.instructions,
+            memory_index=parent.memory_index,
+            hook_engine=None,
+            system_prompt=definition.system_prompt,
+            max_turns=definition.max_turns,
+            permission_mode=Mode.PLAN,
+            dont_ask=True,
+            allowed_tools=allowed,
+            subagent_name=definition.name,
         )
+        output = await asyncio.wait_for(
+            agent.run_to_completion(Conversation(), action.prompt),
+            timeout=timeout_s,
+        )
+        return ExecutionResult(output=output)
 
     async def close(self) -> None:
         if self._owns_client:

@@ -111,6 +111,12 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
         subagent_name=definition.name,
         teammate_context=teammate_context,
     )
+
+    def notify_hook(notice: str) -> None:
+        print(notice, flush=True)
+        agent.runtime.append_reminders([notice])
+
+    hook_engine.bind_subagent_runtime(agent, catalog, notify_hook)
     agent.runtime.append_reminders(
         [
             "<team-context>\n"

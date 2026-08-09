@@ -16,7 +16,11 @@ from novacode.compact import (
     new_session_context,
 )
 from novacode.config import ProviderConfig
-from novacode.llm import Message
+from novacode.hook import Engine as HookEngine
+from novacode.hook import Event as HookEvent
+from novacode.hook.rule import Rule as HookRule
+from novacode.hook.rule import SubagentAction
+from novacode.llm import Message, StreamEvent
 from novacode.memory import MemoryTurn
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
@@ -28,6 +32,7 @@ from novacode.session import (
     list_sessions,
     load_session,
 )
+from novacode.subagent import load_catalog
 from novacode.tool import Registry
 from novacode.tui.app import (
     ChatInput,
@@ -133,6 +138,121 @@ def test_provider_selection_is_idempotent(monkeypatch: pytest.MonkeyPatch) -> No
     app._select_provider(app.providers[0])
 
     factory.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_subagent_hook_completion_is_visible_and_injected_next_turn(tmp_path: Path) -> None:
+    class Provider:
+        name = "hook-provider"
+        model = "hook-provider"
+
+        def __init__(self) -> None:
+            self.started = asyncio.Event()
+            self.release = asyncio.Event()
+
+        async def stream(self, request):
+            self.started.set()
+            await self.release.wait()
+            yield StreamEvent(text="background review")
+            yield StreamEvent(done=True)
+
+        async def close(self) -> None:
+            pass
+
+    cfg = ProviderConfig(
+        name="test",
+        protocol="openai",
+        api_key="sk-test",
+        base_url="http://localhost:8000",
+        model="gpt-4",
+    )
+    hook_engine = HookEngine(
+        [HookRule("review-stop", HookEvent.STOP, SubagentAction("Plan", "review"))],
+        [],
+    )
+    app = NovaCodeApp(
+        providers=[cfg],
+        registry=Registry(),
+        version="test",
+        engine=_make_engine(),
+        hook_engine=hook_engine,
+        project_root=tmp_path,
+        subagent_catalog=load_catalog(tmp_path),
+    )
+    app._show_system = MagicMock()
+    provider = Provider()
+
+    assert app._initialize_provider(cfg, provider) is True
+    before = app.conv.messages()
+    await hook_engine.dispatch(HookEvent.STOP, {"session_id": "s1"})
+    await asyncio.wait_for(provider.started.wait(), timeout=0.2)
+    provider.release.set()
+    for _ in range(100):
+        if app.agent is not None and app.agent.runtime.pending_reminders:
+            break
+        await asyncio.sleep(0.001)
+
+    notice = app.agent.runtime.pending_reminders[0]
+    assert 'source_event="Stop"' in notice
+    app._show_system.assert_called_once_with(notice)
+    assert app.conv.messages() == before
+    await hook_engine.close()
+    await app._shutdown_resources()
+
+
+@pytest.mark.asyncio
+async def test_app_shutdown_cancels_and_waits_for_subagent_hooks(tmp_path: Path) -> None:
+    class Provider:
+        name = "hook-provider"
+        model = "hook-provider"
+
+        def __init__(self) -> None:
+            self.started = asyncio.Event()
+            self.closed = False
+
+        async def stream(self, request):
+            self.started.set()
+            await asyncio.Event().wait()
+            if False:
+                yield StreamEvent()
+
+        async def close(self) -> None:
+            self.closed = True
+
+    cfg = ProviderConfig(
+        name="test",
+        protocol="openai",
+        api_key="sk-test",
+        base_url="http://localhost:8000",
+        model="gpt-4",
+    )
+    hook_engine = HookEngine(
+        [HookRule("review-stop", HookEvent.STOP, SubagentAction("Plan", "review"))],
+        [],
+    )
+    app = NovaCodeApp(
+        providers=[cfg],
+        registry=Registry(),
+        version="test",
+        engine=_make_engine(),
+        hook_engine=hook_engine,
+        project_root=tmp_path,
+        subagent_catalog=load_catalog(tmp_path),
+    )
+    app._show_system = MagicMock()
+    provider = Provider()
+
+    assert app._initialize_provider(cfg, provider) is True
+    await hook_engine.dispatch(HookEvent.STOP, {"session_id": "s1"})
+    await asyncio.wait_for(provider.started.wait(), timeout=0.2)
+    try:
+        await asyncio.wait_for(app._shutdown_resources(), timeout=0.2)
+        assert provider.closed is True
+        assert any(
+            'status="cancelled"' in reminder for reminder in app.agent.runtime.pending_reminders
+        )
+    finally:
+        await hook_engine.close()
 
 
 # ── unit: outcome index ───────────────────────────────────────
@@ -787,8 +907,11 @@ async def test_app_shares_provider_with_memory_borrowers_and_closes_it_once() ->
         def __init__(self) -> None:
             self.provider = None
 
-        def bind_provider(self, provider) -> None:
-            self.provider = provider
+        def bind_subagent_runtime(self, parent, catalog, notify) -> None:
+            self.provider = parent.provider
+
+        async def close(self) -> None:
+            return None
 
     provider = Provider()
     app.extractor = Extractor()
