@@ -151,7 +151,7 @@ async def test_cli_assembles_session_instructions_memory_and_background_services
         async def _shutdown_resources(self):
             if self.cleanup_task is not None:
                 await self.cleanup_task
-            captured["writer"].close()
+            await captured["session"].close()
 
         def notify_background(self, notice):
             pass
@@ -161,8 +161,8 @@ async def test_cli_assembles_session_instructions_memory_and_background_services
     assert await cli._amain() == 0
 
     assert captured["project_root"] == project.resolve()
-    assert captured["session_context"].session_id in captured["session_context"].message_path
-    assert captured["writer"].path.parent == project / ".novacode" / "sessions"
+    assert captured["session"].session_id in str(captured["session"].path)
+    assert captured["session"].path.parent == project / ".novacode" / "sessions"
     assert captured["extractor"].provider is None
     assert captured["instructions"] == "project instructions"
     assert callable(captured["memory_index"])
@@ -186,8 +186,9 @@ async def test_writer_initialization_failure_returns_nonzero_without_starting_tu
     monkeypatch.setattr(cli, "_user_novacode_root", lambda: tmp_path / "home" / ".novacode")
     started = False
 
-    class BrokenWriter:
-        def __init__(self, *args, **kwargs):
+    class BrokenSessionService:
+        @classmethod
+        def create(cls, *args, **kwargs):
             raise OSError("read-only disk")
 
     class ForbiddenApp:
@@ -195,7 +196,7 @@ async def test_writer_initialization_failure_returns_nonzero_without_starting_tu
             nonlocal started
             started = True
 
-    monkeypatch.setattr(cli, "SessionWriter", BrokenWriter)
+    monkeypatch.setattr(cli, "SessionService", BrokenSessionService)
     monkeypatch.setattr(cli, "NovaCodeApp", ForbiddenApp)
 
     assert await cli._amain() == 1

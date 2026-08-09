@@ -17,6 +17,7 @@ from novacode.hook.rule import (
     ShellAction,
     SubagentAction,
 )
+from novacode.llm import Provider
 
 
 @dataclass
@@ -31,6 +32,16 @@ class Executor:
     def __init__(self, client: httpx.AsyncClient | None = None) -> None:
         self._client = client or httpx.AsyncClient()
         self._owns_client = client is None
+        self._provider: Provider | None = None
+
+    @property
+    def provider(self) -> Provider | None:
+        return self._provider
+
+    def bind_provider(self, provider: Provider) -> None:
+        if self._provider is not None and self._provider is not provider:
+            raise RuntimeError("hook executor cannot bind a different provider")
+        self._provider = provider
 
     async def run(self, rule: Rule, payload: Payload, *, blocking: bool) -> ExecutionResult:
         try:

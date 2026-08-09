@@ -11,9 +11,8 @@ from pathlib import Path
 
 from novacode import __version__, hook
 from novacode import mcp as mcp_client
-from novacode.compact import new_session_context
 from novacode.instructions import InstructionLoader
-from novacode.llm import Message, Request, new_provider
+from novacode.llm import Message, Request
 from novacode.memory import (
     ManageMemoryTool,
     MemoryExtractor,
@@ -23,7 +22,7 @@ from novacode.memory import (
     render_memory_indexes,
 )
 from novacode.memory.prompts import parse_actions
-from novacode.session import SessionWriter, clean_expired_async, load_session
+from novacode.session import SessionService, clean_expired_async, load_session
 from novacode.subagent import load_catalog as load_subagent_catalog
 from novacode.task import AgentRunManager, TaskStopTool
 from novacode.tool import Registry
@@ -80,7 +79,6 @@ async def _amain() -> int:
         return 1
 
     sessions_dir = root / ".novacode" / "sessions"
-    session_context = new_session_context(str(root))
     instructions = InstructionLoader(root, _user_novacode_root()).load()
     user_store = MemoryStore(
         _user_novacode_root() / "memory",
@@ -93,7 +91,7 @@ async def _amain() -> int:
     memory_index = await _load_memory_indexes(user_store, project_store)
     memory_cache = [memory_index]
     try:
-        writer = SessionWriter(sessions_dir, session_context.session_id, "")
+        session = SessionService.create(root)
     except Exception as exc:
         print(f"Session writer error: {exc}", file=sys.stderr)
         return 1
@@ -179,7 +177,7 @@ async def _amain() -> int:
         mcp_cfg = mcp_client.load_config(root_text)
         mcp_mgr = await mcp_client.new_manager(mcp_cfg, version=__version__)
     except Exception:
-        await asyncio.to_thread(writer.close)
+        await session.close()
         await hook_engine.close()
         raise
     app = None
@@ -208,11 +206,10 @@ async def _amain() -> int:
             else:
                 current.notify_background(notice)
 
-        governance_provider = new_provider(cfg.providers[0])
         governor = MemoryGovernor(
             sessions_dir,
             (user_store, project_store),
-            _restricted_governance_runner(governance_provider),
+            _restricted_governance_runner,
             notify,
         )
         app = NovaCodeApp(
@@ -223,8 +220,7 @@ async def _amain() -> int:
             engine=engine,
             hook_engine=hook_engine,
             project_root=root,
-            session_context=session_context,
-            writer=writer,
+            session=session,
             extractor=extractor,
             governor=governor,
             instructions=instructions,
@@ -242,10 +238,6 @@ async def _amain() -> int:
         for notice in queued_notices:
             app.notify_background(notice)
         app.cleanup_task = asyncio.create_task(clean_expired_async(sessions_dir, datetime.now(UTC)))
-        try:
-            governor.maybe_schedule(datetime.now(UTC))
-        except Exception as exc:
-            logger.warning("memory governor scheduling failed: %s", type(exc).__name__)
         await app.run_async()
     finally:
         if app is not None and hasattr(app, "_shutdown_resources"):
@@ -253,7 +245,7 @@ async def _amain() -> int:
                 await app.end_session()
             await app._shutdown_resources()
         else:
-            await asyncio.to_thread(writer.close)
+            await session.close()
         await mcp_mgr.close()
         await hook_engine.close()
         if worktree_cleanup_task is not None:
@@ -304,45 +296,41 @@ async def _load_memory_indexes(user_store: MemoryStore, project_store: MemorySto
     return render_memory_indexes(indexes[0], indexes[1])
 
 
-def _restricted_governance_runner(provider):
-    async def run(**kwargs):
-        session_blocks: list[str] = []
-        for info in kwargs["sessions"]:
-            loaded = load_session(info.path)
-            lines = [
-                f"{message.role}: {message.content}"
-                for message in loaded.messages
-                if message.content
-            ]
-            session_blocks.append(f"Session {info.session_id}:\n" + "\n".join(lines))
-
-        target = Path(kwargs["target_directory"])
-        note_blocks = [
-            f"File {path.name}:\n{path.read_text(encoding='utf-8')}"
-            for path in sorted(target.glob("*.md"))
-            if path.is_file()
+async def _restricted_governance_runner(**kwargs):
+    provider = kwargs["provider"]
+    if provider is None:
+        raise RuntimeError("memory governor provider is not bound")
+    session_blocks: list[str] = []
+    for info in kwargs["sessions"]:
+        loaded = load_session(info.path)
+        lines = [
+            f"{message.role}: {message.content}" for message in loaded.messages if message.content
         ]
-        content = (
-            f"{kwargs['prompt']}\nAllowed kinds: "
-            f"{', '.join(sorted(kind.value for kind in kwargs['allowed_kinds']))}\n\n"
-            f"Indexes:\n{'\n\n'.join(kwargs['indexes'])}\n\n"
-            f"Target notes:\n{'\n\n'.join(note_blocks)}\n\n"
-            f"Sessions:\n{'\n\n'.join(session_blocks)}\n\n"
-            "Return only a JSON array of create, update, delete, or no-op actions."
-        )
-        response: list[str] = []
-        async for event in provider.stream(
-            Request(messages=[Message(role="user", content=content)], tools=[])
-        ):
-            if event.err is not None:
-                raise event.err
-            if event.tool_calls:
-                raise ValueError("restricted governance provider requested tools")
-            if event.text:
-                response.append(event.text)
-        return parse_actions("".join(response))
+        session_blocks.append(f"Session {info.session_id}:\n" + "\n".join(lines))
 
-    return run
+    target = Path(kwargs["target_directory"])
+    note_blocks = [
+        f"File {path.name}:\n{path.read_text(encoding='utf-8')}"
+        for path in sorted(target.glob("*.md"))
+        if path.is_file()
+    ]
+    content = (
+        f"{kwargs['prompt']}\nAllowed kinds: "
+        f"{', '.join(sorted(kind.value for kind in kwargs['allowed_kinds']))}\n\n"
+        f"Indexes:\n{'\n\n'.join(kwargs['indexes'])}\n\n"
+        f"Target notes:\n{'\n\n'.join(note_blocks)}\n\n"
+        f"Sessions:\n{'\n\n'.join(session_blocks)}\n\n"
+        "Return only a JSON array of create, update, delete, or no-op actions."
+    )
+    response: list[str] = []
+    async for event in provider.stream(Request(messages=[Message(role="user", content=content)])):
+        if event.err is not None:
+            raise event.err
+        if event.tool_calls:
+            raise ValueError("restricted governance provider requested tools")
+        if event.text:
+            response.append(event.text)
+    return parse_actions("".join(response))
 
 
 def _register_mcp_tools(

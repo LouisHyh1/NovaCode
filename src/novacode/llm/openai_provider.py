@@ -36,6 +36,9 @@ class OpenAIProvider:
     def model(self) -> str:
         return self._model
 
+    async def close(self) -> None:
+        await self._client.close()
+
     async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
         messages = self._to_openai_messages(req)
         params: dict = {

@@ -39,6 +39,9 @@ class AnthropicProvider:
     def model(self) -> str:
         return self._model
 
+    async def close(self) -> None:
+        await self._client.close()
+
     async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
         # ── 构造 system 文本块（stable 带 cache_control 断点，env 不带）──
         system: list[dict] = []

@@ -91,6 +91,7 @@ async def test_agent_tool_background_and_nested_guard(tmp_path) -> None:
     assert payload["status"] == "async_launched"
     assert await manager.subscribe_done().get() == payload["task_id"]
     assert manager.get(payload["task_id"]).result == "background result"
+    assert manager.get(payload["task_id"]).sub_agent.provider is parent.provider
 
     fork_conv = Conversation.from_messages(build_forked_messages([], "nested"))
     child = Agent(parent.provider, registry, subagent_name="__fork__")

@@ -1,16 +1,17 @@
 """Textual TUI application — NovaCodeApp."""
 
+from __future__ import annotations
+
 import asyncio
 import logging
 import os
-import shutil
 import time
-import uuid
 from collections.abc import Callable
 from dataclasses import dataclass, replace
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 from enum import Enum
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from rich.text import Text
 from textual import events, on
@@ -21,32 +22,20 @@ from textual.message import Message as TMessage
 from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
-from novacode.agent import Agent, ApprovalRequest, CompactPhase, Phase, SessionRuntime
+from novacode.agent import Agent, ApprovalRequest, CompactPhase, Phase
 from novacode.command import Kind, arguments, parse, register_builtins
 from novacode.command import Registry as CommandRegistry
 from novacode.command.builtin_skill import register_skill_management
 from novacode.command.skill_register import register_skill_commands
-from novacode.compact import (
-    CompactCircuitBreaker,
-    ContentReplacementState,
-    RecoveryState,
-    SessionContext,
-    new_session_context,
-    open_session_context,
-)
-from novacode.compact.const import auto_compact_threshold
-from novacode.compact.token import estimate_tokens
 from novacode.config import ProviderConfig, effective_context_window
-from novacode.conversation import Conversation
 from novacode.hook import Engine as HookEngine
 from novacode.hook import Event as HookEvent
+from novacode.llm import Message, new_provider
 from novacode.llm import Provider as LLMProvider
-from novacode.llm import new_provider
 from novacode.memory import MemoryExtractor, MemoryGovernor
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
-from novacode.prompt import system_reminder
-from novacode.session import SessionInfo, SessionWriter, list_sessions, load_session
+from novacode.session import SessionInfo, SessionService, list_sessions
 from novacode.skills import SkillExecutor, SkillLoader
 from novacode.subagent import Catalog as SubAgentCatalog
 from novacode.subagent import load_catalog as load_subagent_catalog
@@ -61,6 +50,10 @@ from novacode.tui.resume import build_resume_options
 from novacode.tui.tasks import build_task_notification, build_team_update_reminder
 from novacode.tui.view import approval_block, tool_line, tool_result_summary
 from novacode.worktree import Manager as WorktreeManager
+
+if TYPE_CHECKING:
+    from novacode.compact import SessionContext
+    from novacode.conversation import Conversation
 
 SPINNER_FRAMES = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 logger = logging.getLogger(__name__)
@@ -88,7 +81,7 @@ class ChatInput(TextArea):
             super().__init__()
             self.text = text
 
-    async def _on_key(self, event: "events.Key") -> None:
+    async def _on_key(self, event: events.Key) -> None:
         # 审批态：按键委托给 App._update_approving，防止被 TextArea 吞掉
         if self.app.state == SessionState.APPROVING:
             self.app._update_approving(event.key)
@@ -142,8 +135,7 @@ class NovaCodeApp(App):
         engine: Engine | None = None,
         hook_engine: HookEngine | None = None,
         project_root: Path | None = None,
-        session_context: SessionContext | None = None,
-        writer: SessionWriter | None = None,
+        session: SessionService | None = None,
         extractor: MemoryExtractor | None = None,
         governor: MemoryGovernor | None = None,
         instructions: str = "",
@@ -168,12 +160,12 @@ class NovaCodeApp(App):
         self.team_mgr = team_mgr
         self.coordinator_mode = coordinator_mode
         self.lead_mail_event = asyncio.Event()
-        session = worktree_mgr.current_session() if worktree_mgr is not None else None
-        self.active_cwd = session.worktree_path if session is not None else ""
+        worktree_session = worktree_mgr.current_session() if worktree_mgr is not None else None
+        self.active_cwd = worktree_session.worktree_path if worktree_session is not None else ""
         self._worktree_adapter = None
         self._task_consumers: list[asyncio.Task] = []
-        self.session_context = session_context
-        self.writer = writer
+        self.session = session or SessionService.ephemeral(self.project_root)
+        self.session.bind_lifecycle(self._dispatch_session_hook)
         self.extractor = extractor
         self.governor = governor
         self.instructions = instructions
@@ -182,10 +174,6 @@ class NovaCodeApp(App):
         self.cleanup_task: asyncio.Task | None = None
         self._shutdown_started = False
         self._pending_background_notices = list(startup_warnings or [])
-        self.conv = Conversation(
-            writer.append_message if writer is not None else None,
-            writer.append_compaction if writer is not None else None,
-        )
         self._tool_registry = registry
         self.skill_loader = SkillLoader(self.project_root)
         self.skill_loader.load_all()
@@ -206,8 +194,6 @@ class NovaCodeApp(App):
         self.completion = CompletionMenu()
         self.engine = engine
         self.hook_engine = hook_engine
-        self._session_started = False
-        self._session_ended = False
         self.state = SessionState.SELECTING if len(providers) > 1 else SessionState.IDLE
         self.turn_start = 0.0
         self._agent_task: asyncio.Task[None] | None = None
@@ -229,7 +215,6 @@ class NovaCodeApp(App):
         self._spinner_idx: int = 0
         self._spinner_timer = None
         self._last_ai_text: str = ""
-        self._session_switch_lock = asyncio.Lock()
         self._resume_sessions: dict[str, SessionInfo] = {}
         self._resume_list: OptionList | None = None
 
@@ -327,24 +312,26 @@ class NovaCodeApp(App):
         self.state = SessionState.IDLE
 
     def _initialize_provider(self, provider_cfg: ProviderConfig, provider: LLMProvider) -> bool:
-        runtime = self._new_runtime(self.session_context) if self.session_context else None
         try:
-            if self.writer is not None:
-                self.writer.bind_model(provider.model)
+            self.session.bind_model(provider.model)
             if self.extractor is not None:
                 self.extractor.bind_provider(provider)
                 self._extractor_task = asyncio.create_task(self.extractor.run())
+            if self.governor is not None:
+                self.governor.bind_provider(provider)
+            if self.hook_engine is not None:
+                self.hook_engine.bind_provider(provider)
             self.agent = Agent(
                 provider,
                 self._tool_registry,
                 self._version,
                 self.engine,
-                runtime=runtime,
                 context_window=effective_context_window(provider_cfg),
                 instructions=self.instructions,
                 memory_index=self._memory_index,
                 hook_engine=self.hook_engine,
             )
+            self.session.bind_agent(self.agent, self._current_tool_defs)
             if self.coordinator_mode:
                 from novacode.coordinator import allowed_tools, system_prompt_suffix
 
@@ -382,6 +369,11 @@ class NovaCodeApp(App):
             return False
         self.provider_cfg = provider_cfg
         self.provider = provider
+        if self.governor is not None and hasattr(self.governor, "maybe_schedule"):
+            try:
+                self.governor.maybe_schedule(datetime.now(UTC))
+            except Exception as exc:
+                logger.warning("memory governor scheduling failed: %s", type(exc).__name__)
         return True
 
     # ── right-click copy ───────────────────────────────────────
@@ -452,7 +444,7 @@ class NovaCodeApp(App):
 
     # ── keys ────────────────────────────────────────────────────
 
-    async def _on_key(self, event: "events.Key") -> None:
+    async def _on_key(self, event: events.Key) -> None:
         """全局按键分派——处理 Shift+Tab 和 approving 态按键。"""
         key = event.key
 
@@ -660,8 +652,8 @@ class NovaCodeApp(App):
         if not message:
             return
         if request:
-            self.conv.add_user(request)
-        self.conv.add_assistant(message)
+            await self.session.record(Message(role="user", content=request))
+        await self.session.record(Message(role="assistant", content=message))
         self._last_ai_text = message
         chat = self.query_one("#chat-area", VerticalScroll)
         row = Vertical(classes="ai-row")
@@ -709,10 +701,21 @@ class NovaCodeApp(App):
         return [name for store in stores for name in store.list_files()]
 
     def session_path(self) -> str:
-        return str(self.writer.path) if self.writer is not None else ""
+        try:
+            return str(self.session.path)
+        except Exception:
+            return ""
 
     def session_id(self) -> str:
-        return self.session_context.session_id if self.session_context is not None else ""
+        return self.session.session_id
+
+    @property
+    def conv(self) -> Conversation:
+        return self.session.conversation
+
+    @property
+    def session_context(self) -> SessionContext | None:
+        return self.session.context
 
     def hook_sources(self) -> list[str]:
         return self.hook_engine.sources if self.hook_engine is not None else []
@@ -739,22 +742,13 @@ class NovaCodeApp(App):
         return result
 
     async def dispatch_session_start(self) -> None:
-        if self.agent is None or (self._session_started and not self._session_ended):
-            return
-        await self._dispatch_hook(HookEvent.SESSION_START)
-        self._session_started = True
-        self._session_ended = False
-
-    async def dispatch_session_resume(self) -> None:
-        await self._dispatch_hook(HookEvent.SESSION_RESUME)
-        self._session_started = True
-        self._session_ended = False
+        await self.session.start()
 
     async def end_session(self) -> None:
-        if not self._session_started or self._session_ended:
-            return
-        await self._dispatch_hook(HookEvent.SESSION_END)
-        self._session_ended = True
+        await self.session.end()
+
+    async def _dispatch_session_hook(self, event: HookEvent) -> None:
+        await self._dispatch_hook(event)
 
     def quit(self) -> None:
         self.exit()
@@ -765,8 +759,9 @@ class NovaCodeApp(App):
             return
         try:
             before, after = await self.agent.run_force_compact(
-                self.conv, self._current_tool_defs(), mode=self._mode
+                self.session.conversation, self._current_tool_defs(), mode=self._mode
             )
+            await self.session.sync()
         except Exception as exc:
             self.println(format_compact_notice(CompactPhase.AFTER_AUTO, 0, 0, exc))
             return
@@ -776,42 +771,18 @@ class NovaCodeApp(App):
         await self._begin_resume()
 
     async def clear_and_new_session(self) -> None:
-        if self.writer is None or self.agent is None or self.provider is None:
+        if self.agent is None or self.provider is None:
             self.error("清空失败：当前会话资源不完整")
             return
-        old_writer = self.writer
-        new_writer: SessionWriter | None = None
         try:
-            context = new_session_context(str(self.project_root))
-            new_writer = SessionWriter(
-                Path(context.message_path).parent,
-                context.session_id,
-                self.provider.model,
-            )
-            conversation = Conversation(
-                new_writer.append_message,
-                new_writer.append_compaction,
-            )
-            async with self._session_switch_lock:
-                await self.end_session()
-                self.agent.runtime.reset_for_new_session(context)
-                await self.agent.runtime.reset_hooks_for_new_session()
-                self.agent.clear_active_skills()
-                self.session_context = context
-                self.writer = new_writer
-                self.conv = conversation
-                new_writer = None
+            await self.session.new_session()
             self.iter = 0
             self._usage_in = 0
             self._usage_out = 0
             self._last_ai_text = ""
             await self.query_one("#chat-area", VerticalScroll).remove_children()
-            await asyncio.to_thread(old_writer.close)
             self.println("已清空当前会话，开启新 session")
-            await self.dispatch_session_start()
         except Exception as exc:
-            if new_writer is not None:
-                await asyncio.to_thread(new_writer.close)
             self.error(f"清空失败：{exc}")
 
     def idle(self) -> bool:
@@ -884,19 +855,6 @@ class NovaCodeApp(App):
             return self._tool_registry.read_only_definitions()
         return self._tool_registry.definitions()
 
-    @staticmethod
-    def _new_runtime(
-        session_context: SessionContext,
-        resume_reminder: str = "",
-    ) -> SessionRuntime:
-        return SessionRuntime(
-            replacement=ContentReplacementState(),
-            recovery=RecoveryState(),
-            auto_tracking=CompactCircuitBreaker(),
-            session=session_context,
-            resume_reminder=resume_reminder,
-        )
-
     async def _begin_resume(self) -> None:
         if self.session_context is None:
             self._show_system("恢复失败：当前会话未启用持久化")
@@ -924,205 +882,24 @@ class NovaCodeApp(App):
             self.state = SessionState.IDLE
 
     async def resume_session(self, info: SessionInfo) -> bool:
-        if self.writer is None or self.session_context is None or self.agent is None:
+        if self.session_context is None or self.agent is None:
             self._show_system("恢复失败：当前会话资源不完整")
             return False
-
-        old_writer = self.writer
-        staging_root: Path | None = None
-        promoted: list[Path] = []
-        new_writer: SessionWriter | None = None
-        committed = False
-        switched = False
         self.state = SessionState.RESUMING
         try:
-            loaded = load_session(info.path)
-            if not loaded.messages or not loaded.model:
-                raise ValueError("会话没有可恢复的有效消息")
-            target_context = open_session_context(str(self.project_root), info.session_id)
-            candidate = Conversation.from_messages(loaded.messages)
-            reminder = self._build_resume_reminder(loaded.last_activity)
-            target_runtime = self._new_runtime(target_context, reminder)
-            compacted = self._needs_resume_compaction(candidate)
-
-            if compacted:
-                staging_root = info.path.parent / f".resume-staging-{uuid.uuid4().hex}"
-                staging_spill = staging_root / "tool-results"
-                staging_spill.mkdir(parents=True)
-                staging_context = SessionContext(
-                    session_id=staging_root.name,
-                    message_path=str(staging_root / "messages.jsonl"),
-                    spill_dir=str(staging_spill),
-                )
-                await self._compact_resume_candidate(
-                    candidate,
-                    self._new_runtime(staging_context),
-                )
-                promoted = self._promote_staged_spills(
-                    candidate,
-                    staging_spill,
-                    Path(target_context.spill_dir),
-                )
-
-            new_writer = SessionWriter.open_existing(
-                info.path.parent,
-                info.session_id,
-                loaded.model,
-            )
-            if compacted:
-                new_writer.append_compaction(candidate.messages())
-                committed = True
-            live_conversation = Conversation.from_messages(
-                candidate.messages(),
-                new_writer.append_message,
-                new_writer.append_compaction,
-            )
-            async with self._session_switch_lock:
-                await self.end_session()
-                if self.hook_engine is not None:
-                    await self.hook_engine.reset_for_new_session()
-                target_runtime.hook_engine = self.hook_engine
-                self._swap_session(
-                    live_conversation,
-                    new_writer,
-                    target_runtime,
-                    target_context,
-                )
-            switched = True
-            new_writer = None
-            try:
-                await asyncio.to_thread(old_writer.close)
-            except Exception as exc:
-                logger.warning("old session writer close failed: %s", exc)
+            await self.session.resume(info)
             self._show_system(f"已恢复会话 {info.session_id}")
-            await self.dispatch_session_resume()
             return True
         except Exception as exc:
-            if new_writer is not None:
-                try:
-                    new_writer.close()
-                except Exception:
-                    pass
-            if promoted and not committed:
-                self._remove_promoted(promoted)
-            if committed and not switched:
-                self._show_system(f"恢复已提交但未切换：{exc}")
-            else:
-                self._show_system(f"恢复失败：{exc}")
+            self._show_system(f"恢复失败：{exc}")
             return False
         finally:
-            if staging_root is not None:
-                shutil.rmtree(staging_root, ignore_errors=True)
             if self.state == SessionState.RESUMING:
                 self.state = SessionState.IDLE
 
-    def _needs_resume_compaction(self, candidate: Conversation) -> bool:
-        if self.agent is None:
-            return False
-        estimated = estimate_tokens(0, candidate.messages(), 0)
-        return estimated > auto_compact_threshold(self.agent.context_window)
-
-    async def _compact_resume_candidate(
-        self,
-        candidate: Conversation,
-        staging_runtime: SessionRuntime,
-    ) -> None:
-        if self.agent is None:
-            raise RuntimeError("no active agent")
-        await self.agent.run_force_compact(
-            candidate,
-            self._current_tool_defs(),
-            runtime=staging_runtime,
-        )
-
-    def _promote_staged_spills(
-        self,
-        candidate: Conversation,
-        staging_spill_dir: Path,
-        target_spill_dir: Path,
-    ) -> list[Path]:
-        target_spill_dir.mkdir(parents=True, exist_ok=True)
-        promoted: list[Path] = []
-        path_map: dict[str, str] = {}
-        try:
-            for source in sorted(staging_spill_dir.rglob("*")):
-                if not source.is_file():
-                    continue
-                target = self._reserve_spill_path(target_spill_dir, source.name)
-                try:
-                    shutil.copyfile(source, target)
-                    source.unlink()
-                except Exception:
-                    target.unlink(missing_ok=True)
-                    raise
-                promoted.append(target)
-                path_map[str(source)] = str(target)
-
-            messages = candidate.messages()
-            for message in messages:
-                for result in message.tool_results:
-                    for source, target in path_map.items():
-                        result.content = result.content.replace(source, target)
-            candidate.replace_history(messages)
-            return promoted
-        except Exception:
-            self._remove_promoted(promoted)
-            raise
-
-    @staticmethod
-    def _reserve_spill_path(directory: Path, filename: str) -> Path:
-        original = Path(filename)
-        counter = 0
-        while True:
-            suffix = "" if counter == 0 else f"-{counter}"
-            candidate = directory / f"{original.stem}{suffix}{original.suffix}"
-            try:
-                descriptor = os.open(candidate, os.O_WRONLY | os.O_CREAT | os.O_EXCL)
-            except FileExistsError:
-                counter += 1
-                continue
-            os.close(descriptor)
-            return candidate
-
-    @staticmethod
-    def _remove_promoted(paths: list[Path]) -> None:
-        for path in paths:
-            try:
-                path.unlink(missing_ok=True)
-            except OSError:
-                logger.warning("promoted spill cleanup failed: %s", path)
-
-    def _swap_session(
-        self,
-        conversation: Conversation,
-        writer: SessionWriter,
-        runtime: SessionRuntime,
-        context: SessionContext,
-    ) -> None:
-        if self.agent is None:
-            raise RuntimeError("no active agent")
-        self.conv = conversation
-        self.writer = writer
-        self.session_context = context
-        self.agent.runtime = runtime
-
-    @staticmethod
-    def _build_resume_reminder(
-        last_activity: datetime | None,
-        now: datetime | None = None,
-    ) -> str:
-        if last_activity is None:
-            return ""
-        current = (now or datetime.now(UTC)).astimezone(UTC)
-        if current - last_activity.astimezone(UTC) <= timedelta(hours=24):
-            return ""
-        return system_reminder(
-            "该恢复会话的历史信息可能已经过期。继续前请重新读取会变化的文件、配置和外部资料。"
-        )
-
     async def _dispatch(self, text: str, display_text: str | None = None) -> None:
         try:
-            self.conv.add_user(text)
+            await self.session.record(Message(role="user", content=text))
         except Exception as exc:
             self._show_system(f"Session persistence failed: {exc}")
             return
@@ -1159,6 +936,7 @@ class NovaCodeApp(App):
         self._start_spinner()
 
         if self.agent is None:
+            assert self.provider is not None
             self.agent = Agent(self.provider, self._tool_registry, self._version, self.engine)
         agent = self.agent
         with with_cwd(self._effective_cwd()):
@@ -1244,6 +1022,7 @@ class NovaCodeApp(App):
                     self._update_streaming_label()
 
                 if ev.done:
+                    await self.session.sync()
                     self._finish_with_assistant(self._accumulated_text)
                     if ev.memory_turn is not None and self.extractor is not None:
                         try:
@@ -1453,8 +1232,13 @@ class NovaCodeApp(App):
                 logger.warning("session cleanup failed: %s", type(exc).__name__)
             self.cleanup_task = None
 
-        if self.writer is not None and hasattr(self.writer, "close"):
+        try:
+            await self.session.close()
+        except Exception as exc:
+            logger.warning("session service close failed: %s", type(exc).__name__)
+
+        if self.provider is not None:
             try:
-                await asyncio.to_thread(self.writer.close)
+                await self.provider.close()
             except Exception as exc:
-                logger.warning("session writer close failed: %s", type(exc).__name__)
+                logger.warning("provider close failed: %s", type(exc).__name__)

@@ -127,6 +127,7 @@ async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatc
     assert payload["backend"] == "in-process"
     task_id = await task_manager.subscribe_done().get()
     assert task_id == payload["agent_id"]
+    assert task_manager.get(task_id).sub_agent.provider is parent.provider
     for _ in range(10):
         if team.member_by_name("alice").is_active is False:
             break

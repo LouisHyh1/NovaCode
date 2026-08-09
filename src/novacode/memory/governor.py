@@ -9,6 +9,7 @@ from contextlib import AsyncExitStack
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+from novacode.llm import Provider
 from novacode.memory.prompts import build_governance_prompt
 from novacode.memory.store import MemoryStore, _pid_alive
 from novacode.memory.types import ApplyReport, MemoryAction, MemoryKind
@@ -120,6 +121,20 @@ class MemoryGovernor:
         self.lock_path = self.sessions_dir.parent / ".consolidate-lock"
         self._last_scan_at: datetime | None = None
         self._task: asyncio.Task[None] | None = None
+        self._provider: Provider | None = None
+
+    @property
+    def provider(self) -> Provider | None:
+        return self._provider
+
+    def bind_provider(self, provider: Provider) -> None:
+        if provider is None:
+            raise ValueError("memory governor provider is required")
+        if self._provider is provider:
+            return
+        if self._provider is not None:
+            raise RuntimeError("memory governor cannot bind a different provider")
+        self._provider = provider
 
     @property
     def last_scan_at(self) -> datetime | None:
@@ -194,6 +209,7 @@ class MemoryGovernor:
                 for store in targets:
                     indexes = tuple(target.read_index_locked() for target in targets)
                     actions = await self.run_restricted_agent(
+                        provider=self._provider,
                         sessions=sessions,
                         indexes=indexes,
                         target_directory=store.directory.resolve(),

@@ -18,13 +18,13 @@
 
 ## 3. 深化 Session 模块并统一 Provider 生命周期
 
-- [ ] 3.1 以创建、恢复、切换、记录和关闭行为测试确定 SessionService 接口，避免暴露 Writer 或恢复事务的中间步骤
-- [ ] 3.2 将 Conversation、SessionWriter 和 Session 状态所有权从 NovaCodeApp 迁入 SessionService，保留 App 的 UI 状态与渲染职责
-- [ ] 3.3 将 Session 恢复改为准备后一次提交的事务，并覆盖读取、压缩和 Writer 初始化失败时的完整回滚
-- [ ] 3.4 将 Session 写入与 fsync 串行放入 `asyncio.to_thread()`，以慢 I/O 测试验证事件顺序、持久性和事件循环响应
-- [ ] 3.5 为 Provider 窄接口和 OpenAI/Anthropic 实现增加异步 close，并以所有权测试约束借用者不得关闭 Provider
-- [ ] 3.6 让主 Agent、普通 SubAgent、SubAgent Hook、进程内 Team 和 Memory Governance 共享应用拥有的 Provider，并验证切换或退出只关闭一次
-- [ ] 3.7 迁移真实调用方后删除 SessionController、TurnEngine、runtime/ports、legacy adapter 及其浅层测试，并增加禁止重新引入的架构检查
+- [x] 3.1 以创建、恢复、切换、记录和关闭行为测试确定 SessionService 接口，避免暴露 Writer 或恢复事务的中间步骤
+- [x] 3.2 将 Conversation、SessionWriter 和 Session 状态所有权从 NovaCodeApp 迁入 SessionService，保留 App 的 UI 状态与渲染职责
+- [x] 3.3 将 Session 恢复改为准备后一次提交的事务，并覆盖读取、压缩和 Writer 初始化失败时的完整回滚
+- [x] 3.4 将 Session 写入与 fsync 串行放入 `asyncio.to_thread()`，以慢 I/O 测试验证事件顺序、持久性和事件循环响应
+- [x] 3.5 为 Provider 窄接口和 OpenAI/Anthropic 实现增加异步 close，并以所有权测试约束借用者不得关闭 Provider
+- [x] 3.6 让主 Agent、普通 SubAgent、SubAgent Hook、进程内 Team 和 Memory Governance 共享应用拥有的 Provider，并验证切换或退出只关闭一次
+- [x] 3.7 迁移真实调用方后删除 SessionController、TurnEngine、runtime/ports、legacy adapter 及其浅层测试，并增加禁止重新引入的架构检查
 
 ## 4. 实现受限的 SubAgent Hook
 

@@ -1,8 +1,11 @@
 from types import SimpleNamespace
+from unittest.mock import AsyncMock
+
+import pytest
 
 from novacode.compact.token import usage_anchor
-from novacode.llm.anthropic_provider import _usage_from_anthropic
-from novacode.llm.openai_provider import _usage_from_openai
+from novacode.llm.anthropic_provider import AnthropicProvider, _usage_from_anthropic
+from novacode.llm.openai_provider import OpenAIProvider, _usage_from_openai
 
 
 def test_anthropic_context_tokens_include_cache_fields() -> None:
@@ -33,3 +36,14 @@ def test_openai_context_tokens_do_not_double_count_cached_tokens() -> None:
     assert usage.context_tokens == 120
     assert usage_anchor(usage) == 120
     assert usage.cache_read == 40
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("provider_type", [OpenAIProvider, AnthropicProvider])
+async def test_provider_close_releases_sdk_client(provider_type) -> None:
+    provider = object.__new__(provider_type)
+    provider._client = AsyncMock()
+
+    await provider.close()
+
+    provider._client.close.assert_awaited_once_with()

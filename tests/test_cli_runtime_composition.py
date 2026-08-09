@@ -4,7 +4,6 @@ import inspect
 import pytest
 
 from novacode.cli import _amain
-from novacode.conversation import Conversation
 from novacode.permission import Mode
 from novacode.tool import Registry
 from novacode.tui.app import NovaCodeApp
@@ -38,7 +37,6 @@ async def test_cli_starts_tui_and_tui_directly_drives_agent() -> None:
     app = NovaCodeApp([], Registry(), version="test")
     agent = DirectAgent()
     app.agent = agent
-    app.conv = Conversation()
     app.query_one = lambda *args, **kwargs: ChatArea()
     app._scroll_chat = lambda: None
     app._start_spinner = lambda: None

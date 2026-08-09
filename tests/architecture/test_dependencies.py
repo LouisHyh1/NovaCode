@@ -9,7 +9,6 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "src" / "novacode"
 CORE_TARGETS = (
     SRC / "runtime",
-    SRC / "application",
     SRC / "team" / "domain.py",
     SRC / "team" / "ports.py",
 )
@@ -89,3 +88,22 @@ def test_agent_delegates_complete_context_and_tool_transactions() -> None:
             "_request_approval",
         }
     )
+
+
+def test_removed_runtime_seams_cannot_be_reintroduced() -> None:
+    removed_paths = (
+        SRC / "application" / "session_controller.py",
+        SRC / "runtime" / "turn.py",
+        SRC / "runtime" / "ports.py",
+        SRC / "adapters" / "legacy_agent_turn.py",
+    )
+    assert not [path.relative_to(ROOT) for path in removed_paths if path.exists()]
+
+    source = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in sorted(SRC.rglob("*.py"))
+        if path not in removed_paths
+    )
+    assert "SessionController" not in source
+    assert "TurnEngine" not in source
+    assert "LegacyAgentTurnEngine" not in source

@@ -150,3 +150,4 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
         with contextlib.suppress(Exception):
             loop.remove_reader(sys.stdin.fileno())
         writer.close()
+        await provider.close()

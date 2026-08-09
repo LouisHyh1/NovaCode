@@ -16,13 +16,18 @@ from novacode.compact import (
     new_session_context,
 )
 from novacode.config import ProviderConfig
-from novacode.conversation import Conversation
-from novacode.llm import Message, ToolResult
+from novacode.llm import Message
 from novacode.memory import MemoryTurn
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.permission.rule import RuleSet
-from novacode.session import SessionWriteError, SessionWriter, list_sessions, load_session
+from novacode.session import (
+    SessionService,
+    SessionWriteError,
+    SessionWriter,
+    list_sessions,
+    load_session,
+)
 from novacode.tool import Registry
 from novacode.tui.app import (
     ChatInput,
@@ -48,7 +53,10 @@ def _make_engine() -> Engine:
     )
 
 
-def _make_app() -> NovaCodeApp:
+def _make_app(
+    session: SessionService | None = None,
+    project_root: Path | None = None,
+) -> NovaCodeApp:
     """Create a minimal NovaCodeApp suitable for testing."""
     cfg = ProviderConfig(
         name="test",
@@ -62,6 +70,8 @@ def _make_app() -> NovaCodeApp:
         registry=Registry(),
         version="test",
         engine=_make_engine(),
+        session=session,
+        project_root=project_root,
     )
 
 
@@ -160,11 +170,11 @@ async def test_dispatch_slash_known_unknown_and_non_command() -> None:
 async def test_dispatch_plan_is_local_and_do_injects() -> None:
     app = _make_app()
     app._show_system = MagicMock()
-    app.conv = MagicMock()
+    before = app.conv.messages()
 
     assert await app.dispatch_slash("/plan") is True
     assert app.mode() == Mode.PLAN
-    app.conv.add_user.assert_not_called()
+    assert app.conv.messages() == before
 
     app._dispatch = AsyncMock()
     assert await app.dispatch_slash("/do") is True
@@ -198,26 +208,23 @@ async def test_submit_allows_local_command_while_busy() -> None:
 
 @pytest.mark.asyncio
 async def test_review_persists_prompt_and_starts_turn(tmp_path: Path) -> None:
-    context = new_session_context(str(tmp_path))
-    writer = SessionWriter(Path(context.message_path).parent, context.session_id, "")
-    app = _make_app()
-    app.session_context = context
-    app.writer = writer
-    app.conv = Conversation(writer.append_message, writer.append_compaction)
+    session = SessionService.create(tmp_path)
+    app = _make_app(session, tmp_path)
 
     async with app.run_test(size=(100, 30)):
         app._start_stream = AsyncMock()
         assert await app.dispatch_slash("/review") is True
 
         assert app.conv.messages()[-1].content == REVIEW_DIRECTIVE
-        assert load_session(writer.path).messages[-1].content == REVIEW_DIRECTIVE
+        assert load_session(session.path).messages[-1].content == REVIEW_DIRECTIVE
         app._start_stream.assert_awaited_once()
 
 
 @pytest.mark.asyncio
 async def test_clear_starts_new_persistent_session_and_resets_usage(tmp_path: Path) -> None:
-    app, old_writer = _resume_app(tmp_path)
+    app, service = _resume_app(tmp_path)
     old_context = app.session_context
+    old_path = service.path
     chat = MagicMock()
     chat.remove_children = MagicMock(return_value=asyncio.sleep(0))
     app.query_one = MagicMock(return_value=chat)
@@ -232,23 +239,20 @@ async def test_clear_starts_new_persistent_session_and_resets_usage(tmp_path: Pa
 
     assert app.session_context is not old_context
     assert app.session_context.session_id != old_context.session_id
-    assert app.writer is not old_writer
+    assert service.path != old_path
     assert app.conv.messages() == []
     assert app.agent.active_skills == {}
     assert app.usage_in() == app.usage_out() == 0
-    assert old_writer.path.exists()
+    assert old_path.exists()
     app.println.assert_called_once_with("已清空当前会话，开启新 session")
-    app.writer.close()
+    await service.close()
 
 
-def _resume_app(tmp_path: Path) -> tuple[NovaCodeApp, SessionWriter]:
-    app = _make_app()
-    current = new_session_context(str(tmp_path))
-    writer = SessionWriter(Path(current.message_path).parent, current.session_id, "model-a")
-    app.project_root = tmp_path
-    app.session_context = current
-    app.writer = writer
-    app.conv = Conversation(writer.append_message, writer.append_compaction)
+def _resume_app(tmp_path: Path) -> tuple[NovaCodeApp, SessionService]:
+    service = SessionService.create(tmp_path, "model-a")
+    current = service.context
+    assert current is not None
+    app = _make_app(service, tmp_path)
 
     class Provider:
         name = "fake"
@@ -266,9 +270,10 @@ def _resume_app(tmp_path: Path) -> tuple[NovaCodeApp, SessionWriter]:
         session=current,
     )
     app.agent = Agent(app.provider, app._tool_registry, runtime=runtime)
+    service.bind_agent(app.agent, app._current_tool_defs)
     app.state = SessionState.IDLE
     app._show_system = MagicMock()
-    return app, writer
+    return app, service
 
 
 def _target_session(tmp_path: Path, content: str = "restored"):
@@ -297,22 +302,21 @@ def test_format_session_option_contains_recovery_metadata(tmp_path: Path) -> Non
 async def test_resume_session_atomically_switches_and_continues_original_jsonl(
     tmp_path: Path,
 ) -> None:
-    app, old_writer = _resume_app(tmp_path)
+    app, service = _resume_app(tmp_path)
     old_context = app.session_context
     info = _target_session(tmp_path)
 
     assert await app.resume_session(info) is True
 
     assert app.session_context.session_id == info.session_id
-    assert app.writer.path == info.path
+    assert service.path == info.path
     assert [message.content for message in app.conv.messages()] == ["restored"]
     app.conv.add_assistant("continued")
+    await service.sync()
     assert [message.content for message in load_session(info.path).messages] == [
         "restored",
         "continued",
     ]
-    with pytest.raises(SessionWriteError, match="closed"):
-        old_writer.append_message(Message(role="user", content="late"))
     assert old_context.session_id != app.session_context.session_id
 
 
@@ -339,97 +343,17 @@ async def test_resume_stale_session_sets_ephemeral_reminder_without_rewriting_fi
     assert info.path.read_bytes() == before
 
 
-def test_promote_staged_spills_avoids_overwrite_and_rewrites_candidate(tmp_path: Path) -> None:
-    app, _ = _resume_app(tmp_path)
-    staging = tmp_path / "staging"
-    target = tmp_path / "target"
-    staging.mkdir()
-    target.mkdir()
-    source = staging / "tool"
-    source.write_text("new", encoding="utf-8")
-    (target / "tool").write_text("existing", encoding="utf-8")
-    candidate = Conversation.from_messages(
-        [Message(role="tool", tool_results=[ToolResult("t1", f"[saved to] {source}")])]
-    )
-
-    promoted = app._promote_staged_spills(candidate, staging, target)
-
-    assert (target / "tool").read_text(encoding="utf-8") == "existing"
-    assert len(promoted) == 1 and promoted[0].read_text(encoding="utf-8") == "new"
-    assert str(promoted[0]) in candidate.messages()[0].tool_results[0].content
-    assert str(source) not in candidate.messages()[0].tool_results[0].content
-
-
-@pytest.mark.asyncio
-async def test_resume_compaction_failure_before_commit_cleans_promoted_files(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    app, _ = _resume_app(tmp_path)
-    old_context = app.session_context
-    old_conv = app.conv
-    info = _target_session(tmp_path)
-
-    monkeypatch.setattr(app, "_needs_resume_compaction", lambda candidate: True)
-
-    async def fake_compact(candidate, runtime):
-        Path(runtime.session.spill_dir).mkdir(parents=True, exist_ok=True)
-        (Path(runtime.session.spill_dir) / "artifact").write_text("new", encoding="utf-8")
-
-    monkeypatch.setattr(app, "_compact_resume_candidate", fake_compact)
-    monkeypatch.setattr(
-        SessionWriter,
-        "append_compaction",
-        lambda self, replacement: (_ for _ in ()).throw(SessionWriteError("commit failed")),
-    )
-
-    assert await app.resume_session(info) is False
-
-    assert app.session_context is old_context and app.conv is old_conv
-    target_tools = info.path.parent / info.session_id / "tool-results"
-    assert list(target_tools.glob("*")) == []
-    assert list(info.path.parent.glob(".resume-staging-*")) == []
-
-
-@pytest.mark.asyncio
-async def test_resume_switch_failure_after_commit_keeps_promoted_files_and_old_runtime(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    app, _ = _resume_app(tmp_path)
-    old_context = app.session_context
-    old_conv = app.conv
-    info = _target_session(tmp_path)
-    monkeypatch.setattr(app, "_needs_resume_compaction", lambda candidate: True)
-
-    async def fake_compact(candidate, runtime):
-        Path(runtime.session.spill_dir).mkdir(parents=True, exist_ok=True)
-        (Path(runtime.session.spill_dir) / "artifact").write_text("new", encoding="utf-8")
-
-    monkeypatch.setattr(app, "_compact_resume_candidate", fake_compact)
-    monkeypatch.setattr(
-        app,
-        "_swap_session",
-        lambda *args: (_ for _ in ()).throw(RuntimeError("switch failed")),
-    )
-
-    assert await app.resume_session(info) is False
-
-    assert app.session_context is old_context and app.conv is old_conv
-    target_tools = info.path.parent / info.session_id / "tool-results"
-    assert [path.read_text(encoding="utf-8") for path in target_tools.iterdir()] == ["new"]
-    assert [message.content for message in load_session(info.path).messages] == ["restored"]
-    assert list(info.path.parent.glob(".resume-staging-*")) == []
-
-
 @pytest.mark.asyncio
 async def test_resume_read_failure_keeps_current_session(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    app, old_writer = _resume_app(tmp_path)
+    app, service = _resume_app(tmp_path)
     old_context = app.session_context
     old_conv = app.conv
+    old_path = service.path
     info = _target_session(tmp_path)
     monkeypatch.setattr(
-        "novacode.tui.app.load_session",
+        "novacode.session.service.load_session",
         MagicMock(side_effect=OSError("cannot read session")),
     )
 
@@ -437,8 +361,8 @@ async def test_resume_read_failure_keeps_current_session(
 
     assert app.session_context is old_context
     assert app.conv is old_conv
-    assert app.writer is old_writer
-    old_writer.append_message(Message(role="user", content="still writable"))
+    assert service.path == old_path
+    await service.record(Message(role="user", content="still writable"))
     assert app.state is SessionState.IDLE
     assert "cannot read session" in app._show_system.call_args.args[0]
 
@@ -787,10 +711,6 @@ async def test_provider_resources_bind_writer_then_extractor_before_agent(
     app = _make_app()
     order: list[str] = []
 
-    class Writer:
-        def bind_model(self, model):
-            order.append(f"writer:{model}")
-
     class Extractor:
         def __init__(self):
             self.closed = asyncio.Event()
@@ -806,7 +726,7 @@ async def test_provider_resources_bind_writer_then_extractor_before_agent(
             self.closed.set()
 
     provider = MagicMock(model="gpt-4")
-    app.writer = Writer()
+    app.session.bind_model = MagicMock(side_effect=lambda model: order.append(f"session:{model}"))
     app.extractor = Extractor()
 
     def fake_agent(*args, **kwargs):
@@ -817,20 +737,81 @@ async def test_provider_resources_bind_writer_then_extractor_before_agent(
     monkeypatch.setattr("novacode.tui.app.Agent", fake_agent)
 
     assert app._initialize_provider(app.providers[0], provider) is True
-    assert order == ["writer:gpt-4", "extractor", "agent"]
+    assert order == ["session:gpt-4", "extractor", "agent"]
     await app._shutdown_resources()
+
+
+@pytest.mark.asyncio
+async def test_app_shares_provider_with_memory_borrowers_and_closes_it_once() -> None:
+    app = _make_app()
+
+    class Provider:
+        name = "fake"
+        model = "gpt-4"
+
+        def __init__(self) -> None:
+            self.close_calls = 0
+
+        async def stream(self, request):
+            if False:
+                yield None
+
+        async def close(self) -> None:
+            self.close_calls += 1
+
+    class Extractor:
+        def __init__(self) -> None:
+            self.provider = None
+            self.stopped = asyncio.Event()
+
+        def bind_provider(self, provider) -> None:
+            self.provider = provider
+
+        async def run(self) -> None:
+            await self.stopped.wait()
+
+        async def close(self) -> None:
+            self.stopped.set()
+
+    class Governor:
+        def __init__(self) -> None:
+            self.provider = None
+
+        def bind_provider(self, provider) -> None:
+            self.provider = provider
+
+        async def close(self) -> None:
+            return None
+
+    class Hook:
+        def __init__(self) -> None:
+            self.provider = None
+
+        def bind_provider(self, provider) -> None:
+            self.provider = provider
+
+    provider = Provider()
+    app.extractor = Extractor()
+    app.governor = Governor()
+    app.hook_engine = Hook()
+
+    assert app._initialize_provider(app.providers[0], provider) is True
+    assert app.agent.provider is provider
+    assert app.extractor.provider is provider
+    assert app.governor.provider is provider
+    assert app.hook_engine.provider is provider
+
+    await app._shutdown_resources()
+    await app._shutdown_resources()
+    assert provider.close_calls == 1
 
 
 @pytest.mark.asyncio
 async def test_writer_bind_failure_keeps_agent_unavailable_and_does_not_bind_extractor() -> None:
     app = _make_app()
 
-    class Writer:
-        def bind_model(self, model):
-            raise SessionWriteError("cannot bind")
-
     extractor = MagicMock()
-    app.writer = Writer()
+    app.session.bind_model = MagicMock(side_effect=SessionWriteError("cannot bind"))
     app.extractor = extractor
 
     assert app._initialize_provider(app.providers[0], MagicMock(model="gpt-4")) is False
@@ -914,7 +895,7 @@ async def test_main_and_subagent_approvals_are_displayed_in_fifo_order() -> None
 @pytest.mark.asyncio
 async def test_user_persistence_failure_does_not_render_or_start_agent() -> None:
     app = _make_app()
-    app.conv = Conversation(before_append=lambda _: (_ for _ in ()).throw(OSError("disk")))
+    app.session.record = AsyncMock(side_effect=OSError("disk"))
     app._show_system = MagicMock()
     app._start_stream = MagicMock()
 

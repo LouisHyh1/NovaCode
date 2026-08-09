@@ -10,6 +10,7 @@ from novacode.hook.event import Event, is_blocking
 from novacode.hook.executor import ExecutionResult, Executor
 from novacode.hook.matcher import eval_condition
 from novacode.hook.rule import Payload, Rule
+from novacode.llm import Provider
 
 
 @dataclass
@@ -62,6 +63,13 @@ class Engine:
                 result.blocking_hook_name = rule.name
                 break
         return result
+
+    def bind_provider(self, provider: Provider) -> None:
+        self._executor.bind_provider(provider)
+
+    @property
+    def provider(self) -> Provider | None:
+        return self._executor.provider
 
     async def _run_background(self, rule: Rule, payload: Payload) -> None:
         try:

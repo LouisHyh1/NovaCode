@@ -192,16 +192,20 @@ async def test_restricted_request_and_store_validation_limit_writes_to_target(
     eligible_sessions(monkeypatch)
     notices: list[str] = []
     governor = MemoryGovernor(tmp_path / "sessions", (store,), runner, notices.append)
+    provider = object()
+    governor.bind_provider(provider)
     assert governor.maybe_schedule(NOW) is True
     await governor.wait()
 
     assert set(requests[0]) == {
+        "provider",
         "sessions",
         "indexes",
         "target_directory",
         "allowed_kinds",
         "prompt",
     }
+    assert requests[0]["provider"] is provider
     assert requests[0]["target_directory"] == store.directory.resolve()
     assert not (tmp_path / "outside.md").exists()
     assert "Allowed" in (store.directory / "MEMORY.md").read_text(encoding="utf-8")
