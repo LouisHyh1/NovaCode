@@ -1,6 +1,6 @@
 """后台任务通知文本。"""
 
-from novacode.task import BackgroundTask
+from novacode.task import AgentRun as BackgroundTask
 
 
 def build_task_notification(task: BackgroundTask) -> str:

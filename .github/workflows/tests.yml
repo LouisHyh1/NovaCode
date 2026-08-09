@@ -22,7 +22,19 @@ jobs:
           python-version: "3.12"
       - name: Sync locked environment
         run: uv sync --locked
+      - name: Check lock file
+        run: uv lock --check
       - name: Run tests
         run: uv run --locked pytest -q
       - name: Run lint
         run: uv run --locked ruff check src tests
+      - name: Check formatting
+        run: uv run --locked ruff format --check src tests
+      - name: Check runtime boundaries
+        run: uv run --locked python scripts/check_boundaries.py
+      - name: Run architecture tests
+        run: uv run --locked pytest -q tests/architecture
+      - name: Run non-interactive smoke checks
+        run: |
+          uv run --locked python -m novacode --version
+          uv run --locked python -m novacode --help

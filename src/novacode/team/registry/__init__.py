@@ -1,9 +1,9 @@
-"""Team 内 Agent 名称双向注册表。"""
+"""短生命周期 Agent Run 的名称双向注册表。"""
 
 import threading
 
 
-class AgentNameRegistry:
+class AgentRunRegistry:
     def __init__(self) -> None:
         self._lock = threading.Lock()
         self._by_name: dict[str, str] = {}
@@ -45,3 +45,9 @@ class AgentNameRegistry:
     def list(self) -> dict[str, str]:
         with self._lock:
             return dict(self._by_name)
+
+
+# 兼容旧导入；Team 成员不再写入该注册表。
+AgentNameRegistry = AgentRunRegistry
+
+__all__ = ["AgentNameRegistry", "AgentRunRegistry"]

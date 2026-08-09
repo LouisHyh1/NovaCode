@@ -3,7 +3,7 @@
 import json
 from datetime import UTC, datetime
 
-from novacode.task import Status as BackgroundStatus
+from novacode.task import AgentRunStatus as BackgroundStatus
 from novacode.team.backend import new_backend
 from novacode.team.mailbox import Box, Message, MessageType
 from novacode.team.tools.common import current_teammate_context, parse_args, resolve_team
@@ -72,8 +72,7 @@ class SendMessageTool:
             if to == "*":
                 targets = [member for member in team.members if member.name != sender]
             else:
-                target_id = self.manager.registry.resolve(to) or to
-                target = team.member_by_name(to) or team.member_by_agent_id(target_id)
+                target = self.manager.resolve_member(team.team_id, to)
                 if target is None:
                     raise ValueError(f"Team 内找不到收件人: {to}")
                 targets = [target]
@@ -93,7 +92,7 @@ class SendMessageTool:
                     background = self.background_manager.get(target.agent_id)
                     if background is not None and background.status is not BackgroundStatus.RUNNING:
                         await team.set_member_active(target.name, True)
-                        await self.background_manager.send_message(target.name, content)
+                        await self.background_manager.send_message(target.agent_id, content)
                 delivered.append(target.agent_id)
         except Exception as exc:
             return Result(f"Team 消息发送失败: {exc}", is_error=True)

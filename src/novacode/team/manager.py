@@ -7,15 +7,26 @@ import contextlib
 import shutil
 import sys
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
+from novacode.runtime.errors import ConflictError, StateCorruptionError, ValidationError
+from novacode.runtime.reports import (
+    OperationReport,
+    ResourceResult,
+    ResourceStatus,
+)
 from novacode.team.backend import detect, new_backend
+from novacode.team.domain import TeamTask
 from novacode.team.mailbox import Box, Message
-from novacode.team.persistence import atomic_write_json, read_json, sanitize
+from novacode.team.persistence import read_json, sanitize, team_to_state
+from novacode.team.repository import JsonTeamRepository
 from novacode.team.types import (
     BackendType,
+    MemberHasTasksError,
+    MemberNotFoundError,
     Team,
+    TeamError,
     TeamHasActiveMembersError,
     TeammateInfo,
     TeamNotFoundError,
@@ -37,10 +48,12 @@ class Manager:
         self.project_root = Path(project_root)
         self.wt_mgr = wt_mgr
         self.task_mgr = task_mgr
-        self.registry = registry
+        self.run_registry = registry
+        self.registry = registry  # 旧调用点兼容；Team 成员不写入该注册表。
         self.teams_dir = self.home_dir / ".novacode" / "teams"
         self.teams_dir.mkdir(parents=True, exist_ok=True)
         self.teams: dict[str, Team] = {}
+        self.recovery_required: dict[str, StateCorruptionError] = {}
         self._lock = asyncio.Lock()
         self.catalog = None
         self.fork_teammate = False
@@ -58,19 +71,34 @@ class Manager:
             try:
                 team = Team.from_dict(read_json(directory / "config.json"), directory)
             except (OSError, TypeError, ValueError) as exc:
-                print(f"team: 跳过损坏配置 {directory}: {exc}", file=sys.stderr)
+                error = StateCorruptionError(str(directory / "config.json"), detail=str(exc))
+                self.recovery_required[str(directory)] = error
+                print(
+                    f"team: 跳过损坏配置 {error.path} (recovery-required)",
+                    file=sys.stderr,
+                )
                 continue
             if not team.sanitized_name:
-                print(f"team: 跳过缺少名称的配置 {directory}", file=sys.stderr)
+                error = StateCorruptionError(
+                    str(directory / "config.json"),
+                    detail="sanitized_name 缺失",
+                )
+                self.recovery_required[str(directory)] = error
+                print(
+                    f"team: 跳过损坏配置 {error.path} (recovery-required)",
+                    file=sys.stderr,
+                )
                 continue
             self.teams[team.sanitized_name] = team
             for member in team.members:
-                self.registry.register(member.name, member.agent_id)
                 if member.backend_type is BackendType.IN_PROCESS and member.name != "lead":
                     member.is_active = False
 
     def get(self, name: str) -> Team | None:
-        return self.teams.get(sanitize(name))
+        by_name = self.teams.get(sanitize(name))
+        if by_name is not None:
+            return by_name
+        return next((team for team in self.teams.values() if team.team_id == name), None)
 
     def list(self) -> list[Team]:
         return sorted(self.teams.values(), key=lambda team: team.created_at)
@@ -91,21 +119,24 @@ class Manager:
                 sanitized_name=candidate,
                 lead_agent_id="lead",
                 backend=detect(),
+                team_id=f"team-{uuid.uuid4().hex}",
                 description=description,
                 members=[TeammateInfo(name="lead", agent_id="lead")],
             )
             team.set_paths(directory)
             try:
                 Path(team.mailbox_dir).mkdir(parents=True)
-                atomic_write_json(team.config_path, team.to_dict())
+                state = await JsonTeamRepository(team.config_path).create(team_to_state(team))
             except Exception:
                 shutil.rmtree(directory, ignore_errors=True)
                 raise
+            from novacode.team.persistence import apply_team_state
+
+            apply_team_state(team, state)
             self.teams[candidate] = team
-            self.registry.register("lead", "lead")
             return team
 
-    async def delete(self, name: str, force: bool = False) -> None:
+    async def delete(self, name: str, force: bool = False) -> OperationReport:
         async with self._lock:
             team = self.get(name)
             if team is None:
@@ -118,34 +149,133 @@ class Manager:
             if active and not force:
                 raise TeamHasActiveMembersError(f"Team 仍有活跃成员: {', '.join(active)}")
             members = [member for member in team.members if member.name != "lead"]
+        results: list[ResourceResult] = []
         for member in members:
-            with contextlib.suppress(Exception):
-                backend = new_backend(member.backend_type, task_mgr=self.task_mgr)
-                await backend.kill(member.pane_id, member.agent_id)
-            await self._cleanup_member_resources(team, member)
-            self.registry.unregister(member.name)
-        shutil.rmtree(team.config_dir, ignore_errors=True)
+            report = await self.remove_member(team.team_id, member.name, force=True)
+            results.extend(
+                replace(
+                    result,
+                    resource=f"member:{member.name}/{result.resource}",
+                )
+                for result in report.results
+            )
+        if any(result.status is ResourceStatus.FAILED for result in results):
+            return OperationReport("delete-team", tuple(results))
+        try:
+            shutil.rmtree(team.config_dir)
+        except OSError as exc:
+            results.append(_cleanup_failure("team-directory", exc, team.config_dir))
+            return OperationReport("delete-team", tuple(results))
+        results.append(ResourceResult("team-directory", ResourceStatus.SUCCEEDED))
         async with self._lock:
             self.teams.pop(team.sanitized_name, None)
+        return OperationReport("delete-team", tuple(results))
 
-    async def _cleanup_member_resources(self, team: Team, member: TeammateInfo) -> None:
+    async def _cleanup_member_resources(
+        self,
+        team: Team,
+        member: TeammateInfo,
+    ) -> tuple[ResourceResult, ...]:
+        results: list[ResourceResult] = []
         if member.session_dir:
             writer = self._session_writers.pop(member.agent_id, None)
             if writer is not None:
-                with contextlib.suppress(Exception):
+                try:
                     writer.close()
+                except (OSError, RuntimeError, ValueError) as exc:
+                    results.append(_cleanup_failure("session-writer", exc, member.session_dir))
+                else:
+                    results.append(ResourceResult("session-writer", ResourceStatus.SUCCEEDED))
             path = Path(member.session_dir)
-            if path.is_dir():
-                shutil.rmtree(path, ignore_errors=True)
-            else:
-                with contextlib.suppress(OSError):
+            try:
+                if path.is_dir():
+                    shutil.rmtree(path)
+                elif path.exists():
                     path.unlink()
+            except OSError as exc:
+                results.append(_cleanup_failure("session", exc, str(path)))
+            else:
+                results.append(ResourceResult("session", ResourceStatus.SUCCEEDED))
         if self.wt_mgr is not None and member.worktree_path:
             from novacode.worktree import ExitOptions
 
             slug = f"team-{team.sanitized_name}/{member.name}"
-            with contextlib.suppress(Exception):
+            try:
                 await self.wt_mgr.remove(slug, ExitOptions(discard_changes=True))
+            except (OSError, RuntimeError, ValueError) as exc:
+                results.append(_cleanup_failure("worktree", exc, member.worktree_path))
+            else:
+                results.append(ResourceResult("worktree", ResourceStatus.SUCCEEDED))
+        return tuple(results)
+
+    async def remove_member(
+        self,
+        team_ref: str,
+        member_name: str,
+        *,
+        force: bool = False,
+    ) -> OperationReport:
+        from novacode.team.domain import TeamId
+        from novacode.team.task_repository import JsonTeamTaskRepository
+
+        team = self.get(team_ref)
+        if team is None:
+            raise TeamNotFoundError(f"Team 不存在: {team_ref}")
+        member = team.member_by_name(member_name)
+        if member is None:
+            raise MemberNotFoundError(f"Team 成员不存在: {member_name}")
+        repository = JsonTeamTaskRepository(team.tasks_path)
+        try:
+            graph = await repository.load(TeamId(team.team_id))
+        except KeyError:
+            graph = None
+        matching = (
+            ()
+            if graph is None
+            else tuple(
+                task
+                for task in graph.tasks
+                if str(task.assignee or "") in {member.agent_id, member.name}
+            )
+        )
+        blockers = tuple(sorted(task.task_id for task in matching if task.status != "completed"))
+        if blockers and not force:
+            raise MemberHasTasksError(member_name, blockers)
+
+        results: list[ResourceResult] = []
+        if graph is not None and matching:
+            try:
+                await repository.transact(
+                    TeamId(team.team_id),
+                    lambda current: replace(
+                        current,
+                        tasks=tuple(
+                            _detach_member_task(task, member, force) for task in current.tasks
+                        ),
+                    ),
+                )
+            except (StateCorruptionError, ConflictError, ValidationError) as exc:
+                results.append(_operation_failure("team-task-graph", exc, team.tasks_path))
+                return OperationReport("remove-member", tuple(results))
+            results.append(ResourceResult("team-task-graph", ResourceStatus.SUCCEEDED))
+        else:
+            results.append(ResourceResult("team-task-graph", ResourceStatus.SKIPPED))
+
+        try:
+            await team.remove_member(member_name)
+        except (TeamError, StateCorruptionError, ConflictError, ValidationError) as exc:
+            results.append(_operation_failure("team-member", exc, team.config_path))
+            return OperationReport("remove-member", tuple(results))
+        results.append(ResourceResult("team-member", ResourceStatus.SUCCEEDED))
+        backend = new_backend(member.backend_type, task_mgr=self.task_mgr)
+        try:
+            await backend.kill(member.pane_id, member.agent_id)
+        except (OSError, RuntimeError, ValueError) as exc:
+            results.append(_cleanup_failure("backend", exc, member.agent_id))
+        else:
+            results.append(ResourceResult("backend", ResourceStatus.SUCCEEDED))
+        results.extend(await self._cleanup_member_resources(team, member))
+        return OperationReport("remove-member", tuple(results))
 
     def team_for_agent(self, agent_id: str) -> tuple[Team, TeammateInfo] | None:
         for team in self.teams.values():
@@ -153,6 +283,12 @@ class Manager:
             if member is not None:
                 return team, member
         return None
+
+    def resolve_member(self, team_ref: str, name_or_id: str) -> TeammateInfo | None:
+        team = self.get(team_ref)
+        if team is None:
+            return None
+        return team.member_by_name(name_or_id) or team.member_by_agent_id(name_or_id)
 
     async def handle_task_done(self, agent_id: str) -> None:
         found = self.team_for_agent(agent_id)
@@ -237,6 +373,7 @@ class Manager:
             backend_type=team.backend.value,
             mailbox=box,
             team_manager=self,
+            team_id=team.team_id,
         )
         all_names = [item.name for item in request.caller_agent.registry.definitions()]
         allowed = apply_agent_tool_filter(
@@ -306,6 +443,7 @@ class Manager:
                 [
                     "<team-context>\n"
                     f"team: {team.sanitized_name}\n"
+                    f"team_id: {team.team_id}\n"
                     f"你的成员名: {member_name}\n"
                     f"你的 agent_id: {agent_id}\n"
                     f"worktree 目录: {worktree.path}\n"
@@ -326,7 +464,6 @@ class Manager:
                 session_dir=str(session_path),
             )
             await team.add_member(info)
-            self.registry.register(member_name, agent_id)
             if team.backend is not BackendType.IN_PROCESS:
                 await box.write(agent_id, Message(from_="lead", text=request.prompt))
                 writer.close()
@@ -348,15 +485,11 @@ class Manager:
                     task_mgr=self.task_mgr,
                 )
             )
-            async with team._lock:
-                from novacode.team.persistence import reload_members, save_team
-
-                reload_members(team)
-                current = team.member_by_name(member_name)
-                if current is not None:
-                    current.pane_id = pane_id
-                    current.agent_id = spawned_id
-                    save_team(team)
+            await team.update_member_identity(
+                member_name,
+                agent_id=spawned_id,
+                pane_id=pane_id,
+            )
             if team.backend is BackendType.IN_PROCESS:
                 self._session_writers[spawned_id] = writer
             return json.dumps(
@@ -375,9 +508,55 @@ class Manager:
                     writer.close()
             with contextlib.suppress(Exception):
                 await team.remove_member(member_name)
-            self.registry.unregister(member_name)
             from novacode.worktree import ExitOptions
 
             with contextlib.suppress(Exception):
                 await self.wt_mgr.remove(slug, ExitOptions(discard_changes=True))
             raise
+
+
+def _detach_member_task(
+    task: TeamTask,
+    member: TeammateInfo,
+    force: bool,
+) -> TeamTask:
+    if str(task.assignee or "") not in {member.agent_id, member.name}:
+        return task
+    if task.status == "completed":
+        return replace(
+            task,
+            assignee=None,
+            historical_assignee=member.name,
+        )
+    if force:
+        return replace(task, assignee=None)
+    return task
+
+
+def _cleanup_failure(
+    resource: str,
+    error: BaseException,
+    residual_path: str,
+) -> ResourceResult:
+    return ResourceResult(
+        resource,
+        ResourceStatus.FAILED,
+        error_category="cleanup",
+        message=str(error),
+        residual_path=residual_path,
+    )
+
+
+def _operation_failure(
+    resource: str,
+    error: BaseException,
+    residual_path: str,
+) -> ResourceResult:
+    category = str(getattr(error, "category", type(error).__name__))
+    return ResourceResult(
+        resource,
+        ResourceStatus.FAILED,
+        error_category=category,
+        message=str(error),
+        residual_path=residual_path,
+    )

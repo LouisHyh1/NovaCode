@@ -1,15 +1,17 @@
-"""Team 共享任务列表。"""
+"""Team 共享任务列表的兼容门面。"""
 
 from __future__ import annotations
 
 import secrets
 import time
-from dataclasses import dataclass, field
+import uuid
+from dataclasses import dataclass, field, replace
 from enum import StrEnum
 from pathlib import Path
 
-from novacode.team.filelock import acquire
-from novacode.team.persistence import atomic_write_json, read_json
+from novacode.runtime.errors import ValidationError
+from novacode.team.domain import AgentId, TeamId, TeamTask, TeamTaskGraph
+from novacode.team.task_repository import JsonTeamTaskRepository
 
 
 class Status(StrEnum):
@@ -81,94 +83,144 @@ class Patch:
 
 
 class Store:
-    def __init__(self, path: str | Path) -> None:
+    """旧 API 转发到单文件 Team Task Graph Repository。"""
+
+    def __init__(self, path: str | Path, *, team_id: str = "") -> None:
         self.path = Path(path)
-
-    def _load(self) -> list[Task]:
-        try:
-            raw = read_json(self.path)
-        except FileNotFoundError:
-            return []
-        values = raw.get("tasks", []) if isinstance(raw, dict) else []
-        return [Task.from_dict(value) for value in values]
-
-    def _save(self, tasks: list[Task]) -> None:
-        atomic_write_json(self.path, {"tasks": [task.to_dict() for task in tasks]})
+        stable = uuid.uuid5(uuid.NAMESPACE_URL, f"novacode-task-graph:{self.path.resolve()}")
+        self.team_id = TeamId(team_id or f"team-{stable.hex}")
+        self.repository = JsonTeamTaskRepository(self.path)
 
     async def create(self, task: Task) -> str:
-        async with acquire(f"{self.path}.lock"):
-            tasks = self._load()
-            task.id = task.id or f"task_{secrets.token_hex(3)}"
-            now = int(time.time())
-            task.created_at = task.created_at or now
-            task.updated_at = now
-            tasks.append(task)
-            self._save(tasks)
+        graph = await self._load_or_create()
+        task.id = task.id or f"task_{secrets.token_hex(3)}"
+        now = int(time.time())
+        task.created_at = task.created_at or now
+        task.updated_at = now
+        candidate = _to_domain(task)
+
+        def add(current: TeamTaskGraph) -> TeamTaskGraph:
+            by_id = {item.task_id: item for item in current.tasks}
+            if candidate.task_id in by_id:
+                raise ValidationError(f"Team Task 已存在: {candidate.task_id}")
+            missing = candidate.blocked_by - by_id.keys()
+            if missing:
+                raise ValidationError(f"Team Task blocker 不存在: {', '.join(sorted(missing))}")
+            updated = [
+                replace(item, blocks=item.blocks | {candidate.task_id})
+                if item.task_id in candidate.blocked_by
+                else item
+                for item in current.tasks
+            ]
+            return replace(current, tasks=(*updated, candidate))
+
+        await self.repository.transact(graph.team_id, add)
         return task.id
 
     async def get(self, task_id: str) -> Task:
-        async with acquire(f"{self.path}.lock"):
-            task = next((item for item in self._load() if item.id == task_id), None)
+        graph = await self._load_or_create()
+        task = next((item for item in graph.tasks if item.task_id == task_id), None)
         if task is None:
             raise KeyError(f"Team 任务不存在: {task_id}")
-        return task
+        return _from_domain(task)
 
     async def list(self, filter_: Filter | None = None) -> list[Task]:
-        async with acquire(f"{self.path}.lock"):
-            tasks = self._load()
-        by_id = {task.id: task for task in tasks}
-        for task in tasks:
-            task.is_ready = all(
-                blocker in by_id and by_id[blocker].status is Status.COMPLETED
-                for blocker in task.blocked_by
-            )
+        graph = await self._load_or_create()
+        tasks = [_from_domain(task) for task in graph.tasks]
         if filter_ is not None and filter_.status is not None:
             tasks = [task for task in tasks if task.status is filter_.status]
         return tasks
 
     async def update(self, task_id: str, patch: Patch) -> Task:
-        async with acquire(f"{self.path}.lock"):
-            tasks = self._load()
-            by_id = {task.id: task for task in tasks}
-            task = by_id.get(task_id)
-            if task is None:
-                raise KeyError(f"Team 任务不存在: {task_id}")
-            for field_name in ("title", "description", "status", "assignee"):
-                value = getattr(patch, field_name)
-                if value is not None:
-                    setattr(task, field_name, value)
-            self._update_edges(task, by_id, patch)
-            task.updated_at = int(time.time())
-            self._save(tasks)
-        return task
+        graph = await self._load_or_create()
 
-    @staticmethod
-    def _update_edges(task: Task, by_id: dict[str, Task], patch: Patch) -> None:
-        for blocker_id in patch.add_blocked_by:
-            blocker = by_id.get(blocker_id)
-            if blocker is None:
-                raise KeyError(f"Team 任务不存在: {blocker_id}")
-            if blocker_id not in task.blocked_by:
-                task.blocked_by.append(blocker_id)
-            if task.id not in blocker.blocks:
-                blocker.blocks.append(task.id)
-        for blocked_id in patch.add_blocks:
-            blocked = by_id.get(blocked_id)
-            if blocked is None:
-                raise KeyError(f"Team 任务不存在: {blocked_id}")
-            if blocked_id not in task.blocks:
-                task.blocks.append(blocked_id)
-            if task.id not in blocked.blocked_by:
-                blocked.blocked_by.append(task.id)
-        for blocker_id in patch.remove_blocked_by:
-            if blocker_id in task.blocked_by:
-                task.blocked_by.remove(blocker_id)
-            blocker = by_id.get(blocker_id)
-            if blocker is not None and task.id in blocker.blocks:
-                blocker.blocks.remove(task.id)
-        for blocked_id in patch.remove_blocks:
-            if blocked_id in task.blocks:
-                task.blocks.remove(blocked_id)
-            blocked = by_id.get(blocked_id)
-            if blocked is not None and task.id in blocked.blocked_by:
-                blocked.blocked_by.remove(task.id)
+        def apply(current: TeamTaskGraph) -> TeamTaskGraph:
+            by_id = {item.task_id: item for item in current.tasks}
+            if task_id not in by_id:
+                raise KeyError(f"Team 任务不存在: {task_id}")
+            _apply_fields(by_id, task_id, patch)
+            _apply_edges(by_id, task_id, patch)
+            by_id[task_id] = replace(by_id[task_id], updated_at=int(time.time()))
+            ordered = tuple(by_id[item.task_id] for item in current.tasks)
+            return replace(current, tasks=ordered)
+
+        updated = await self.repository.transact(graph.team_id, apply)
+        task = next(item for item in updated.tasks if item.task_id == task_id)
+        return _from_domain(task)
+
+    async def _load_or_create(self) -> TeamTaskGraph:
+        try:
+            return await self.repository.load(self.team_id)
+        except KeyError:
+            return await self.repository.create(TeamTaskGraph(self.team_id))
+
+
+def _to_domain(task: Task) -> TeamTask:
+    return TeamTask(
+        task_id=task.id,
+        title=task.title,
+        description=task.description,
+        status=task.status.value,
+        assignee=AgentId(task.assignee) if task.assignee else None,
+        blocked_by=frozenset(task.blocked_by),
+        blocks=frozenset(task.blocks),
+        created_at=task.created_at,
+        updated_at=task.updated_at,
+        is_ready=task.is_ready,
+    )
+
+
+def _from_domain(task: TeamTask) -> Task:
+    return Task(
+        id=task.task_id,
+        title=task.title,
+        description=task.description,
+        status=Status(task.status),
+        assignee=str(task.assignee or ""),
+        blocked_by=sorted(task.blocked_by),
+        blocks=sorted(task.blocks),
+        created_at=task.created_at,
+        updated_at=task.updated_at,
+        is_ready=task.is_ready,
+    )
+
+
+def _apply_fields(by_id: dict[str, TeamTask], task_id: str, patch: Patch) -> None:
+    task = by_id[task_id]
+    values = {
+        "title": patch.title if patch.title is not None else task.title,
+        "description": (patch.description if patch.description is not None else task.description),
+        "status": patch.status.value if patch.status is not None else task.status,
+        "assignee": (
+            AgentId(patch.assignee)
+            if patch.assignee is not None and patch.assignee
+            else (None if patch.assignee == "" else task.assignee)
+        ),
+    }
+    by_id[task_id] = replace(task, **values)
+
+
+def _apply_edges(by_id: dict[str, TeamTask], task_id: str, patch: Patch) -> None:
+    for related in (
+        patch.add_blocks + patch.add_blocked_by + patch.remove_blocks + patch.remove_blocked_by
+    ):
+        if related not in by_id:
+            raise ValidationError(f"Team Task 不存在: {related}")
+    task = by_id[task_id]
+    for blocked_id in patch.add_blocks:
+        task = replace(task, blocks=task.blocks | {blocked_id})
+        blocked = by_id[blocked_id]
+        by_id[blocked_id] = replace(blocked, blocked_by=blocked.blocked_by | {task_id})
+    for blocker_id in patch.add_blocked_by:
+        task = replace(task, blocked_by=task.blocked_by | {blocker_id})
+        blocker = by_id[blocker_id]
+        by_id[blocker_id] = replace(blocker, blocks=blocker.blocks | {task_id})
+    for blocked_id in patch.remove_blocks:
+        task = replace(task, blocks=task.blocks - {blocked_id})
+        blocked = by_id[blocked_id]
+        by_id[blocked_id] = replace(blocked, blocked_by=blocked.blocked_by - {task_id})
+    for blocker_id in patch.remove_blocked_by:
+        task = replace(task, blocked_by=task.blocked_by - {blocker_id})
+        blocker = by_id[blocker_id]
+        by_id[blocker_id] = replace(blocker, blocks=blocker.blocks - {task_id})
+    by_id[task_id] = task

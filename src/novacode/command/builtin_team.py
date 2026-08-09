@@ -1,7 +1,5 @@
 """`/team` 本地管理命令。"""
 
-from novacode.team.backend import new_backend
-
 _USAGE = "用法: /team list|info <name>|delete <name> [--force]|kill <member>"
 
 
@@ -52,7 +50,9 @@ async def handle_team(ui) -> None:
     if command == "delete":
         if not rest or len(rest) > 2 or (len(rest) == 2 and rest[1] != "--force"):
             raise ValueError("用法: /team delete <name> [--force]")
-        await manager.delete(rest[0], "--force" in rest)
+        report = await manager.delete(rest[0], "--force" in rest)
+        if report.status != "completed":
+            raise RuntimeError(f"Team 删除未完成: {report.status}")
         ui.println(f"Team 已删除: {rest[0]}")
         return
     if command == "kill":
@@ -62,11 +62,9 @@ async def handle_team(ui) -> None:
             member = team.member_by_name(rest[0])
             if member is None or member.name == "lead":
                 continue
-            backend = new_backend(member.backend_type, task_mgr=manager.task_mgr)
-            await backend.kill(member.pane_id, member.agent_id)
-            await manager._cleanup_member_resources(team, member)
-            await team.remove_member(member.name)
-            manager.registry.unregister(member.name)
+            report = await manager.remove_member(team.team_id, member.name, force=True)
+            if report.status != "completed":
+                raise RuntimeError(f"Team 成员清理未完成: {report.status}")
             ui.println(f"Team 成员已终止: {member.name}")
             return
         raise ValueError(f"Team 成员不存在: {rest[0]}")

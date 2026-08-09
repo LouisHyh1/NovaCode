@@ -56,9 +56,7 @@ class TaskCreateTool:
                 assignee=str(data.get("assignee") or ""),
                 blocked_by=[str(item) for item in data.get("blocked_by", [])],
             )
-            task_id = await Store(team.tasks_path).create(task)
-            for blocker in task.blocked_by:
-                await Store(team.tasks_path).update(blocker, Patch(add_blocks=[task_id]))
+            task_id = await Store(team.tasks_path, team_id=team.team_id).create(task)
         except Exception as exc:
             return Result(f"Team 任务创建失败: {exc}", is_error=True)
         return Result(json.dumps({"task_id": task_id}, ensure_ascii=False))
@@ -99,7 +97,7 @@ class TaskGetTool:
                 return Result(json.dumps(detail, ensure_ascii=False))
         try:
             team = resolve_team(self.manager, data)
-            task = await Store(team.tasks_path).get(task_id)
+            task = await Store(team.tasks_path, team_id=team.team_id).get(task_id)
         except Exception as exc:
             return Result(f"未知 task_id: {task_id} ({exc})", is_error=True)
         return Result(json.dumps(task.to_dict(include_ready=True), ensure_ascii=False))
@@ -144,7 +142,7 @@ class TaskListTool:
         try:
             team = resolve_team(self.manager, data)
             status = Status(data["status"]) if data.get("status") else None
-            tasks = await Store(team.tasks_path).list(Filter(status))
+            tasks = await Store(team.tasks_path, team_id=team.team_id).list(Filter(status))
         except Exception as exc:
             return Result(f"Team 任务列表读取失败: {exc}", is_error=True)
         return Result(
@@ -196,7 +194,9 @@ class TaskUpdateTool:
                 remove_blocks=list(data.get("remove_blocks", [])),
                 remove_blocked_by=list(data.get("remove_blocked_by", [])),
             )
-            task = await Store(team.tasks_path).update(str(data.get("task_id") or ""), patch)
+            task = await Store(team.tasks_path, team_id=team.team_id).update(
+                str(data.get("task_id") or ""), patch
+            )
         except Exception as exc:
             return Result(f"Team 任务更新失败: {exc}", is_error=True)
         return Result(json.dumps(task.to_dict(include_ready=True), ensure_ascii=False))

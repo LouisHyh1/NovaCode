@@ -1,7 +1,7 @@
 """Tool abstraction: Protocol, Result, Registry."""
 
 import asyncio
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
 
 from novacode.llm import ToolDefinition
@@ -27,6 +27,7 @@ class Result:
 
     content: str
     is_error: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @runtime_checkable

@@ -35,7 +35,23 @@ class TeamDeleteTool:
         if not name:
             return Result("team_name 为必填项", is_error=True)
         try:
-            await self.manager.delete(name, data.get("force") is True)
+            report = await self.manager.delete(name, data.get("force") is True)
         except Exception as exc:
             return Result(f"Team 删除失败: {exc}", is_error=True)
-        return Result(json.dumps({"team_name": name, "status": "deleted"}, ensure_ascii=False))
+        payload = {
+            "team_name": name,
+            "status": "deleted" if report.status == "completed" else report.status.value,
+            "resources": [
+                {
+                    "resource": item.resource,
+                    "status": item.status.value,
+                    "error_category": item.error_category,
+                    "residual_path": item.residual_path,
+                }
+                for item in report.results
+            ],
+        }
+        return Result(
+            json.dumps(payload, ensure_ascii=False),
+            is_error=report.status != "completed",
+        )

@@ -1,16 +1,19 @@
 """Grep content search tool."""
 
-import asyncio
 import json
-import re
-from pathlib import Path
 
-from novacode.permission.sensitive import is_sensitive_selector
+from novacode.runtime.errors import NovaCodeError
+from novacode.search.domain import SearchKind, SearchRequest
+from novacode.search.service import FileSearchService
 from novacode.tool import Result, resolve_path
+from novacode.tool.glob_tool import _search_metadata
 
 
 class GrepTool:
     read_only = True
+
+    def __init__(self, service: FileSearchService | None = None) -> None:
+        self.service = service or FileSearchService()
 
     def name(self) -> str:
         return "grep"
@@ -24,18 +27,9 @@ class GrepTool:
         return {
             "type": "object",
             "properties": {
-                "pattern": {
-                    "type": "string",
-                    "description": "Python 正则表达式搜索模式",
-                },
-                "path": {
-                    "type": "string",
-                    "description": "搜索的根目录，默认为当前工作目录",
-                },
-                "glob": {
-                    "type": "string",
-                    "description": "文件名过滤 glob 模式，如 *.py",
-                },
+                "pattern": {"type": "string"},
+                "path": {"type": "string"},
+                "glob": {"type": "string"},
             },
             "required": ["pattern"],
         }
@@ -43,62 +37,30 @@ class GrepTool:
     async def execute(self, args: str) -> Result:
         try:
             data = json.loads(args or "{}")
-        except json.JSONDecodeError as e:
-            return Result(content=f"参数 JSON 解析失败: {e}", is_error=True)
+        except json.JSONDecodeError as exc:
+            return Result(content=f"参数 JSON 解析失败: {exc}", is_error=True)
         pattern = data.get("pattern")
-        if not pattern:
+        if not isinstance(pattern, str) or not pattern:
             return Result(content="缺少必填参数: pattern", is_error=True)
+        root = resolve_path(data.get("path") or ".")
+        file_glob = data.get("glob")
+        if file_glob is not None and not isinstance(file_glob, str):
+            return Result(content="glob 必须是字符串", is_error=True)
         try:
-            rx = re.compile(pattern)
-        except re.error as e:
-            return Result(content=f"正则非法: {e}", is_error=True)
-        root = Path(resolve_path(data.get("path") or "."))
-        glob_filter = data.get("glob")
-        hits: list[str] = []
-        file_count = 0
-        try:
-            if glob_filter:
-                iterator = root.rglob(glob_filter)
-            else:
-                iterator = root.rglob("*")
-            for filepath in iterator:
-                if not filepath.is_file():
-                    continue
-                try:
-                    rel_for_filter = filepath.relative_to(root)
-                except ValueError:
-                    rel_for_filter = filepath
-                if is_sensitive_selector(str(rel_for_filter).replace("\\", "/")):
-                    continue
-                try:
-                    with open(filepath, encoding="utf-8", errors="replace") as f:
-                        for lineno, line in enumerate(f, 1):
-                            if len(hits) >= 100:
-                                break
-                            if len(line) > 1024 * 1024:
-                                hits.append(f"{filepath}:{lineno}:[该行过长（>1MB），未完整搜索]")
-                                continue
-                            if rx.search(line):
-                                try:
-                                    rel = filepath.relative_to(root)
-                                except ValueError:
-                                    rel = filepath
-                                # 统一用正斜杠，避免反斜杠在渲染中被当转义符吃掉
-                                hits.append(
-                                    f"{str(rel).replace(chr(92), '/')}:{lineno}:{line.rstrip()}"
-                                )
-                except (OSError, UnicodeDecodeError):
-                    continue
-                if len(hits) >= 100:
-                    break
-                file_count += 1
-                if file_count % 20 == 0:
-                    await asyncio.sleep(0)
-        except OSError as e:
-            return Result(content=f"grep 搜索失败: {e}", is_error=True)
-        if not hits:
-            return Result(content=f"在 {root} 下搜索 pattern='{pattern}' 无命中")
-        if len(hits) > 100:
-            hits = hits[:100]
-            hits.append("[truncated: 命中超过100条]")
-        return Result(content="\n".join(hits))
+            result = await self.service.search(
+                SearchRequest(
+                    SearchKind.GREP,
+                    root,
+                    pattern,
+                    file_glob=file_glob or "",
+                )
+            )
+        except (NovaCodeError, OSError) as exc:
+            message = str(exc)
+            prefix = "" if message.startswith("正则非法") else "grep 搜索失败: "
+            return Result(content=f"{prefix}{message}", is_error=True)
+        lines = list(result.hits)
+        if result.truncated:
+            lines.append(f"[truncated: {result.reason}]")
+        content = "\n".join(lines) if lines else f"在 {root} 下搜索 pattern='{pattern}' 无命中"
+        return Result(content=content, metadata=_search_metadata(result))

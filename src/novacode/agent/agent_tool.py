@@ -10,7 +10,12 @@ from novacode.agent.context import current
 from novacode.agent.fork import build_forked_messages, is_fork_context
 from novacode.conversation import Conversation
 from novacode.subagent import Catalog, Definition
-from novacode.task import Manager, PartialState
+from novacode.task import (
+    AgentRunManager as Manager,
+)
+from novacode.task import (
+    AgentRunPartialState as PartialState,
+)
 from novacode.tool import Result
 from novacode.tool.filter import FilterParams, apply_agent_tool_filter
 

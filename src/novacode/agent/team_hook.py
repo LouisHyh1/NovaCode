@@ -27,6 +27,7 @@ class TeammateContext:
     backend_type: str
     mailbox: Any
     team_manager: Any
+    team_id: str = ""
 
 
 class TeamHook(Protocol):

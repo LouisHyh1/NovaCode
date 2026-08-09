@@ -50,7 +50,7 @@ from novacode.session import SessionInfo, SessionWriter, list_sessions, load_ses
 from novacode.skills import SkillExecutor, SkillLoader
 from novacode.subagent import Catalog as SubAgentCatalog
 from novacode.subagent import load_catalog as load_subagent_catalog
-from novacode.task import Manager as TaskManager
+from novacode.task import AgentRunManager as TaskManager
 from novacode.tool import Registry as ToolRegistry
 from novacode.tool import with_cwd
 from novacode.tool.install_skill import InstallSkillTool
