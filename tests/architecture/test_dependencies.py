@@ -62,3 +62,30 @@ def test_repository_ports_do_not_expose_filesystem_types() -> None:
     forbidden = {"os", "pathlib", "shutil"}
     violations = sorted(set(_imports(ports)) & forbidden)
     assert not violations, f"Repository Port 暴露文件系统依赖: {violations}"
+
+
+def test_agent_delegates_complete_context_and_tool_transactions() -> None:
+    path = SRC / "agent" / "__init__.py"
+    source = path.read_text(encoding="utf-8")
+    tree = ast.parse(source, filename=str(path))
+    agent = next(
+        node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "Agent"
+    )
+    method_names = {
+        node.name
+        for node in agent.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+
+    assert "self._context_manager.prepare(" in source
+    assert "if compact_out.summarized:" in source
+    assert "self._tool_runner.run(" in source
+    assert method_names.isdisjoint(
+        {
+            "_manage_input",
+            "_execute_batched",
+            "_run_side_effect",
+            "_execute_and_result",
+            "_request_approval",
+        }
+    )

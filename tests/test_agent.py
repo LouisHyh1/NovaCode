@@ -36,12 +36,11 @@ from novacode.tool import Registry, Result
 
 @pytest.mark.asyncio
 async def test_run_force_compact_uses_explicit_runtime(
-    tmp_path, monkeypatch: pytest.MonkeyPatch
+    tmp_path,
 ) -> None:
     from novacode.compact import (
         CompactCircuitBreaker,
         ContentReplacementState,
-        ManageOutput,
         RecoveryState,
         SessionContext,
     )
@@ -62,21 +61,19 @@ async def test_run_force_compact_uses_explicit_runtime(
 
     active = runtime("active")
     staging = runtime("staging")
-    seen: list[SessionRuntime] = []
+    provider = FakeProvider([[StreamEvent(text="保留当前目标。")]])
+    agent = Agent(provider, Registry(), runtime=active)
+    conv = Conversation()
+    conv.add_user("总结历史")
+    conv.add_assistant("已有回复")
 
-    async def fake_manage(input_):
-        seen.append(staging if input_.session is staging.session else active)
-        return ManageOutput(10, 5)
+    before, after = await agent.run_force_compact(conv, [], runtime=staging)
 
-    monkeypatch.setattr("novacode.agent.manage_context", fake_manage)
-    agent = Agent(FakeProvider([]), Registry(), runtime=active)
-
-    result = await agent.run_force_compact(Conversation(), [], runtime=staging)
-
-    assert result == (10, 5)
-    assert seen == [staging]
-    assert staging.usage_anchor == 0 and staging.anchor_msg_len == 0
+    assert before > 0 and after > 0
+    assert staging.usage_anchor == after
+    assert staging.anchor_msg_len == conv.length()
     assert active.usage_anchor == 123 and active.anchor_msg_len == 4
+    assert agent.runtime is active
 
 
 # ── Fake 工具 ──────────────────────────────────────────────

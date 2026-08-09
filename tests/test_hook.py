@@ -7,9 +7,11 @@ from pathlib import Path
 import httpx
 import pytest
 
-from novacode.agent import Agent, Phase
+from novacode.agent import Phase
+from novacode.agent.tool_runner import ToolRunner
 from novacode.command.builtin_hooks import handle_hooks
 from novacode.command.ui import NopUI
+from novacode.conversation import Conversation
 from novacode.hook import Engine, Event, is_blocking, load
 from novacode.hook.executor import Executor
 from novacode.hook.matcher import eval_condition, get_by_path
@@ -244,7 +246,7 @@ class _WriteTool:
 
 
 @pytest.mark.asyncio
-async def test_agent_pre_tool_hook_blocks_before_permission_and_execution() -> None:
+async def test_tool_runner_pre_tool_hook_blocks_before_permission_and_execution() -> None:
     tool = _WriteTool()
     registry = Registry()
     registry.register(tool)
@@ -262,17 +264,25 @@ async def test_agent_pre_tool_hook_blocks_before_permission_and_execution() -> N
         ],
         [],
     )
-    agent = Agent(object(), registry, hook_engine=hook_engine)  # type: ignore[arg-type]
-    agent._event_queue = asyncio.Queue()
-    results, completed = await agent._execute_batched(
-        [ToolCall("t1", "write_file", '{"path":"x.txt"}')],
-        asyncio.Event(),
-        Mode.DEFAULT,
-    )
-    events = [agent._event_queue.get_nowait(), agent._event_queue.get_nowait()]
-    assert completed and not tool.executed
-    assert results[0].is_error
-    assert results[0].content == "[hook block-write] blocked"
+
+    async def dispatch(event: Event, mode: Mode, **values):
+        return await hook_engine.dispatch(event, values)
+
+    runner = ToolRunner(registry, dispatch_hook=dispatch)
+    updates = [
+        update
+        async for update in runner.run(
+            [ToolCall("t1", "write_file", '{"path":"x.txt"}')],
+            Conversation(),
+            asyncio.Event(),
+            Mode.DEFAULT,
+        )
+    ]
+    final = updates[-1].result
+    events = [update.event for update in updates if update.event is not None]
+    assert final is not None and final.completed and not tool.executed
+    assert final.results[0].is_error
+    assert final.results[0].content == "[hook block-write] blocked"
     assert [event.tool.phase for event in events] == [Phase.START, Phase.END]
     await hook_engine.close()
 

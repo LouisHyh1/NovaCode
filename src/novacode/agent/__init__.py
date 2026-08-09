@@ -1,8 +1,6 @@
 """ReAct 循环编排——模型自主多轮：想 → 调工具 → 看结果 → 边做边调整，直到任务完成。"""
 
 import asyncio
-import json
-import logging
 import re
 from collections.abc import AsyncIterator, Awaitable, Callable
 from dataclasses import dataclass, field
@@ -10,18 +8,15 @@ from enum import Enum
 from pathlib import Path
 
 from novacode import prompt
+from novacode.agent.context_manager import ContextManager, SessionRuntime
 from novacode.compact import (
     CompactCircuitBreaker,
     ContentReplacementState,
-    ManageInput,
     RecoveryState,
-    SessionContext,
     TriggerKind,
-    manage_context,
     new_session_context,
 )
 from novacode.compact.const import MANUAL_SAFETY_MARGIN, auto_compact_threshold
-from novacode.compact.token import estimate_tokens, usage_anchor
 from novacode.conversation import Conversation
 from novacode.hook import DispatchResult as HookDispatchResult
 from novacode.hook import Engine as HookEngine
@@ -39,12 +34,9 @@ from novacode.llm import (
     Usage as LLMUsage,
 )
 from novacode.memory import MemoryTurn
-from novacode.permission import Decision, Mode, Outcome
+from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
-from novacode.permission.persist import persist_local_allow
-from novacode.tool import DEFAULT_TIMEOUT, Registry, cwd_from_ctx, resolve_path
-
-logger = logging.getLogger(__name__)
+from novacode.tool import Registry, cwd_from_ctx
 
 MAX_ITERATIONS: int = 25
 MAX_UNKNOWN_RUN: int = 3
@@ -150,53 +142,12 @@ class Event:
 
 
 @dataclass
-class SessionRuntime:
-    replacement: ContentReplacementState
-    recovery: RecoveryState
-    auto_tracking: CompactCircuitBreaker
-    session: SessionContext
-    usage_anchor: int = 0
-    anchor_msg_len: int = 0
-    resume_reminder: str = ""
-    pending_reminders: list[str] = field(default_factory=list)
-    hook_engine: HookEngine | None = None
-
-    def reset_for_new_session(self, session: SessionContext) -> None:
-        """为新会话重置所有跨轮上下文状态。"""
-        self.replacement = ContentReplacementState()
-        self.recovery = RecoveryState()
-        self.auto_tracking = CompactCircuitBreaker()
-        self.session = session
-        self.usage_anchor = 0
-        self.anchor_msg_len = 0
-        self.resume_reminder = ""
-        self.pending_reminders.clear()
-
-    def append_reminders(self, reminders: list[str]) -> None:
-        self.pending_reminders.extend(reminder for reminder in reminders if reminder)
-
-    def take_reminders(self) -> list[str]:
-        reminders = list(self.pending_reminders)
-        self.pending_reminders.clear()
-        return reminders
-
-    async def reset_hooks_for_new_session(self) -> None:
-        if self.hook_engine is not None:
-            await self.hook_engine.reset_for_new_session()
-
-
-@dataclass
 class _StreamState:
     text: str = ""
     calls: list[ToolCall] = field(default_factory=list)
     usage: LLMUsage | None = None
     err: Exception | None = None
     cancelled: bool = False
-
-
-def _args_preview(args: str) -> str:
-    """工具参数截断预览（最多 80 字符）。"""
-    return args[:80] + "…" if len(args) > 80 else args
 
 
 def _is_explicit_memory_request(text: str) -> bool:
@@ -247,8 +198,7 @@ class Agent:
         self._registry = registry
         self._version = version
         self.engine = engine
-        self._event_queue: asyncio.Queue[Event] | None = None
-        self.runtime = runtime or SessionRuntime(
+        self._runtime = runtime or SessionRuntime(
             replacement=ContentReplacementState(),
             recovery=RecoveryState(),
             auto_tracking=CompactCircuitBreaker(),
@@ -267,10 +217,28 @@ class Agent:
         self.allowed_tools = None if allowed_tools is None else frozenset(allowed_tools)
         self.subagent_name = subagent_name
         self.teammate_context = teammate_context
-        self._active_conv: Conversation | None = None
         self._run_lock = asyncio.Lock()
         self.active_skills: dict[str, str] = {}
         self._skill_catalog = ""
+        self._context_manager = ContextManager(
+            provider,
+            self._runtime,
+            context_window=context_window,
+            dispatch_hook=self._dispatch_hook,
+        )
+        from novacode.agent.tool_runner import ToolRunner
+
+        self._tool_runner = ToolRunner(
+            registry,
+            dispatch_hook=self._dispatch_hook,
+            engine=engine,
+            dont_ask=dont_ask,
+            approval_upgrader=approval_upgrader,
+            subagent_name=subagent_name,
+            allowed_tools=allowed_tools,
+            owner=self,
+            record_read=self._context_manager.record_read_file,
+        )
 
     def _hook_payload(self, mode: Mode, **values) -> dict:
         cwd = cwd_from_ctx() or (self.engine.root if self.engine is not None else str(Path.cwd()))
@@ -288,14 +256,6 @@ class Agent:
         self.runtime.append_reminders(result.injected_prompts)
         return result
 
-    @staticmethod
-    def _tool_input(call: ToolCall) -> dict:
-        try:
-            value = json.loads(call.input)
-        except (json.JSONDecodeError, TypeError):
-            return {}
-        return value if isinstance(value, dict) else {}
-
     def activate_skill(self, name: str, prompt_body: str) -> None:
         self.active_skills[name] = prompt_body
 
@@ -307,6 +267,7 @@ class Agent:
 
     def set_allowed_tools(self, names: list[str]) -> None:
         self.allowed_tools = frozenset(names)
+        self._tool_runner.set_allowed_tools(names)
 
     def append_system_prompt(self, suffix: str) -> None:
         base = self.system_prompt or prompt.build_system_prompt(
@@ -318,6 +279,16 @@ class Agent:
     @property
     def provider(self) -> Provider:
         return self._provider
+
+    @property
+    def runtime(self) -> SessionRuntime:
+        return self._runtime
+
+    @runtime.setter
+    def runtime(self, runtime: SessionRuntime) -> None:
+        self._runtime = runtime
+        if hasattr(self, "_context_manager"):
+            self._context_manager.runtime = runtime
 
     @property
     def registry(self) -> Registry:
@@ -341,31 +312,6 @@ class Agent:
             return definitions
         return [definition for definition in definitions if definition.name in self.allowed_tools]
 
-    def _manage_input(
-        self,
-        conv: Conversation,
-        defs: list[ToolDefinition],
-        trigger: TriggerKind,
-        estimated: int,
-        runtime: SessionRuntime | None = None,
-    ) -> ManageInput:
-        selected = runtime or self.runtime
-        return ManageInput(
-            conv=conv,
-            provider=self._provider,
-            model=self._provider.model,
-            context_window=self.context_window,
-            tool_defs=defs,
-            replacement=selected.replacement,
-            recovery=selected.recovery,
-            auto_tracking=selected.auto_tracking,
-            session=selected.session,
-            usage_anchor=selected.usage_anchor,
-            anchor_msg_len=selected.anchor_msg_len,
-            estimated_token=estimated,
-            trigger=trigger,
-        )
-
     async def run_force_compact(
         self,
         conv: Conversation,
@@ -374,27 +320,19 @@ class Agent:
         mode: Mode = Mode.DEFAULT,
     ) -> tuple[int, int]:
         async with self._run_lock:
-            selected = runtime or self.runtime
-            estimated = estimate_tokens(0, conv.messages(), 0)
-            await self._dispatch_hook(HookEvent.PRE_COMPACT, mode, trigger="manual")
-            out = await manage_context(
-                self._manage_input(
+            selected = self.runtime
+            if runtime is not None:
+                self.runtime = runtime
+            try:
+                out = await self._context_manager.prepare(
                     conv,
                     tool_defs,
                     TriggerKind.MANUAL,
-                    estimated,
-                    selected,
+                    mode,
                 )
-            )
-            selected.usage_anchor = 0
-            selected.anchor_msg_len = 0
-            await self._dispatch_hook(
-                HookEvent.POST_COMPACT,
-                mode,
-                trigger="manual",
-                before_tokens=out.before_tokens,
-                after_tokens=out.after_tokens,
-            )
+            finally:
+                if runtime is not None:
+                    self.runtime = selected
             return out.before_tokens, out.after_tokens
 
     async def run(
@@ -403,7 +341,6 @@ class Agent:
         mode: Mode,
         cancel: asyncio.Event,
     ) -> AsyncIterator[Event]:
-        self._active_conv = conv
         if self.permission_mode is not None:
             mode = self.permission_mode
         env = prompt.gather_environment(
@@ -447,38 +384,29 @@ class Agent:
 
                 await ingest_team_mailbox(self)
 
-            estimated = estimate_tokens(
-                self.runtime.usage_anchor,
-                conv.messages(),
-                self.runtime.anchor_msg_len,
-            )
-            emit_auto = (
+            estimated = self._context_manager.estimate(conv)
+            auto_candidate = (
                 estimated >= auto_compact_threshold(self.context_window)
                 and not self.runtime.auto_tracking.tripped()
             )
-            if emit_auto:
-                yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_AUTO))
             try:
-                await self._dispatch_hook(HookEvent.PRE_COMPACT, mode, trigger="auto")
-                compact_out = await manage_context(
-                    self._manage_input(conv, defs, TriggerKind.AUTO, estimated)
-                )
-                await self._dispatch_hook(
-                    HookEvent.POST_COMPACT,
+                compact_out = await self._context_manager.prepare(
+                    conv,
+                    defs,
+                    TriggerKind.AUTO,
                     mode,
-                    trigger="auto",
-                    before_tokens=compact_out.before_tokens,
-                    after_tokens=compact_out.after_tokens,
                 )
             except Exception as e:
-                if emit_auto:
+                if auto_candidate:
+                    yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_AUTO))
                     yield Event(compact=CompactEvent(phase=CompactPhase.AFTER_AUTO, err=e))
                 yield Event(err=e)
                 persistence_err = self._persist_assistant_tail(conv, NOTICE_STREAM_ERR)
                 if persistence_err is not None:
                     yield Event(err=persistence_err)
                 return
-            if emit_auto:
+            if compact_out.summarized:
+                yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_AUTO))
                 yield Event(
                     compact=CompactEvent(
                         phase=CompactPhase.AFTER_AUTO,
@@ -541,20 +469,11 @@ class Agent:
                 if isinstance(err, PromptTooLongError) and not emergency_retried:
                     yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_EMERGENCY))
                     try:
-                        await self._dispatch_hook(HookEvent.PRE_COMPACT, mode, trigger="emergency")
-                        emergency_in = self._manage_input(
+                        emergency_out = await self._context_manager.prepare(
                             conv,
                             defs,
                             TriggerKind.EMERGENCY,
-                            estimate_tokens(0, conv.messages(), 0),
-                        )
-                        emergency_out = await manage_context(emergency_in)
-                        await self._dispatch_hook(
-                            HookEvent.POST_COMPACT,
                             mode,
-                            trigger="emergency",
-                            before_tokens=emergency_out.before_tokens,
-                            after_tokens=emergency_out.after_tokens,
                         )
                     except Exception as e:
                         yield Event(
@@ -575,9 +494,7 @@ class Agent:
                             after=emergency_out.after_tokens,
                         )
                     )
-                    self.runtime.usage_anchor = 0
-                    self.runtime.anchor_msg_len = 0
-                    retry_estimate = estimate_tokens(0, conv.messages(), 0)
+                    retry_estimate = self._context_manager.estimate(conv)
                     if retry_estimate < self.context_window - MANUAL_SAFETY_MARGIN:
                         emergency_retried = True
                         continue
@@ -595,8 +512,7 @@ class Agent:
                 return
 
             if usage is not None:
-                self.runtime.usage_anchor = usage_anchor(usage)
-                self.runtime.anchor_msg_len = conv.length()
+                self._context_manager.record_usage(usage, conv)
                 yield Event(
                     usage=Usage(
                         input=usage.input_tokens,
@@ -629,63 +545,28 @@ class Agent:
             except Exception as exc:
                 yield Event(err=exc)
                 return
-            unknown_run = unknown_run + 1 if self._all_unknown(calls) else 0
-
-            # 通过队列并行运行 _execute_batched——支持人在回路事件穿插
-            self._event_queue = asyncio.Queue()
-            batch_task = asyncio.create_task(self._execute_batched(calls, cancel, mode))
-
-            # 从队列消费事件直到 batch_task 完成
             results: list[ToolResult] = []
             completed = True
-            while True:
-                if batch_task.done():
-                    break
-                queue_task = asyncio.create_task(self._event_queue.get())
-                try:
-                    done, _ = await asyncio.wait(
-                        (queue_task, batch_task), return_when=asyncio.FIRST_COMPLETED
-                    )
-                    if queue_task in done:
-                        yield queue_task.result()
-                    else:
-                        await _cancel_and_wait(queue_task)
-                        break
-                except asyncio.CancelledError:
-                    await _cancel_and_wait(queue_task)
-                    if not batch_task.done():
-                        await _cancel_and_wait(batch_task)
-                    self._event_queue = None
-                    conv.add_tool_results(
-                        [
-                            ToolResult(
-                                tool_call_id=call.id,
-                                content=NOTICE_CANCELLED,
-                                is_error=True,
-                            )
-                            for call in calls
-                        ]
-                    )
-                    raise
-                except Exception:
-                    await _cancel_and_wait(queue_task)
-                    if not batch_task.done():
-                        await _cancel_and_wait(batch_task)
-                    break
-            # Drain 余量事件：同步返回的 DENY 路径可能让事件留在队列里
-            while True:
-                try:
-                    ev = self._event_queue.get_nowait()
-                    yield ev
-                except asyncio.QueueEmpty:
-                    break
-
-            self._event_queue = None
             try:
-                results, completed = batch_task.result()
+                async for update in self._tool_runner.run(calls, conv, cancel, mode):
+                    if update.event is not None:
+                        yield update.event
+                    if update.result is not None:
+                        results = update.result.results
+                        completed = update.result.completed
+                        unknown_run = unknown_run + 1 if update.result.all_unknown else 0
             except asyncio.CancelledError:
-                results = []
-                completed = False
+                conv.add_tool_results(
+                    [
+                        ToolResult(
+                            tool_call_id=call.id,
+                            content=NOTICE_CANCELLED,
+                            is_error=True,
+                        )
+                        for call in calls
+                    ]
+                )
+                raise
 
             try:
                 conv.add_tool_results(results)
@@ -866,367 +747,6 @@ class Agent:
             close = getattr(stream, "aclose", None)
             if close is not None:
                 await close()
-
-    async def _execute_batched(
-        self,
-        calls: list[ToolCall],
-        cancel: asyncio.Event,
-        mode: Mode,
-    ) -> tuple[list[ToolResult], bool]:
-        """保序分批并发执行工具（含权限检查）。通过 _emit 发事件。"""
-        results: list[ToolResult | None] = [None] * len(calls)
-        i = 0
-        while i < len(calls):
-            if cancel.is_set():
-                self._fill_cancelled(results, calls, i)
-                return self._finalize_results(results, calls), False
-
-            if self._registry.is_read_only(calls[i].name):
-                j = i + 1
-                while j < len(calls) and self._registry.is_read_only(calls[j].name):
-                    j += 1
-
-                done = [False] * (j - i)
-                for k in range(i, j):
-                    await self._emit(
-                        Event(
-                            tool=ToolEvent(
-                                name=calls[k].name,
-                                args=_args_preview(calls[k].input),
-                                phase=Phase.START,
-                            )
-                        )
-                    )
-                    blocked = await self._pre_tool_hook(calls[k], mode)
-                    if blocked is not None:
-                        results[k] = blocked
-                        done[k - i] = True
-                    elif self.engine is not None:
-                        decision, reason = self.engine.check(mode, calls[k], True)
-                        if decision == Decision.DENY:
-                            results[k] = ToolResult(
-                                tool_call_id=calls[k].id, content=reason, is_error=True
-                            )
-                            done[k - i] = True
-
-                tasks = [
-                    self._run_one(k, calls[k], results, cancel)
-                    for k in range(i, j)
-                    if not done[k - i]
-                ]
-                if tasks:
-                    await asyncio.gather(*tasks)
-
-                for k in range(i, j):
-                    if results[k] is not None:
-                        r = results[k]
-                        await self._post_tool_hook(calls[k], r, mode)
-                        await self._emit(
-                            Event(
-                                tool=ToolEvent(
-                                    name=calls[k].name,
-                                    args=_args_preview(calls[k].input),
-                                    phase=Phase.END,
-                                    result=r.content,
-                                    is_error=r.is_error,
-                                )
-                            )
-                        )
-                i = j
-            else:
-                await self._emit(
-                    Event(
-                        tool=ToolEvent(
-                            name=calls[i].name,
-                            args=_args_preview(calls[i].input),
-                            phase=Phase.START,
-                        )
-                    )
-                )
-                blocked = await self._pre_tool_hook(calls[i], mode)
-                if blocked is None:
-                    r, ok = await self._run_side_effect(calls[i], cancel, mode)
-                else:
-                    r, ok = blocked, True
-                await self._post_tool_hook(calls[i], r, mode)
-                if not ok:
-                    results[i] = r
-                    self._fill_cancelled(results, calls, i + 1)
-                    return self._finalize_results(results, calls), False
-                results[i] = r
-                if results[i] is not None:
-                    await self._emit(
-                        Event(
-                            tool=ToolEvent(
-                                name=calls[i].name,
-                                args=_args_preview(calls[i].input),
-                                phase=Phase.END,
-                                result=results[i].content,
-                                is_error=results[i].is_error,
-                            )
-                        )
-                    )
-                i += 1
-
-        return self._finalize_results(results, calls), True
-
-    async def _pre_tool_hook(self, call: ToolCall, mode: Mode) -> ToolResult | None:
-        outcome = await self._dispatch_hook(
-            HookEvent.PRE_TOOL_USE,
-            mode,
-            tool_name=call.name,
-            tool_input=self._tool_input(call),
-        )
-        if not outcome.blocked:
-            return None
-        return ToolResult(
-            tool_call_id=call.id,
-            content=f"[hook {outcome.blocking_hook_name}] {outcome.reason}",
-            is_error=True,
-        )
-
-    async def _post_tool_hook(self, call: ToolCall, result: ToolResult, mode: Mode) -> None:
-        await self._dispatch_hook(
-            HookEvent.POST_TOOL_USE,
-            mode,
-            tool_name=call.name,
-            tool_input=self._tool_input(call),
-            tool_result=result.content,
-            is_error=result.is_error,
-        )
-
-    async def _run_side_effect(
-        self,
-        call: ToolCall,
-        cancel: asyncio.Event,
-        mode: Mode,
-    ) -> tuple[ToolResult, bool]:
-        """执行一个有副作用工具调用（含权限检查）。返回 (result, ok)。
-
-        ok=False 表示取消。
-        """
-        # Plan 模式防御深度：非只读工具直接拒绝，不进入引擎或审批
-        if mode == Mode.PLAN and not self._registry.is_read_only(call.name):
-            return (
-                ToolResult(
-                    tool_call_id=call.id,
-                    content=f"[计划模式拒绝] {call.name} 未执行。"
-                    f"计划模式下只允许只读操作，文件系统未做任何修改。",
-                    is_error=True,
-                    is_policy_denial=True,
-                ),
-                True,
-            )
-
-        if self.engine is None:
-            return await self._execute_allowed(call, cancel)
-
-        decision, reason = self.engine.check(mode, call, False)
-
-        if decision == Decision.ALLOW:
-            return await self._execute_allowed(call, cancel)
-
-        if decision == Decision.DENY:
-            return (
-                ToolResult(
-                    tool_call_id=call.id,
-                    content=reason,
-                    is_error=True,
-                    is_policy_denial=(mode == Mode.PLAN),
-                ),
-                True,
-            )
-
-        # ASK → 人在回路
-        if self.dont_ask:
-            return await self._execute_allowed(call, cancel)
-        try:
-            outcome = await self._request_approval(call, reason, mode)
-        except asyncio.CancelledError:
-            return (
-                ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True),
-                False,
-            )
-
-        if cancel.is_set():
-            return (
-                ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True),
-                False,
-            )
-
-        if outcome == Outcome.DENY_ONCE:
-            return (
-                ToolResult(
-                    tool_call_id=call.id,
-                    content=f"[已拒绝] {call.name} 未执行。"
-                    f"用户拒绝了此操作：{reason}。"
-                    f"该操作未对文件系统产生任何影响。",
-                    is_error=True,
-                ),
-                True,
-            )
-        elif outcome in (Outcome.ALLOW_ONCE, Outcome.ALLOW_FOREVER):
-            if outcome == Outcome.ALLOW_FOREVER:
-                try:
-                    persist_local_allow(self.engine, call)
-                except Exception as e:
-                    logger.warning("持久化规则失败: %s", e)
-            return await self._execute_allowed(call, cancel)
-
-        return (
-            ToolResult(tool_call_id=call.id, content="未知权限裁决", is_error=True),
-            True,
-        )
-
-    async def _execute_allowed(
-        self, call: ToolCall, cancel: asyncio.Event
-    ) -> tuple[ToolResult, bool]:
-        result = await self._execute_and_result(call, cancel)
-        return result, not cancel.is_set()
-
-    async def _execute_and_result(self, call: ToolCall, cancel: asyncio.Event) -> ToolResult:
-        """执行工具并返回 ToolResult。"""
-        from novacode.tool import Result as ToolExecResult
-
-        if cancel.is_set():
-            return ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
-
-        if self.allowed_tools is not None and call.name not in self.allowed_tools:
-            return ToolResult(
-                tool_call_id=call.id,
-                content=f"工具 {call.name} 对当前 SubAgent 不可用",
-                is_error=True,
-            )
-
-        from novacode.agent.context import ExecutionContext, bind, reset
-
-        context_token = bind(ExecutionContext(self, self._active_conv or Conversation()))
-        try:
-            tool = self._registry.get(call.name)
-            timeout = getattr(tool, "timeout", DEFAULT_TIMEOUT)
-            exec_task = asyncio.create_task(
-                self._registry.execute(call.name, call.input, timeout=timeout)
-            )
-        finally:
-            reset(context_token)
-        cancel_task = asyncio.create_task(cancel.wait())
-        try:
-            done, _ = await asyncio.wait(
-                (exec_task, cancel_task), return_when=asyncio.FIRST_COMPLETED
-            )
-            if cancel_task in done:
-                await _cancel_and_wait(exec_task)
-                return ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
-            await _cancel_and_wait(cancel_task)
-            r: ToolExecResult = exec_task.result()
-            await self._record_read_file(call, r)
-            return ToolResult(tool_call_id=call.id, content=r.content, is_error=r.is_error)
-        except asyncio.CancelledError:
-            await _cancel_and_wait(exec_task)
-            return ToolResult(tool_call_id=call.id, content=NOTICE_CANCELLED, is_error=True)
-        except Exception as e:
-            return ToolResult(
-                tool_call_id=call.id,
-                content=f"工具 {call.name} 异常: {e}",
-                is_error=True,
-            )
-        finally:
-            await _cancel_and_wait(cancel_task)
-
-    async def _request_approval(self, call: ToolCall, reason: str, mode: Mode) -> Outcome:
-        """发出人在回路请求事件，await Future 等待 TUI 回传用户选择。"""
-        respond: asyncio.Future[Outcome] = asyncio.get_running_loop().create_future()
-        await self._dispatch_hook(
-            HookEvent.NOTIFICATION,
-            mode,
-            kind="approval",
-            detail=call.name,
-        )
-        request = ApprovalRequest(
-            name=call.name,
-            args=_args_preview(call.input),
-            reason=(
-                f"[来自 SubAgent {self.subagent_name}] {reason}" if self.subagent_name else reason
-            ),
-            respond=respond,
-        )
-        if self.approval_upgrader is not None:
-            outcome, handled = await self.approval_upgrader(request)
-            if handled:
-                return outcome
-        await self._emit(Event(approval=request))
-        try:
-            return await respond
-        except asyncio.CancelledError:
-            if not respond.done():
-                respond.set_result(Outcome.DENY_ONCE)
-            raise
-
-    async def _record_read_file(self, call: ToolCall, result) -> None:
-        if call.name != "read_file" or getattr(result, "is_error", False):
-            return
-        try:
-            data = json.loads(call.input or "{}")
-            path = data.get("path")
-            if not path:
-                return
-            abs_path = Path(resolve_path(path))
-            raw = await asyncio.to_thread(abs_path.read_bytes)
-        except (OSError, json.JSONDecodeError, TypeError):
-            return
-        self.runtime.recovery.record_file(str(abs_path), raw.decode("utf-8", errors="replace"))
-
-    async def _emit(self, event: Event) -> None:
-        """把事件发送到队列（由 run() 消费并 yield 给 TUI）。"""
-        if self._event_queue is not None:
-            await self._event_queue.put(event)
-
-    async def _run_one(
-        self,
-        idx: int,
-        call: ToolCall,
-        results: list[ToolResult | None],
-        cancel: asyncio.Event,
-    ) -> None:
-        """执行单个工具调用，结果写入 results[idx]。支持 cancel 中断。"""
-        results[idx] = await self._execute_and_result(call, cancel)
-
-    def _fill_cancelled(
-        self,
-        results: list[ToolResult | None],
-        calls: list[ToolCall],
-        start: int,
-    ) -> None:
-        for k in range(start, len(results)):
-            if results[k] is None:
-                results[k] = ToolResult(
-                    tool_call_id=calls[k].id,
-                    content=NOTICE_CANCELLED,
-                    is_error=True,
-                )
-
-    def _finalize_results(
-        self, results: list[ToolResult | None], calls: list[ToolCall]
-    ) -> list[ToolResult]:
-        finalized: list[ToolResult] = []
-        for k, r in enumerate(results):
-            if r is not None:
-                finalized.append(r)
-            else:
-                finalized.append(
-                    ToolResult(
-                        tool_call_id=calls[k].id if k < len(calls) else "",
-                        content="（未执行）",
-                        is_error=True,
-                    )
-                )
-        return finalized
-
-    def _all_unknown(self, calls: list[ToolCall]) -> bool:
-        for c in calls:
-            if self._registry.get(c.name) is not None:
-                return False
-        return True
 
     def _ensure_final(self, text: str) -> str:
         if text.strip():

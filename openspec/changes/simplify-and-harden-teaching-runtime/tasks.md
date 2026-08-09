@@ -9,12 +9,12 @@
 
 ## 2. 深化 Agent 的上下文与工具模块
 
-- [ ] 2.1 先以行为测试确定 ContextManager 的小接口，覆盖 Layer 1 卸载、Layer 2 摘要、溢出恢复和结果元数据
-- [ ] 2.2 将上下文准备、摘要与恢复逻辑从 Agent 迁入 ContextManager，不新增单实现 Port 或转发门面
-- [ ] 2.3 在 ContextManager 中修正 Compact Hook 触发顺序和 token 锚点重复累计，并增加 Layer 1 不触发 Hook 的回归测试
-- [ ] 2.4 先以行为测试确定 ToolRunner 的小接口，覆盖调用分组、并发批次、权限、批准、Hook、取消和结果顺序
-- [ ] 2.5 将完整工具执行事务从 Agent 迁入 ToolRunner，删除迁移后只转发或重复执行内部步骤的 Agent helper
-- [ ] 2.6 将 Agent 收敛为 ReAct 与事件协调者，更新调用方及架构测试并确认上下文和工具行为保持一致
+- [x] 2.1 先以行为测试确定 ContextManager 的小接口，覆盖 Layer 1 卸载、Layer 2 摘要、溢出恢复和结果元数据
+- [x] 2.2 将上下文准备、摘要与恢复逻辑从 Agent 迁入 ContextManager，不新增单实现 Port 或转发门面
+- [x] 2.3 在 ContextManager 中修正 Compact Hook 触发顺序和 token 锚点重复累计，并增加 Layer 1 不触发 Hook 的回归测试
+- [x] 2.4 先以行为测试确定 ToolRunner 的小接口，覆盖调用分组、并发批次、权限、批准、Hook、取消和结果顺序
+- [x] 2.5 将完整工具执行事务从 Agent 迁入 ToolRunner，删除迁移后只转发或重复执行内部步骤的 Agent helper
+- [x] 2.6 将 Agent 收敛为 ReAct 与事件协调者，更新调用方及架构测试并确认上下文和工具行为保持一致
 
 ## 3. 深化 Session 模块并统一 Provider 生命周期
 
