@@ -4,6 +4,9 @@
 .novacode/sessions/
 .novacode/worktrees/
 .novacode/worktree_session.json
+.novacode/memory/
+.novacode/skills/
+.codex/
 .env*
 __pycache__/
 *.pyc
