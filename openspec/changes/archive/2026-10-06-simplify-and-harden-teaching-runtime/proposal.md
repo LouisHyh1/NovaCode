@@ -27,7 +27,7 @@ NovaCode 已具备 Agent、Team、Hook、Memory、权限和会话恢复等教学
 
 ### Modified Capabilities
 
-无。当前 `openspec/specs/` 中没有已归档的主规格。
+- `runtime-boundaries`: 归档时接续此前的 `stabilize-runtime-boundaries` 主规格，显式移除 Turn Engine、Session Controller、旧兼容门面和阶段性迁移接缝的 4 条要求；保留 Agent Run / Team Task 术语、依赖方向和类型化错误要求。
 
 ## Impact
 
