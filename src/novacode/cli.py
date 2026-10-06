@@ -56,7 +56,7 @@ async def _amain() -> int:
     from novacode.config import ConfigError, load
 
     explicit_path = team_member_args.config if team_member_args is not None else ""
-    if explicit_path and Path(explicit_path).exists():
+    if explicit_path:
         try:
             cfg = load(explicit_path)
         except ConfigError as e:

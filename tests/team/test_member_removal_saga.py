@@ -95,17 +95,17 @@ async def test_forced_removal_unassigns_tasks_and_preserves_history(tmp_path, mo
     assert pending.assignee is None
     assert completed.assignee is None
     assert completed.historical_assignee == "alice"
-    assert team.member_by_name("alice") is None
+    assert (await manager.get(team.team_id)).member_by_name("alice") is None
 
 
 @pytest.mark.asyncio
 async def test_member_delete_failure_leaves_retry_safe_unbound_tasks(tmp_path, monkeypatch) -> None:
     manager, team, repository = await _manager_with_assigned_tasks(tmp_path, monkeypatch)
 
-    async def fail_remove(_name: str) -> None:
+    async def fail_remove(_team, _name: str) -> None:
         raise ConflictError("injected member delete failure")
 
-    monkeypatch.setattr(team, "remove_member", fail_remove)
+    monkeypatch.setattr(type(team), "remove_member", fail_remove)
     report = await manager.remove_member(team.team_id, "alice", force=True)
     graph = await repository.load(TeamId(team.team_id))
 

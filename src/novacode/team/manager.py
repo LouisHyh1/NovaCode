@@ -10,6 +10,8 @@ import uuid
 from dataclasses import dataclass, replace
 from pathlib import Path
 
+from novacode.config import ProviderConfig
+from novacode.llm import Provider
 from novacode.runtime.errors import ConflictError, StateCorruptionError, ValidationError
 from novacode.runtime.reports import (
     OperationReport,
@@ -19,7 +21,12 @@ from novacode.runtime.reports import (
 from novacode.team.backend import detect, new_backend
 from novacode.team.domain import TeamTask
 from novacode.team.mailbox import Box, Message
-from novacode.team.persistence import read_json, sanitize, team_to_state
+from novacode.team.persistence import (
+    apply_team_state,
+    sanitize,
+    team_to_state,
+    write_member_config,
+)
 from novacode.team.repository import JsonTeamRepository
 from novacode.team.types import (
     BackendType,
@@ -52,56 +59,60 @@ class Manager:
         self.registry = registry  # 旧调用点兼容；Team 成员不写入该注册表。
         self.teams_dir = self.home_dir / ".novacode" / "teams"
         self.teams_dir.mkdir(parents=True, exist_ok=True)
-        self.teams: dict[str, Team] = {}
         self.recovery_required: dict[str, StateCorruptionError] = {}
         self._lock = asyncio.Lock()
         self.catalog = None
         self.fork_teammate = False
         self._session_writers: dict[str, object] = {}
-        self._load()
+        self._provider_binding: tuple[Provider, ProviderConfig] | None = None
 
     def configure_spawn(self, catalog, *, fork_teammate: bool = False) -> None:
         self.catalog = catalog
         self.fork_teammate = fork_teammate
 
-    def _load(self) -> None:
+    def bind_provider(self, provider: Provider, config: ProviderConfig) -> None:
+        self._provider_binding = (provider, replace(config))
+
+    def _parent_provider_config(self, provider: Provider) -> ProviderConfig:
+        binding = self._provider_binding
+        if binding is None or binding[0] is not provider:
+            raise RuntimeError("Team Manager 未绑定当前父 Provider 配置")
+        return binding[1]
+
+    async def list(self) -> list[Team]:
+        teams = []
         for directory in sorted(self.teams_dir.iterdir()):
             if not directory.is_dir():
                 continue
             try:
-                team = Team.from_dict(read_json(directory / "config.json"), directory)
-            except (OSError, TypeError, ValueError) as exc:
-                error = StateCorruptionError(str(directory / "config.json"), detail=str(exc))
+                state = await JsonTeamRepository(directory / "config.json").load_existing()
+                team = Team("", "", "", BackendType(state.backend))
+                team.set_paths(directory)
+                apply_team_state(team, state)
+                if not team.sanitized_name:
+                    raise ValueError("sanitized_name 缺失")
+            except KeyError:
+                continue
+            except (StateCorruptionError, ValueError) as exc:
+                error = (
+                    exc
+                    if isinstance(exc, StateCorruptionError)
+                    else StateCorruptionError(str(directory / "config.json"), detail=str(exc))
+                )
                 self.recovery_required[str(directory)] = error
                 print(
                     f"team: 跳过损坏配置 {error.path} (recovery-required)",
                     file=sys.stderr,
                 )
                 continue
-            if not team.sanitized_name:
-                error = StateCorruptionError(
-                    str(directory / "config.json"),
-                    detail="sanitized_name 缺失",
-                )
-                self.recovery_required[str(directory)] = error
-                print(
-                    f"team: 跳过损坏配置 {error.path} (recovery-required)",
-                    file=sys.stderr,
-                )
-                continue
-            self.teams[team.sanitized_name] = team
-            for member in team.members:
-                if member.backend_type is BackendType.IN_PROCESS and member.name != "lead":
-                    member.is_active = False
+            self.recovery_required.pop(str(directory), None)
+            teams.append(team)
+        return sorted(teams, key=lambda team: team.created_at)
 
-    def get(self, name: str) -> Team | None:
-        by_name = self.teams.get(sanitize(name))
-        if by_name is not None:
-            return by_name
-        return next((team for team in self.teams.values() if team.team_id == name), None)
-
-    def list(self) -> list[Team]:
-        return sorted(self.teams.values(), key=lambda team: team.created_at)
+    async def get(self, name: str) -> Team | None:
+        teams = await self.list()
+        by_name = next((team for team in teams if team.sanitized_name == sanitize(name)), None)
+        return by_name or next((team for team in teams if team.team_id == name), None)
 
     async def create(self, name: str, description: str = "") -> Team:
         sanitized = sanitize(name)
@@ -110,7 +121,7 @@ class Manager:
         async with self._lock:
             candidate = sanitized
             suffix = 2
-            while candidate in self.teams or (self.teams_dir / candidate).exists():
+            while (self.teams_dir / candidate).exists():
                 candidate = f"{sanitized}-{suffix}"
                 suffix += 1
             directory = self.teams_dir / candidate
@@ -130,15 +141,12 @@ class Manager:
             except Exception:
                 shutil.rmtree(directory, ignore_errors=True)
                 raise
-            from novacode.team.persistence import apply_team_state
-
             apply_team_state(team, state)
-            self.teams[candidate] = team
             return team
 
     async def delete(self, name: str, force: bool = False) -> OperationReport:
         async with self._lock:
-            team = self.get(name)
+            team = await self.get(name)
             if team is None:
                 raise TeamNotFoundError(f"Team 不存在: {name}")
             active = [
@@ -167,8 +175,6 @@ class Manager:
             results.append(_cleanup_failure("team-directory", exc, team.config_dir))
             return OperationReport("delete-team", tuple(results))
         results.append(ResourceResult("team-directory", ResourceStatus.SUCCEEDED))
-        async with self._lock:
-            self.teams.pop(team.sanitized_name, None)
         return OperationReport("delete-team", tuple(results))
 
     async def _cleanup_member_resources(
@@ -192,6 +198,7 @@ class Manager:
                     shutil.rmtree(path)
                 elif path.exists():
                     path.unlink()
+                path.with_suffix(".launch.yaml").unlink(missing_ok=True)
             except OSError as exc:
                 results.append(_cleanup_failure("session", exc, str(path)))
             else:
@@ -218,7 +225,7 @@ class Manager:
         from novacode.team.domain import TeamId
         from novacode.team.task_repository import JsonTeamTaskRepository
 
-        team = self.get(team_ref)
+        team = await self.get(team_ref)
         if team is None:
             raise TeamNotFoundError(f"Team 不存在: {team_ref}")
         member = team.member_by_name(member_name)
@@ -277,21 +284,21 @@ class Manager:
         results.extend(await self._cleanup_member_resources(team, member))
         return OperationReport("remove-member", tuple(results))
 
-    def team_for_agent(self, agent_id: str) -> tuple[Team, TeammateInfo] | None:
-        for team in self.teams.values():
+    async def team_for_agent(self, agent_id: str) -> tuple[Team, TeammateInfo] | None:
+        for team in await self.list():
             member = team.member_by_agent_id(agent_id)
             if member is not None:
                 return team, member
         return None
 
-    def resolve_member(self, team_ref: str, name_or_id: str) -> TeammateInfo | None:
-        team = self.get(team_ref)
+    async def resolve_member(self, team_ref: str, name_or_id: str) -> TeammateInfo | None:
+        team = await self.get(team_ref)
         if team is None:
             return None
         return team.member_by_name(name_or_id) or team.member_by_agent_id(name_or_id)
 
     async def handle_task_done(self, agent_id: str) -> None:
-        found = self.team_for_agent(agent_id)
+        found = await self.team_for_agent(agent_id)
         if found is None:
             return
         team, member = found
@@ -306,7 +313,7 @@ class Manager:
 
     async def poll_lead_mailboxes(self) -> list[LeadMessage]:
         result: list[LeadMessage] = []
-        for team in self.list():
+        for team in await self.list():
             box = Box(team.mailbox_dir)
             indices, messages = await box.read_unread(team.lead_agent_id)
             for message in messages:
@@ -336,7 +343,7 @@ class Manager:
         from novacode.team.mailbox import Message
         from novacode.tool.filter import FilterParams, apply_agent_tool_filter
 
-        team = self.get(request.team_name)
+        team = await self.get(request.team_name)
         if team is None:
             raise TeamNotFoundError(f"Team 不存在: {request.team_name}")
         caller_context = getattr(request.caller_agent, "teammate_context", None)
@@ -365,6 +372,8 @@ class Manager:
         sessions_dir = self.project_root / ".novacode" / "sessions"
         session_id = f"team-{team.sanitized_name}-{member_name}-{uuid.uuid4().hex[:8]}"
         session_path = sessions_dir / f"{session_id}.jsonl"
+        launch_path = session_path.with_suffix(".launch.yaml")
+        config_path = ""
         box = Box(team.mailbox_dir)
         teammate_context = TeammateContext(
             team_name=team.sanitized_name,
@@ -464,6 +473,9 @@ class Manager:
             )
             await team.add_member(info)
             if team.backend is not BackendType.IN_PROCESS:
+                provider_config = self._parent_provider_config(request.caller_agent.provider)
+                write_member_config(launch_path, provider_config, fork_teammate=self.fork_teammate)
+                config_path = str(launch_path)
                 await box.write(agent_id, Message(from_="lead", text=request.prompt))
                 writer.close()
             backend = new_backend(team.backend, task_mgr=self.task_mgr)
@@ -477,7 +489,7 @@ class Manager:
                     agent_type=request.subagent_type,
                     initial_prompt=initial_prompt,
                     plan_mode_required=request.plan_mode_required,
-                    config_path=str(self.project_root / ".novacode" / "config.yaml"),
+                    config_path=config_path,
                     sub_agent=sub_agent,
                     conv=conversation,
                     task_mgr=self.task_mgr,
@@ -501,6 +513,7 @@ class Manager:
                 ensure_ascii=False,
             )
         except Exception:
+            launch_path.unlink(missing_ok=True)
             if writer is not None:
                 with contextlib.suppress(Exception):
                     writer.close()

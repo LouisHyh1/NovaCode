@@ -3,9 +3,11 @@
 import json
 import os
 import re
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from novacode.config import ProviderConfig
 from novacode.team.domain import (
     AgentAddress,
     AgentId,
@@ -36,19 +38,17 @@ def read_json(path: str | Path) -> Any:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def save_team(team: Team) -> None:
-    atomic_write_json(team.config_path, team.to_dict())
-
-
-def reload_members(team: Team) -> None:
-    """调用方已持有 Team 锁；跨进程修改前从磁盘刷新成员。"""
-    try:
-        raw = read_json(team.config_path)
-        members = raw.get("members")
-        if isinstance(members, list):
-            team.members = [TeammateInfo.from_dict(item) for item in members]
-    except (OSError, TypeError, ValueError):
-        return
+def write_member_config(path: Path, provider: ProviderConfig, *, fork_teammate: bool) -> None:
+    """子进程只恢复父 Provider；凭据文件仅当前用户可读写。"""
+    entry = asdict(provider)
+    if not provider.context_window:
+        del entry["context_window"]
+    config = {"providers": [entry], "features": {"fork_teammate": fork_teammate}}
+    with open(
+        path, "x", encoding="utf-8", opener=lambda name, flags: os.open(name, flags, 0o600)
+    ) as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
+        f.write("\n")
 
 
 def team_to_state(team: Team) -> TeamState:

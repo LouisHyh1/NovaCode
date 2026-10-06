@@ -141,6 +141,16 @@ def test_provider_selection_is_idempotent(monkeypatch: pytest.MonkeyPatch) -> No
 
 
 @pytest.mark.asyncio
+async def test_selected_provider_is_bound_to_team_manager(monkeypatch):
+    app = _make_app()
+    app.team_mgr = MagicMock()
+    provider = MagicMock(model="gpt-4")
+    monkeypatch.setattr("novacode.tui.app.new_provider", lambda config: provider)
+    async with app.run_test():
+        app.team_mgr.bind_provider.assert_called_once_with(provider, app.providers[0])
+
+
+@pytest.mark.asyncio
 async def test_subagent_hook_completion_is_visible_and_injected_next_turn(tmp_path: Path) -> None:
     class Provider:
         name = "hook-provider"

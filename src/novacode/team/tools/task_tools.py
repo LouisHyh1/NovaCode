@@ -49,7 +49,7 @@ class TaskCreateTool:
         if not title:
             return Result("title 为必填项", is_error=True)
         try:
-            team = resolve_team(self.manager, data)
+            team = await resolve_team(self.manager, data)
             task = Task(
                 title=title,
                 description=str(data.get("description") or ""),
@@ -96,7 +96,7 @@ class TaskGetTool:
                 detail = {**_background_summary(task), "task": task.task, "result": task.result}
                 return Result(json.dumps(detail, ensure_ascii=False))
         try:
-            team = resolve_team(self.manager, data)
+            team = await resolve_team(self.manager, data)
             task = await Store(team.tasks_path, team_id=team.team_id).get(task_id)
         except Exception as exc:
             return Result(f"未知 task_id: {task_id} ({exc})", is_error=True)
@@ -140,7 +140,7 @@ class TaskListTool:
                 )
             )
         try:
-            team = resolve_team(self.manager, data)
+            team = await resolve_team(self.manager, data)
             status = Status(data["status"]) if data.get("status") else None
             tasks = await Store(team.tasks_path, team_id=team.team_id).list(Filter(status))
         except Exception as exc:
@@ -183,7 +183,7 @@ class TaskUpdateTool:
     async def execute(self, args: str) -> Result:
         data = parse_args(args)
         try:
-            team = resolve_team(self.manager, data)
+            team = await resolve_team(self.manager, data)
             patch = Patch(
                 title=data.get("title"),
                 description=data.get("description"),

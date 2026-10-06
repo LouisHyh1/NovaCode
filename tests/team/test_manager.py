@@ -47,7 +47,7 @@ async def test_create_sanitize_suffix_restore_and_delete(tmp_path, monkeypatch) 
     )
 
     restored = Manager(home, root, worktrees, FakeTaskManager(), AgentNameRegistry())
-    assert [team.sanitized_name for team in restored.list()] == [
+    assert [team.sanitized_name for team in await restored.list()] == [
         "foo-bar-baz",
         "foo-bar-baz-2",
     ]
@@ -80,7 +80,7 @@ async def test_active_member_blocks_delete_and_reload_before_update(tmp_path, mo
     assert alice["is_active"] is False
 
 
-def test_corrupt_team_config_is_skipped(tmp_path, capsys) -> None:
+async def test_corrupt_team_config_is_skipped(tmp_path, capsys) -> None:
     directory = tmp_path / "home" / ".novacode" / "teams" / "broken"
     directory.mkdir(parents=True)
     (directory / "config.json").write_text("{", encoding="utf-8")
@@ -93,7 +93,7 @@ def test_corrupt_team_config_is_skipped(tmp_path, capsys) -> None:
         FakeTaskManager(),
         AgentNameRegistry(),
     )
-    assert manager.list() == []
+    assert await manager.list() == []
     assert "跳过损坏配置" in capsys.readouterr().err
 
 
@@ -101,3 +101,19 @@ def test_atomic_json_round_trip(tmp_path) -> None:
     path = tmp_path / "value.json"
     atomic_write_json(path, {"中文": True})
     assert json.loads(path.read_text(encoding="utf-8")) == {"中文": True}
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("field,value", [("sanitized_name", ""), ("backend", "iterm2")])
+async def test_invalid_snapshot_is_reported_and_preserved(tmp_path, capsys, field, value):
+    manager = Manager(tmp_path / "home", tmp_path, None, None, AgentNameRegistry())
+    team = await manager.create("demo")
+    path = Path(team.config_path)
+    data = json.loads(path.read_text())
+    data[field] = value
+    path.write_text(json.dumps(data))
+    before = path.read_bytes()
+    assert await manager.list() == []
+    assert "跳过损坏配置" in capsys.readouterr().err
+    assert manager.recovery_required
+    assert path.read_bytes() == before

@@ -56,7 +56,8 @@ class SendMessageTool:
         if not to or not content:
             return Result("to/content（或 name/message）为必填项", is_error=True)
         try:
-            team = resolve_team(self.manager, data)
+            team = await resolve_team(self.manager, data)
+            assert team is not None
             sender_context = current_teammate_context()
             sender = sender_context.member_name if sender_context is not None else "lead"
             type_ = MessageType(data.get("type", MessageType.TEXT))
@@ -72,7 +73,7 @@ class SendMessageTool:
             if to == "*":
                 targets = [member for member in team.members if member.name != sender]
             else:
-                target = self.manager.resolve_member(team.team_id, to)
+                target = team.member_by_name(to) or team.member_by_agent_id(to)
                 if target is None:
                     raise ValueError(f"Team 内找不到收件人: {to}")
                 targets = [target]

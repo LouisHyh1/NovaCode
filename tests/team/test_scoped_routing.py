@@ -33,8 +33,8 @@ async def test_same_member_name_routes_only_inside_selected_team(tmp_path, monke
     await first.add_member(TeammateInfo("alice", "agent-first", is_active=True))
     await second.add_member(TeammateInfo("alice", "agent-second", is_active=True))
 
-    assert manager.resolve_member(first.team_id, "alice").agent_id == "agent-first"
-    assert manager.resolve_member(second.team_id, "alice").agent_id == "agent-second"
+    assert (await manager.resolve_member(first.team_id, "alice")).agent_id == "agent-first"
+    assert (await manager.resolve_member(second.team_id, "alice")).agent_id == "agent-second"
 
     tool = SendMessageTool(manager, FakeTaskManager())
     result = await tool.execute(

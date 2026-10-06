@@ -19,18 +19,18 @@ def current_teammate_context():
     return getattr(context.agent, "teammate_context", None) if context is not None else None
 
 
-def resolve_team(manager, data: dict, *, require: bool = True) -> Team | None:
+async def resolve_team(manager, data: dict, *, require: bool = True) -> Team | None:
     teammate = current_teammate_context()
     if teammate is not None:
-        team = manager.get(teammate.team_name)
+        team = await manager.get(teammate.team_name)
         if team is not None:
             return team
     team_name = str(data.get("team_name") or "")
     if team_name:
-        team = manager.get(team_name)
+        team = await manager.get(team_name)
         if team is not None:
             return team
-    teams = manager.list()
+    teams = await manager.list()
     if len(teams) == 1:
         return teams[0]
     if require:

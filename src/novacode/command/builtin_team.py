@@ -14,7 +14,7 @@ async def handle_team(ui) -> None:
     if command == "list":
         if rest:
             raise ValueError("用法: /team list")
-        teams = manager.list()
+        teams = await manager.list()
         if not teams:
             ui.println("暂无 Team")
             return
@@ -31,7 +31,7 @@ async def handle_team(ui) -> None:
     if command == "info":
         if len(rest) != 1:
             raise ValueError("用法: /team info <name>")
-        team = manager.get(rest[0])
+        team = await manager.get(rest[0])
         if team is None:
             raise ValueError(f"Team 不存在: {rest[0]}")
         lines = [
@@ -58,7 +58,7 @@ async def handle_team(ui) -> None:
     if command == "kill":
         if len(rest) != 1:
             raise ValueError("用法: /team kill <member>")
-        for team in manager.list():
+        for team in await manager.list():
             member = team.member_by_name(rest[0])
             if member is None or member.name == "lead":
                 continue

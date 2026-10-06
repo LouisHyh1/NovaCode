@@ -302,6 +302,8 @@ class NovaCodeApp(App):
             return
 
         assert self.provider is not None
+        if self.team_mgr is not None:
+            self.team_mgr.bind_provider(self.provider, provider_cfg)
         self._update_mode_label()
         work_dir = os.getcwd()
         self.query_one("#title-bar", Static).update(self._make_banner(provider_cfg.model, work_dir))

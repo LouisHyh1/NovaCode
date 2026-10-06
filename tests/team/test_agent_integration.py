@@ -24,10 +24,14 @@ from novacode.tool import Registry
 class Provider:
     name = "test"
     model = "test"
+    close_count = 0
 
     async def stream(self, request: Request) -> AsyncIterator[StreamEvent]:
         yield StreamEvent(text="done")
         yield StreamEvent(done=True)
+
+    async def close(self):
+        self.close_count += 1
 
 
 class Hook:
@@ -96,6 +100,10 @@ class FakeWorktrees:
 
 @pytest.mark.asyncio
 async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatch) -> None:
+    def reject_client_creation(_config):
+        raise AssertionError("进程内成员必须借用父 Provider")
+
+    monkeypatch.setattr("novacode.llm.new_provider", reject_client_creation)
     monkeypatch.setattr("novacode.team.manager.detect", lambda: BackendType.IN_PROCESS)
     root = tmp_path / "repo"
     root.mkdir()
@@ -129,6 +137,7 @@ async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatc
     assert task_id == payload["agent_id"]
     assert task_manager.get(task_id).sub_agent.provider is parent.provider
     for _ in range(10):
+        team = await team_manager.get("demo")
         if team.member_by_name("alice").is_active is False:
             break
         await asyncio.sleep(0)
@@ -136,3 +145,4 @@ async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatc
     _, unread = await Box(team.mailbox_dir).read_unread("lead")
     assert any("[idle] alice" in message.text for message in unread)
     await team_manager.delete("demo", force=True)
+    assert parent.provider.close_count == 0

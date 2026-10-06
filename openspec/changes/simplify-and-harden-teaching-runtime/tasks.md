@@ -54,10 +54,21 @@
 
 ## 6. 让 Team Repository 成为唯一事实来源
 
-- [ ] 6.1 为外部 tmux 更新后 lead 立即读取新成员和 Team Task 状态增加跨快照回归测试
-- [ ] 6.2 删除长生命周期可变 Team/lead 缓存，让每次相关操作读取 Repository 最新快照并通过 Repository 原子写入
-- [ ] 6.3 让进程内 Team 成员借用父 Provider，并覆盖成员创建不会产生新 Provider client
-- [ ] 6.4 将父 Provider 配置持久化给 tmux 子进程，删除“选择 providers[0]”路径并验证多 Provider 配置下恢复正确
+- [x] 6.1 为外部 tmux 更新后 lead 立即读取新成员和 Team Task 状态增加跨快照回归测试
+- [x] 6.2 删除长生命周期可变 Team/lead 缓存，让每次相关操作读取 Repository 最新快照并通过 Repository 原子写入
+- [x] 6.3 让进程内 Team 成员借用父 Provider，并覆盖成员创建不会产生新 Provider client
+- [x] 6.4 将父 Provider 配置持久化给 tmux 子进程，删除“选择 providers[0]”路径并验证多 Provider 配置下恢复正确
+
+阶段 6 验证记录（2026-10-06）：
+
+- 完整 pytest：711 passed；Ruff 与全量格式检查通过。跨进程测试覆盖外部成员/任务更新、消息寻址、活跃成员删除保护，以及外部 Team 创建和删除；旧快照不随后续操作改变。
+- Team 查询、命令、工具和队员自治循环均读取 Repository 最新快照；删除未使用的 save_team/reload_members 路径。损坏快照被报告并保留原文件。
+- 进程内成员测试禁止调用 Provider 工厂，确认成员借用父实例且清理不关闭它；tmux 测试覆盖配置列表中第二个父 Provider、启动配置字段与权限、配置清理、拒绝多 Provider 启动信息和显式配置缺失不回退。
+- 子进程正常结束和 Writer 初始化失败均关闭其自有 Provider 一次；Hook 后台任务先于 Provider 收束。修改的十个运行文件与阶段前 HEAD 对照：严格 mypy 71 → 67，C901 8 → 7，无新增错误；未清理无关历史债务。
+- tmux 使用隔离 HOME 和 Git 项目、真实 CLI/Provider，并通过 TUI 选择第二个 Provider（首项为故意无效的测试配置）。真实 Team 队员执行 read_file、TaskUpdate 和 SendMessage；lead 查询到 completed 任务和 idle 成员并收到 STAGE6_MEMBER_OK，主/成员 Session 均落盘，持久化配置与所选父 Provider 相同。
+- 端到端退出确认主 CLI 正常返回、应用 Provider 关闭一次；停止 lead 后移除隔离邮箱，使成员自治循环自然退出，验收 tmux 会话无残留。验收 Git 项目基于阶段前 HEAD，读取的项目版本为 0.1.21；实际执行的运行时来自本轮源码，CLI 版本为 0.1.22。
+- uv lock --check、uv sync --locked、版本来源一致性、OpenSpec 严格校验和 git diff --check 通过；锁文件仅更新 NovaCode 版本。README.md 既有改动排除提交，docs/ 零变更。
+- 本阶段不实现或验收第 7 阶段的流式合并刷新及门禁范围扩展；第 7 阶段保持未完成。
 
 ## 7. 改善响应性并建立增量门禁
 
