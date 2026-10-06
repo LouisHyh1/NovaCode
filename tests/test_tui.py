@@ -21,7 +21,7 @@ from novacode.hook import Event as HookEvent
 from novacode.hook.rule import Rule as HookRule
 from novacode.hook.rule import SubagentAction
 from novacode.llm import Message, StreamEvent
-from novacode.memory import MemoryTurn
+from novacode.memory import MemoryExtractor, MemoryGovernor, MemoryKind, MemoryStore, MemoryTurn
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.permission.rule import RuleSet
@@ -925,6 +925,72 @@ async def test_app_shares_provider_with_memory_borrowers_and_closes_it_once() ->
     assert app.hook_engine.provider is provider
 
     await app._shutdown_resources()
+    await app._shutdown_resources()
+    assert provider.close_calls == 1
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("force", [False, True])
+async def test_exit_waits_for_memory_and_second_ctrl_c_cancels_queue(tmp_path, force) -> None:
+    app = _make_app(project_root=tmp_path)
+    started = asyncio.Event()
+    release = asyncio.Event()
+
+    class Provider:
+        name = "fake"
+        model = "gpt-4"
+
+        def __init__(self):
+            self.close_calls = 0
+            self.requests = 0
+
+        async def stream(self, request):
+            self.requests += 1
+            started.set()
+            await release.wait()
+            yield StreamEvent(
+                text='[{"action":"create","kind":"project",'
+                '"title":"Durable","summary":"ok","content":"ok"}]',
+                done=True,
+            )
+
+        async def close(self):
+            self.close_calls += 1
+
+    provider = Provider()
+    user = MemoryStore(tmp_path / "user", frozenset({MemoryKind.USER}))
+    project = MemoryStore(tmp_path / "project", frozenset({MemoryKind.PROJECT}))
+    app.extractor = MemoryExtractor(user, project, lambda _: None)
+    app.governor = MemoryGovernor(
+        tmp_path / "sessions", (user, project), AsyncMock(return_value=[]), lambda _: None
+    )
+    assert app._initialize_provider(app.providers[0], provider)
+
+    async with app.run_test() as pilot:
+        # 使用真正的按键消息循环，确保第一次退出没有堵塞第二次按键。
+        app.extractor.submit(MemoryTurn("one", "answer"))
+        app.extractor.submit(MemoryTurn("two", "answer"))
+        await asyncio.wait_for(started.wait(), 1)
+        await pilot.press("ctrl+c")
+        await pilot.pause()
+        assert app._exit_task is not None and not app._exit_task.done()
+        assert provider.close_calls == 0
+        with pytest.raises(RuntimeError, match="closed"):
+            app.extractor.submit(MemoryTurn("late", "answer"))
+        notices = " ".join(str(widget.render()) for widget in app.query(".system-message"))
+        assert "正在等待记忆提取完成" in notices
+        if force:
+            await pilot.press("ctrl+c")
+        else:
+            release.set()
+        await asyncio.wait_for(app._exit_task, 2)
+
+    assert app.extractor.pending == 0
+    assert app.extractor.provider is None
+    assert app.governor.provider is provider
+    assert provider.close_calls == 1
+    assert provider.requests == (1 if force else 2)
+    assert (project.directory / "MEMORY.md").exists() is (not force)
     await app._shutdown_resources()
     assert provider.close_calls == 1
 

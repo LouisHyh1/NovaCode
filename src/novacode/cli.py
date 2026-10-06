@@ -21,8 +21,8 @@ from novacode.memory import (
     MemoryStore,
     render_memory_indexes,
 )
-from novacode.memory.prompts import parse_actions
-from novacode.session import SessionService, clean_expired_async, load_session
+from novacode.memory.prompts import build_governance_input, parse_actions
+from novacode.session import SessionService, clean_expired_async
 from novacode.subagent import load_catalog as load_subagent_catalog
 from novacode.task import AgentRunManager, TaskStopTool
 from novacode.tool import Registry
@@ -300,27 +300,12 @@ async def _restricted_governance_runner(**kwargs):
     provider = kwargs["provider"]
     if provider is None:
         raise RuntimeError("memory governor provider is not bound")
-    session_blocks: list[str] = []
-    for info in kwargs["sessions"]:
-        loaded = load_session(info.path)
-        lines = [
-            f"{message.role}: {message.content}" for message in loaded.messages if message.content
-        ]
-        session_blocks.append(f"Session {info.session_id}:\n" + "\n".join(lines))
-
-    target = Path(kwargs["target_directory"])
-    note_blocks = [
-        f"File {path.name}:\n{path.read_text(encoding='utf-8')}"
-        for path in sorted(target.glob("*.md"))
-        if path.is_file()
-    ]
-    content = (
-        f"{kwargs['prompt']}\nAllowed kinds: "
-        f"{', '.join(sorted(kind.value for kind in kwargs['allowed_kinds']))}\n\n"
-        f"Indexes:\n{'\n\n'.join(kwargs['indexes'])}\n\n"
-        f"Target notes:\n{'\n\n'.join(note_blocks)}\n\n"
-        f"Sessions:\n{'\n\n'.join(session_blocks)}\n\n"
-        "Return only a JSON array of create, update, delete, or no-op actions."
+    content = build_governance_input(
+        prompt=kwargs["prompt"],
+        allowed_kinds=kwargs["allowed_kinds"],
+        sessions=kwargs["sessions"],
+        indexes=kwargs["indexes"],
+        target=Path(kwargs["target_directory"]),
     )
     response: list[str] = []
     async for event in provider.stream(Request(messages=[Message(role="user", content=content)])):

@@ -90,6 +90,8 @@ class MemoryExtractor:
                     self._queue.task_done()
         finally:
             self._running = False
+            self._accepting = False
+            self._discard_pending()
             self._provider = None
 
     async def close(self) -> None:
@@ -98,17 +100,20 @@ class MemoryExtractor:
         self._accepting = False
         await asyncio.sleep(0)
         if not self._running:
-            while True:
-                try:
-                    self._queue.get_nowait()
-                except asyncio.QueueEmpty:
-                    break
-                else:
-                    self._queue.task_done()
+            self._discard_pending()
             self._provider = None
             return
         await self._queue.join()
-        self._queue.put_nowait(None)
+        if self._running:
+            self._queue.put_nowait(None)
+
+    def _discard_pending(self) -> None:
+        while True:
+            try:
+                self._queue.get_nowait()
+            except asyncio.QueueEmpty:
+                return
+            self._queue.task_done()
 
     async def _process(self, turn: MemoryTurn) -> None:
         provider = self._provider
@@ -119,27 +124,32 @@ class MemoryExtractor:
             async with self.project_store.locked():
                 user_index = self.user_store.read_index_locked()
                 project_index = self.project_store.read_index_locked()
-                request = Request(
-                    messages=[
-                        Message(
-                            role="user",
-                            content=build_extraction_prompt(turn, user_index, project_index),
-                        )
-                    ],
-                    tools=[],
+                user_snapshot = self.user_store.snapshot_locked()
+                project_snapshot = self.project_store.snapshot_locked()
+
+        request = Request(
+            messages=[
+                Message(
+                    role="user",
+                    content=build_extraction_prompt(turn, user_index, project_index),
                 )
-                response: list[str] = []
-                async for event in provider.stream(request):
-                    if event.err is not None:
-                        raise event.err
-                    if event.tool_calls:
-                        raise ValueError("memory extraction provider requested tools")
-                    if event.text:
-                        response.append(event.text)
-                actions = parse_actions("".join(response))
-                user_actions, project_actions = _route_actions(actions)
-                self.user_store.apply_locked(user_actions)
-                self.project_store.apply_locked(project_actions)
+            ],
+            tools=[],
+        )
+        response: list[str] = []
+        async for event in provider.stream(request):
+            if event.err is not None:
+                raise event.err
+            if event.tool_calls:
+                raise ValueError("memory extraction provider requested tools")
+            if event.text:
+                response.append(event.text)
+        user_actions, project_actions = _route_actions(parse_actions("".join(response)))
+
+        async with self.user_store.locked():
+            async with self.project_store.locked():
+                self.user_store.apply_unconflicted_locked(user_actions, user_snapshot)
+                self.project_store.apply_unconflicted_locked(project_actions, project_snapshot)
                 latest_user = self.user_store.render_index_locked()
                 latest_project = self.project_store.render_index_locked()
                 self._on_index_changed(render_memory_indexes(latest_user, latest_project))

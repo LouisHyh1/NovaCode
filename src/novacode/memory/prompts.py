@@ -1,10 +1,16 @@
 """Structured memory prompt and response helpers."""
 
 import json
+from collections.abc import Iterator
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from novacode.memory.types import MemoryAction, MemoryKind, MemoryTurn
+from novacode.session import SessionInfo, load_session
+
+MAX_GOVERNANCE_SESSIONS = 20
+MAX_GOVERNANCE_CHARS = 50_000
 
 
 def render_memory_indexes(user_index: str, project_index: str) -> str:
@@ -25,6 +31,55 @@ def build_governance_prompt(*, now: datetime, target: str) -> str:
         "and 25KB. Do not use shell commands or write outside the target memory directory.\n"
         f"Current date: {now.date().isoformat()}\nTarget memory directory: {target}"
     )
+
+
+def build_governance_input(
+    *,
+    prompt: str,
+    allowed_kinds: frozenset[MemoryKind],
+    sessions: tuple[SessionInfo, ...],
+    indexes: tuple[str, ...],
+    target: Path,
+) -> str:
+    """将整个请求限制在固定字符预算内，按最近 Session 优先保留输入。"""
+    prefix = (
+        f"{prompt}\nAllowed kinds: {', '.join(sorted(kind.value for kind in allowed_kinds))}\n\n"
+    )
+    suffix = "\n\nReturn only a JSON array of create, update, delete, or no-op actions."
+    remaining = MAX_GOVERNANCE_CHARS - len(prefix) - len(suffix)
+    if remaining < 0:
+        raise ValueError("memory governance instructions exceed input budget")
+    parts = [prefix]
+    for block in _governance_blocks(sessions, indexes, target):
+        if remaining == 0:
+            break
+        kept = block[:remaining]
+        parts.append(kept)
+        remaining -= len(kept)
+    parts.append(suffix)
+    return "".join(parts)
+
+
+def _governance_blocks(
+    sessions: tuple[SessionInfo, ...], indexes: tuple[str, ...], target: Path
+) -> Iterator[str]:
+    yield "Sessions (newest first; messages within each session also newest first):\n"
+    recent = sorted(sessions, key=lambda info: (info.last_activity, info.session_id), reverse=True)
+    for info in recent[:MAX_GOVERNANCE_SESSIONS]:
+        loaded = load_session(info.path)
+        yield f"Session {info.session_id}:\n"
+        # 单个 Session 超限时也优先保留最近消息。
+        for message in reversed(loaded.messages):
+            if message.content:
+                yield f"{message.role}: {message.content}\n"
+        yield "\n"
+    yield "\nIndexes:\n"
+    for index in indexes:
+        yield index + "\n\n"
+    yield "Target notes:\n"
+    for path in sorted(target.glob("*.md")):
+        if path.is_file():
+            yield f"File {path.name}:\n{path.read_text(encoding='utf-8')}\n\n"
 
 
 def build_extraction_prompt(turn: MemoryTurn, user_index: str, project_index: str) -> str:

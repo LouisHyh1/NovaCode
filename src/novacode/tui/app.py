@@ -173,6 +173,7 @@ class NovaCodeApp(App):
         self._extractor_task: asyncio.Task[None] | None = None
         self.cleanup_task: asyncio.Task | None = None
         self._shutdown_started = False
+        self._exit_task: asyncio.Task[None] | None = None
         self._pending_background_notices = list(startup_warnings or [])
         self._tool_registry = registry
         self.skill_loader = SkillLoader(self.project_root)
@@ -488,6 +489,11 @@ class NovaCodeApp(App):
         self._sync_completion_from_input(event.text_area.text)
 
     async def action_handle_ctrl_c(self) -> None:
+        if self._exit_task is not None or self._shutdown_started:
+            if self._extractor_task is not None and not self._extractor_task.done():
+                self._show_system("正在取消记忆提取及剩余队列…")
+                self._extractor_task.cancel()
+            return
         # 输入框中有选中文本 → 优先复制，不触发取消/退出
         try:
             inp = self.query_one("#chat-input", ChatInput)
@@ -502,8 +508,7 @@ class NovaCodeApp(App):
         if self.state in (SessionState.STREAMING, SessionState.APPROVING):
             self._signal_turn_cancel()
             return
-        await self.end_session()
-        self.exit()
+        self.quit()
 
     def action_cancel(self) -> None:
         if self.completion.active:
@@ -760,6 +765,12 @@ class NovaCodeApp(App):
         await self._dispatch_hook(event)
 
     def quit(self) -> None:
+        if self._exit_task is None:
+            # 返回消息循环，等待期间仍能处理第二次 Ctrl+C。
+            self._exit_task = asyncio.create_task(self._shutdown_and_exit())
+
+    async def _shutdown_and_exit(self) -> None:
+        await self._shutdown_resources()
         self.exit()
 
     async def force_compact(self) -> None:
@@ -1202,6 +1213,12 @@ class NovaCodeApp(App):
             return
         self._shutdown_started = True
         try:
+            self.query_one("#chat-input", ChatInput).disabled = True
+            self._show_system("正在等待记忆提取完成；再次按 Ctrl+C 可取消提取及剩余队列。")
+        except Exception:
+            pass
+        memory_close = asyncio.create_task(self.extractor.close()) if self.extractor else None
+        try:
             await self.end_session()
         except Exception as exc:
             logger.warning("session end hook failed: %s", type(exc).__name__)
@@ -1216,14 +1233,10 @@ class NovaCodeApp(App):
             await asyncio.gather(*self._task_consumers, return_exceptions=True)
         self._task_consumers.clear()
         await self.task_mgr.close()
-        try:
-            self.query_one("#chat-input", ChatInput).disabled = True
-        except Exception:
-            pass
 
-        if self.extractor is not None:
+        if memory_close is not None:
             try:
-                await self.extractor.close()
+                await memory_close
             except Exception as exc:
                 logger.warning("memory extractor close failed: %s", type(exc).__name__)
         if self._extractor_task is not None:

@@ -10,7 +10,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from novacode.llm import Provider
-from novacode.memory.prompts import build_governance_prompt
+from novacode.memory.prompts import MAX_GOVERNANCE_SESSIONS, build_governance_prompt
 from novacode.memory.store import MemoryStore, _pid_alive
 from novacode.memory.types import ApplyReport, MemoryAction, MemoryKind
 from novacode.session import SessionInfo, list_sessions
@@ -162,7 +162,7 @@ class MemoryGovernor:
             if now - last_success < GOVERNANCE_INTERVAL:
                 return False
         try:
-            sessions = tuple(list_sessions(self.sessions_dir))
+            sessions = tuple(list_sessions(self.sessions_dir)[:MAX_GOVERNANCE_SESSIONS])
         except Exception as exc:
             logger.warning("memory governance session scan failed: %s", type(exc).__name__)
             return False

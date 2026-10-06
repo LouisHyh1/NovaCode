@@ -36,11 +36,21 @@
 
 ## 5. 修正 Memory 自动化生命周期
 
-- [ ] 5.1 为 Memory Extraction 增加“Provider 等待期间显式 manage_memory 不阻塞”和同条目冲突测试
-- [ ] 5.2 将提取流程改为锁内快照、无锁 LLM、重新加锁应用未冲突操作，并记录而不重试冲突项
-- [ ] 5.3 将 Memory Governance 输入限制为最近 20 个 Session 和最多 50,000 字符，增加最新优先的确定性裁剪测试
-- [ ] 5.4 实现关闭时停止入队、持续等待和等待状态显示，并让第二次 Ctrl+C 取消当前提取及剩余队列
-- [ ] 5.5 验证 Memory worker/governor 只借用共享 Provider，正常完成和强制取消路径都不单独关闭它
+- [x] 5.1 为 Memory Extraction 增加“Provider 等待期间显式 manage_memory 不阻塞”和同条目冲突测试
+- [x] 5.2 将提取流程改为锁内快照、无锁 LLM、重新加锁应用未冲突操作，并记录而不重试冲突项
+- [x] 5.3 将 Memory Governance 输入限制为最近 20 个 Session 和最多 50,000 字符，增加最新优先的确定性裁剪测试
+- [x] 5.4 实现关闭时停止入队、持续等待和等待状态显示，并让第二次 Ctrl+C 取消当前提取及剩余队列
+- [x] 5.5 验证 Memory worker/governor 只借用共享 Provider，正常完成和强制取消路径都不单独关闭它
+
+阶段 5 验证记录（2026-10-06）：
+
+- 完整 pytest：703 passed；Ruff 与全量格式检查通过。
+- 快照比较覆盖正文更新、删除冲突及无关条目更新；冲突记录后跳过，不重试。治理请求覆盖 20 个 Session、50,000 字符上限和最新优先的确定性裁剪。
+- TUI 按键测试覆盖等待期间停止入队、第二次 Ctrl+C 取消当前任务及队列、Provider 由应用关闭一次；worker/governor 正常与取消路径均不关闭借用的 Provider。
+- tmux 使用真实 CLI 和真实 Provider，隔离用户/项目记忆，并用测试包装器控制提取等待：两条路径均完成 read_file、显式 manage_memory、最终回复和 Session/记忆落盘；正常路径排空两个提取任务，强制路径取消当前提取并丢弃排队项，均关闭 Provider 一次并退出。
+- 修改的六个运行文件与阶段前 HEAD 对照：严格 mypy 37 → 37，C901 4 → 4，无新增错误。原边界脚本引用空 application 目录导致 mypy 参数错误；排除该空目录后原有 15 个边界文件通过。脚本门禁范围调整仍留给 7.3。
+- uv lock --check、版本一致性测试（22 passed）、CLI 版本检查通过；补丁版本递增至 0.1.21。
+- 本阶段不验收 Team 或流式刷新；6、7 阶段保持未完成。tmux 强制路径遇到用户配置的 Context7 MCP/npm 启动警告，内建工具和本阶段退出验收不受影响。
 
 ## 6. 让 Team Repository 成为唯一事实来源
 

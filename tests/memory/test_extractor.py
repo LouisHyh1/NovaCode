@@ -7,7 +7,7 @@ from collections.abc import AsyncIterator
 import pytest
 
 from novacode.llm import Request, StreamEvent
-from novacode.memory import MemoryExtractor, MemoryKind, MemoryStore, MemoryTurn
+from novacode.memory import ManageMemoryTool, MemoryExtractor, MemoryKind, MemoryStore, MemoryTurn
 from novacode.memory.prompts import build_extraction_prompt
 
 
@@ -19,6 +19,10 @@ class ScriptedProvider:
         self.active = 0
         self.max_active = 0
         self.started = asyncio.Event()
+        self.close_calls = 0
+
+    async def close(self) -> None:
+        self.close_calls += 1
 
     @property
     def name(self) -> str:
@@ -222,3 +226,168 @@ async def test_close_stops_accepting_and_drains_without_provider_reference(tmp_p
     assert extractor.provider is None
     with pytest.raises(RuntimeError, match="closed"):
         extractor.submit(MemoryTurn("two", "b"))
+    assert provider.close_calls == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("explicit_action", ["update", "delete"])
+async def test_explicit_memory_wins_during_provider_wait(tmp_path, caplog, explicit_action) -> None:
+    user, project = stores(tmp_path)
+    tool = ManageMemoryTool(user, project, lambda _: None)
+    created = await tool.execute(
+        json.dumps(
+            {
+                "action": "create",
+                "kind": "user",
+                "title": "Preference",
+                "summary": "original",
+                "content": "original body",
+            }
+        )
+    )
+    memory_id = json.loads(created.content)["memory_id"]
+    gate = asyncio.Event()
+    provider = ScriptedProvider(
+        [
+            json.dumps(
+                [
+                    {
+                        "action": "update",
+                        "kind": "user",
+                        "memory_id": memory_id,
+                        "summary": "stale",
+                        "content": "stale body",
+                    },
+                    {
+                        "action": "create",
+                        "kind": "project",
+                        "title": "Unrelated",
+                        "summary": "safe",
+                        "content": "safe",
+                    },
+                ]
+            )
+        ],
+        gate,
+    )
+    extractor = MemoryExtractor(user, project, lambda _: None)
+    extractor.bind_provider(provider)
+    worker = asyncio.create_task(extractor.run())
+    extractor.submit(MemoryTurn("question", "answer"))
+    try:
+        await asyncio.wait_for(provider.started.wait(), 1)
+        # 只改正文，索引不变；冲突检查必须比较完整条目。
+        args = {"action": explicit_action, "kind": "user", "memory_id": memory_id}
+        if explicit_action == "update":
+            args["content"] = "explicit body"
+        result = await asyncio.wait_for(tool.execute(json.dumps(args)), 1)
+        assert not result.is_error
+        gate.set()
+        await extractor.close()
+        await worker
+    finally:
+        gate.set()
+        worker.cancel()
+        await asyncio.gather(worker, return_exceptions=True)
+
+    path = user.directory / f"{memory_id}.md"
+    if explicit_action == "update":
+        assert "explicit body" in path.read_text(encoding="utf-8")
+        assert "stale" not in path.read_text(encoding="utf-8")
+    else:
+        assert not path.exists()
+    assert "Unrelated" in (project.directory / "MEMORY.md").read_text(encoding="utf-8")
+    assert "memory extraction conflict" in caplog.text
+    assert len(provider.requests) == 1
+    assert provider.close_calls == 0
+
+
+@pytest.mark.asyncio
+async def test_cancel_discards_current_and_queued_turns_without_closing_provider(tmp_path) -> None:
+    user, project = stores(tmp_path)
+    provider = ScriptedProvider(
+        [create("user", "Cancelled"), create("user", "Queued")], asyncio.Event()
+    )
+    extractor = MemoryExtractor(user, project, lambda _: None)
+    extractor.bind_provider(provider)
+    worker = asyncio.create_task(extractor.run())
+    extractor.submit(MemoryTurn("one", "answer"))
+    extractor.submit(MemoryTurn("two", "answer"))
+    await asyncio.wait_for(provider.started.wait(), 1)
+    closing = asyncio.create_task(extractor.close())
+    await asyncio.sleep(0)
+    with pytest.raises(RuntimeError, match="closed"):
+        extractor.submit(MemoryTurn("three", "answer"))
+    assert not closing.done()
+    worker.cancel()
+    await asyncio.gather(worker, return_exceptions=True)
+    await asyncio.wait_for(closing, 1)
+    assert extractor.pending == 0
+    assert extractor.provider is None
+    assert provider.close_calls == 0
+    assert len(provider.requests) == 1
+    assert not (user.directory / "MEMORY.md").exists()
+
+
+@pytest.mark.asyncio
+async def test_unrelated_explicit_update_does_not_discard_background_update(tmp_path) -> None:
+    user, project = stores(tmp_path)
+    tool = ManageMemoryTool(user, project, lambda _: None)
+    ids = []
+    for title in ("Background", "Explicit"):
+        result = await tool.execute(
+            json.dumps(
+                {
+                    "action": "create",
+                    "kind": "user",
+                    "title": title,
+                    "summary": "original",
+                    "content": "original",
+                }
+            )
+        )
+        ids.append(json.loads(result.content)["memory_id"])
+    gate = asyncio.Event()
+    provider = ScriptedProvider(
+        [
+            json.dumps(
+                [
+                    {
+                        "action": "update",
+                        "kind": "user",
+                        "memory_id": ids[0],
+                        "content": "background",
+                    }
+                ]
+            )
+        ],
+        gate,
+    )
+    extractor = MemoryExtractor(user, project, lambda _: None)
+    extractor.bind_provider(provider)
+    worker = asyncio.create_task(extractor.run())
+    extractor.submit(MemoryTurn("question", "answer"))
+    try:
+        await asyncio.wait_for(provider.started.wait(), 1)
+        result = await asyncio.wait_for(
+            tool.execute(
+                json.dumps(
+                    {
+                        "action": "update",
+                        "kind": "user",
+                        "memory_id": ids[1],
+                        "content": "explicit",
+                    }
+                )
+            ),
+            1,
+        )
+        assert not result.is_error
+        gate.set()
+        await extractor.close()
+        await worker
+    finally:
+        worker.cancel()
+        await asyncio.gather(worker, return_exceptions=True)
+    assert "background" in (user.directory / f"{ids[0]}.md").read_text(encoding="utf-8")
+    assert "explicit" in (user.directory / f"{ids[1]}.md").read_text(encoding="utf-8")

@@ -153,6 +153,33 @@ class MemoryStore:
     def render_index_locked(self) -> str:
         return self.read_index_locked()
 
+    def snapshot_locked(self) -> dict[str, str]:
+        """保存完整条目指纹，检测正文、元数据和文件名的并发修改。"""
+        entries = self._load_entries(self.read_index_locked())
+        return {
+            memory_id: _sha(
+                json.dumps([self._render_note(entry), entry.summary, entry.filename]).encode(
+                    "utf-8"
+                )
+            )
+            for memory_id, entry in entries.items()
+        }
+
+    def apply_unconflicted_locked(
+        self, actions: list[MemoryAction], snapshot: dict[str, str]
+    ) -> ApplyReport:
+        """只应用仍基于原快照的操作；显式写入优先，冲突不重试。"""
+        current = self.snapshot_locked()
+        accepted: list[MemoryAction] = []
+        for action in actions:
+            if snapshot.get(action.memory_id) != current.get(action.memory_id):
+                logger.warning(
+                    "memory extraction conflict action=%s id=%s", action.action, action.memory_id
+                )
+                continue
+            accepted.append(action)
+        return self.apply_locked(accepted)
+
     def apply_locked(self, actions: list[MemoryAction]) -> ApplyReport:
         self._require_locked()
         self.recover_locked()

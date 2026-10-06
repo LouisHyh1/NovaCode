@@ -1,6 +1,7 @@
 """Tests for gated, background memory governance."""
 
 import asyncio
+import json
 import os
 import time
 from datetime import UTC, datetime, timedelta
@@ -9,6 +10,8 @@ import pytest
 
 from novacode.memory import MemoryAction, MemoryGovernor, MemoryKind, MemoryStore
 from novacode.memory.governor import _ConsolidationLock, _pid_status
+from novacode.memory.prompts import MAX_GOVERNANCE_CHARS
+from novacode.session import list_sessions
 
 NOW = datetime(2026, 7, 20, 12, tzinfo=UTC)
 
@@ -211,3 +214,137 @@ async def test_restricted_request_and_store_validation_limit_writes_to_target(
     assert "Allowed" in (store.directory / "MEMORY.md").read_text(encoding="utf-8")
     assert "Wrong" not in (store.directory / "MEMORY.md").read_text(encoding="utf-8")
     assert notices == ["memory governance completed: create=1 update=0 delete=0"]
+
+
+def write_sessions(directory, count, content_size=10):
+    directory.mkdir(exist_ok=True)
+    for index in range(count):
+        path = directory / f"20260720-120000-{index:04x}.jsonl"
+        records = [
+            {
+                "type": "message",
+                "role": "user",
+                "model": "test",
+                "ts": (NOW + timedelta(minutes=index)).isoformat(),
+                "content": f"history-{index:02d}:" + "x" * content_size,
+            },
+            {
+                "type": "message",
+                "role": "assistant",
+                "ts": (NOW + timedelta(minutes=index, seconds=1)).isoformat(),
+                "content": f"latest-{index:02d}",
+            },
+        ]
+        path.write_text(
+            "\n".join(json.dumps(record) for record in records) + "\n", encoding="utf-8"
+        )
+
+
+@pytest.mark.asyncio
+async def test_governor_selects_latest_twenty_sessions(tmp_path) -> None:
+    store = user_store(tmp_path)
+    store.directory.mkdir()
+    directory = tmp_path / "sessions"
+    write_sessions(directory, 25)
+    received = []
+
+    async def runner(**kwargs):
+        received.extend(kwargs["sessions"])
+        return []
+
+    governor = MemoryGovernor(directory, (store,), runner, lambda _: None)
+    assert governor.maybe_schedule(NOW)
+    await governor.wait()
+    assert [info.session_id for info in received] == [
+        f"20260720-120000-{index:04x}" for index in range(24, 4, -1)
+    ]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("content_size", [10, 60_000])
+async def test_real_governance_runner_budgets_entire_request_newest_first(
+    tmp_path, content_size
+) -> None:
+    from novacode.cli import _restricted_governance_runner
+    from novacode.llm import StreamEvent
+
+    directory = tmp_path / "sessions"
+    write_sessions(directory, 25, content_size)
+    target = tmp_path / "notes"
+    target.mkdir()
+    (target / "MEMORY.md").write_text("m" * 60_000, encoding="utf-8")
+    requests = []
+
+    class Provider:
+        close_calls = 0
+
+        async def stream(self, request):
+            requests.append(request)
+            yield StreamEvent(text="[]", done=True)
+
+        async def close(self):
+            self.close_calls += 1
+
+    provider = Provider()
+    kwargs = dict(
+        provider=provider,
+        sessions=tuple(reversed(list_sessions(directory))),
+        indexes=("i" * 60_000,),
+        target_directory=target,
+        allowed_kinds=frozenset({MemoryKind.USER}),
+        prompt="Consolidate memory.",
+    )
+    await _restricted_governance_runner(**kwargs)
+    await _restricted_governance_runner(**kwargs)
+    content = requests[0].messages[0].content
+    assert content == requests[1].messages[0].content
+    assert len(content) == MAX_GOVERNANCE_CHARS
+    assert "latest-24" in content and "history-24" in content
+    assert content.index("latest-24") < content.index("history-24")
+    assert "history-04" not in content
+    if content_size == 10:
+        assert "history-05" in content
+    else:
+        assert "history-23" not in content
+    assert content.endswith("Return only a JSON array of create, update, delete, or no-op actions.")
+    assert provider.close_calls == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("cancel", [False, True])
+async def test_governor_completion_and_cancel_do_not_close_borrowed_provider(tmp_path, cancel):
+    from novacode.cli import _restricted_governance_runner
+    from novacode.llm import StreamEvent
+
+    store = user_store(tmp_path)
+    store.directory.mkdir()
+    directory = tmp_path / "sessions"
+    write_sessions(directory, 5)
+    entered = asyncio.Event()
+    release = asyncio.Event()
+
+    class Provider:
+        close_calls = 0
+
+        async def stream(self, request):
+            entered.set()
+            await release.wait()
+            yield StreamEvent(text="[]", done=True)
+
+        async def close(self):
+            self.close_calls += 1
+
+    provider = Provider()
+    governor = MemoryGovernor(directory, (store,), _restricted_governance_runner, lambda _: None)
+    governor.bind_provider(provider)
+    assert governor.maybe_schedule(NOW)
+    await asyncio.wait_for(entered.wait(), 1)
+    if cancel:
+        await governor.close()
+    else:
+        release.set()
+        await governor.wait()
+        await governor.close()
+    assert provider.close_calls == 0
+    assert governor.provider is provider
+    assert not store.lock.locked()
