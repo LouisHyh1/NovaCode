@@ -118,10 +118,9 @@ def new_engine(root: str) -> tuple[Engine, Exception | None]:
         diagnostics.append(f"{root}: {e}")
 
     # 加载三层配置
-    home = str(Path.home())
-    user_path = f"{home}/.novacode/settings.yaml"
-    project_path = f"{resolved_root}/.novacode/settings.yaml"
-    local_path = f"{resolved_root}/.novacode/settings.local.yaml"
+    user_path = str(Path.home() / ".novacode" / "settings.yaml")
+    project_path = str(Path(resolved_root) / ".novacode" / "settings.yaml")
+    local_path = str(Path(resolved_root) / ".novacode" / "settings.local.yaml")
 
     loaded = [_load_or_empty(path) for path in (user_path, project_path, local_path)]
     for path, (_, error) in zip((user_path, project_path, local_path), loaded, strict=True):

@@ -797,6 +797,7 @@ class TestTurnCancellation:
         app.state = SessionState.APPROVING
         app.turn_cancel = asyncio.Event()
         app._agent_task = asyncio.create_task(asyncio.Event().wait())
+        app._show_system = MagicMock()
         app._finish_streaming = MagicMock(
             side_effect=lambda: setattr(app, "state", SessionState.IDLE)
         )

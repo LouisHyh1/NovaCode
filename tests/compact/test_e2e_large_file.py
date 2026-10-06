@@ -1,4 +1,4 @@
-"""端到端测试：使用项目中的大文件验证上下文压缩完整流程。
+"""上下文压缩行为测试：使用确定性大工具结果与模拟 Provider。
 
 覆盖：
 - Layer 1：大工具结果 spill + preview 替换
@@ -56,18 +56,11 @@ class EchoSummaryProvider:
         yield StreamEvent(done=True)
 
 
-def _read_large_file() -> str:
-    """读取项目中的大文件作为测试素材。"""
-    candidates = [
-        Path(__file__).parent.parent.parent / "docs" / "ch08" / "上下文管理 Tasks.md",
-        Path(__file__).parent.parent.parent / "docs" / "ch08" / "上下文管理 Plan.md",
-        Path(__file__).parent.parent.parent / "tests" / "test_agent.py",
-        Path(__file__).parent.parent.parent / "src" / "novacode" / "agent" / "__init__.py",
-    ]
-    for p in candidates:
-        if p.exists() and p.stat().st_size > 10_000:
-            return p.read_text(encoding="utf-8")
-    raise FileNotFoundError("未找到足够大的测试文件")
+def _large_tool_result() -> str:
+    """固定输入规模，避免依赖中间文档或随着重构变短的源码。"""
+    return "\n".join(
+        f"{index:05d}: 上下文压缩验收，保留原始工具结果的顺序与完整内容。" for index in range(2400)
+    )
 
 
 def _make_input(
@@ -112,7 +105,7 @@ def _make_input(
 @pytest.mark.asyncio
 async def test_layer1_spill_large_tool_result(tmp_path: Path) -> None:
     """模拟 read_file 返回大文件内容，验证 Layer 1 自动 spill 并替换为 preview。"""
-    large_content = _read_large_file()
+    large_content = _large_tool_result()
     assert len(large_content.encode("utf-8")) > SINGLE_RESULT_LIMIT, "测试文件需要足够大"
 
     conv = Conversation()
@@ -150,7 +143,7 @@ async def test_layer1_spill_large_tool_result(tmp_path: Path) -> None:
 @pytest.mark.asyncio
 async def test_manual_compact_with_large_history(tmp_path: Path) -> None:
     """构建大量对话历史（含大文件工具结果），手动触发压缩。"""
-    large_content = _read_large_file()
+    large_content = _large_tool_result()
 
     conv = Conversation()
     for i in range(10):
@@ -186,8 +179,8 @@ async def test_manual_compact_with_large_history(tmp_path: Path) -> None:
 
 @pytest.mark.asyncio
 async def test_auto_single_large_tool_result_uses_layer1_without_layer2(tmp_path: Path) -> None:
-    """单个项目大文件被 Layer1 preview 后低于阈值，不应再触发 Layer2。"""
-    large_content = _read_large_file()
+    """单个大工具结果被 Layer1 preview 后低于阈值，不应再触发 Layer2。"""
+    large_content = _large_tool_result()
 
     conv = Conversation()
     conv.add_user("分析这个大文件的内容")
@@ -216,7 +209,7 @@ async def test_auto_compact_triggers_when_layer1_result_still_exceeds_threshold(
     tmp_path: Path,
 ) -> None:
     """Layer1 后仍超过固定阈值时，AUTO 才触发 Layer2 摘要。"""
-    large_content = _read_large_file()
+    large_content = _large_tool_result()
 
     conv = Conversation()
     for i in range(10):
@@ -261,7 +254,7 @@ async def test_auto_compact_skips_when_below_threshold(tmp_path: Path) -> None:
 @pytest.mark.asyncio
 async def test_emergency_compact_with_large_history(tmp_path: Path) -> None:
     """EMERGENCY 触发忽略阈值，直接压缩。"""
-    large_content = _read_large_file()
+    large_content = _large_tool_result()
 
     conv = Conversation()
     for i in range(5):
@@ -289,7 +282,7 @@ async def test_emergency_compact_with_large_history(tmp_path: Path) -> None:
 @pytest.mark.asyncio
 async def test_recovery_snapshot_preserved_after_compact(tmp_path: Path) -> None:
     """压缩后 recovery 快照中应包含之前 record_file 记录的文件内容。"""
-    large_content = _read_large_file()
+    large_content = _large_tool_result()
 
     conv = Conversation()
     conv.add_user("读取文件")
@@ -316,7 +309,7 @@ async def test_recovery_snapshot_preserved_after_compact(tmp_path: Path) -> None
 @pytest.mark.asyncio
 async def test_multiple_compacts_do_not_accumulate_summaries(tmp_path: Path) -> None:
     """多次压缩后只保留一个摘要，不会堆积。"""
-    large_content = _read_large_file()
+    large_content = _large_tool_result()
 
     conv = Conversation()
     provider = EchoSummaryProvider()

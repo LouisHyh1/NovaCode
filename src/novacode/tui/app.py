@@ -19,6 +19,7 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.message import Message as TMessage
+from textual.timer import Timer
 from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
@@ -211,7 +212,9 @@ class NovaCodeApp(App):
         # 流式渲染状态
         self._current_ai_row: Vertical | None = None
         self._streaming_label: Static | None = None
-        self._accumulated_text: str = ""
+        self._text_chunks: list[str] = []
+        self._stream_dirty = False
+        self._stream_timer: Timer | None = None
         self._spinner_label: Static | None = None
         self._spinner_idx: int = 0
         self._spinner_timer = None
@@ -529,7 +532,7 @@ class NovaCodeApp(App):
         if self.turn_cancel is not None and self.turn_cancel.is_set():
             if self._agent_task is not None and not self._agent_task.done():
                 self._agent_task.cancel()
-            self._finish_streaming()
+            self._finish_cancelled()
             return
         if self.turn_cancel is not None:
             self.turn_cancel.set()
@@ -943,7 +946,8 @@ class NovaCodeApp(App):
         self.iter = 0
         self.cur_tools = []
         self.turn_cancel = asyncio.Event()
-        self._accumulated_text = ""
+        self._text_chunks.clear()
+        self._stream_dirty = False
         self._current_ai_row = None
         self._streaming_label = None
         self._approval_widget = None
@@ -993,6 +997,7 @@ class NovaCodeApp(App):
     # ── consume agent events ───────────────────────────────────
 
     async def _consume_events(self, agent_gen) -> None:
+        turn_cancel = self.turn_cancel
         try:
             async for ev in agent_gen:
                 if ev.err is not None:
@@ -1012,14 +1017,12 @@ class NovaCodeApp(App):
 
                 if ev.approval is not None:
                     # 所有来源共用一个 FIFO，由唯一消费者逐个显示。
-                    if self._accumulated_text.strip():
-                        self._flush_preamble()
+                    self._flush_preamble()
                     await self.task_mgr.subscribe_approvals().put(ev.approval)
                     continue
 
                 if ev.tool is not None and ev.tool.phase == Phase.START:
-                    if self._accumulated_text.strip():
-                        self._flush_preamble()
+                    self._flush_preamble()
                     self.cur_tools.append(ToolDisplay(name=ev.tool.name, args=ev.tool.args))
                 elif ev.tool is not None and ev.tool.phase == Phase.END:
                     td = (
@@ -1040,12 +1043,14 @@ class NovaCodeApp(App):
                     self.iter = ev.iter
 
                 if ev.text:
-                    self._accumulated_text += ev.text
-                    self._update_streaming_label()
+                    self._text_chunks.append(ev.text)
+                    self._stream_dirty = True
+                    if self._stream_timer is None:
+                        self._stream_timer = self.set_interval(0.03, self._flush_streaming_text)
 
                 if ev.done:
                     await self.session.sync()
-                    self._finish_with_assistant(self._accumulated_text)
+                    self._finish_with_assistant("".join(self._text_chunks))
                     if ev.memory_turn is not None and self.extractor is not None:
                         try:
                             self.extractor.submit(ev.memory_turn)
@@ -1054,10 +1059,14 @@ class NovaCodeApp(App):
                     return
 
             if self.turn_cancel is not None and self.turn_cancel.is_set():
-                self._show_system("(response interrupted)")
-                self._finish_streaming()
+                self._finish_cancelled()
 
         except asyncio.CancelledError:
+            if self.turn_cancel is turn_cancel and self.state in (
+                SessionState.STREAMING,
+                SessionState.APPROVING,
+            ):
+                self._finish_cancelled()
             raise
         except Exception as e:
             self._finish_with_error(e)
@@ -1097,8 +1106,11 @@ class NovaCodeApp(App):
                 self.state = SessionState.IDLE
 
     def _flush_preamble(self) -> None:
-        text = self._accumulated_text
-        self._accumulated_text = ""
+        if not self._text_chunks:
+            return
+        self._flush_streaming_text()
+        text = "".join(self._text_chunks)
+        self._text_chunks.clear()
         self._ensure_ai_row()
         if self._streaming_label is not None:
             self._streaming_label.remove()
@@ -1112,16 +1124,22 @@ class NovaCodeApp(App):
             chat = self.query_one("#chat-area", VerticalScroll)
             self._current_ai_row = Vertical(classes="ai-row")
             asyncio.ensure_future(chat.mount(self._current_ai_row))
-            if self._streaming_label is None:
-                self._streaming_label = Static("", classes="message ai-message")
-                asyncio.ensure_future(self._current_ai_row.mount(self._streaming_label))
+
+    def _flush_streaming_text(self) -> None:
+        """只在固定周期或终止边界合并文本，没有新 chunk 时不重绘。"""
+        if self._stream_dirty:
+            self._update_streaming_label()
+            self._stream_dirty = False
 
     def _update_streaming_label(self) -> None:
         self._ensure_ai_row()
+        if self._streaming_label is None and self._current_ai_row is not None:
+            self._streaming_label = Static("", classes="message ai-message")
+            asyncio.ensure_future(self._current_ai_row.mount(self._streaming_label))
         if self._streaming_label is not None:
             t = Text()
             t.append("● ", style="bold #875FFF")
-            t.append(self._accumulated_text)
+            t.append("".join(self._text_chunks))
             self._streaming_label.update(t)
         self._scroll_chat()
 
@@ -1148,6 +1166,7 @@ class NovaCodeApp(App):
         self._scroll_chat()
 
     def _finish_with_assistant(self, reply: str) -> None:
+        self._flush_streaming_text()
         self._stop_spinner()
         elapsed = time.monotonic() - self.turn_start
         self._last_ai_text = reply.strip()
@@ -1171,12 +1190,22 @@ class NovaCodeApp(App):
         self._finish_streaming()
 
     def _finish_with_error(self, err: Exception) -> None:
+        self._flush_streaming_text()
         self._stop_spinner()
         name = type(err).__name__
         self._show_system(f"✖ {name}: {err}")
         self._finish_streaming()
 
+    def _finish_cancelled(self) -> None:
+        self._flush_streaming_text()
+        self._show_system("(response interrupted)")
+        self._finish_streaming()
+
     def _finish_streaming(self) -> None:
+        self._flush_streaming_text()
+        if self._stream_timer is not None:
+            self._stream_timer.stop()
+            self._stream_timer = None
         self._stop_spinner()
         self._agent_task = None
         self.state = SessionState.IDLE
@@ -1185,7 +1214,8 @@ class NovaCodeApp(App):
         self.turn_cancel = None
         self._current_ai_row = None
         self._streaming_label = None
-        self._accumulated_text = ""
+        self._text_chunks.clear()
+        self._stream_dirty = False
         self._approval_widget = None
         self.pending = None
         self.approve_cursor = 0
