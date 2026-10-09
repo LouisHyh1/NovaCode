@@ -24,11 +24,12 @@ from textual.widgets import Markdown, OptionList, Static, TextArea
 
 from novacode import __version__
 from novacode.agent import Agent, ApprovalRequest, CompactPhase, Phase
+from novacode.assembly import assemble_agent
 from novacode.command import Kind, arguments, parse, register_builtins
 from novacode.command import Registry as CommandRegistry
 from novacode.command.builtin_skill import register_skill_management
 from novacode.command.skill_register import register_skill_commands
-from novacode.config import ProviderConfig, effective_context_window
+from novacode.config import ProviderConfig
 from novacode.hook import Engine as HookEngine
 from novacode.hook import Event as HookEvent
 from novacode.llm import Message, new_provider
@@ -147,10 +148,14 @@ class NovaCodeApp(App):
         team_mgr=None,
         coordinator_mode: bool = False,
         startup_warnings: list[str] | None = None,
+        provider_factory: Callable[[ProviderConfig], LLMProvider] | None = None,
+        agent_factory: Callable[[LLMProvider, ToolRegistry, SessionService], Agent] | None = None,
     ) -> None:
         super().__init__(driver_class=driver_class)
         self._version = version or __version__
         self.providers = providers
+        self._provider_factory = provider_factory
+        self._agent_factory = agent_factory
         self.provider: LLMProvider | None = None
         self.provider_cfg: ProviderConfig | None = None
         self.agent: Agent | None = None
@@ -293,7 +298,7 @@ class NovaCodeApp(App):
         except Exception:
             chat_input = None
         try:
-            provider = new_provider(provider_cfg)
+            provider = (self._provider_factory or new_provider)(provider_cfg)
         except Exception as exc:
             logger.warning("provider creation failed: %s", type(exc).__name__)
             self.state = SessionState.SELECTING
@@ -330,16 +335,7 @@ class NovaCodeApp(App):
                 self._extractor_task = asyncio.create_task(self.extractor.run())
             if self.governor is not None:
                 self.governor.bind_provider(provider)
-            self.agent = Agent(
-                provider,
-                self._tool_registry,
-                self._version,
-                self.engine,
-                context_window=effective_context_window(provider_cfg),
-                instructions=self.instructions,
-                memory_index=self._memory_index,
-                hook_engine=self.hook_engine,
-            )
+            self.agent = self._assemble_provider_agent(provider_cfg, provider)
             if self.hook_engine is not None:
                 self.hook_engine.bind_subagent_runtime(
                     self.agent,
@@ -347,20 +343,7 @@ class NovaCodeApp(App):
                     self._notify_subagent_hook,
                 )
             self.session.bind_agent(self.agent, self._current_tool_defs)
-            if self.coordinator_mode:
-                from novacode.coordinator import allowed_tools, system_prompt_suffix
-
-                self.agent.set_allowed_tools(allowed_tools())
-                self.agent.append_system_prompt(system_prompt_suffix())
-            else:
-                hidden = {"TaskCreate", "TaskUpdate"}
-                self.agent.set_allowed_tools(
-                    [
-                        item.name
-                        for item in self._tool_registry.definitions()
-                        if item.name not in hidden
-                    ]
-                )
+            self._configure_agent_tools(self.agent)
             agent_tool = self._tool_registry.get("Agent")
             if agent_tool is not None and hasattr(agent_tool, "set_parent"):
                 agent_tool.set_parent(self.agent)
@@ -390,6 +373,35 @@ class NovaCodeApp(App):
             except Exception as exc:
                 logger.warning("memory governor scheduling failed: %s", type(exc).__name__)
         return True
+
+    def _configure_agent_tools(self, agent: Agent) -> None:
+        if self.coordinator_mode:
+            from novacode.coordinator import allowed_tools, system_prompt_suffix
+
+            agent.set_allowed_tools(allowed_tools())
+            agent.append_system_prompt(system_prompt_suffix())
+        elif self._agent_factory is None:
+            hidden = {"TaskCreate", "TaskUpdate"}
+            agent.set_allowed_tools(
+                [item.name for item in self._tool_registry.definitions() if item.name not in hidden]
+            )
+
+    def _assemble_provider_agent(self, config: ProviderConfig, provider: LLMProvider) -> Agent:
+        if self._agent_factory is not None:
+            return self._agent_factory(provider, self._tool_registry, self.session)
+        return assemble_agent(
+            provider,
+            self._tool_registry,
+            config,
+            self.session,
+            factory=Agent,
+            bind_model=False,
+            version=self._version,
+            engine=self.engine,
+            instructions=self.instructions,
+            memory_index=self._memory_index,
+            hook_engine=self.hook_engine,
+        )
 
     # ── right-click copy ───────────────────────────────────────
 

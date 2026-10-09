@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  },
+  "runtime": {
+    "sha256": "6f4529030cc62aaf1f586de6883138fc1335b3c065b81b90504cccd608a9c720"
+  },
+  "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be"
+}

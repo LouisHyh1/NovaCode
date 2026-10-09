@@ -1,0 +1,35 @@
+{
+  "termination": "cancelled",
+  "cleanup": "passed",
+  "agent_run_ids": [],
+  "completed_requests": 0,
+  "final": {
+    "path": "artifacts/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "metrics": {
+    "provider_calls": 0,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 0,
+    "measured_tokens": 0,
+    "tool_calls": 0,
+    "tool_retries": 0,
+    "tool_executed": 0,
+    "tool_succeeded": 0,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.020992005000152858,
+      "agent": 0.760027567997895,
+      "cleanup": 0.004084896998392651,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 0.7905578850004531,
+    "total_wall_seconds": 0.7949135259987088,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  }
+}

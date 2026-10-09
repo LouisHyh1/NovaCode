@@ -1,0 +1,9 @@
+{
+  "same_patch": true,
+  "source": "current safe object-only Git extraction",
+  "paths": [
+    "faker/providers/python/__init__.py",
+    "tests/providers/test_python.py"
+  ],
+  "patch_sha256": "9b84495c4ab1576240f035d511f0e0bdcbda7553112b8da10446385cb642a5d3"
+}

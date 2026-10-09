@@ -16,6 +16,7 @@ BASELINE = ROOT / "scripts" / "runtime_quality_baseline.json"
 TARGETS = (
     "src/novacode/__init__.py",
     "src/novacode/agent",
+    "src/novacode/assembly.py",
     "src/novacode/cli.py",
     "src/novacode/cli_team_member.py",
     "src/novacode/command/builtin_team.py",

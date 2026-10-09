@@ -1,0 +1,43 @@
+{
+  "campaign_id": "stage4-final-2",
+  "limits": {
+    "seconds": 240,
+    "tokens": 300000,
+    "provider_calls": 16,
+    "tool_calls": 30,
+    "single_request_tokens": 40000,
+    "cleanup_seconds": 20
+  },
+  "total_limits": {
+    "seconds": 600,
+    "tokens": 600000,
+    "provider_calls": 32,
+    "tool_calls": 60,
+    "single_request_tokens": 40000,
+    "cleanup_seconds": 20
+  },
+  "config_id": "eager-schema",
+  "allowed_tools": [
+    "read_file",
+    "write_file",
+    "edit_file",
+    "bash",
+    "glob",
+    "grep"
+  ],
+  "permissions": {
+    "allow": [
+      "Write",
+      "Edit",
+      "Bash"
+    ],
+    "deny": []
+  },
+  "instructions": "Fix the issue in the repository. Use the existing project Python and tests. Do not commit or modify runtime installation. Return a brief summary. Prefer focused searches; use shell sed for small sections of large files.",
+  "usage_rule": {
+    "rule_id": "deepseek-anthropic-cache-separate-stage4-v1",
+    "protocol": "anthropic",
+    "cache_mode": "separate",
+    "evidence_sha256": "fbdde83113cfc8d26074be6eadf2079cbfb1cfebe8ff04bcf21c83c031156dfd"
+  }
+}

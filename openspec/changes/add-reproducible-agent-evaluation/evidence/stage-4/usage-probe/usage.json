@@ -1,0 +1,56 @@
+[
+  {
+    "protocol": "anthropic",
+    "index": 0,
+    "actual_model": "deepseek-v4-flash",
+    "raw_usage": {
+      "cache_creation": null,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": null,
+      "input_tokens": 1609,
+      "output_tokens": 2,
+      "output_tokens_details": null,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    },
+    "text": [
+      "READY"
+    ]
+  },
+  {
+    "protocol": "anthropic",
+    "index": 1,
+    "actual_model": "deepseek-v4-flash",
+    "raw_usage": {
+      "cache_creation": null,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1408,
+      "inference_geo": null,
+      "input_tokens": 201,
+      "output_tokens": 2,
+      "output_tokens_details": null,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    },
+    "text": [
+      "READY"
+    ]
+  },
+  {
+    "protocol": "openai",
+    "actual_model": "deepseek-flash",
+    "raw_usage": {
+      "completion_tokens": 2,
+      "prompt_tokens": 1609,
+      "total_tokens": 1611,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1408
+      },
+      "prompt_cache_hit_tokens": 1408,
+      "prompt_cache_miss_tokens": 201
+    }
+  }
+]

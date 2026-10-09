@@ -1,0 +1,6 @@
+{
+  "credential_scan": "passed",
+  "verified_ledgers": 15,
+  "model_source": "real DeepSeek plus explicitly labelled mechanism tests",
+  "scope": "stage4 only"
+}

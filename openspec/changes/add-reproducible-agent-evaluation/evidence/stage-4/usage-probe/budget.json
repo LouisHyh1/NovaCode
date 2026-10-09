@@ -1,0 +1,7 @@
+{
+  "provider_calls": 3,
+  "max_output_tokens": 128,
+  "seconds_per_request": 30,
+  "input": "固定公开重复文本，不超过 12000 UTF-8 字节",
+  "estimated_total_token_ceiling": 20000
+}

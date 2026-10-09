@@ -1,0 +1,37 @@
+{
+  "termination": "budget-exhausted",
+  "cleanup": "passed",
+  "agent_run_ids": [
+    "a6777b14a4fa4ef6b69c64c1732a328e"
+  ],
+  "completed_requests": 0,
+  "final": {
+    "path": "artifacts/0d08ad9b986a8e0bd79e8fe545a93d41b6bbf1900a883e59bced1dabd013ef4b.txt",
+    "sha256": "0d08ad9b986a8e0bd79e8fe545a93d41b6bbf1900a883e59bced1dabd013ef4b"
+  },
+  "metrics": {
+    "provider_calls": 9,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 137448,
+    "measured_tokens": 137448,
+    "tool_calls": 9,
+    "tool_retries": 0,
+    "tool_executed": 9,
+    "tool_succeeded": 9,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.01677402299901587,
+      "agent": 32.23354187500081,
+      "cleanup": 0.038461847998405574,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 32.296823684999254,
+    "total_wall_seconds": 32.34416707199853,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  }
+}
