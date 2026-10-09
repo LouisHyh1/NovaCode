@@ -32,6 +32,10 @@ class ToolResult:
     content: str
     is_error: bool = False
     is_policy_denial: bool = False  # 是否为策略级硬拒绝（如 Plan 模式拒绝写入）
+    authorization: str = "unknown"
+    execution: str = "unknown"
+    error_type: str = ""
+    ended_monotonic: float | None = None
 
 
 @dataclass
@@ -56,6 +60,9 @@ class Usage:
     cache_write: int = 0
     cache_read: int = 0
     context_tokens: int = 0
+    raw: dict[str, Any] = field(default_factory=dict)
+    normalization: str = "unverified"
+    protocol: str = ""
 
 
 @dataclass
@@ -102,6 +109,9 @@ class Request:
     tools: list[ToolDefinition] = field(default_factory=list)
     system: System = field(default_factory=System)
     reminder: str = ""
+    role: str = "main"
+    logical_call_id: str = ""
+    attempt: int = 1
 
 
 class Provider(Protocol):

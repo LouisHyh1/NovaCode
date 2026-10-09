@@ -1,6 +1,7 @@
 """Layer 2: summarize conversation history and rebuild recovery context."""
 
 import math
+from uuid import uuid4
 
 from novacode.compact.const import (
     PTL_DROP_PERCENTAGE,
@@ -61,18 +62,34 @@ def pick_recent_tail(msgs: list[Message]) -> list[Message]:
     return candidates[start:]
 
 
-async def summarize_once(in_, msgs: list[Message]) -> str:
+async def summarize_once(
+    in_, msgs: list[Message], *, logical_call_id: str = "", attempt: int = 1
+) -> str:
     text = ""
-    req = Request(messages=build_summary_prompt(msgs), tools=[])
-    async for ev in in_.provider.stream(req):
-        if ev.err is not None:
-            raise ev.err
-        if ev.text:
-            text += ev.text
+    req = Request(
+        messages=build_summary_prompt(msgs),
+        tools=[],
+        role="summary",
+        logical_call_id=logical_call_id,
+        attempt=attempt,
+    )
+    stream = in_.provider.stream(req)
+    try:
+        async for ev in stream:
+            if ev.err is not None:
+                raise ev.err
+            if ev.text:
+                text += ev.text
+    finally:
+        close = getattr(stream, "aclose", None)
+        if close is not None:
+            await close()
     return extract_summary(text)
 
 
-async def ptl_retry(in_, msgs: list[Message], first_err: Exception) -> str:
+async def ptl_retry(
+    in_, msgs: list[Message], first_err: Exception, *, logical_call_id: str = ""
+) -> str:
     groups = group_by_user_turn(msgs)
     err: Exception = first_err
     attempts = 0
@@ -86,7 +103,9 @@ async def ptl_retry(in_, msgs: list[Message], first_err: Exception) -> str:
         if not groups:
             break
         try:
-            return await summarize_once(in_, _flatten(groups))
+            return await summarize_once(
+                in_, _flatten(groups), logical_call_id=logical_call_id, attempt=attempts + 1
+            )
         except PromptTooLongError as exc:
             err = exc
             continue
@@ -96,10 +115,11 @@ async def ptl_retry(in_, msgs: list[Message], first_err: Exception) -> str:
 async def run_summary(in_) -> list[Message]:
     original = in_.conv.messages()
     recovery_snapshot = in_.recovery.snapshot()
+    logical_call_id = uuid4().hex
     try:
-        summary = await summarize_once(in_, original)
+        summary = await summarize_once(in_, original, logical_call_id=logical_call_id)
     except PromptTooLongError as exc:
-        summary = await ptl_retry(in_, original, exc)
+        summary = await ptl_retry(in_, original, exc, logical_call_id=logical_call_id)
 
     attachment = build_recovery_attachment(recovery_snapshot, in_.tool_defs)
     tail = pick_recent_tail(original)

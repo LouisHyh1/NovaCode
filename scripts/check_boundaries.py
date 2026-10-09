@@ -24,6 +24,7 @@ TARGETS = (
     "src/novacode/llm",
     "src/novacode/memory",
     "src/novacode/permission",
+    "src/novacode/privacy.py",
     "src/novacode/runtime",
     "src/novacode/search",
     "src/novacode/session",

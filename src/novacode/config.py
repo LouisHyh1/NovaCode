@@ -1,5 +1,6 @@
 """Configuration data types and YAML loader — supports ${VAR} env-var expansion."""
 
+import math
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -21,6 +22,9 @@ class ProviderConfig:
     base_url: str | None = None
     thinking: bool = False
     context_window: int = 0
+    max_retries: int | None = None
+    timeout: float | None = None
+    max_output_tokens: int | None = None
 
 
 @dataclass
@@ -73,6 +77,9 @@ def load(path: str) -> Config:
                 base_url=os.path.expandvars(entry.get("base_url") or "") or None,
                 thinking=entry.get("thinking", False),
                 context_window=entry.get("context_window", 0),
+                max_retries=entry.get("max_retries"),
+                timeout=entry.get("timeout"),
+                max_output_tokens=entry.get("max_output_tokens"),
             )
         )
 
@@ -99,6 +106,15 @@ def load(path: str) -> Config:
 
 
 def _validate_provider(entry: dict, prefix: str) -> None:
+    for name, minimum in (("max_retries", 0), ("max_output_tokens", 1)):
+        value = entry.get(name)
+        if value is not None and (type(value) is not int or value < minimum):
+            raise ConfigError(f"{prefix}.{name} 必须为不小于 {minimum} 的整数")
+    timeout = entry.get("timeout")
+    if timeout is not None and (
+        type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0
+    ):
+        raise ConfigError(f"{prefix}.timeout 必须为有限正数")
     for fld in ("name", "protocol", "api_key", "model"):
         value = entry.get(fld)
         if not isinstance(value, str) or not value.strip():

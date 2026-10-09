@@ -137,6 +137,14 @@ class Registry:
         try:
             return await asyncio.wait_for(tool.execute(args), timeout=timeout)
         except TimeoutError:
-            return Result(content=f"工具 {name} 执行超时（{timeout}s）", is_error=True)
+            return Result(
+                content=f"工具 {name} 执行超时（{timeout}s）",
+                is_error=True,
+                metadata={"error_type": "TimeoutError"},
+            )
         except Exception as e:
-            return Result(content=f"工具 {name} 异常: {e}", is_error=True)
+            return Result(
+                content=f"工具 {name} 异常: {e}",
+                is_error=True,
+                metadata={"error_type": type(e).__name__},
+            )

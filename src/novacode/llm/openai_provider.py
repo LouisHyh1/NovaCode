@@ -2,6 +2,7 @@
 
 import asyncio
 from collections.abc import AsyncIterator
+from typing import Any
 
 from novacode.config import ProviderConfig
 from novacode.llm import (
@@ -15,6 +16,7 @@ from novacode.llm import (
     ToolDefinition,
     Usage,
 )
+from novacode.llm.metadata import client_options, raw_usage, request_metadata, ui_count
 
 
 class OpenAIProvider:
@@ -23,9 +25,11 @@ class OpenAIProvider:
 
         self._name = cfg.name
         self._model = cfg.model
+        self._config = cfg
         self._client = AsyncOpenAI(
             api_key=cfg.api_key,
             base_url=cfg.base_url or None,
+            **client_options(cfg),
         )
 
     @property
@@ -39,21 +43,15 @@ class OpenAIProvider:
     async def close(self) -> None:
         await self._client.close()
 
-    async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
-        messages = self._to_openai_messages(req)
-        params: dict = {
-            "model": self._model,
-            "messages": messages,
-            "stream": True,
-            "stream_options": {"include_usage": True},
-        }
-        if req.tools:
-            params["tools"] = self._to_openai_tools(req.tools)
+    def request_metadata(self, req: Request) -> dict[str, Any]:
+        return request_metadata(self._config, req)
 
+    async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
+        params = self._request_params(req)
+        s = None
         try:
             s = await self._client.chat.completions.create(**params)
             tool_calls_buf: dict[int, dict[str, str]] = {}
-            finish_reason = None
             async for chunk in s:
                 # 末尾 usage chunk（choices 空，带 chunk.usage）
                 if not chunk.choices:
@@ -61,39 +59,54 @@ class OpenAIProvider:
                         yield StreamEvent(usage=_usage_from_openai(chunk.usage))
                     continue
                 delta = chunk.choices[0].delta
-                finish_reason = chunk.choices[0].finish_reason or finish_reason
                 if delta.content:
                     yield StreamEvent(text=delta.content)
                 if delta.tool_calls:
-                    for tc_delta in delta.tool_calls:
-                        idx = tc_delta.index
-                        if idx not in tool_calls_buf:
-                            tool_calls_buf[idx] = {"id": "", "name": "", "args": ""}
-                        buf = tool_calls_buf[idx]
-                        if tc_delta.id:
-                            buf["id"] = tc_delta.id
-                        if tc_delta.function and tc_delta.function.name:
-                            buf["name"] = tc_delta.function.name
-                        if tc_delta.function and tc_delta.function.arguments:
-                            buf["args"] = buf["args"] + tc_delta.function.arguments
-            if finish_reason == "tool_calls" or tool_calls_buf:
-                calls = []
-                for idx in sorted(tool_calls_buf):
-                    v = tool_calls_buf[idx]
-                    calls.append(
-                        ToolCall(
-                            id=v["id"],
-                            name=v["name"],
-                            input=v.get("args") or "{}",
-                        )
-                    )
-                if calls:
-                    yield StreamEvent(tool_calls=calls)
+                    self._merge_tool_deltas(delta.tool_calls, tool_calls_buf)
+            calls = self._tool_calls(tool_calls_buf)
+            if calls:
+                yield StreamEvent(tool_calls=calls)
             yield StreamEvent(done=True)
         except asyncio.CancelledError:
             raise
         except Exception as e:
             yield StreamEvent(err=_wrap_prompt_too_long(e))
+        finally:
+            if s is not None:
+                await s.close()
+
+    @staticmethod
+    def _merge_tool_deltas(deltas: Any, buffers: dict[int, dict[str, str]]) -> None:
+        for delta in deltas:
+            buf = buffers.setdefault(delta.index, {"id": "", "name": "", "args": ""})
+            if delta.id:
+                buf["id"] = delta.id
+            if delta.function and delta.function.name:
+                buf["name"] = delta.function.name
+            if delta.function and delta.function.arguments:
+                buf["args"] += delta.function.arguments
+
+    @staticmethod
+    def _tool_calls(buffers: dict[int, dict[str, str]]) -> list[ToolCall]:
+        return [
+            ToolCall(id=v["id"], name=v["name"], input=v.get("args") or "{}")
+            for _, v in sorted(buffers.items())
+        ]
+
+    def _request_params(self, req: Request) -> dict[str, Any]:
+        messages = self._to_openai_messages(req)
+        params: dict[str, Any] = {
+            "model": self._model,
+            "messages": messages,
+            "stream": True,
+            "stream_options": {"include_usage": True},
+        }
+        if req.tools:
+            params["tools"] = self._to_openai_tools(req.tools)
+        if self._config.max_output_tokens is not None:
+            params["max_tokens"] = self._config.max_output_tokens
+
+        return params
 
     def _to_openai_tools(self, tools: list[ToolDefinition]) -> list[dict]:
         return [
@@ -169,13 +182,20 @@ class OpenAIProvider:
 
 
 def _usage_from_openai(raw) -> Usage:
-    cache_read = getattr(getattr(raw, "prompt_tokens_details", None), "cached_tokens", 0) or 0
+    input_tokens = ui_count(getattr(raw, "prompt_tokens", None))
+    output_tokens = ui_count(getattr(raw, "completion_tokens", None))
+    cache_read = ui_count(
+        getattr(getattr(raw, "prompt_tokens_details", None), "cached_tokens", None)
+    )
     return Usage(
-        input_tokens=raw.prompt_tokens,
-        output_tokens=raw.completion_tokens,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
         cache_write=0,
         cache_read=cache_read,
-        context_tokens=raw.prompt_tokens + raw.completion_tokens,
+        context_tokens=input_tokens + output_tokens,
+        raw=raw_usage(raw, "openai"),
+        normalization="openai-cache-reasoning-subsets-v1",
+        protocol="openai",
     )
 
 

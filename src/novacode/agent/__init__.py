@@ -6,6 +6,7 @@ from collections.abc import AsyncIterator, Awaitable, Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
+from uuid import uuid4
 
 from novacode import prompt
 from novacode.agent.context_manager import ContextManager, SessionRuntime
@@ -92,6 +93,17 @@ class ToolEvent:
     phase: Phase = Phase.START
     result: str = ""
     is_error: bool = False
+    call_id: str = ""
+    invocation_id: str = ""
+    sequence: int = 0
+    full_args: str = ""
+    started_monotonic: float | None = None
+    ended_monotonic: float | None = None
+    authorization: str = "pending"
+    execution: str = "pending"
+    error_type: str = ""
+    retry_of: str | None = None
+    retry_rule: str = "same-arguments-after-error-v1"
 
 
 @dataclass
@@ -193,6 +205,7 @@ class Agent:
         allowed_tools: list[str] | None = None,
         subagent_name: str = "",
         teammate_context=None,
+        tool_observer: Callable[[ToolEvent], None] | None = None,
     ) -> None:
         self._provider = provider
         self._registry = registry
@@ -238,6 +251,7 @@ class Agent:
             allowed_tools=allowed_tools,
             owner=self,
             record_read=self._context_manager.record_read_file,
+            observer=tool_observer,
         )
 
     def _hook_payload(self, mode: Mode, **values) -> dict:
@@ -422,6 +436,7 @@ class Agent:
             )
 
             emergency_retried = False
+            logical_call_id = uuid4().hex
             while True:
                 await self._dispatch_hook(
                     HookEvent.PRE_USER_MESSAGE,
@@ -444,6 +459,8 @@ class Agent:
                     cancel,
                     stream_state,
                     emit_text=not explicit_memory or memory_succeeded,
+                    logical_call_id=logical_call_id,
+                    attempt=2 if emergency_retried else 1,
                 ):
                     yield ev
 
@@ -701,12 +718,16 @@ class Agent:
         state: _StreamState,
         *,
         emit_text: bool = True,
+        logical_call_id: str = "",
+        attempt: int = 1,
     ) -> AsyncIterator[Event]:
         req = Request(
             messages=conv.messages(),
             tools=defs,
             system=System(stable=sys, environment=env_text),
             reminder=reminder,
+            logical_call_id=logical_call_id,
+            attempt=attempt,
         )
         stream = self._provider.stream(req)
         cancel_task = asyncio.create_task(cancel.wait())

@@ -3,6 +3,7 @@
 import asyncio
 import json
 from collections.abc import AsyncIterator
+from typing import Any
 
 from novacode.config import ProviderConfig
 from novacode.llm import (
@@ -17,6 +18,7 @@ from novacode.llm import (
     ToolDefinition,
     Usage,
 )
+from novacode.llm.metadata import client_options, raw_usage, request_metadata, ui_count
 
 
 class AnthropicProvider:
@@ -26,9 +28,11 @@ class AnthropicProvider:
         self._name = cfg.name
         self._model = cfg.model
         self._thinking = cfg.thinking
+        self._config = cfg
         self._client = AsyncAnthropic(
             api_key=cfg.api_key,
             base_url=cfg.base_url or None,
+            **client_options(cfg),
         )
 
     @property
@@ -41,6 +45,9 @@ class AnthropicProvider:
 
     async def close(self) -> None:
         await self._client.close()
+
+    def request_metadata(self, req: Request) -> dict[str, Any]:
+        return request_metadata(self._config, req)
 
     async def stream(self, req: Request) -> "AsyncIterator[StreamEvent]":
         # ── 构造 system 文本块（stable 带 cache_control 断点，env 不带）──
@@ -69,7 +76,7 @@ class AnthropicProvider:
         # ── 构造请求参数 ───────────────────────────────────────
         params: dict = {
             "model": self._model,
-            "max_tokens": 4096,
+            "max_tokens": self._config.max_output_tokens or 4096,
             "system": system,
             "messages": messages,
         }
@@ -189,14 +196,19 @@ class AnthropicProvider:
 
 
 def _usage_from_anthropic(raw) -> Usage:
-    cache_write = getattr(raw, "cache_creation_input_tokens", 0) or 0
-    cache_read = getattr(raw, "cache_read_input_tokens", 0) or 0
+    input_tokens = ui_count(getattr(raw, "input_tokens", None))
+    output_tokens = ui_count(getattr(raw, "output_tokens", None))
+    cache_write = ui_count(getattr(raw, "cache_creation_input_tokens", None))
+    cache_read = ui_count(getattr(raw, "cache_read_input_tokens", None))
     return Usage(
-        input_tokens=raw.input_tokens,
-        output_tokens=raw.output_tokens,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
         cache_write=cache_write,
         cache_read=cache_read,
-        context_tokens=raw.input_tokens + raw.output_tokens + cache_write + cache_read,
+        context_tokens=input_tokens + output_tokens + cache_write + cache_read,
+        raw=raw_usage(raw, "anthropic"),
+        normalization="anthropic-cache-separate-v1",
+        protocol="anthropic",
     )
 
 
