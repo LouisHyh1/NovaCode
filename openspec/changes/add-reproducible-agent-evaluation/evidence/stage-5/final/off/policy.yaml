@@ -1,0 +1,7 @@
+providers:
+- name: fixture
+  protocol: anthropic
+  model: fixture
+  api_key: unused
+features:
+  context_compression: false

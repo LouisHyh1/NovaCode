@@ -31,6 +31,7 @@ class ProviderConfig:
 class FeaturesConfig:
     coordinator_mode: bool = False
     fork_teammate: bool = False
+    context_compression: bool = True
 
 
 @dataclass
@@ -92,7 +93,11 @@ def load(path: str) -> Config:
     features_raw = raw.get("features", {})
     if not isinstance(features_raw, dict):
         raise ConfigError("features must be a mapping")
-    unknown_features = set(features_raw) - {"coordinator_mode", "fork_teammate"}
+    unknown_features = set(features_raw) - {
+        "coordinator_mode",
+        "fork_teammate",
+        "context_compression",
+    }
     if unknown_features:
         raise ConfigError(f"unknown features: {', '.join(sorted(unknown_features))}")
     for name, value in features_raw.items():

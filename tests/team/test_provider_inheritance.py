@@ -62,7 +62,7 @@ async def test_tmux_spawn_persists_selected_parent_and_cleans_launch_file(tmp_pa
     manager = Manager(tmp_path / "home", tmp_path, worktrees, None, AgentRunRegistry())
     manager.configure_spawn(load_catalog(tmp_path), fork_teammate=True)
     await manager.create("demo")
-    parent = Agent(Provider(), Registry())
+    parent = Agent(Provider(), Registry(), context_compression=False)
     first = ProviderConfig("first", "anthropic", "other-key", "other-model")
     selected = ProviderConfig(
         "selected", "openai", "parent-key", "test", "https://parent.invalid", True, 80000
@@ -75,6 +75,7 @@ async def test_tmux_spawn_persists_selected_parent_and_cleans_launch_file(tmp_pa
         async def spawn(self, request):
             captured.append(request)
             assert load(request.config_path).providers == [selected]
+            assert load(request.config_path).features.context_compression is False
             return "", request.agent_id
 
         async def kill(self, *args):
@@ -118,7 +119,7 @@ async def test_child_uses_frozen_parent_config_and_closes_on_startup_failure(
     await team.add_member(TeammateInfo("alice", "child", backend_type=BackendType.TMUX))
     selected = ProviderConfig("parent", "openai", "parent-key", "test")
     path = tmp_path / "launch.yaml"
-    write_member_config(path, selected, fork_teammate=False)
+    write_member_config(path, selected, fork_teammate=False, context_compression=False)
     cfg = load(str(path))
     captured = []
     provider = Provider()
@@ -140,6 +141,7 @@ async def test_child_uses_frozen_parent_config_and_closes_on_startup_failure(
 
     async def finish(agent, conversation, task):
         assert agent.provider is provider
+        assert agent.context_compression is False
         assert agent.teammate_context.team_id == team.team_id
         shutil.rmtree(team.config_dir)
 

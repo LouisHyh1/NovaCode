@@ -230,6 +230,7 @@ async def _amain() -> int:
             worktree_mgr=worktree_mgr,
             team_mgr=team_mgr,
             coordinator_mode=_coordinator_enabled(cfg),
+            context_compression=cfg.features.context_compression,
             startup_warnings=(
                 [f"权限配置已回退到内建默认策略：{engine_err}"] if engine_err is not None else []
             ),

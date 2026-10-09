@@ -141,6 +141,7 @@ class AgentTool:
             self.parent.version,
             self.parent.engine,
             context_window=self.parent.context_window,
+            context_compression=self.parent.context_compression,
             instructions=self.parent.instructions,
             memory_index=self.parent.memory_index,
             hook_engine=self.parent.hook_engine,

@@ -18,6 +18,7 @@ async def launch_fork(
         parent.version,
         parent.engine,
         context_window=parent.context_window,
+        context_compression=parent.context_compression,
         instructions=parent.instructions,
         memory_index=parent.memory_index,
         hook_engine=parent.hook_engine,

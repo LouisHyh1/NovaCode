@@ -1,0 +1,325 @@
+[
+  {
+    "name": "stage5-v1-on",
+    "metrics": {
+      "provider_calls": 0,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 0,
+      "measured_tokens": 0,
+      "tool_calls": 0,
+      "tool_retries": 0,
+      "tool_executed": 0,
+      "tool_succeeded": 0,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": null,
+        "agent": null,
+        "cleanup": null,
+        "grading": null
+      },
+      "main_end_to_end_seconds": null,
+      "total_wall_seconds": null,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    }
+  },
+  {
+    "name": "stage5-v2-on",
+    "metrics": {
+      "provider_calls": 2,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 6109,
+      "measured_tokens": 6109,
+      "tool_calls": 2,
+      "tool_retries": 0,
+      "tool_executed": 1,
+      "tool_succeeded": 1,
+      "tool_denied": 1,
+      "tool_errors": 1,
+      "discovery_calls": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": null,
+        "agent": null,
+        "cleanup": 0.00589899099941249,
+        "grading": null
+      },
+      "main_end_to_end_seconds": null,
+      "total_wall_seconds": 128.46321437000006,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "result": {
+      "mode": "on",
+      "termination": "cancelled",
+      "cleanup": "passed",
+      "completed_requests": 0,
+      "metrics": {
+        "provider_calls": 2,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 6109,
+        "measured_tokens": 6109,
+        "tool_calls": 2,
+        "tool_retries": 0,
+        "tool_executed": 1,
+        "tool_succeeded": 1,
+        "tool_denied": 1,
+        "tool_errors": 1,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.00589899099941249,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 128.46067148899965,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      }
+    }
+  },
+  {
+    "name": "stage5-v3-on",
+    "metrics": {
+      "provider_calls": 5,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 23807,
+      "measured_tokens": 23807,
+      "tool_calls": 2,
+      "tool_retries": 0,
+      "tool_executed": 2,
+      "tool_succeeded": 2,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": null,
+        "agent": null,
+        "cleanup": 0.0057117930009553675,
+        "grading": null
+      },
+      "main_end_to_end_seconds": null,
+      "total_wall_seconds": 17.652770814001997,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "result": {
+      "mode": "on",
+      "termination": "completed",
+      "cleanup": "passed",
+      "completed_requests": 2,
+      "metrics": {
+        "provider_calls": 5,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 23807,
+        "measured_tokens": 23807,
+        "tool_calls": 2,
+        "tool_retries": 0,
+        "tool_executed": 2,
+        "tool_succeeded": 2,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.0057117930009553675,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 17.650011634999828,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      }
+    }
+  },
+  {
+    "name": "stage5-final-off",
+    "metrics": {
+      "provider_calls": 2,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 39684,
+      "measured_tokens": 39684,
+      "tool_calls": 1,
+      "tool_retries": 0,
+      "tool_executed": 1,
+      "tool_succeeded": 1,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": null,
+        "agent": null,
+        "cleanup": 0.0045101280011294875,
+        "grading": null
+      },
+      "main_end_to_end_seconds": null,
+      "total_wall_seconds": 5.59543575600037,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "result": {
+      "mode": "off",
+      "termination": "budget-exhausted",
+      "cleanup": "passed",
+      "completed_requests": 0,
+      "metrics": {
+        "provider_calls": 2,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 39684,
+        "measured_tokens": 39684,
+        "tool_calls": 1,
+        "tool_retries": 0,
+        "tool_executed": 1,
+        "tool_succeeded": 1,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.0045101280011294875,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 5.593200163002621,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      }
+    }
+  },
+  {
+    "name": "stage5-final-on",
+    "metrics": {
+      "provider_calls": 6,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 29723,
+      "measured_tokens": 29723,
+      "tool_calls": 4,
+      "tool_retries": 0,
+      "tool_executed": 4,
+      "tool_succeeded": 3,
+      "tool_denied": 0,
+      "tool_errors": 1,
+      "discovery_calls": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": null,
+        "agent": null,
+        "cleanup": 0.00501011300002574,
+        "grading": null
+      },
+      "main_end_to_end_seconds": null,
+      "total_wall_seconds": 19.135283839001204,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "result": {
+      "mode": "on",
+      "termination": "completed",
+      "cleanup": "passed",
+      "completed_requests": 2,
+      "metrics": {
+        "provider_calls": 6,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 29723,
+        "measured_tokens": 29723,
+        "tool_calls": 4,
+        "tool_retries": 0,
+        "tool_executed": 4,
+        "tool_succeeded": 3,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.00501011300002574,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 19.132135087998904,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      }
+    }
+  },
+  {
+    "name": "stage5-final-overflow",
+    "metrics": {
+      "provider_calls": 2,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 39364,
+      "measured_tokens": 39364,
+      "tool_calls": 1,
+      "tool_retries": 0,
+      "tool_executed": 1,
+      "tool_succeeded": 1,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": null,
+        "agent": null,
+        "cleanup": 0.004655885000829585,
+        "grading": null
+      },
+      "main_end_to_end_seconds": null,
+      "total_wall_seconds": 11.299358442000084,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "result": {
+      "mode": "overflow",
+      "termination": "budget-exhausted",
+      "cleanup": "passed",
+      "completed_requests": 0,
+      "metrics": {
+        "provider_calls": 2,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 39364,
+        "measured_tokens": 39364,
+        "tool_calls": 1,
+        "tool_retries": 0,
+        "tool_executed": 1,
+        "tool_succeeded": 1,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.004655885000829585,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 11.296475513001496,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      }
+    }
+  }
+]

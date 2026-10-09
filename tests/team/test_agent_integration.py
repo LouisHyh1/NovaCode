@@ -49,7 +49,7 @@ async def test_agent_tool_team_branch_calls_hook(tmp_path) -> None:
     hook = Hook()
     tool = AgentTool(load_catalog(tmp_path), AgentRunManager(), team_hook=hook)
     registry.register(tool)
-    parent = Agent(Provider(), registry)
+    parent = Agent(Provider(), registry, context_compression=False)
     tool.set_parent(parent)
     result = await tool.execute(
         json.dumps(
@@ -118,7 +118,7 @@ async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatc
     task_manager.on_task_done(team_manager.handle_task_done)
     team = await team_manager.create("demo")
     registry = Registry()
-    parent = Agent(Provider(), registry)
+    parent = Agent(Provider(), registry, context_compression=False)
     payload = json.loads(
         await team_manager.spawn_teammate(
             TeamSpawnRequest(
@@ -136,6 +136,7 @@ async def test_inprocess_spawn_marks_idle_and_notifies_lead(tmp_path, monkeypatc
     task_id = await task_manager.subscribe_done().get()
     assert task_id == payload["agent_id"]
     assert task_manager.get(task_id).sub_agent.provider is parent.provider
+    assert task_manager.get(task_id).sub_agent.context_compression is False
     for _ in range(10):
         team = await team_manager.get("demo")
         if team.member_by_name("alice").is_active is False:

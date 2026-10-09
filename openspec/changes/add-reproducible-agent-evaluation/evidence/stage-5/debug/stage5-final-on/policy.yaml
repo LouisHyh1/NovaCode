@@ -1,0 +1,5 @@
+providers:
+- name: fixture
+  protocol: anthropic
+  model: fixture
+  api_key: unused

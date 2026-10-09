@@ -7,6 +7,7 @@ import json
 import os
 import sys
 from collections.abc import AsyncIterator
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -74,6 +75,7 @@ class RunTracker:
                         phase=event.compact.phase.value,
                         before=event.compact.before,
                         after=event.compact.after,
+                        accepted=event.compact.accepted,
                         error_type=type(event.compact.err).__name__ if event.compact.err else "",
                     )
                 if event.done and not failed:
@@ -111,6 +113,8 @@ async def execute(
     cfg = ProviderConfig(**payload["provider"])
     require(cfg.max_retries == 0 and cfg.timeout is not None, "缺少显式零重试及超时")
     require(payload["config_id"] == "eager-schema", "当前阶段仅支持产品兼容策略")
+    compression = payload.get("context_compression", True)
+    require(type(compression) is bool, "压缩策略必须为布尔值")
     registry = new_default_registry()
     allowed = payload["allowed_tools"]
     require(bool(allowed) and set(allowed) <= {t.name for t in registry.definitions()}, "未知工具")
@@ -150,6 +154,10 @@ async def execute(
                     permission_mode=Mode.DEFAULT,
                     approval_upgrader=deny_ask,
                     tool_observer=observed.tool_observer,
+                    context_compression=compression,
+                    context_observer=lambda trigger, result: ledger.append(
+                        "context_preparation", trigger=trigger.value, **asdict(result)
+                    ),
                 )
 
             agent = build(observed.borrow(), registry, session)
@@ -164,7 +172,8 @@ async def execute(
                 memory="empty",
                 auxiliary_agents=False,
                 instructions=payload.get("instructions", ""),
-                strategy="compression-on-schema-eager",
+                strategy=f"compression-{'on' if compression else 'off'}-schema-eager",
+                context_compression=compression,
             )
         with ledger.phase("agent"), with_cwd(str(root)):
             if tui:

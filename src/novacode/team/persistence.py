@@ -38,12 +38,24 @@ def read_json(path: str | Path) -> Any:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def write_member_config(path: Path, provider: ProviderConfig, *, fork_teammate: bool) -> None:
+def write_member_config(
+    path: Path,
+    provider: ProviderConfig,
+    *,
+    fork_teammate: bool,
+    context_compression: bool = True,
+) -> None:
     """子进程只恢复父 Provider；凭据文件仅当前用户可读写。"""
     entry = asdict(provider)
     if not provider.context_window:
         del entry["context_window"]
-    config = {"providers": [entry], "features": {"fork_teammate": fork_teammate}}
+    config = {
+        "providers": [entry],
+        "features": {
+            "fork_teammate": fork_teammate,
+            "context_compression": context_compression,
+        },
+    }
     with open(
         path, "x", encoding="utf-8", opener=lambda name, flags: os.open(name, flags, 0o600)
     ) as f:

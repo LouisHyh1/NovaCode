@@ -1,0 +1,31 @@
+{
+  "mode": "overflow",
+  "termination": "context-overflow",
+  "cleanup": "passed",
+  "completed_requests": 1,
+  "metrics": {
+    "provider_calls": 5,
+    "unknown_usage_requests": 1,
+    "known_token_lower_bound": 68651,
+    "measured_tokens": null,
+    "tool_calls": 4,
+    "tool_retries": 0,
+    "tool_executed": 4,
+    "tool_succeeded": 3,
+    "tool_denied": 0,
+    "tool_errors": 1,
+    "discovery_calls": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": null,
+      "agent": null,
+      "cleanup": 0.004797865000000456,
+      "grading": null
+    },
+    "main_end_to_end_seconds": null,
+    "total_wall_seconds": 19.92149844099913,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  }
+}

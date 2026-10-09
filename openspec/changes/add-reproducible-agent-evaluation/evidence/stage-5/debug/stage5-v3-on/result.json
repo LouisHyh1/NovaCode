@@ -1,0 +1,31 @@
+{
+  "mode": "on",
+  "termination": "completed",
+  "cleanup": "passed",
+  "completed_requests": 2,
+  "metrics": {
+    "provider_calls": 5,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 23807,
+    "measured_tokens": 23807,
+    "tool_calls": 2,
+    "tool_retries": 0,
+    "tool_executed": 2,
+    "tool_succeeded": 2,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": null,
+      "agent": null,
+      "cleanup": 0.0057117930009553675,
+      "grading": null
+    },
+    "main_end_to_end_seconds": null,
+    "total_wall_seconds": 17.650011634999828,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  }
+}

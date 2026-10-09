@@ -25,6 +25,7 @@ def load_session(path: Path) -> SessionLoadResult:
     model = ""
     last_activity = None
     pending: _PendingCompaction | None = None
+    compacted = False
 
     try:
         lines = path.read_bytes().splitlines()
@@ -62,6 +63,7 @@ def load_session(path: Path) -> SessionLoadResult:
             elif type_ == "compact_commit":
                 if pending is not None and _commit_matches(pending, record):
                     messages = pending.messages
+                    compacted = True
                 else:
                     diagnostics.append(f"line {line_number}: invalid compact commit")
                 pending = None
@@ -75,7 +77,7 @@ def load_session(path: Path) -> SessionLoadResult:
     if pending is not None:
         diagnostics.append("uncommitted compact transaction ignored")
     messages = _truncate_incomplete_tool_chain(messages, diagnostics)
-    return SessionLoadResult(path.stem, messages, model, last_activity, diagnostics)
+    return SessionLoadResult(path.stem, messages, model, last_activity, diagnostics, compacted)
 
 
 def _begin(record: dict[str, Any]) -> _PendingCompaction:
@@ -89,6 +91,24 @@ def _begin(record: dict[str, Any]) -> _PendingCompaction:
     if not isinstance(digest, str) or len(digest) != 64:
         raise ValueError("invalid compact digest")
     return _PendingCompaction(transaction_id, count, digest)
+
+
+def validate_compression_history(loaded: SessionLoadResult, *, context_compression: bool) -> None:
+    """关闭策略只能恢复完整原始历史，包含无 TUI 队员的恢复入口。"""
+    from novacode.compact.layer2 import is_compact_summary
+
+    if context_compression:
+        return
+    if loaded.diagnostics:
+        raise ValueError("压缩禁用时不能恢复不完整或已截断的历史")
+    if loaded.compacted or any(
+        is_compact_summary(message)
+        or any(
+            result.content.startswith("[tool result compacted]") for result in message.tool_results
+        )
+        for message in loaded.messages
+    ):
+        raise ValueError("压缩策略不兼容：会话已有摘要或卸载替换，请创建新会话")
 
 
 def _append_compact_message(pending: _PendingCompaction, record: dict[str, Any]) -> bool:

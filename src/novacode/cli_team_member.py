@@ -15,6 +15,7 @@ from novacode.config import effective_context_window
 from novacode.conversation import Conversation
 from novacode.permission import Mode
 from novacode.session import SessionWriter, load_session
+from novacode.session.reader import validate_compression_history
 from novacode.team.mailbox import Box, Message
 from novacode.team.manager import Manager
 from novacode.team.types import Team
@@ -86,7 +87,11 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
         session_path = Path(args.session_dir)
         loaded_messages = []
         if session_path.is_file() and session_path.stat().st_size:
-            loaded_messages = load_session(session_path).messages
+            loaded = load_session(session_path)
+            validate_compression_history(
+                loaded, context_compression=config.features.context_compression
+            )
+            loaded_messages = loaded.messages
         writer = SessionWriter(session_path.parent, session_path.stem, provider.model)
         resources.callback(writer.close)
         conversation = Conversation.from_messages(
@@ -114,6 +119,7 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
             registry,
             engine=engine,
             context_window=effective_context_window(provider_cfg),
+            context_compression=config.features.context_compression,
             hook_engine=hook_engine,
             system_prompt=system_prompt,
             max_turns=definition.max_turns,

@@ -1,0 +1,113 @@
+{
+  "same_inputs_window_tools_output_budget": true,
+  "runs": {
+    "on": {
+      "mode": "on",
+      "termination": "completed",
+      "cleanup": "passed",
+      "completed_requests": 2,
+      "metrics": {
+        "provider_calls": 5,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 20316,
+        "measured_tokens": 20316,
+        "tool_calls": 2,
+        "tool_retries": 0,
+        "tool_executed": 2,
+        "tool_succeeded": 2,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.004385415999422548,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 21.64408804100094,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "offloads": 1,
+      "summary_requests": 1,
+      "history_accepted": 1,
+      "raw_read_output_sha256": "85f29cc08e97086dfb27ca22f3dffe1171fb1f2742eb2b241f4884792dea76f0",
+      "session_sha256": "e6c2830d8f58017cfb9602b166ad5c5b24a642ee773f60c98223217a8d854d23"
+    },
+    "off": {
+      "mode": "off",
+      "termination": "completed",
+      "cleanup": "passed",
+      "completed_requests": 2,
+      "metrics": {
+        "provider_calls": 5,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 134403,
+        "measured_tokens": 134403,
+        "tool_calls": 4,
+        "tool_retries": 0,
+        "tool_executed": 4,
+        "tool_succeeded": 3,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.005188854000152787,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 13.108458795002662,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "offloads": 0,
+      "summary_requests": 0,
+      "history_accepted": 0,
+      "raw_read_output_sha256": "85f29cc08e97086dfb27ca22f3dffe1171fb1f2742eb2b241f4884792dea76f0",
+      "session_sha256": "a078dec137e2579947ba7ba8f3736c80bf201b9dc34ebdc5fa3feb817dad94a9"
+    },
+    "overflow": {
+      "mode": "overflow",
+      "termination": "context-overflow",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "metrics": {
+        "provider_calls": 5,
+        "unknown_usage_requests": 1,
+        "known_token_lower_bound": 68651,
+        "measured_tokens": null,
+        "tool_calls": 4,
+        "tool_retries": 0,
+        "tool_executed": 4,
+        "tool_succeeded": 3,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": null,
+          "agent": null,
+          "cleanup": 0.004797865000000456,
+          "grading": null
+        },
+        "main_end_to_end_seconds": null,
+        "total_wall_seconds": 19.92149844099913,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "offloads": 0,
+      "summary_requests": 0,
+      "history_accepted": 0,
+      "raw_read_output_sha256": "85f29cc08e97086dfb27ca22f3dffe1171fb1f2742eb2b241f4884792dea76f0",
+      "session_sha256": "69044e87ef7ae6790e5d087d00360047ddc32ed1a8f745607236378387ba1cc8"
+    }
+  }
+}

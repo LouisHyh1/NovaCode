@@ -31,3 +31,4 @@ class SessionLoadResult:
     model: str
     last_activity: datetime | None
     diagnostics: list[str] = field(default_factory=list)
+    compacted: bool = False

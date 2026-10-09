@@ -71,6 +71,12 @@ class ContextResult:
     after_tokens: int
     offloaded: bool
     summarized: bool
+    accepted: bool = False
+    disabled: bool = False
+
+
+class CompressionDisabledError(RuntimeError):
+    """手动入口明确返回策略禁用，不冒充完成。"""
 
 
 class ContextManager:
@@ -83,11 +89,20 @@ class ContextManager:
         *,
         context_window: int,
         dispatch_hook: DispatchHook,
+        compression_enabled: bool = True,
+        observer: Callable[[TriggerKind, ContextResult], None] | None = None,
     ) -> None:
         self._provider = provider
         self.runtime = runtime
         self.context_window = context_window
         self._dispatch_hook = dispatch_hook
+        self.compression_enabled = compression_enabled
+        self._observer = observer
+
+    def _result(self, trigger: TriggerKind, result: ContextResult) -> ContextResult:
+        if self._observer is not None:
+            self._observer(trigger, result)
+        return result
 
     async def prepare(
         self,
@@ -98,6 +113,10 @@ class ContextManager:
     ) -> ContextResult:
         before_messages = conv.messages()
         estimated = self.estimate(conv)
+        if not self.compression_enabled:
+            return self._result(
+                trigger, ContextResult(estimated, estimated, False, False, disabled=True)
+            )
         layer1_messages = offload_and_snip(
             before_messages,
             self.runtime.replacement,
@@ -115,7 +134,7 @@ class ContextManager:
             and not self.runtime.auto_tracking.tripped()
         )
         if not should_summarize:
-            return ContextResult(estimated, layer1_tokens, offloaded, False)
+            return self._result(trigger, ContextResult(estimated, layer1_tokens, offloaded, False))
 
         await self._dispatch_hook(HookEvent.PRE_COMPACT, mode, trigger=trigger.value)
         compact_input = self._manage_input(
@@ -140,12 +159,17 @@ class ContextManager:
             trigger=trigger.value,
             before_tokens=before_tokens,
             after_tokens=after_tokens,
+            accepted=accepted,
         )
-        return ContextResult(
-            before_tokens=before_tokens,
-            after_tokens=after_tokens,
-            offloaded=offloaded,
-            summarized=True,
+        return self._result(
+            trigger,
+            ContextResult(
+                before_tokens=before_tokens,
+                after_tokens=after_tokens,
+                offloaded=offloaded,
+                summarized=True,
+                accepted=accepted,
+            ),
         )
 
     def _manage_input(

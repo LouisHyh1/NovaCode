@@ -8,6 +8,7 @@ def format_compact_notice(
     before: int = 0,
     after: int = 0,
     err: Exception | None = None,
+    accepted: bool = True,
 ) -> str:
     if phase == CompactPhase.BEFORE_AUTO:
         return "正在压缩上下文..."
@@ -15,6 +16,8 @@ def format_compact_notice(
         return "上下文撞墙，自动压缩中..."
     if err is not None:
         return f"压缩失败：{err}"
+    if not accepted:
+        return "摘要已生成但未接受；保留原历史。"
     if after < before:
         return f"已压缩，token 从 {before} 降至 {after}"
     if after == before:

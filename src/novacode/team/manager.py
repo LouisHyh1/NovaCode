@@ -433,6 +433,7 @@ class Manager:
                 request.caller_agent.version,
                 request.caller_agent.engine,
                 context_window=request.caller_agent.context_window,
+                context_compression=request.caller_agent.context_compression,
                 instructions=request.caller_agent.instructions,
                 memory_index=request.caller_agent.memory_index,
                 hook_engine=request.caller_agent.hook_engine,
@@ -474,7 +475,12 @@ class Manager:
             await team.add_member(info)
             if team.backend is not BackendType.IN_PROCESS:
                 provider_config = self._parent_provider_config(request.caller_agent.provider)
-                write_member_config(launch_path, provider_config, fork_teammate=self.fork_teammate)
+                write_member_config(
+                    launch_path,
+                    provider_config,
+                    fork_teammate=self.fork_teammate,
+                    context_compression=request.caller_agent.context_compression,
+                )
                 config_path = str(launch_path)
                 await box.write(agent_id, Message(from_="lead", text=request.prompt))
                 writer.close()

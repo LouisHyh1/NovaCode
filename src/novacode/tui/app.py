@@ -147,6 +147,7 @@ class NovaCodeApp(App):
         worktree_mgr: WorktreeManager | None = None,
         team_mgr=None,
         coordinator_mode: bool = False,
+        context_compression: bool = True,
         startup_warnings: list[str] | None = None,
         provider_factory: Callable[[ProviderConfig], LLMProvider] | None = None,
         agent_factory: Callable[[LLMProvider, ToolRegistry, SessionService], Agent] | None = None,
@@ -165,6 +166,7 @@ class NovaCodeApp(App):
         self.worktree_mgr = worktree_mgr
         self.team_mgr = team_mgr
         self.coordinator_mode = coordinator_mode
+        self.context_compression = context_compression
         self.lead_mail_event = asyncio.Event()
         worktree_session = worktree_mgr.current_session() if worktree_mgr is not None else None
         self.active_cwd = worktree_session.worktree_path if worktree_session is not None else ""
@@ -401,6 +403,7 @@ class NovaCodeApp(App):
             instructions=self.instructions,
             memory_index=self._memory_index,
             hook_engine=self.hook_engine,
+            context_compression=self.context_compression,
         )
 
     # ── right-click copy ───────────────────────────────────────
@@ -791,6 +794,8 @@ class NovaCodeApp(App):
         self.exit()
 
     async def force_compact(self) -> None:
+        from novacode.agent.context_manager import CompressionDisabledError
+
         if self.agent is None:
             self.error("压缩失败：当前没有可用 Agent")
             return
@@ -799,6 +804,9 @@ class NovaCodeApp(App):
                 self.session.conversation, self._current_tool_defs(), mode=self._mode
             )
             await self.session.sync()
+        except CompressionDisabledError as exc:
+            self.println(str(exc))
+            return
         except Exception as exc:
             self.println(format_compact_notice(CompactPhase.AFTER_AUTO, 0, 0, exc))
             return
@@ -975,7 +983,13 @@ class NovaCodeApp(App):
 
         if self.agent is None:
             assert self.provider is not None
-            self.agent = Agent(self.provider, self._tool_registry, self._version, self.engine)
+            self.agent = Agent(
+                self.provider,
+                self._tool_registry,
+                self._version,
+                self.engine,
+                context_compression=self.context_compression,
+            )
         agent = self.agent
         with with_cwd(self._effective_cwd()):
             self._agent_task = asyncio.create_task(
@@ -1023,6 +1037,7 @@ class NovaCodeApp(App):
                             ev.compact.before,
                             ev.compact.after,
                             ev.compact.err,
+                            accepted=ev.compact.accepted,
                         )
                     )
                     continue

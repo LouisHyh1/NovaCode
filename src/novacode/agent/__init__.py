@@ -9,7 +9,12 @@ from pathlib import Path
 from uuid import uuid4
 
 from novacode import prompt
-from novacode.agent.context_manager import ContextManager, SessionRuntime
+from novacode.agent.context_manager import (
+    CompressionDisabledError,
+    ContextManager,
+    ContextResult,
+    SessionRuntime,
+)
 from novacode.compact import (
     CompactCircuitBreaker,
     ContentReplacementState,
@@ -135,6 +140,7 @@ class CompactEvent:
     before: int = 0
     after: int = 0
     err: Exception | None = None
+    accepted: bool = True
 
 
 @dataclass
@@ -206,6 +212,8 @@ class Agent:
         subagent_name: str = "",
         teammate_context=None,
         tool_observer: Callable[[ToolEvent], None] | None = None,
+        context_compression: bool = True,
+        context_observer: Callable[[TriggerKind, ContextResult], None] | None = None,
     ) -> None:
         self._provider = provider
         self._registry = registry
@@ -238,6 +246,8 @@ class Agent:
             self._runtime,
             context_window=context_window,
             dispatch_hook=self._dispatch_hook,
+            compression_enabled=context_compression,
+            observer=context_observer,
         )
         from novacode.agent.tool_runner import ToolRunner
 
@@ -295,6 +305,10 @@ class Agent:
         return self._provider
 
     @property
+    def context_compression(self) -> bool:
+        return self._context_manager.compression_enabled
+
+    @property
     def runtime(self) -> SessionRuntime:
         return self._runtime
 
@@ -344,6 +358,8 @@ class Agent:
                     TriggerKind.MANUAL,
                     mode,
                 )
+                if out.disabled:
+                    raise CompressionDisabledError("上下文压缩已由策略禁用；历史保持原样。")
             finally:
                 if runtime is not None:
                     self.runtime = selected
@@ -400,7 +416,8 @@ class Agent:
 
             estimated = self._context_manager.estimate(conv)
             auto_candidate = (
-                estimated >= auto_compact_threshold(self.context_window)
+                self.context_compression
+                and estimated >= auto_compact_threshold(self.context_window)
                 and not self.runtime.auto_tracking.tripped()
             )
             try:
@@ -426,6 +443,7 @@ class Agent:
                         phase=CompactPhase.AFTER_AUTO,
                         before=compact_out.before_tokens,
                         after=compact_out.after_tokens,
+                        accepted=compact_out.accepted,
                     )
                 )
 
@@ -483,7 +501,11 @@ class Agent:
                         yield Event(err=persistence_err)
                     return
 
-                if isinstance(err, PromptTooLongError) and not emergency_retried:
+                if (
+                    isinstance(err, PromptTooLongError)
+                    and self.context_compression
+                    and not emergency_retried
+                ):
                     yield Event(compact=CompactEvent(phase=CompactPhase.BEFORE_EMERGENCY))
                     try:
                         emergency_out = await self._context_manager.prepare(
@@ -509,6 +531,7 @@ class Agent:
                             phase=CompactPhase.AFTER_EMERGENCY,
                             before=emergency_out.before_tokens,
                             after=emergency_out.after_tokens,
+                            accepted=emergency_out.accepted,
                         )
                     )
                     retry_estimate = self._context_manager.estimate(conv)

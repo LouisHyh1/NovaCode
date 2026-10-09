@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING
 from novacode.conversation import Conversation
 from novacode.hook import Event as HookEvent
 from novacode.llm import ROLE_ASSISTANT, ROLE_TOOL, ROLE_USER, Message
-from novacode.session.reader import load_session
+from novacode.session.reader import load_session, validate_compression_history
 from novacode.session.types import SessionInfo, SessionWriteError
 from novacode.session.writer import SessionWriter
 
@@ -164,6 +164,9 @@ class SessionService:
             loaded = await asyncio.to_thread(load_session, info.path)
             if not loaded.messages or not loaded.model:
                 raise ValueError("会话没有可恢复的有效消息")
+            validate_compression_history(
+                loaded, context_compression=self._agent is None or self._agent.context_compression
+            )
             context = open_session_context(str(self._project_root), info.session_id)
             candidate = Conversation.from_messages(loaded.messages)
             reminder = self._build_resume_reminder(loaded.last_activity)
@@ -309,7 +312,7 @@ class SessionService:
         from novacode.compact.token import estimate_tokens
 
         agent = self._agent
-        if agent is None:
+        if agent is None or not agent.context_compression:
             return False
         estimated = estimate_tokens(0, candidate.messages(), 0)
         return estimated > auto_compact_threshold(agent.context_window)
