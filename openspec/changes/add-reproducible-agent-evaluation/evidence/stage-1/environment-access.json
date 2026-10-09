@@ -1,0 +1,35 @@
+{
+  "captured_at_utc": "2026-10-09T07:46:59.288805+00:00",
+  "identity": "uid=1000(louishyh) gid=1000(louishyh) groups=1000(louishyh),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),121(docker)",
+  "docker": {
+    "ID": "df8e1bce-856e-4e04-89f1-36e8cdcff241",
+    "ServerVersion": "29.8.0",
+    "NCPU": 4,
+    "MemTotal": 6215159808,
+    "MemoryLimit": true,
+    "SwapLimit": true,
+    "CpuCfsQuota": true,
+    "PidsLimit": true,
+    "Driver": "overlayfs",
+    "CgroupVersion": "2",
+    "DockerRootDir": "/var/snap/docker/common/var-lib-docker"
+  },
+  "socket": "660 root docker /var/run/docker.sock",
+  "disk_bytes": {
+    "total": 134145380352,
+    "used": 21768962048,
+    "free": 105487695872
+  },
+  "accepted_container_limits": {
+    "cpu": 2,
+    "memory_bytes": 4294967296,
+    "swap_bytes": 0,
+    "pids": 256,
+    "disk_per_container_quota": null
+  },
+  "disk_limit_scope": "shared host filesystem capacity; no per-container quota",
+  "model_calls_started": 0,
+  "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+  "grader_python": "Python 3.12.13",
+  "grader_source_clean": true
+}

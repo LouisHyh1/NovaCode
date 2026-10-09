@@ -1,0 +1,34 @@
+版本来源一致: ["0.1.26", "0.1.26", "0.1.26", "0.1.26"]
+锁文件仅改变 novacode 版本，原有依赖及索引一致
+COMMAND: ["/home/louishyh/.local/bin/uv", "lock", "--check"]
+EXIT_CODE: 0
+Resolved 60 packages in 4ms
+
+COMMAND: ["/home/louishyh/.local/bin/uv", "sync", "--locked"]
+EXIT_CODE: 0
+Resolved 60 packages in 1ms
+Checked 58 packages in 0.84ms
+
+COMMAND: ["/home/louishyh/projects/NovaCode/.venv/bin/ruff", "check", "evaluation/preflight"]
+EXIT_CODE: 0
+All checks passed!
+
+COMMAND: ["/home/louishyh/projects/NovaCode/.venv/bin/ruff", "format", "--check", "evaluation/preflight"]
+EXIT_CODE: 0
+3 files already formatted
+
+COMMAND: ["/home/louishyh/projects/NovaCode/.venv/bin/python", "-m", "novacode", "--version"]
+EXIT_CODE: 0
+0.1.26
+
+COMMAND: ["openspec", "validate", "add-reproducible-agent-evaluation", "--strict"]
+EXIT_CODE: 0
+Change 'add-reproducible-agent-evaluation' is valid
+
+COMMAND: ["git", "diff", "--check"]
+EXIT_CODE: 0
+
+本次所属核验容器残留: 0
+五次判题报告与日志指纹: 通过
+目标解释器、依赖与源码状态前后字节一致: 通过
+交付打包脚本实际生成归档，各文件内容与已验收归档一致: 通过
