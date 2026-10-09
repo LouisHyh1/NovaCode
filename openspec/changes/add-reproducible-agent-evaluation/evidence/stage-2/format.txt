@@ -1,0 +1,4 @@
+$ uv run --locked ruff format --check src tests scripts evaluation/examples
+253 files already formatted
+
+exit_code=0

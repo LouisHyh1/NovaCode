@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "定位 counter.py 中对数值加一的函数，按 JSON 给出文件和符号。"
+  ]
+}

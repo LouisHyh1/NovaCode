@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "python": "3.12",
+  "platform": "linux",
+  "fixture_revision": "example-v1"
+}

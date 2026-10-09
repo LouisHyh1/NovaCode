@@ -1,0 +1,47 @@
+{
+  "acceptance_assets": [
+    {
+      "path": "multi/acceptance.json",
+      "sha256": "1c3b535a718904fc28a7ddd023438661d387a5a4a2f79f29221fb9bc51a68b31"
+    }
+  ],
+  "acceptance_conditions": [
+    "facts",
+    "scope",
+    "cleanup"
+  ],
+  "allowed_paths": [
+    "counter.py"
+  ],
+  "base_commit": "e272c06ef57844a84f8db693e0ab01c5ae9f3219",
+  "budget_category": "example-small",
+  "builder_id": "example-builder-v1",
+  "candidate_id": "example-candidate-multi",
+  "category": "long-context",
+  "difficulty": "easy",
+  "environment": {
+    "path": "multi/environment.json",
+    "sha256": "b59786c28591e9497b139e4a4caca4ce56c97b44ca4f304b2bc5c4e060557aeb"
+  },
+  "family_id": "example-family-multi",
+  "initial_state": {
+    "path": "multi/initial.json",
+    "sha256": "913076b7ba6bbefdcda8349f5059c9cd0f09d4894e28d8c80ff3e1a65cdd1215"
+  },
+  "pressure_tags": [
+    "early-constraints"
+  ],
+  "problem_keys": [
+    "defect:examples/multi"
+  ],
+  "public_input": {
+    "path": "multi/requests.json",
+    "sha256": "fa6b2280f367e0c0e00e632d086eef0442588ce6898837795cc38d351c99452e"
+  },
+  "repository": "example/multi",
+  "schema_version": 1,
+  "source": "specialty",
+  "source_revision": "example-v1",
+  "suite": "development",
+  "task_id": "example-multi"
+}

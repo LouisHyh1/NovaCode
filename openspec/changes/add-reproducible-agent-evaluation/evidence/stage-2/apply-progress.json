@@ -1,0 +1,14 @@
+{
+  "change": "add-reproducible-agent-evaluation",
+  "schema": "spec-driven",
+  "progress": {
+    "total": 71,
+    "complete": 9,
+    "remaining": 62
+  },
+  "next_task": {
+    "id": "10",
+    "description": "3.1 在装配边界实现Provider观测包装及角色/重试关联；以主调用、摘要不消费usage、摘要重试和异常流测试证明全账本捕获且只累计一次。",
+    "done": false
+  }
+}

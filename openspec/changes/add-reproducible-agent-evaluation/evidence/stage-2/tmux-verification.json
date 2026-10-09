@@ -1,0 +1,12 @@
+{
+  "provider_kind": "scripted",
+  "real_model_calls": 0,
+  "user_requests": 1,
+  "tool_requests": 1,
+  "tool_name": "read_file",
+  "response_persisted": true,
+  "provider_close_count": 1,
+  "pane_dead": true,
+  "exit_code": 0,
+  "tested_novacode_version": "0.1.26"
+}

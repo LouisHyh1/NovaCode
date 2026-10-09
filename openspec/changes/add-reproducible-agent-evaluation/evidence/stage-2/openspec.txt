@@ -1,0 +1,4 @@
+$ openspec validate add-reproducible-agent-evaluation --strict
+Change 'add-reproducible-agent-evaluation' is valid
+
+exit_code=0

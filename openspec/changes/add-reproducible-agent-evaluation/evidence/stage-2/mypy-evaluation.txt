@@ -1,0 +1,4 @@
+$ uv run --locked mypy --strict src/novacode/evaluation
+Success: no issues found in 4 source files
+
+exit_code=0

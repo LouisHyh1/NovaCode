@@ -19,6 +19,7 @@ TARGETS = (
     "src/novacode/cli.py",
     "src/novacode/cli_team_member.py",
     "src/novacode/command/builtin_team.py",
+    "src/novacode/evaluation",
     "src/novacode/hook",
     "src/novacode/llm",
     "src/novacode/memory",

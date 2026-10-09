@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "记住后续修改必须保留 increment 函数名及整数行为。",
+    "在 counter.py 新增 decrement 函数，保持已有实现。",
+    "提供 JSON，列出当前两个函数及其行为。"
+  ]
+}

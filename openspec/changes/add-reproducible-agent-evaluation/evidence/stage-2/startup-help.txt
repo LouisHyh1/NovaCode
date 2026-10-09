@@ -1,0 +1,4 @@
+$ uv run --locked python -m novacode --help
+usage: nova [--version] [--help]
+
+exit_code=0

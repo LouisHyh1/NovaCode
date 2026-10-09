@@ -63,6 +63,19 @@ def test_repository_ports_do_not_expose_filesystem_types() -> None:
     assert not violations, f"Repository Port 暴露文件系统依赖: {violations}"
 
 
+def test_product_modules_do_not_import_evaluation() -> None:
+    violations: list[str] = []
+    for path in SRC.rglob("*.py"):
+        if path.is_relative_to(SRC / "evaluation"):
+            continue
+        for imported in _imports(path):
+            if imported == "evaluation" or imported.startswith(
+                ("novacode.evaluation", "evaluation.")
+            ):
+                violations.append(f"{path.relative_to(ROOT)} -> {imported}")
+    assert not violations, "产品核心不得反向依赖评测包:\n" + "\n".join(violations)
+
+
 def test_agent_delegates_complete_context_and_tool_transactions() -> None:
     path = SRC / "agent" / "__init__.py"
     source = path.read_text(encoding="utf-8")

@@ -1,0 +1,4 @@
+$ uv lock --check
+Resolved 60 packages in 2ms
+
+exit_code=0

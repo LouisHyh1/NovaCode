@@ -1,0 +1,4 @@
+{"event": "request", "user": "请读取 contract-summary.json，核对单请求和多轮脚本的任务、评测运行、Agent Run 及入库计数，并说明结果。", "provider_kind": "scripted", "real_model_calls": 0}
+{"event": "tool_result", "call_id": "stage2-read", "is_error": false, "content": "     1\t{\n     2\t  \"evaluation_tasks\": 2,\n     3\t  \"planned_evaluation_runs\": 2,\n     4\t  \"planned_agent_runs\": 4,\n     5\t  \"admitted\": 0\n     6\t}"}
+{"event": "reply", "text": "合同机制检查通过：2 个任务、2 个计划评测运行、4 个计划 Agent Run、0 个已入库任务。", "provider_kind": "scripted"}
+{"event": "close", "stream_requests": 2, "real_model_calls": 0}

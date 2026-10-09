@@ -1,0 +1,231 @@
+{
+  "example_only": true,
+  "schema_version": 1,
+  "evaluation_tasks": 2,
+  "planned_evaluation_runs_for_one_config_and_repeat": 2,
+  "planned_agent_runs": 4,
+  "model_calls_started": 0,
+  "tasks": [
+    {
+      "task_id": "example-multi",
+      "contract_sha256": "c95e9d75baf2b57f66adaf4dc42328572e295f25dbd3bc2611ef6f3f6d99a038",
+      "requests": 3,
+      "contract": {
+        "task_id": "example-multi",
+        "candidate_id": "example-candidate-multi",
+        "source": "specialty",
+        "suite": "development",
+        "family_id": "example-family-multi",
+        "problem_keys": [
+          "defect:examples/multi"
+        ],
+        "repository": "example/multi",
+        "source_revision": "example-v1",
+        "base_commit": "e272c06ef57844a84f8db693e0ab01c5ae9f3219",
+        "difficulty": "easy",
+        "category": "long-context",
+        "pressure_tags": [
+          "early-constraints"
+        ],
+        "budget_category": "example-small",
+        "initial_state": {
+          "path": "multi/initial.json",
+          "sha256": "913076b7ba6bbefdcda8349f5059c9cd0f09d4894e28d8c80ff3e1a65cdd1215"
+        },
+        "public_input": {
+          "path": "multi/requests.json",
+          "sha256": "fa6b2280f367e0c0e00e632d086eef0442588ce6898837795cc38d351c99452e"
+        },
+        "environment": {
+          "path": "multi/environment.json",
+          "sha256": "b59786c28591e9497b139e4a4caca4ce56c97b44ca4f304b2bc5c4e060557aeb"
+        },
+        "acceptance_assets": [
+          {
+            "path": "multi/acceptance.json",
+            "sha256": "1c3b535a718904fc28a7ddd023438661d387a5a4a2f79f29221fb9bc51a68b31"
+          }
+        ],
+        "acceptance_conditions": [
+          "facts",
+          "scope",
+          "cleanup"
+        ],
+        "allowed_paths": [
+          "counter.py"
+        ],
+        "builder_id": "example-builder-v1",
+        "schema_version": 1
+      }
+    },
+    {
+      "task_id": "example-single",
+      "contract_sha256": "ce90e4a08919c32242ac37dd4f894e49c5c3e5a60a74012755bc33f5a5f18b5f",
+      "requests": 1,
+      "contract": {
+        "task_id": "example-single",
+        "candidate_id": "example-candidate-single",
+        "source": "specialty",
+        "suite": "development",
+        "family_id": "example-family-single",
+        "problem_keys": [
+          "defect:examples/single"
+        ],
+        "repository": "example/single",
+        "source_revision": "example-v1",
+        "base_commit": "47d30bd1878cfef7f5e66448d78741135a841f0a",
+        "difficulty": "easy",
+        "category": "localization",
+        "pressure_tags": [],
+        "budget_category": "example-small",
+        "initial_state": {
+          "path": "single/initial.json",
+          "sha256": "2ad3141d1802a7ce0ecd7140979693deda76ac79b6608c9380f1e5d93af7f230"
+        },
+        "public_input": {
+          "path": "single/requests.json",
+          "sha256": "36bcb8318fe8cf920c1e6fd25cd196dcfb9ef328551b96702c743ceba7aeff60"
+        },
+        "environment": {
+          "path": "single/environment.json",
+          "sha256": "b59786c28591e9497b139e4a4caca4ce56c97b44ca4f304b2bc5c4e060557aeb"
+        },
+        "acceptance_assets": [
+          {
+            "path": "single/acceptance.json",
+            "sha256": "ab3ec13de768a540aab34c0d6bc48f9a3a5879911ad68149cb5a3ba07b4918a2"
+          }
+        ],
+        "acceptance_conditions": [
+          "facts",
+          "scope",
+          "cleanup"
+        ],
+        "allowed_paths": [],
+        "builder_id": "example-builder-v1",
+        "schema_version": 1
+      }
+    }
+  ],
+  "quotas": {
+    "schema_version": 1,
+    "rows": [
+      {
+        "suite": "development",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 12,
+        "gap": 12,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "development",
+        "source": "specialty",
+        "candidates": 2,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 12,
+        "gap": 12,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "categories": {},
+        "category_targets": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        },
+        "category_gaps": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        }
+      },
+      {
+        "suite": "frozen",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "frozen",
+        "source": "specialty",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        },
+        "category_gaps": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        }
+      }
+    ]
+  }
+}

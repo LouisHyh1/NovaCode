@@ -1,0 +1,43 @@
+{
+  "acceptance_assets": [
+    {
+      "path": "single/acceptance.json",
+      "sha256": "ab3ec13de768a540aab34c0d6bc48f9a3a5879911ad68149cb5a3ba07b4918a2"
+    }
+  ],
+  "acceptance_conditions": [
+    "facts",
+    "scope",
+    "cleanup"
+  ],
+  "allowed_paths": [],
+  "base_commit": "47d30bd1878cfef7f5e66448d78741135a841f0a",
+  "budget_category": "example-small",
+  "builder_id": "example-builder-v1",
+  "candidate_id": "example-candidate-single",
+  "category": "localization",
+  "difficulty": "easy",
+  "environment": {
+    "path": "single/environment.json",
+    "sha256": "b59786c28591e9497b139e4a4caca4ce56c97b44ca4f304b2bc5c4e060557aeb"
+  },
+  "family_id": "example-family-single",
+  "initial_state": {
+    "path": "single/initial.json",
+    "sha256": "2ad3141d1802a7ce0ecd7140979693deda76ac79b6608c9380f1e5d93af7f230"
+  },
+  "pressure_tags": [],
+  "problem_keys": [
+    "defect:examples/single"
+  ],
+  "public_input": {
+    "path": "single/requests.json",
+    "sha256": "36bcb8318fe8cf920c1e6fd25cd196dcfb9ef328551b96702c743ceba7aeff60"
+  },
+  "repository": "example/single",
+  "schema_version": 1,
+  "source": "specialty",
+  "source_revision": "example-v1",
+  "suite": "development",
+  "task_id": "example-single"
+}

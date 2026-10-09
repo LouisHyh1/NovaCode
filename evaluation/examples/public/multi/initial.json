@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "example_only": true,
+  "base_commit": "e272c06ef57844a84f8db693e0ab01c5ae9f3219",
+  "files": {
+    "counter.py": "def increment(value):\n    return value + 1\n"
+  }
+}

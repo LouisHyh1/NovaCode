@@ -1,0 +1,36 @@
+  /\_/\    NovaCode v0.1.26
+ ( o.o )   mechanism-only-no-model
+  > ^ <    /tmp/novacode-stage2-tmux
+   ❯ 请读取 contract-summary.json，核对单请求和多轮脚本的任务、评测运行、Agent Run 及入库计数，并说明结果。
+    ● read_file({"path":"contract-summary.json"})
+          ⎿       1     {
+          ⎿       2       "evaluation_tasks": 2,
+          ⎿       3       "planned_evaluation_runs": 2,
+          ⎿       4       "planned_agent_runs": 4,
+          ⎿       5       "admitted": 0
+          ⎿       6     }
+   合同机制检查通过：2 个任务、2 个计划评测运行、4 个计划 Agent Run、0 个已入库任务。
+
+    ✻ Thinkingd for 0.0s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+     DEFAULT                                                                                  mechanism-only-no-model
