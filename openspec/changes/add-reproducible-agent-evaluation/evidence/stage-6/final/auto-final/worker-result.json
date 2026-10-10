@@ -1,0 +1,38 @@
+{
+  "termination": "completed",
+  "cleanup": "passed",
+  "agent_run_ids": [
+    "862a8b9e47be40e19d8fe9fbe4af5c06",
+    "a55af631c03d478085e54b9e1b3c1c4b"
+  ],
+  "completed_requests": 2,
+  "final": {
+    "path": "artifacts/b85a0281886162c5bac6f7582377645651448cd8bb6153e03f4c1b346748ec4c.txt",
+    "sha256": "b85a0281886162c5bac6f7582377645651448cd8bb6153e03f4c1b346748ec4c"
+  },
+  "metrics": {
+    "provider_calls": 6,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 18841,
+    "measured_tokens": 18841,
+    "tool_calls": 8,
+    "tool_retries": 0,
+    "tool_executed": 8,
+    "tool_succeeded": 8,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 4,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.01619150900000932,
+      "agent": 5.391497303000051,
+      "cleanup": 0.010813761000008526,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 5.427709451000055,
+    "total_wall_seconds": 5.439569720999998,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  }
+}

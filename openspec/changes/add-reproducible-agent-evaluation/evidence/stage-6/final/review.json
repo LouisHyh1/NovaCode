@@ -1,0 +1,86 @@
+{
+  "auto-final": {
+    "termination": "completed",
+    "cleanup": "passed",
+    "mcp_cleanup": "passed",
+    "business_calls": {
+      "mcp__fixed_ci__ci_build_failure": 2,
+      "ci_build_status": 2
+    },
+    "completed_requests": 2,
+    "metrics": {
+      "provider_calls": 6,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 18841,
+      "measured_tokens": 18841,
+      "tool_calls": 8,
+      "tool_retries": 0,
+      "tool_executed": 8,
+      "tool_succeeded": 8,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 4,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": 0.01619150900000932,
+        "agent": 5.391497303000051,
+        "cleanup": 0.010813761000008526,
+        "grading": null
+      },
+      "main_end_to_end_seconds": 5.427709451000055,
+      "total_wall_seconds": 5.450305141999934,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "facts": {
+      "build_id": "BUILD-731",
+      "status": "FAILED",
+      "reason": "TEST_TIMEOUT",
+      "retry_allowed": true
+    },
+    "session_sha256": "805d1e498a56bdbf98a8e024e43865c533054bb8c529ae1203fe09ffe710c18d"
+  },
+  "tmux-final": {
+    "termination": "completed",
+    "cleanup": "passed",
+    "mcp_cleanup": "passed",
+    "business_calls": {
+      "mcp__fixed_ci__ci_build_failure": 2,
+      "ci_build_status": 2
+    },
+    "completed_requests": 2,
+    "metrics": {
+      "provider_calls": 5,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 15438,
+      "measured_tokens": 15438,
+      "tool_calls": 6,
+      "tool_retries": 0,
+      "tool_executed": 6,
+      "tool_succeeded": 6,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 2,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": null,
+        "initialization": 0.010725670000056198,
+        "agent": 6.059671836999996,
+        "cleanup": 0.002853103999996165,
+        "grading": null
+      },
+      "main_end_to_end_seconds": 6.0801589669999885,
+      "total_wall_seconds": 6.08748963700009,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "facts": {
+      "build_id": "BUILD-731",
+      "status": "FAILED",
+      "reason": "TEST_TIMEOUT",
+      "retry_allowed": true
+    },
+    "session_sha256": "7965055b83caa4bb8d107339e7c51a308965af135a63ea5f268e5b34b9b1d44b"
+  }
+}

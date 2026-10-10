@@ -142,6 +142,7 @@ class AgentTool:
             self.parent.engine,
             context_window=self.parent.context_window,
             context_compression=self.parent.context_compression,
+            progressive_tool_schema=self.parent.progressive_tool_schema,
             instructions=self.parent.instructions,
             memory_index=self.parent.memory_index,
             hook_engine=self.parent.hook_engine,

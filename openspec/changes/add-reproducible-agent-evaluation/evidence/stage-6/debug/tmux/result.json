@@ -1,0 +1,31 @@
+{
+  "termination": "completed",
+  "cleanup": "passed",
+  "completed_requests": 2,
+  "metrics": {
+    "provider_calls": 6,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 18478,
+    "measured_tokens": 18478,
+    "tool_calls": 8,
+    "tool_retries": 2,
+    "tool_executed": 6,
+    "tool_succeeded": 6,
+    "tool_denied": 2,
+    "tool_errors": 2,
+    "discovery_calls": 2,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.009341407000079016,
+      "agent": 7.4791757630000575,
+      "cleanup": 0.003227386000048682,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 7.499577177999981,
+    "total_wall_seconds": 7.504169929,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "mcp_cleanup": "passed"
+}

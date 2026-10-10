@@ -1,0 +1,8 @@
+{
+  "same_final_runtime_source": true,
+  "credentials_scan": "passed",
+  "scanned_files": 56,
+  "debug_measured_tokens": 36460,
+  "prior_measured_tokens": 36973,
+  "final_measured_tokens": 34279
+}

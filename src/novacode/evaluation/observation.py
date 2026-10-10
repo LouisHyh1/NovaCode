@@ -121,6 +121,7 @@ class ObservedProvider:
             model=self.model,
             parameters=metadata,
             input_sha256=sha256(payload),
+            input=self.ledger.artifact(json.dumps(payload, ensure_ascii=False, sort_keys=True)),
             schema_sha256=sha256([asdict(t) for t in req.tools]),
             visible_tools=[tool.name for tool in req.tools],
             input_estimate=estimate,

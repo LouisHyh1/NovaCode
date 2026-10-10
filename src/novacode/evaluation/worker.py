@@ -30,6 +30,18 @@ from novacode.session import SessionService
 from novacode.tool import Registry, new_default_registry, with_cwd
 
 
+def strategy(payload: dict[str, Any]) -> tuple[bool, bool]:
+    config = payload["config_id"]
+    require(config in {"full", "no-compression", "eager-schema"}, "未知评测策略")
+    compression = payload.get("context_compression", config != "no-compression")
+    progressive = payload.get("progressive_tool_schema", config != "eager-schema")
+    require(type(compression) is bool and type(progressive) is bool, "策略必须为布尔值")
+    require(progressive == (config != "eager-schema"), "Schema 策略与配置身份不一致")
+    if config != "eager-schema":
+        require(compression == (config == "full"), "压缩策略与配置身份不一致")
+    return compression, progressive
+
+
 def termination(exc: BaseException) -> str:
     if isinstance(exc, BudgetExceededError):
         return "budget-exhausted"
@@ -107,15 +119,14 @@ async def execute(
     output: Path,
     *,
     provider: Provider | None = None,
+    registry: Registry | None = None,
     tui: bool = False,
 ) -> dict[str, Any]:
     require(not (root / ".novacode").exists(), "评测只能从无内部状态的初始工作区开始")
     cfg = ProviderConfig(**payload["provider"])
     require(cfg.max_retries == 0 and cfg.timeout is not None, "缺少显式零重试及超时")
-    require(payload["config_id"] == "eager-schema", "当前阶段仅支持产品兼容策略")
-    compression = payload.get("context_compression", True)
-    require(type(compression) is bool, "压缩策略必须为布尔值")
-    registry = new_default_registry()
+    compression, progressive = strategy(payload)
+    registry = registry or new_default_registry()
     allowed = payload["allowed_tools"]
     require(bool(allowed) and set(allowed) <= {t.name for t in registry.definitions()}, "未知工具")
     ledger = Ledger(output / "ledger.jsonl", payload["run_id"], secrets=(cfg.api_key,))
@@ -155,6 +166,7 @@ async def execute(
                     approval_upgrader=deny_ask,
                     tool_observer=observed.tool_observer,
                     context_compression=compression,
+                    progressive_tool_schema=progressive,
                     context_observer=lambda trigger, result: ledger.append(
                         "context_preparation", trigger=trigger.value, **asdict(result)
                     ),
@@ -172,8 +184,11 @@ async def execute(
                 memory="empty",
                 auxiliary_agents=False,
                 instructions=payload.get("instructions", ""),
-                strategy=f"compression-{'on' if compression else 'off'}-schema-eager",
+                strategy=f"compression-{'on' if compression else 'off'}-schema-"
+                + ("progressive" if progressive else "eager"),
                 context_compression=compression,
+                progressive_tool_schema=progressive,
+                registered_tools=[asdict(t) for t in registry.definitions()],
             )
         with ledger.phase("agent"), with_cwd(str(root)):
             if tui:

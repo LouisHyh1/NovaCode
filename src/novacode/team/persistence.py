@@ -44,6 +44,7 @@ def write_member_config(
     *,
     fork_teammate: bool,
     context_compression: bool = True,
+    progressive_tool_schema: bool = False,
 ) -> None:
     """子进程只恢复父 Provider；凭据文件仅当前用户可读写。"""
     entry = asdict(provider)
@@ -54,6 +55,7 @@ def write_member_config(
         "features": {
             "fork_teammate": fork_teammate,
             "context_compression": context_compression,
+            "progressive_tool_schema": progressive_tool_schema,
         },
     }
     with open(

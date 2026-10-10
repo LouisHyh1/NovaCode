@@ -43,6 +43,7 @@ from novacode.memory import MemoryTurn
 from novacode.permission import Mode, Outcome
 from novacode.permission.engine import Engine
 from novacode.tool import Registry, cwd_from_ctx
+from novacode.tool.exposure import ToolExposure
 
 MAX_ITERATIONS: int = 25
 MAX_UNKNOWN_RUN: int = 3
@@ -213,6 +214,7 @@ class Agent:
         teammate_context=None,
         tool_observer: Callable[[ToolEvent], None] | None = None,
         context_compression: bool = True,
+        progressive_tool_schema: bool = False,
         context_observer: Callable[[TriggerKind, ContextResult], None] | None = None,
     ) -> None:
         self._provider = provider
@@ -237,6 +239,9 @@ class Agent:
         self.approval_upgrader = approval_upgrader
         self.allowed_tools = None if allowed_tools is None else frozenset(allowed_tools)
         self.subagent_name = subagent_name
+        self.tool_exposure = ToolExposure(
+            registry, progressive=progressive_tool_schema, role=subagent_name
+        )
         self.teammate_context = teammate_context
         self._run_lock = asyncio.Lock()
         self.active_skills: dict[str, str] = {}
@@ -262,6 +267,7 @@ class Agent:
             owner=self,
             record_read=self._context_manager.record_read_file,
             observer=tool_observer,
+            exposure=self.tool_exposure,
         )
 
     def _hook_payload(self, mode: Mode, **values) -> dict:
@@ -309,6 +315,10 @@ class Agent:
         return self._context_manager.compression_enabled
 
     @property
+    def progressive_tool_schema(self) -> bool:
+        return self.tool_exposure.progressive
+
+    @property
     def runtime(self) -> SessionRuntime:
         return self._runtime
 
@@ -331,14 +341,15 @@ class Agent:
         return self._hook_engine
 
     def _tool_definitions(self, mode: Mode) -> list[ToolDefinition]:
-        definitions = (
-            self._registry.read_only_definitions()
-            if mode == Mode.PLAN
-            else self._registry.definitions()
+        self.tool_exposure.prepare(mode, self.allowed_tools)
+        return self.tool_exposure.definitions()
+
+    def _environment_context(self, environment: str) -> str:
+        text = prompt.build_environment_context(
+            environment, self.active_skills, self._skill_catalog
         )
-        if self.allowed_tools is None:
-            return definitions
-        return [definition for definition in definitions if definition.name in self.allowed_tools]
+        catalog = self.tool_exposure.catalog()
+        return text + ("\n\n" + catalog if catalog else "")
 
     async def run_force_compact(
         self,
@@ -386,7 +397,6 @@ class Agent:
                 memory_index=self.memory_index(),
             )
         )
-        defs = self._tool_definitions(mode)
 
         unknown_run = 0
         latest_user = next(
@@ -402,6 +412,7 @@ class Agent:
 
         max_iterations = self.max_turns or MAX_ITERATIONS
         for it in range(1, max_iterations + 1):
+            defs = self._tool_definitions(mode)
             yield Event(iter=it)
             if cancel.is_set():
                 persistence_err = self._persist_assistant_tail(conv, NOTICE_CANCELLED)
@@ -447,11 +458,7 @@ class Agent:
                     )
                 )
 
-            env_text = prompt.build_environment_context(
-                env.render(),
-                self.active_skills,
-                self._skill_catalog,
-            )
+            env_text = self._environment_context(env.render())
 
             emergency_retried = False
             logical_call_id = uuid4().hex

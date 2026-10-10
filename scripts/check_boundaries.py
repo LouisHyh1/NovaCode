@@ -32,6 +32,7 @@ TARGETS = (
     "src/novacode/subagent",
     "src/novacode/task",
     "src/novacode/team",
+    "src/novacode/tool/exposure.py",
     "src/novacode/tui",
     "scripts",
 )

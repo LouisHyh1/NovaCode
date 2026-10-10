@@ -114,7 +114,9 @@ async def test_fresh_session_state_and_formal_tool_chain(tmp_path, monkeypatch, 
         assert (root / "value.txt").read_text() == "fixed"
         assert provider.closes == 1
         assert len(provider.seen[0].messages) == 1
-        assert {t.name for t in provider.seen[0].tools} == set(payload()["allowed_tools"])
+        assert {t.name for t in provider.seen[0].tools} == set(payload()["allowed_tools"]) | {
+            "discover_tools"
+        }
         records, _ = read_records(output / "ledger.jsonl")
         state = next(r["data"] for r in records if r["kind"] == "initial_state")
         sessions.append(state["session_id"])

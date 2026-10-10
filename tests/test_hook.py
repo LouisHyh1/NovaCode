@@ -198,7 +198,7 @@ try to write
             break
         await asyncio.sleep(0.001)
 
-    assert provider.requests[0].tools == []
+    assert [tool.name for tool in provider.requests[0].tools] == ["discover_tools"]
     assert write_tool.executed is False
     assert 'status="completed"' in notices[0]
     assert "计划模式已拒绝" in notices[0]

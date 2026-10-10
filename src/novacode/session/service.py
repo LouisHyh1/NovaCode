@@ -111,6 +111,8 @@ class SessionService:
         self._tool_definitions = tool_definitions
         if self._context is not None:
             agent.runtime = self._new_runtime(self._context)
+            self._tool_definitions()
+            self._restore_exposure(self.path)
 
     def bind_lifecycle(
         self,
@@ -142,6 +144,10 @@ class SessionService:
             await queue.join()
         if self._write_error is not None:
             raise self._write_error
+        if self._agent is not None and self._writer is not None:
+            await asyncio.to_thread(
+                self._agent.tool_exposure.save, self._agent.tool_exposure.state_path(self.path)
+            )
 
     async def new_session(self) -> None:
         from novacode.compact import new_session_context
@@ -265,6 +271,10 @@ class SessionService:
             self._conversation = conversation
             if agent is not None:
                 agent.runtime = self._new_runtime(context, resume_reminder)
+                agent.tool_exposure.reset()
+                self._tool_definitions()
+                if resumed:
+                    self._restore_exposure(writer.path)
         if old_writer is not None:
             try:
                 await asyncio.to_thread(old_writer.close)
@@ -283,6 +293,17 @@ class SessionService:
     async def _dispatch(self, event: HookEvent) -> None:
         if self._dispatch_hook is not None:
             await self._dispatch_hook(event)
+
+    def _restore_exposure(self, path: Path) -> None:
+        agent = self._agent
+        if agent is None:
+            return
+        state_path = agent.tool_exposure.state_path(path)
+        if state_path.exists():
+            if not agent.tool_exposure.restore(agent.tool_exposure.read(state_path)):
+                agent.runtime.append_reminders(
+                    ["工具曝光缓存不兼容，已重建基础集合；请重新发现工具。"]
+                )
 
     def _new_runtime(
         self,

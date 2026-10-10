@@ -1,0 +1,7 @@
+providers:
+- name: local
+  protocol: anthropic
+  model: local
+  api_key: unused
+features:
+  progressive_tool_schema: true

@@ -154,18 +154,26 @@ async def test_disabled_resume_preserves_raw_or_rejects_incompatible(tmp_path, k
 
 
 async def test_subagent_and_pane_config_inherit_policy(tmp_path):
-    parent = Agent(UnusedProvider(), Registry(), context_compression=False)
+    parent = Agent(
+        UnusedProvider(), Registry(), context_compression=False, progressive_tool_schema=True
+    )
     catalog = load_catalog(tmp_path)
     tool = AgentTool(catalog, AgentRunManager(), parent=parent)
     child = tool._new_agent(catalog.fork_definition(), True)
     assert not child.context_compression
+    assert child.progressive_tool_schema
     assert child.context_window == parent.context_window
     cfg = ProviderConfig("local", "anthropic", "test", "test")
     path = tmp_path / "member.yaml"
     write_member_config(
-        path, cfg, fork_teammate=True, context_compression=parent.context_compression
+        path,
+        cfg,
+        fork_teammate=True,
+        context_compression=parent.context_compression,
+        progressive_tool_schema=parent.progressive_tool_schema,
     )
     assert not load(str(path)).features.context_compression
+    assert load(str(path)).features.progressive_tool_schema
 
 
 async def test_skill_fork_and_hook_role_inherit_policy(tmp_path, monkeypatch):
@@ -173,12 +181,15 @@ async def test_skill_fork_and_hook_role_inherit_policy(tmp_path, monkeypatch):
     from novacode.hook.executor import Executor
     from novacode.hook.rule import SubagentAction
 
-    parent = Agent(UnusedProvider(), Registry(), context_compression=False)
+    parent = Agent(
+        UnusedProvider(), Registry(), context_compression=False, progressive_tool_schema=True
+    )
     children = []
 
     async def complete(child, conv, prompt, *args):
         children.append(child)
         assert not child.context_compression
+        assert child.progressive_tool_schema
         return "完成"
 
     monkeypatch.setattr(Agent, "run_to_completion", complete)

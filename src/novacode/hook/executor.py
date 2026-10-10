@@ -161,6 +161,7 @@ class Executor:
             parent.engine,
             context_window=parent.context_window,
             context_compression=parent.context_compression,
+            progressive_tool_schema=parent.progressive_tool_schema,
             instructions=parent.instructions,
             memory_index=parent.memory_index,
             hook_engine=None,

@@ -120,6 +120,7 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
             engine=engine,
             context_window=effective_context_window(provider_cfg),
             context_compression=config.features.context_compression,
+            progressive_tool_schema=config.features.progressive_tool_schema,
             hook_engine=hook_engine,
             system_prompt=system_prompt,
             max_turns=definition.max_turns,
@@ -129,6 +130,7 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
             subagent_name=definition.name,
             teammate_context=teammate_context,
         )
+        _restore_exposure(agent, session_path)
 
         def notify_hook(notice: str) -> None:
             print(notice, flush=True)
@@ -144,6 +146,14 @@ async def run_team_member(args, *, config, registry, team_manager, catalog, engi
             ]
         )
         await _serve_mailbox(agent, conversation, team_manager, args, team)
+
+
+def _restore_exposure(agent: Agent, session_path: Path) -> None:
+    exposure_path = agent.tool_exposure.state_path(session_path)
+    agent._tool_definitions(agent.permission_mode or Mode.DEFAULT)
+    if exposure_path.exists():
+        if not agent.tool_exposure.restore(agent.tool_exposure.read(exposure_path)):
+            agent.runtime.append_reminders(["工具曝光缓存不兼容，已重建；请重新发现工具。"])
 
 
 async def _serve_mailbox(
@@ -176,6 +186,9 @@ async def _serve_mailbox(
             task = "请处理 Team 邮箱中的新消息，并使用 SendMessage 向相关成员报告结果。"
             await team.set_member_active(args.member, True)
             await _print_events(agent, conversation, task)
+            await asyncio.to_thread(
+                agent.tool_exposure.save, agent.tool_exposure.state_path(Path(args.session_dir))
+            )
             current = await team_manager.get(args.team)
             if current is None:
                 break

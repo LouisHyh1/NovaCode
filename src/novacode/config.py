@@ -32,6 +32,7 @@ class FeaturesConfig:
     coordinator_mode: bool = False
     fork_teammate: bool = False
     context_compression: bool = True
+    progressive_tool_schema: bool = False
 
 
 @dataclass
@@ -97,6 +98,7 @@ def load(path: str) -> Config:
         "coordinator_mode",
         "fork_teammate",
         "context_compression",
+        "progressive_tool_schema",
     }
     if unknown_features:
         raise ConfigError(f"unknown features: {', '.join(sorted(unknown_features))}")

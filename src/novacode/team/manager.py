@@ -434,6 +434,7 @@ class Manager:
                 request.caller_agent.engine,
                 context_window=request.caller_agent.context_window,
                 context_compression=request.caller_agent.context_compression,
+                progressive_tool_schema=request.caller_agent.progressive_tool_schema,
                 instructions=request.caller_agent.instructions,
                 memory_index=request.caller_agent.memory_index,
                 hook_engine=request.caller_agent.hook_engine,
@@ -480,6 +481,7 @@ class Manager:
                     provider_config,
                     fork_teammate=self.fork_teammate,
                     context_compression=request.caller_agent.context_compression,
+                    progressive_tool_schema=request.caller_agent.progressive_tool_schema,
                 )
                 config_path = str(launch_path)
                 await box.write(agent_id, Message(from_="lead", text=request.prompt))

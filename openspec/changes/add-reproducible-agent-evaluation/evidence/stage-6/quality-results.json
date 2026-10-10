@@ -1,0 +1,140 @@
+{
+  "environment_override": {
+    "UV_DEFAULT_INDEX": "https://pypi.tuna.tsinghua.edu.cn/simple"
+  },
+  "checks": [
+    {
+      "check": "lock",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "lock",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "lint",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "ruff",
+        "check",
+        "src",
+        "tests",
+        "scripts",
+        "evaluation/examples/stage4_live.py",
+        "evaluation/examples/stage6_live.py",
+        "evaluation/examples/stage6_review.py",
+        "evaluation/examples/stage6_tools.py",
+        "evaluation/examples/stage4_process_probe.py",
+        "evaluation/preflight/stage4_judge.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "format",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests",
+        "scripts",
+        "evaluation/examples/stage4_live.py",
+        "evaluation/examples/stage6_live.py",
+        "evaluation/examples/stage6_review.py",
+        "evaluation/examples/stage6_tools.py",
+        "evaluation/examples/stage4_process_probe.py",
+        "evaluation/preflight/stage4_judge.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "mypy-evaluation",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "mypy",
+        "--strict",
+        "--follow-imports=silent",
+        "src/novacode/evaluation",
+        "src/novacode/privacy.py",
+        "src/novacode/assembly.py",
+        "src/novacode/llm/metadata.py",
+        "src/novacode/tool/exposure.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "complexity-evaluation",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "ruff",
+        "check",
+        "--select",
+        "C901",
+        "src/novacode/evaluation",
+        "src/novacode/privacy.py",
+        "src/novacode/assembly.py",
+        "src/novacode/llm/metadata.py",
+        "src/novacode/tool/exposure.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "boundaries",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "python",
+        "scripts/check_boundaries.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "pytest",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "startup-version",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "python",
+        "-m",
+        "novacode",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "check": "startup-help",
+      "command": [
+        "/home/louishyh/.local/bin/uv",
+        "run",
+        "--locked",
+        "python",
+        "-m",
+        "novacode",
+        "--help"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

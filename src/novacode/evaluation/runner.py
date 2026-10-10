@@ -27,7 +27,9 @@ from novacode.evaluation.ledger import Ledger
 
 
 def validate_execution(payload: dict[str, Any], task: EvaluationTask, hidden: Path) -> None:
-    require(type(payload.get("context_compression", True)) is bool, "压缩策略必须为布尔值")
+    from novacode.evaluation.worker import strategy
+
+    strategy(payload)
     cfg = payload["provider"]
     require(
         cfg["protocol"] == "anthropic"

@@ -1,0 +1,4 @@
+119 files already formatted
+All checks passed!
+mypy: baseline=180, current=179, new=0
+C901: baseline=21, current=20, new=0

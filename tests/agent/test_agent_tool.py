@@ -160,7 +160,7 @@ async def test_main_agent_calls_agent_tool_and_child_cannot_see_agent(tmp_path) 
     tool.set_parent(parent)
     conversation = Conversation()
     assert await parent.run_to_completion(conversation, "delegate") == "main final"
-    assert [item.name for item in provider.requests[0].tools] == ["Agent"]
+    assert [item.name for item in provider.requests[0].tools] == ["Agent", "discover_tools"]
     assert "Agent" not in [item.name for item in provider.requests[1].tools]
     tool_result = next(message for message in conversation.messages() if message.role == "tool")
     assert tool_result.tool_results[0].content == "child final"

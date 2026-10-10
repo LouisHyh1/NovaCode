@@ -1,0 +1,1 @@
+{"schema_version": 1, "identity": "9fbf18638a189dfdd4032f0b42602b0aec370aad3fddcf813f2b3e9ac39fe55b", "exposed": ["bash", "ci_build_status", "edit_file", "glob", "grep", "mcp__fixed_ci__ci_build_failure", "read_file", "write_file"]}

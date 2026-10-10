@@ -148,6 +148,7 @@ class NovaCodeApp(App):
         team_mgr=None,
         coordinator_mode: bool = False,
         context_compression: bool = True,
+        progressive_tool_schema: bool = False,
         startup_warnings: list[str] | None = None,
         provider_factory: Callable[[ProviderConfig], LLMProvider] | None = None,
         agent_factory: Callable[[LLMProvider, ToolRegistry, SessionService], Agent] | None = None,
@@ -167,6 +168,7 @@ class NovaCodeApp(App):
         self.team_mgr = team_mgr
         self.coordinator_mode = coordinator_mode
         self.context_compression = context_compression
+        self.progressive_tool_schema = progressive_tool_schema
         self.lead_mail_event = asyncio.Event()
         worktree_session = worktree_mgr.current_session() if worktree_mgr is not None else None
         self.active_cwd = worktree_session.worktree_path if worktree_session is not None else ""
@@ -404,6 +406,7 @@ class NovaCodeApp(App):
             memory_index=self._memory_index,
             hook_engine=self.hook_engine,
             context_compression=self.context_compression,
+            progressive_tool_schema=self.progressive_tool_schema,
         )
 
     # ── right-click copy ───────────────────────────────────────
@@ -896,6 +899,8 @@ class NovaCodeApp(App):
         widget.update(self.completion.render(self.size.width))
 
     def _current_tool_defs(self):
+        if self.agent is not None:
+            return self.agent._tool_definitions(self.agent.permission_mode or self._mode)
         if self._mode == Mode.PLAN:
             return self._tool_registry.read_only_definitions()
         return self._tool_registry.definitions()
@@ -989,6 +994,7 @@ class NovaCodeApp(App):
                 self._version,
                 self.engine,
                 context_compression=self.context_compression,
+                progressive_tool_schema=self.progressive_tool_schema,
             )
         agent = self.agent
         with with_cwd(self._effective_cwd()):

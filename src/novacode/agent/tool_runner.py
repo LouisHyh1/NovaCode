@@ -28,6 +28,7 @@ from novacode.permission.engine import Engine
 from novacode.permission.persist import persist_local_allow
 from novacode.privacy import redact
 from novacode.tool import DEFAULT_TIMEOUT, Registry
+from novacode.tool.exposure import DISCOVER, ToolExposure
 
 if TYPE_CHECKING:
     from novacode.agent import Agent
@@ -80,6 +81,7 @@ class ToolRunner:
         owner: Agent | None = None,
         record_read: RecordRead | None = None,
         observer: Callable[[ToolEvent], None] | None = None,
+        exposure: ToolExposure | None = None,
     ) -> None:
         self._registry = registry
         self._dispatch_hook = dispatch_hook
@@ -91,8 +93,10 @@ class ToolRunner:
         self._owner = owner
         self._record_read = record_read
         self._observer = observer
+        self._exposure = exposure
         self._sequence = 0
         self._failed_calls: dict[tuple[str, str], str] = {}
+        self._visible_request: frozenset[str] = frozenset()
 
     def set_allowed_tools(self, names: list[str]) -> None:
         self._allowed_tools = frozenset(names)
@@ -105,6 +109,9 @@ class ToolRunner:
         mode: Mode,
     ) -> AsyncIterator[ToolRunUpdate]:
         results: list[ToolResult | None] = [None] * len(calls)
+        if self._exposure is not None:
+            self._exposure.prepare(mode, self._allowed_tools)
+            self._visible_request = frozenset(t.name for t in self._exposure.definitions())
         index = 0
         while index < len(calls):
             end = self._batch_end(calls, index)
@@ -153,16 +160,25 @@ class ToolRunner:
             result=ToolRunResult(
                 results=finalized,
                 completed=not cancel.is_set(),
-                all_unknown=all(self._registry.get(call.name) is None for call in calls),
+                all_unknown=all(
+                    self._registry.get(call.name) is None and not self._is_discovery(call.name)
+                    for call in calls
+                ),
             )
         )
 
     def _batch_end(self, calls: list[ToolCall], index: int) -> int:
         end = index + 1
-        if self._registry.is_read_only(calls[index].name):
-            while end < len(calls) and self._registry.is_read_only(calls[end].name):
+        if self._is_read_only(calls[index].name):
+            while end < len(calls) and self._is_read_only(calls[end].name):
                 end += 1
         return end
+
+    def _is_discovery(self, name: str) -> bool:
+        return self._exposure is not None and name == DISCOVER
+
+    def _is_read_only(self, name: str) -> bool:
+        return self._is_discovery(name) or self._registry.is_read_only(name)
 
     async def _interrupt_batch(
         self,
@@ -249,9 +265,9 @@ class ToolRunner:
             result = await self._execute_allowed(call, conversation, cancel)
             result.authorization = "allowed"
         else:
-            result.authorization = "denied"
+            result.authorization = "unavailable" if result.error_type == "UnknownTool" else "denied"
             result.execution = "not-executed"
-            result.error_type = "PolicyDenied"
+            result.error_type = result.error_type or "PolicyDenied"
         await self._post_hook(call, result, mode)
         result.ended_monotonic = time.monotonic()
         return result
@@ -269,19 +285,38 @@ class ToolRunner:
                 f"[hook {hook.blocking_hook_name}] {hook.reason}",
                 is_error=True,
             )
-        if self._allowed_tools is not None and call.name not in self._allowed_tools:
+        if self._registry.get(call.name) is None and not self._is_discovery(call.name):
+            return ToolResult(
+                call.id, f"未知工具: {call.name}", is_error=True, error_type="UnknownTool"
+            )
+        if (
+            self._allowed_tools is not None
+            and call.name not in self._allowed_tools
+            and not self._is_discovery(call.name)
+        ):
             return ToolResult(
                 call.id,
                 f"工具 {call.name} 对当前 SubAgent 不可用",
                 is_error=True,
             )
-        if mode == Mode.PLAN and not self._registry.is_read_only(call.name):
+        if mode == Mode.PLAN and not self._is_read_only(call.name):
             return ToolResult(
                 call.id,
                 f"[计划模式拒绝] {call.name} 未执行。"
                 "计划模式下只允许只读操作，文件系统未做任何修改。",
                 is_error=True,
                 is_policy_denial=True,
+            )
+        if (
+            self._exposure is not None
+            and self._registry.get(call.name) is not None
+            and call.name not in self._visible_request
+        ):
+            return ToolResult(
+                call.id,
+                f"工具 {call.name} 尚未曝光；请先调用 discover_tools。",
+                is_error=True,
+                error_type="UnexposedTool",
             )
         return None
 
@@ -297,7 +332,7 @@ class ToolRunner:
         decision, reason = self._engine.check(
             mode,
             call,
-            self._registry.is_read_only(call.name),
+            self._is_read_only(call.name),
         )
         if decision == Decision.DENY:
             return ToolResult(call.id, reason, is_error=True)
@@ -332,6 +367,16 @@ class ToolRunner:
                 is_error=True,
                 execution="not-executed",
                 error_type="CancelledError",
+            )
+        if self._is_discovery(call.name):
+            assert self._exposure is not None
+            discovered = self._exposure.discover(call.input)
+            return ToolResult(
+                call.id,
+                discovered.content,
+                is_error=discovered.is_error,
+                execution="failed" if discovered.is_error else "succeeded",
+                error_type="DiscoveryError" if discovered.is_error else "",
             )
         tool = self._registry.get(call.name)
         if tool is None:
