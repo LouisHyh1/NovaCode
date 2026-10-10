@@ -1,0 +1,255 @@
+[
+  {
+    "task_id": "L01",
+    "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-10225@sha256:09eddd89edf9107043e53d8a60c336e303ddc66638ade14fe275ae7b24348bf6",
+    "image_id": "sha256:09eddd89edf9107043e53d8a60c336e303ddc66638ade14fe275ae7b24348bf6",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+        "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+        "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+        "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+        "sha256:7220c0ff562faf6ff6d75a5bd1e3b481fd412bdd7fb46988852d06d6919a241f",
+        "sha256:8d924c9d1e8dc9faa33b9f4fb85ae4342a70dd4e553b481b2562a5a33838d2bd",
+        "sha256:23443a55ecbb6f1225030dda831cc2f62d148a0600eb5d28619d1b0ed161a80c",
+        "sha256:b9817ce93de413947cfef15c683a81c0450527d600ad3579f70606644387df13",
+        "sha256:cab64554c6a9784f96f51ca410213875e57f0f05870751b30dcefe3698505748"
+      ]
+    }
+  },
+  {
+    "task_id": "L02",
+    "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+    "image_id": "sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+        "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+        "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+        "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+        "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+        "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+        "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+        "sha256:c4cdbb663a1f8ff3835fd53f6f672fa9af23e42d09a34785e883fb3007169df5",
+        "sha256:e661a750e5855bb7218de15ccfbd6cc6642267e4826449e610f3ab02ac0ca52b"
+      ]
+    }
+  },
+  {
+    "task_id": "L03",
+    "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2093@sha256:94c2b5ac1f6da6f600338055e275e0ee93e737b93a9f099a1ef714e2539b963a",
+    "image_id": "sha256:94c2b5ac1f6da6f600338055e275e0ee93e737b93a9f099a1ef714e2539b963a",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+        "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+        "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+        "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+        "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+        "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+        "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+        "sha256:d90c76b7763a16ee22a73587b76b661a7761db583281a86da93ff827137116b9",
+        "sha256:918d8e4098bc5d38a0a96909694dd39b65a9778fc64ff3d1f2b4ce0dc36dba22"
+      ]
+    }
+  },
+  {
+    "task_id": "L04",
+    "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1104@sha256:8a67bdf626b87a7d32480f60ec9c6754c1183e88ccaa6b9f5c3ba0ef0fb32e5a",
+    "image_id": "sha256:8a67bdf626b87a7d32480f60ec9c6754c1183e88ccaa6b9f5c3ba0ef0fb32e5a",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+        "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+        "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+        "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+        "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+        "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+        "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+        "sha256:d89c041d3a8cf69f09402fb9dae6b0452e46b77ee93d07c051aaf4b4fff84d2a",
+        "sha256:50bdef7ee0fe10511c144a250610722bfa53f679011542fdc63bc7850a64c0a1"
+      ]
+    }
+  },
+  {
+    "task_id": "L05",
+    "image": "starryzhang/sweb.eval.x86_64.falconry_1776_falcon-2426@sha256:40c9b234578082a4852de43e8ccdbe89044a03a2a39d9102ddcb8e34e2271c89",
+    "image_id": "sha256:40c9b234578082a4852de43e8ccdbe89044a03a2a39d9102ddcb8e34e2271c89",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+        "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+        "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+        "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+        "sha256:d3262b68815cc1cc34b597cdda16d4ec708b624a84d13ab06c590ce12d0fbec7",
+        "sha256:f0848283ad07e2b6e91b6cd8e16d9d9b595270cca8ebca9a453a9945ae017640",
+        "sha256:a91f0cd2daf7ac1468a0d155ba420c7dea9feac5eea3e37d8fc63b65e724f0e6",
+        "sha256:e3e594f0595d34a506c5947cb204091a764805a147f4622d456f81e37e1730b3",
+        "sha256:a4c8bdc2f707ce7772e5235101bab76c522ff6e2420d456a1972396f64e3f947"
+      ]
+    }
+  },
+  {
+    "task_id": "L06",
+    "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3749@sha256:f66404b8fee73c41820929afe4778e2c0dbba735a950ad9a042ae9e2ea649d29",
+    "image_id": "sha256:f66404b8fee73c41820929afe4778e2c0dbba735a950ad9a042ae9e2ea649d29",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+        "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+        "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+        "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+        "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+        "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+        "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+        "sha256:b77c876efef321e17db015b1579a6006edbc60cf612af2138013a0da15048f29",
+        "sha256:c1a3743ffd0efdc00fa7730723f513480598c47ae670ca8dddf254bc0076d26c"
+      ]
+    }
+  },
+  {
+    "task_id": "L07",
+    "image": "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2286@sha256:4c525f81a3461b515f8c9a4f17c57534d867b9e9a3d60374b33473508de62189",
+    "image_id": "sha256:4c525f81a3461b515f8c9a4f17c57534d867b9e9a3d60374b33473508de62189",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+        "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+        "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+        "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+        "sha256:7220c0ff562faf6ff6d75a5bd1e3b481fd412bdd7fb46988852d06d6919a241f",
+        "sha256:8d924c9d1e8dc9faa33b9f4fb85ae4342a70dd4e553b481b2562a5a33838d2bd",
+        "sha256:23443a55ecbb6f1225030dda831cc2f62d148a0600eb5d28619d1b0ed161a80c",
+        "sha256:d547e8327258ee59d8afed61fa94686d077f4778987a1591656771e665ff42e4",
+        "sha256:afe0dea275669c1a8345e75cc561a7a0c14c8f93b38400b7dd956bcb2238ff67"
+      ]
+    }
+  },
+  {
+    "task_id": "L08",
+    "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1120@sha256:9a9c44884dc9e0a7ad327598373f7aebf7791f647e21d8d9f30445c2db437ba5",
+    "image_id": "sha256:9a9c44884dc9e0a7ad327598373f7aebf7791f647e21d8d9f30445c2db437ba5",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+        "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+        "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+        "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+        "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+        "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+        "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+        "sha256:b6de853c13029664e76b1a8a87dc58527ed2b082c097b3f8c36e20b0aa8b6677",
+        "sha256:a232987af9b61e268582c63ef540154d33f3ffa2e057d9af9c7b4785fac8470f"
+      ]
+    }
+  },
+  {
+    "task_id": "L09",
+    "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-879@sha256:9a67192d40b61daedd0e64572d1d7a29d49bcff60e2b4dbdef87db6a1702ebfe",
+    "image_id": "sha256:9a67192d40b61daedd0e64572d1d7a29d49bcff60e2b4dbdef87db6a1702ebfe",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+        "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+        "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+        "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+        "sha256:d3262b68815cc1cc34b597cdda16d4ec708b624a84d13ab06c590ce12d0fbec7",
+        "sha256:f0848283ad07e2b6e91b6cd8e16d9d9b595270cca8ebca9a453a9945ae017640",
+        "sha256:a91f0cd2daf7ac1468a0d155ba420c7dea9feac5eea3e37d8fc63b65e724f0e6",
+        "sha256:e5a1945b024993cf450872adb088c7878126f1088835c6b17a5e37467be2f6da",
+        "sha256:c39d0ee4631376a18377cfdb5f5054e7fd6ccb9146c5dd6fb97ecfa3815a122e"
+      ]
+    }
+  },
+  {
+    "task_id": "L10",
+    "image": "starryzhang/sweb.eval.x86_64.falconry_1776_falcon-2248@sha256:33f3293001f93d8e6774b72d00ad8d9ed519ff5437d9f3873db8e6385aa8dcc2",
+    "image_id": "sha256:33f3293001f93d8e6774b72d00ad8d9ed519ff5437d9f3873db8e6385aa8dcc2",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+        "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+        "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+        "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+        "sha256:d3262b68815cc1cc34b597cdda16d4ec708b624a84d13ab06c590ce12d0fbec7",
+        "sha256:f0848283ad07e2b6e91b6cd8e16d9d9b595270cca8ebca9a453a9945ae017640",
+        "sha256:a91f0cd2daf7ac1468a0d155ba420c7dea9feac5eea3e37d8fc63b65e724f0e6",
+        "sha256:e483b609d839a57862dd42602840b8cd63f7255abe56ef52d8f7ebf6bf39a381",
+        "sha256:d943d0af24a318aebd997a6357c26c832c4c442846583fa7ab44106843322c57"
+      ]
+    }
+  },
+  {
+    "task_id": "L11",
+    "image": "starryzhang/sweb.eval.x86_64.python-attrs_1776_attrs-1321@sha256:fc762175c510bb85c14e2caa8d6914650aac7727f567f63906dbdebd361f7c62",
+    "image_id": "sha256:fc762175c510bb85c14e2caa8d6914650aac7727f567f63906dbdebd361f7c62",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:7c85cfa30cb11b7606c0ee84c713a8f6c9faad7cb7ba92f1f33ba36d4731cc82",
+        "sha256:f6589095d5b5a4933db1a75edc905d20570c9f6e5dbebd9a7c39a8eef81bb3fd",
+        "sha256:a981dddd4c650efa96d82013fba1d1189cf4648cd1e766b34120b32af9ce8a06",
+        "sha256:01d6cdeac53917b874d5adac862ab90dcf22489b7914611a1bde7c84db0a99ae",
+        "sha256:c26432533a6af2f6f59d50aba5f76f2b61c2e0088c7e01b5d2a8708b6cb9ef08",
+        "sha256:aef22e07d5d7e259dca961a8e2587143dd9f0a6edc05c549af574031343372f4",
+        "sha256:8e23f007f16f45451f325eb7d3f8e8d3bb5f355c4f8b12eb1e9392dc10d8da33",
+        "sha256:45c430b35dba6c7aae97d666bb8a2edf6d6059e14cbe5a3b44118d6f4ca2221e",
+        "sha256:27255b5b1de30fc91fde36a00146ab16269a70fe86d2d38bb22204c1280fa4b1",
+        "sha256:dfb05cd5da8c09e406c119978441f0dc07b1d0008e01b0233dde172930afe680"
+      ]
+    }
+  },
+  {
+    "task_id": "L12",
+    "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-9990@sha256:1ded535ff3f5f249cea97111389e4331a8293a99caba3bc959c0b265a7c9000a",
+    "image_id": "sha256:1ded535ff3f5f249cea97111389e4331a8293a99caba3bc959c0b265a7c9000a",
+    "architecture": "amd64",
+    "os": "linux",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+        "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+        "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+        "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+        "sha256:7220c0ff562faf6ff6d75a5bd1e3b481fd412bdd7fb46988852d06d6919a241f",
+        "sha256:8d924c9d1e8dc9faa33b9f4fb85ae4342a70dd4e553b481b2562a5a33838d2bd",
+        "sha256:23443a55ecbb6f1225030dda831cc2f62d148a0600eb5d28619d1b0ed161a80c",
+        "sha256:6ca4ae631308a1b9b2b84edc8bc215270e71a76d91cdf5d4a03fda3e57653fe5",
+        "sha256:c482629916ef57281fc9ad68b0503aa619f929a7376b91f772c6b83f7bf58cec"
+      ]
+    }
+  }
+]

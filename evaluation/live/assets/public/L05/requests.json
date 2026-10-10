@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "Support `Last-Modified` header for static files\nRender the `Last-Modified` header when serving static files. We are already performing `.stat()` on the open file handle, so we should have the required modification date.\r\n\r\nWhen serving, also check the [If-Modified-Since](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since) header, and render `HTTP 304 Not Modified` if appropriate.\r\n\r\nThis issue is very similar to #2243, but probably slightly easier, so maybe this one could be taken first.\n"
+  ]
+}

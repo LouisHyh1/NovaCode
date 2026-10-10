@@ -66,6 +66,8 @@ def test_alternative_paths_and_wrong_relation(task_id):
     case = next(c for c in cases() if c.task_id == task_id)
     for answer in case.answers:
         assert facts_pass(json.dumps(answer), case.answers)
+        explained = json.dumps(answer) + '\n解释中的配置示例：{"mode":"safe","label":"default"}'
+        assert facts_pass(explained, case.answers)
         normalized = copy.deepcopy(answer)
         normalized["files"] = ["./" + name for name in answer["files"]]
         assert facts_pass(json.dumps(normalized), case.answers)

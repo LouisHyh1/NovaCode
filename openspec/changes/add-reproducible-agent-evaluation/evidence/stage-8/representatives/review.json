@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "runs": {
+    "tmux-live": {
+      "result": {
+        "acceptance": "failed",
+        "agent_run_ids": [
+          "b209d771a7114f3bba104741d77ceb8f"
+        ],
+        "block_reason": "",
+        "campaign_id": "representative-real",
+        "cleanup": "passed",
+        "completed_requests": 0,
+        "config_id": "full",
+        "initial_sha256": "992bdc4013f3374052993198af47e95e447656bb495a2a6bb3bd3902ba3d9706",
+        "live_resolved": false,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "tmux-live",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "R01",
+        "task_sha256": "2e8d2bbcc6548749a1325e424025ec1b18763071fb52be2cfbbbe6ceed76a110",
+        "termination": "budget-exhausted"
+      },
+      "metrics": {
+        "provider_calls": 13,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 189329,
+        "measured_tokens": 189329,
+        "tool_calls": 16,
+        "tool_retries": 0,
+        "tool_executed": 16,
+        "tool_succeeded": 16,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": 0.017813504000514513,
+          "agent": 35.034162388998084,
+          "cleanup": 0.004062489002535585,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 35.06103397399784,
+        "total_wall_seconds": 35.11083939799937,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "tui_exit": "0"
+    },
+    "tmux-live-2": {
+      "result": {
+        "acceptance": "failed",
+        "agent_run_ids": [
+          "53807c86ee4c492eb7f1ced796ae1075"
+        ],
+        "block_reason": "",
+        "campaign_id": "representative-real",
+        "cleanup": "passed",
+        "completed_requests": 0,
+        "config_id": "full",
+        "initial_sha256": "992bdc4013f3374052993198af47e95e447656bb495a2a6bb3bd3902ba3d9706",
+        "live_resolved": false,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "tmux-live-2",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "R01",
+        "task_sha256": "2e8d2bbcc6548749a1325e424025ec1b18763071fb52be2cfbbbe6ceed76a110",
+        "termination": "budget-exhausted"
+      },
+      "metrics": {
+        "provider_calls": 12,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 198423,
+        "measured_tokens": 198423,
+        "tool_calls": 13,
+        "tool_retries": 0,
+        "tool_executed": 13,
+        "tool_succeeded": 13,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": null,
+          "initialization": 0.017239549997611903,
+          "agent": 47.39846905400191,
+          "cleanup": 0.0041748930016183294,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 47.42423382199922,
+        "total_wall_seconds": 47.477398571001686,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "tui_exit": "0"
+    },
+    "tmux-product-facts": {
+      "result": {
+        "acceptance": "failed",
+        "agent_run_ids": [
+          "66e135b6eab843ab8e375532e75f7bfd"
+        ],
+        "block_reason": "",
+        "campaign_id": "representative-real",
+        "cleanup": "passed",
+        "completed_requests": 1,
+        "config_id": "full",
+        "initial_sha256": "d2e34b29b0f641a79bbc764d3b9a7968c2c3055b643f6f8938bce0d928b4b97a",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "tmux-product-facts",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S01",
+        "task_sha256": "f0d220c267aac1621b0862c4afb9d50c286fdd05355098ba9c26604db599b4ce",
+        "termination": "completed"
+      },
+      "metrics": {
+        "provider_calls": 3,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 8625,
+        "measured_tokens": 8625,
+        "tool_calls": 5,
+        "tool_retries": 0,
+        "tool_executed": 5,
+        "tool_succeeded": 5,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.44878147300187266,
+          "initialization": 0.018574077999801375,
+          "agent": 5.884500042997388,
+          "cleanup": 0.004240854999807198,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 5.91858858300111,
+        "total_wall_seconds": 6.38049607100038,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "tui_exit": "0",
+      "revised_review": {
+        "schema_version": 1,
+        "original_result": {
+          "acceptance": "failed",
+          "agent_run_ids": [
+            "66e135b6eab843ab8e375532e75f7bfd"
+          ],
+          "block_reason": "",
+          "campaign_id": "representative-real",
+          "cleanup": "passed",
+          "completed_requests": 1,
+          "config_id": "full",
+          "initial_sha256": "d2e34b29b0f641a79bbc764d3b9a7968c2c3055b643f6f8938bce0d928b4b97a",
+          "live_resolved": null,
+          "repeat_id": 1,
+          "retry_of": null,
+          "run_id": "tmux-product-facts",
+          "schema_version": 1,
+          "scope": "passed",
+          "state": "RECORDED",
+          "task_id": "S01",
+          "task_sha256": "f0d220c267aac1621b0862c4afb9d50c286fdd05355098ba9c26604db599b4ce",
+          "termination": "completed"
+        },
+        "original_task_sha256": "f0d220c267aac1621b0862c4afb9d50c286fdd05355098ba9c26604db599b4ce",
+        "revised_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+        "revised_judge_sha256": "6ef95f53a964448c1418ec24d0e2e1b5c137c31b5dc92546b7eab8681c60290e",
+        "automated_review": {
+          "conditions": {
+            "scope": true,
+            "facts": true
+          },
+          "details": {}
+        },
+        "same_public_input": true,
+        "new_model_calls": 0,
+        "strict_success_under_revised_contract": true,
+        "reason": "完整事实答案之外的解释配置 JSON 不应造成多答案误判"
+      }
+    }
+  },
+  "actual_tokens": 396377,
+  "provider_calls": 28,
+  "tool_calls": 34,
+  "reserved_tokens": 800000
+}

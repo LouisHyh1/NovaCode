@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-10225@sha256:09eddd89edf9107043e53d8a60c336e303ddc66638ade14fe275ae7b24348bf6",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

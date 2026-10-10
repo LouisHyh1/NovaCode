@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "row_index": 27,
+      "instance_id": "python-attrs__attrs-1321",
+      "repository": "python-attrs/attrs",
+      "base_commit": "fd7538f0e23a49ec34b636484de2d1b4b690c7fb",
+      "row_sha256": "17a257779265c25b6bcf8f566a4aee614c63137a4c663da15c881e14e8e88868",
+      "difficulty": "hard",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "hard",
+        "reason": "类装饰完成时机、slot 替换类、继承 classmethod、ABC 方法和 Python 版本分支共同约束生命周期"
+      },
+      "title": "attr-compatible __init_subclass__ variant: __attr_init_subclass__",
+      "reason": "eligible-for-review",
+      "rank": "2099137a4918691b501b78cbef6664eaaac47f106fc0328877a906fc91306320",
+      "problem_keys": [
+        "issue:python-attrs/attrs#595",
+        "fix:https://github.com/python-attrs/attrs/commit/ca3c33b9b03edf5d9718afc0a912da9c66bbd668",
+        "fix:https://github.com/python-attrs/attrs/commit/65fb3f0ef79b43221ff43baa968c723e32d535cd",
+        "fix:https://github.com/python-attrs/attrs/commit/4a45d5805cd302054fa98ba321dd3ad27c8b6a2c",
+        "fix:https://github.com/python-attrs/attrs/commit/45d86e3ca16e4d63eb2de13e93ea1eb71b408cc3",
+        "fix:https://github.com/python-attrs/attrs/commit/7ae356c770d53eacaf1c6aa7e7e6aa4ed99dcd59",
+        "fix:https://github.com/python-attrs/attrs/commit/833d117243bdb2536de582982adb9dc45efe44e4",
+        "fix:https://github.com/python-attrs/attrs/commit/6d1b7aa833dcffbad9f8ec27236cd6b62b0e986c",
+        "fix:https://github.com/python-attrs/attrs/commit/6dc5039e5edc1f2342a91c5839d7463541255bae",
+        "fix:https://github.com/python-attrs/attrs/commit/10045124a08b6d9fdf1ff4cad63e44da64254a17",
+        "fix:https://github.com/python-attrs/attrs/commit/5870f3a65e2147af070325386ef149d1ab5d1ce5",
+        "fix:https://github.com/python-attrs/attrs/commit/484b55b6a09e1fa097e36895f9c9d99e58f4c342",
+        "fix:https://github.com/python-attrs/attrs/commit/793889eb564fd818841e0dd6f08677cc54c019d7",
+        "fix:https://github.com/python-attrs/attrs/commit/afb6afa6fd617da0801c217b958d8857d1c182fa"
+      ],
+      "qualification_relative_path": "final-qualification/python-attrs__attrs-1321"
+    },
+    {
+      "row_index": 119,
+      "instance_id": "pylint-dev__pylint-9990",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "537e9da59e7df337fa39897d0b583ce0c12d3ed9",
+      "row_sha256": "a5a2c479f9a5684ee9d753c9437aa4983ca71451c662e3ff8357141b09c6c3bc",
+      "difficulty": "hard",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "hard",
+        "reason": "TYPE_CHECKING 导入的静态/运行期区分、延迟注解、消费者状态与跨局部作用域报告生命周期联动"
+      },
+      "title": "false negative: used-before-assignment w/ type_checking guard",
+      "reason": "eligible-for-review",
+      "rank": "2eb951e36e50e07058e3fd434a53dd3845ba4e9610df75edd73f423c315860f7",
+      "problem_keys": [
+        "issue:pylint-dev/pylint#8893",
+        "fix:https://github.com/pylint-dev/pylint/commit/50dea18d6fa85e0ca7e2311748f11d2a6c47fd2f",
+        "fix:https://github.com/pylint-dev/pylint/commit/da91776b3219968cecb759ba9b116fd64823ef3f",
+        "fix:https://github.com/pylint-dev/pylint/commit/0a88d3f729e7a37c021edcd5a2f55640a19c2573",
+        "fix:https://github.com/pylint-dev/pylint/commit/22d2d7dedc4b831120a1ccf1ac623ff4030c37c0",
+        "fix:https://github.com/pylint-dev/pylint/commit/16d14e8c2e1ad0c559b2b81536d265458b26dea4"
+      ],
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-9990"
+    },
+    {
+      "row_index": 322,
+      "instance_id": "pylint-dev__pylint-10225",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "12a8747ec98617fa1989ce069f174b3587005cdf",
+      "row_sha256": "6d1d81b9213d181132c6ac417b4e26450aba4ee9ca663dd16c4f8f392143fc7a",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "单个已存在比较检查器的左右操作数对称分派，标题初分层过高"
+      },
+      "title": "unidiomatic-typecheck only checks left-hand side",
+      "reason": "eligible-for-review",
+      "rank": "024657be6c9c4d98427d7bb63708097b8c6d90ec79c2d979f6350f3fc85580a8",
+      "problem_keys": [
+        "issue:pylint-dev/pylint#10217",
+        "fix:https://github.com/pylint-dev/pylint/commit/c970eb277b789195c2899267904fe0b8affe0344",
+        "fix:https://github.com/pylint-dev/pylint/commit/92fe70d5c3073376134d743ee8148b89a7be6b6a",
+        "fix:https://github.com/pylint-dev/pylint/commit/326c89ac15c7045be4205ccf749913bb97e5d7a7",
+        "fix:https://github.com/pylint-dev/pylint/commit/deadb76d1e10fd7def787c1c6d2ce1b070311db9",
+        "fix:https://github.com/pylint-dev/pylint/commit/048eaea8c8f3f5c38fab17ba9e9e13401bd1e419",
+        "fix:https://github.com/pylint-dev/pylint/commit/5a347fea2579e47a203b9dc21ab178ba0dc960c6",
+        "fix:https://github.com/pylint-dev/pylint/commit/fe81cc9527c99f8e03474448dbe4324056a044c5",
+        "fix:https://github.com/pylint-dev/pylint/commit/d62a6360e843e4da13f4fc5343eb73335e680364"
+      ],
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-10225"
+    },
+    {
+      "row_index": 75,
+      "instance_id": "joke2k__faker-2096",
+      "repository": "joke2k/faker",
+      "base_commit": "4240ef8fc783c0c1598085b596783ace9ccaee03",
+      "row_sha256": "d9caa9b166ac86e3b4c923c3d215c2dc68dc0c66cfb91f1552bd6f4ebfc7ea9f",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "单个数值生成器的跨零区间抽样，边界语义集中；随机测试需三次独立复验"
+      },
+      "title": "pydecaimal probability issue",
+      "reason": "eligible-for-review",
+      "rank": "0a8685050e4f63997324f318900e9b21227eefc469c99500583b94139053566f",
+      "problem_keys": [
+        "issue:joke2k/faker#2085",
+        "fix:https://github.com/joke2k/faker/commit/c30f1105c0d68e7cc52c6d9a27289084118dfe71",
+        "fix:https://github.com/joke2k/faker/commit/f1f7394216a6e289d01a132f07c1d55c87ab6e2f"
+      ],
+      "qualification_relative_path": "final-qualification/joke2k__faker-2096"
+    },
+    {
+      "row_index": 68,
+      "instance_id": "joke2k__faker-2093",
+      "repository": "joke2k/faker",
+      "base_commit": "b51f852b097f416d9c60198a838ce3d5f396ea19",
+      "row_sha256": "54944d0625c63890621973791fe79f2aceb32aa19dcb3cddcaef0bf914dacd32",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "单个 locale 人名 provider 的性别路由与固定姓氏事实，数据条数不当作推理难度"
+      },
+      "title": "some surnames for uk_ua locale have male form when name_female() is called",
+      "reason": "eligible-for-review",
+      "rank": "3282c322504773e5bdc599ccc9fd6b1dfdbdc483ddd9c2cb21539f1f8f50f5fe",
+      "problem_keys": [
+        "issue:joke2k/faker#2092",
+        "fix:https://github.com/joke2k/faker/commit/d72f4efc1b672be0193adbc75d3d09f50b7c6844"
+      ],
+      "qualification_relative_path": "final-qualification/joke2k__faker-2093"
+    },
+    {
+      "row_index": 13,
+      "instance_id": "python-babel__babel-1104",
+      "repository": "python-babel/babel",
+      "base_commit": "2f87363410f3c904e107e85ca10b9f84902db93f",
+      "row_sha256": "45f674e106dcab8a7a1c29d6a71b5bd41141a83f83cb0e2415a0a2332eb2af58",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "Locale modifier 规范化与已有 locale-data 文件存在性检查的局部边界"
+      },
+      "title": "locale modifiers not validated before loading locale data file",
+      "reason": "eligible-for-review",
+      "rank": "e0e99cd309967c61fa262b28556b90fc746472d68585272b33e87d812c22c31b",
+      "problem_keys": [
+        "issue:python-babel/babel#1089",
+        "fix:https://github.com/python-babel/babel/commit/439faab7588d38219dcdcb3528b7472c7341ed6f"
+      ],
+      "qualification_relative_path": "final-qualification/python-babel__babel-1104"
+    },
+    {
+      "row_index": 265,
+      "instance_id": "falconry__falcon-2426",
+      "repository": "falconry/falcon",
+      "base_commit": "62c80e679c5a17eb08e1a836a2a8ad3f75697fdb",
+      "row_sha256": "560b7fc93df6206006cdf87f71d0c3409a0ad193fc1a81a3921e32f490642b71",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "WSGI/ASGI 静态响应、文件句柄关闭、日期条件、304 和 Range 兼容联动"
+      },
+      "title": "support `last-modified` header for static files",
+      "reason": "eligible-for-review",
+      "rank": "0093d682e4b4a93913f446725d9f5b9caa40b0be1e69dfed5938755a879f376d",
+      "problem_keys": [
+        "issue:falconry/falcon#2244",
+        "fix:https://github.com/falconry/falcon/commit/bf8e72e47bd59d8ce4ac7f4fde8a83a279b8bc2f",
+        "fix:https://github.com/falconry/falcon/commit/8b0992d4189892aaa7cb25c0b4e9a83b6cedaeb4",
+        "fix:https://github.com/falconry/falcon/commit/6165befabf31e685cc8152ad98997c6e2e3f3496",
+        "fix:https://github.com/falconry/falcon/commit/613fce6f68a09bccc05138af0ca84fa1b1b54490",
+        "fix:https://github.com/falconry/falcon/commit/4635a61ca0c6a9bc60b47e72ffb61fcd9a5d076f",
+        "fix:https://github.com/falconry/falcon/commit/cea552a597e1b124a37b2b3b6de1efc1ce3580db",
+        "fix:https://github.com/falconry/falcon/commit/1e3220a710d8e3c645e0d001a19d878df832bfae",
+        "fix:https://github.com/falconry/falcon/commit/ccd7b5ebbbc5753c39ea3af98e40a3420aa80dc5",
+        "fix:https://github.com/falconry/falcon/commit/cf105d52f5f03e399b7870fbd4a2d05a2e6db003",
+        "fix:https://github.com/falconry/falcon/commit/c5e53182b6b7401bdcc60217df426004be56d9e5",
+        "fix:https://github.com/falconry/falcon/commit/8f9930c032b3288a2312fc7749db23a914bf43db",
+        "fix:https://github.com/falconry/falcon/commit/7c794f2a2395a3a831cf37f4ed582c7d566e12c9",
+        "fix:https://github.com/falconry/falcon/commit/6b7dd2158e31fbc7319213ee2258fbe6ea7c9479",
+        "fix:https://github.com/falconry/falcon/commit/673db30137bf280ed255dad843a2fb70859136e2",
+        "fix:https://github.com/falconry/falcon/commit/c728e8f2799527b53a529b4c3af94be6881724bc",
+        "fix:https://github.com/falconry/falcon/commit/5b48366052bdefa5fc5a1d51c89c5f859ba98d75",
+        "fix:https://github.com/falconry/falcon/commit/4885c8b1b76b4003731c043a1af79a72b55ebfbe",
+        "fix:https://github.com/falconry/falcon/commit/79242b1320547e7591e597acea61fcd38af42a32",
+        "fix:https://github.com/falconry/falcon/commit/c3f1d58575619d262b38a87445c36a5a21da753c",
+        "fix:https://github.com/falconry/falcon/commit/6b74ed74e9e20bbb7726f4bd3b17c3d84df36d28",
+        "fix:https://github.com/falconry/falcon/commit/0714e206c12f9a3dec4a99c25873dbcbff43d116",
+        "fix:https://github.com/falconry/falcon/commit/1edba9759074f8836dd6037597e86992d0e5b7fd",
+        "fix:https://github.com/falconry/falcon/commit/34b7a46bf1cf58e38b0c004a4256549e73daff69",
+        "fix:https://github.com/falconry/falcon/commit/b2217a1557edf9e7e9d9793ba2d74592cde93537",
+        "fix:https://github.com/falconry/falcon/commit/1898b391188973afac59f07bf103f485f33b7809",
+        "fix:https://github.com/falconry/falcon/commit/34ea7d85fee221b27b2eb7e742b0ef9805c23682",
+        "fix:https://github.com/falconry/falcon/commit/94b1253453da5784ee97247ebcc94b3ca82575f9",
+        "fix:https://github.com/falconry/falcon/commit/cd890aa087350a12ccf737381c3e631b9265df7a",
+        "fix:https://github.com/falconry/falcon/commit/5954b2f4f45161ca8ade86833ac7b9aff49f2ffc",
+        "fix:https://github.com/falconry/falcon/commit/2f598777de05ad36e3201a4ce1bd3475bce5b39a"
+      ],
+      "qualification_relative_path": "final-qualification/falconry__falcon-2426"
+    },
+    {
+      "row_index": 137,
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "repository": "aws-cloudformation/cfn-lint",
+      "base_commit": "07652d4a4133e825aeeb09973398575b25713c82",
+      "row_sha256": "26097e6b41c51447ede749636f7442e295781974328ce6c297c65542d0496036",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "ForEach 与 FindInMap、AccountId 引用和动态映射键关联"
+      },
+      "title": "fn::foreach could not be resolved when values array references map using accountid key",
+      "reason": "eligible-for-review",
+      "rank": "077413e8bfbddcd84963ef99855be14be688807e14d26fce79bce54272e2cc8d",
+      "problem_keys": [
+        "issue:aws-cloudformation/cfn-lint#3747",
+        "fix:https://github.com/aws-cloudformation/cfn-lint/commit/03a7100955dbbe51cd82cb3a3bef80adb021fb6b",
+        "fix:https://github.com/aws-cloudformation/cfn-lint/commit/277a29cfbd319049f9ae278bbc299fdbc7fc431a",
+        "fix:https://github.com/aws-cloudformation/cfn-lint/commit/9c0de35dc24adc4ae5bddb2c5558b1b8d3ed9b2a"
+      ],
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3749-image-retry-2"
+    },
+    {
+      "row_index": 160,
+      "instance_id": "pvlib__pvlib-python-2286",
+      "repository": "pvlib/pvlib-python",
+      "base_commit": "6af80da35a7c96059c534ee38be9123bcfc7f50f",
+      "row_sha256": "a2ff43669b2e41bbfa73838323d41e78178ab7aeb8f0e3ce4db2e9cb0e5ebd11",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "湿度/露点双向转换、标量/数组和物理单位合同，逆关系与边界须同时正确"
+      },
+      "title": "implement tdew to rh conversions",
+      "reason": "eligible-for-review",
+      "rank": "16e5a163d346fbab347bc94bbae1ff9884c4b511906fe491d182f7dbb0a5f5aa",
+      "problem_keys": [
+        "issue:pvlib/pvlib-python#1744",
+        "fix:https://github.com/pvlib/pvlib-python/commit/70e0156ce13c911ecdc3f8c5162dd0f4ab66e957",
+        "fix:https://github.com/pvlib/pvlib-python/commit/0ec0cbf38edecf7e7bc94f7722f17f291776c751",
+        "fix:https://github.com/pvlib/pvlib-python/commit/5eb9d005fd52ba4a05c8884ec9e4e71100285c0f",
+        "fix:https://github.com/pvlib/pvlib-python/commit/ab2de3a3d7c92dab3a85ce96bd97569323bce40f",
+        "fix:https://github.com/pvlib/pvlib-python/commit/f62bd8ef6f16b5086bbf3413e9c2bb9aafff10b0",
+        "fix:https://github.com/pvlib/pvlib-python/commit/77025c7df4466516ab54df7b52cccbcc55ca837e",
+        "fix:https://github.com/pvlib/pvlib-python/commit/b52f9a9ff6a3034bd6b86f339b005ba4c8adef89",
+        "fix:https://github.com/pvlib/pvlib-python/commit/58b246e0312e2d1503a89814ce8fcd54376134d6",
+        "fix:https://github.com/pvlib/pvlib-python/commit/a06871a41ceb1ddecda324e9c668ec669ff000c3",
+        "fix:https://github.com/pvlib/pvlib-python/commit/caa44172a6cc469d7dd1c531a8dfca51dbfc3644",
+        "fix:https://github.com/pvlib/pvlib-python/commit/edd84b1ad68b33888e887a728298173c565687b7",
+        "fix:https://github.com/pvlib/pvlib-python/commit/9c32f6a77214d86dd2ec0d743057ef73ade8c574",
+        "fix:https://github.com/pvlib/pvlib-python/commit/63ed5c77156f10ad4e3366b8acaecf333ec44475",
+        "fix:https://github.com/pvlib/pvlib-python/commit/6312f92a854065c1e3ea79c6f9bfd0288a500d7a",
+        "fix:https://github.com/pvlib/pvlib-python/commit/410e95ff3958eafcb9724afeeec6776eba165c62",
+        "fix:https://github.com/pvlib/pvlib-python/commit/d94df47f84b01a832d16b9e91dbcba62f9ff5b2f",
+        "fix:https://github.com/pvlib/pvlib-python/commit/e6b5908a507b1221ed88a2a663ed0aece8ccf1af",
+        "fix:https://github.com/pvlib/pvlib-python/commit/63a922628831bbb95c4eb2223cfb2300b4d4129f",
+        "fix:https://github.com/pvlib/pvlib-python/commit/459d5a6023c31b9518d9bbbdb6597bcdafec8c4e",
+        "fix:https://github.com/pvlib/pvlib-python/commit/05b846f83ff16b27d539c9c07e8c32ea52ac2a32",
+        "fix:https://github.com/pvlib/pvlib-python/commit/0ae31e1b939ee3532b707ed6be00b2241727ab21",
+        "fix:https://github.com/pvlib/pvlib-python/commit/337f7236a6ab9c9eda3a7717c19ccab104e6f449",
+        "fix:https://github.com/pvlib/pvlib-python/commit/8bc9b86e50ab0606ee0cfc623984290c370e5c19",
+        "fix:https://github.com/pvlib/pvlib-python/commit/9651c3b37ad84ca4e086088cf034c71edd62bfe6",
+        "fix:https://github.com/pvlib/pvlib-python/commit/b860ca50b41ec741cb17e81c3e4d22c8e89188ec",
+        "fix:https://github.com/pvlib/pvlib-python/commit/2bdc1dc7873ceef4a6990dc8fe297133e107351d",
+        "fix:https://github.com/pvlib/pvlib-python/commit/c39c449fb8153aff8f757b0d27867a83a166b041",
+        "fix:https://github.com/pvlib/pvlib-python/commit/b5a6f09eb1e9f8e37fcbeb9390f3bec3cfa076ba",
+        "fix:https://github.com/pvlib/pvlib-python/commit/aedc835b9994e4529baa5d770c8308e98e076746",
+        "fix:https://github.com/pvlib/pvlib-python/commit/4fcb9e3a9db95e9d70645c4cc0a99ad5df66985c",
+        "fix:https://github.com/pvlib/pvlib-python/commit/c956c9167fb750dbcc9be7143b85168338934ba9",
+        "fix:https://github.com/pvlib/pvlib-python/commit/f6828152726ee733dab5ca692c435eccd75f5bcf",
+        "fix:https://github.com/pvlib/pvlib-python/commit/0bfc6cbf7df71cde607437db9524ee7f80cb85af",
+        "fix:https://github.com/pvlib/pvlib-python/commit/71a165e15e27103c4b64b749ff90c1755fb931c5",
+        "fix:https://github.com/pvlib/pvlib-python/commit/25527d6eb816eecadb56d779d4b14c0cc717e9cd",
+        "fix:https://github.com/pvlib/pvlib-python/commit/1eff53f29e31172246b170785f27a5670bb8e95a",
+        "fix:https://github.com/pvlib/pvlib-python/commit/df33a310ea72057072e7e2b76fd758a08b2a0565",
+        "fix:https://github.com/pvlib/pvlib-python/commit/b4802a3a886a703141a23dc7cfee2c3889ce0f86",
+        "fix:https://github.com/pvlib/pvlib-python/commit/38936929355c64b166d9814e63a0ea5461557c33",
+        "fix:https://github.com/pvlib/pvlib-python/commit/11d81c3368c9122d144aa951df9287ceecf38ed7"
+      ],
+      "qualification_relative_path": "final-qualification/pvlib__pvlib-python-2286"
+    },
+    {
+      "row_index": 59,
+      "instance_id": "python-babel__babel-1120",
+      "repository": "python-babel/babel",
+      "base_commit": "0005c85fccccb491930f064ea8d064e87ce7ee79",
+      "row_sha256": "ef5bfad5df50b2b68452c971d57618d7c96b8921c827d53fa9437506364d24f0",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "PO 位置写入、Unicode 文件名边界、通用换行器和读回合同相互关联，不能按短补丁认定简单"
+      },
+      "title": "long path with space lead to wrong po file.",
+      "reason": "eligible-for-review",
+      "rank": "3016a3fbe18eff1eade8694317a1d803a5cb39f1dd653b8c454c278d49254c72",
+      "problem_keys": [
+        "issue:python-babel/babel#1078",
+        "fix:https://github.com/python-babel/babel/commit/60214091492b4f135c9f76aaf3200fb28928631d",
+        "fix:https://github.com/python-babel/babel/commit/3098db0757c6c816f32195b01873004df7ac0de6",
+        "fix:https://github.com/python-babel/babel/commit/6e815e27835100450cd8ad5a1ef7f3ae476dcfd2",
+        "fix:https://github.com/python-babel/babel/commit/89602b4cd81636d1d6545d4a16aae216af560212",
+        "fix:https://github.com/python-babel/babel/commit/1def5e824362e5c5f91c866ee0322fe594e687df",
+        "fix:https://github.com/python-babel/babel/commit/ac3c99969e2182a01360152fa37b6cc5e3a88a26"
+      ],
+      "qualification_relative_path": "final-qualification/python-babel__babel-1120"
+    },
+    {
+      "row_index": 2,
+      "instance_id": "jupyterlab__jupyter-ai-879",
+      "repository": "jupyterlab/jupyter-ai",
+      "base_commit": "4664a0baa2993efb2b0265d41f376dd5c902c6c8",
+      "row_sha256": "bcfaa42a09fd6b64e72a841d9a31059670282c751cdcfe135abfdeca28466fc0",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "异步片段累计、前缀和代码围栏后处理、流式与最终帧一致性；参考测试须使用离线 mock，不允许外部模型"
+      },
+      "title": "prefix is not removed from inline completions when streaming",
+      "reason": "eligible-for-review",
+      "rank": "33b622cb0820cb0b749279609f09000d96ca2d83efa29a6a1aadf0d7e173b2d0",
+      "problem_keys": [
+        "issue:jupyterlab/jupyter-ai#841",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/3091dd196da9dc9950496a4d2254e49cfeb0d767",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/267a8b9a3831942e5875635a010fea913745a927"
+      ],
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-879-image-retry-3"
+    },
+    {
+      "row_index": 7,
+      "instance_id": "falconry__falcon-2248",
+      "repository": "falconry/falcon",
+      "base_commit": "cd707961898e7012159b7205dabc4a2824eb3a68",
+      "row_sha256": "70f52740b47bde6633d2773ebb21938ca301914bcd4964043278ec39ea650b18",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "公开 Cookie 参数、Morsel 保留属性、Falcon 序列化与 Python 版本兼容共同约束；不以文件数分级"
+      },
+      "title": "add support for 'partitioned' attribute to set_cookie()",
+      "reason": "eligible-for-review",
+      "rank": "352ed7fd7e1166021891e2d519fb3af726ec1db04d4b563c1c17a139505f7c0c",
+      "problem_keys": [
+        "issue:falconry/falcon#2213",
+        "fix:https://github.com/falconry/falcon/commit/bd1fbe714ca66e46eea7e0247e6bbd4f968ed002",
+        "fix:https://github.com/falconry/falcon/commit/cd01a2ae1175afa6b37892b82e5e8442e4a5f856",
+        "fix:https://github.com/falconry/falcon/commit/8bec68826710d10eac23c1dae5b9b8aad9471f2d",
+        "fix:https://github.com/falconry/falcon/commit/ab1a81021c91b7eb26109dba78090b9a148eebfb",
+        "fix:https://github.com/falconry/falcon/commit/7551e9541c40995af7469625b0d0435612e504b0",
+        "fix:https://github.com/falconry/falcon/commit/37b29b8140a1b7bdc9459c68205b056d000b309a"
+      ],
+      "qualification_relative_path": "final-qualification/falconry__falcon-2248"
+    }
+  ]
+}

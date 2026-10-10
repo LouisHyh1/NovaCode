@@ -1,0 +1,11 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> evaluation/live/smoke.py:9:1
+  |
+8 | sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "specialty"))
+9 | from run import run  # noqa: E402
+  | ^^^^^^^^^^^^^^^^^^^
+  |
+help: Organize imports
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

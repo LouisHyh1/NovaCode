@@ -13,3 +13,5 @@ S10 使用非基础内置 CI 工具，S11 使用职责相近的本地 stdio MCP 
 任务合同绑定公开包和验收清单 SHA-256；验收清单进一步绑定 judge、test_driver、build 与 definitions 的字节指纹。判题实现变化必须重新入库。环境核验只检查解释器和源码可编译，预设缺陷造成的原始业务失败另列；正确/负例均在独立干净容器执行。资格与 SELECT/ADMIT 账本按任务指纹关联，核验输出使用新身份，旧失败记录保留。
 
 `run.py` 会调用真实模型，只用于已授权、有界的 S05 tmux/S12 自动代表验收；`review.py` 只读复核并无损导出账本、补丁、屏幕及原始 worker 产物。已入库清单、复跑命令和证据边界见 [第七阶段报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-7/specialty-validation.md)。本阶段只交付 12 道开发专项；完整 24 道开发集、先导校准、冻结题与正式统计仍待后续阶段。
+
+2026-10-10 第八阶段修正了事实答案解析：仅包含合同字段的完整 JSON 对象进入答案冲突检查，解释中的配置示例不计候选答案。公开 fixture、输入和环境字节未变；全部 12 题已重新核验，当前资格文件为 `assets/external/Sxx/qualification-specialty-admission.json`，当前选择账本为 `openspec/changes/add-reproducible-agent-evaluation/evidence/stage-8/specialty-admission/selection.jsonl`。旧资产与旧判题源码原字节保留在第八阶段 `specialty-before-parser-fix.tar.gz`，旧第七阶段账本保留历史身份。

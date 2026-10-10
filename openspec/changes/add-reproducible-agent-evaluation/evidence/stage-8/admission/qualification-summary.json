@@ -1,0 +1,450 @@
+{
+  "schema_version": 1,
+  "tasks": [
+    {
+      "task_id": "L01",
+      "instance_id": "pylint-dev__pylint-10225",
+      "difficulty": "easy",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "12a8747ec98617fa1989ce069f174b3587005cdf",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 168.45760250091553,
+          "memory_peak_bytes": 1208479744,
+          "fail_to_pass_failed": 1,
+          "pass_to_pass_passed": 1903
+        },
+        {
+          "label": "reference-1",
+          "seconds": 169.16663360595703,
+          "memory_peak_bytes": 1152344064,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1903
+        },
+        {
+          "label": "reference-2",
+          "seconds": 162.92068529129028,
+          "memory_peak_bytes": 1147105280,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1903
+        },
+        {
+          "label": "reference-3",
+          "seconds": 164.7824866771698,
+          "memory_peak_bytes": 1220984832,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1903
+        }
+      ]
+    },
+    {
+      "task_id": "L02",
+      "instance_id": "joke2k__faker-2096",
+      "difficulty": "easy",
+      "repository": "joke2k/faker",
+      "base_commit": "4240ef8fc783c0c1598085b596783ace9ccaee03",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 46.162193775177,
+          "memory_peak_bytes": 211320832,
+          "fail_to_pass_failed": 1,
+          "pass_to_pass_passed": 1959
+        },
+        {
+          "label": "reference-1",
+          "seconds": 46.4252450466156,
+          "memory_peak_bytes": 125960192,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1959
+        },
+        {
+          "label": "reference-2",
+          "seconds": 46.054359912872314,
+          "memory_peak_bytes": 126033920,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1959
+        },
+        {
+          "label": "reference-3",
+          "seconds": 46.272074460983276,
+          "memory_peak_bytes": 215977984,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1959
+        }
+      ]
+    },
+    {
+      "task_id": "L03",
+      "instance_id": "joke2k__faker-2093",
+      "difficulty": "easy",
+      "repository": "joke2k/faker",
+      "base_commit": "b51f852b097f416d9c60198a838ce3d5f396ea19",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 46.392152070999146,
+          "memory_peak_bytes": 175673344,
+          "fail_to_pass_failed": 4,
+          "pass_to_pass_passed": 1943
+        },
+        {
+          "label": "reference-1",
+          "seconds": 46.89851689338684,
+          "memory_peak_bytes": 126005248,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1943
+        },
+        {
+          "label": "reference-2",
+          "seconds": 48.35382437705994,
+          "memory_peak_bytes": 125878272,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1943
+        },
+        {
+          "label": "reference-3",
+          "seconds": 47.876792192459106,
+          "memory_peak_bytes": 211030016,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1943
+        }
+      ]
+    },
+    {
+      "task_id": "L04",
+      "instance_id": "python-babel__babel-1104",
+      "difficulty": "easy",
+      "repository": "python-babel/babel",
+      "base_commit": "2f87363410f3c904e107e85ca10b9f84902db93f",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 29.83563494682312,
+          "memory_peak_bytes": 448151552,
+          "fail_to_pass_failed": 1,
+          "pass_to_pass_passed": 7052
+        },
+        {
+          "label": "reference-1",
+          "seconds": 27.835367918014526,
+          "memory_peak_bytes": 323485696,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 7052
+        },
+        {
+          "label": "reference-2",
+          "seconds": 25.952232360839844,
+          "memory_peak_bytes": 322342912,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 7052
+        },
+        {
+          "label": "reference-3",
+          "seconds": 30.917903423309326,
+          "memory_peak_bytes": 408047616,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 7052
+        }
+      ]
+    },
+    {
+      "task_id": "L05",
+      "instance_id": "falconry__falcon-2426",
+      "difficulty": "medium",
+      "repository": "falconry/falcon",
+      "base_commit": "62c80e679c5a17eb08e1a836a2a8ad3f75697fdb",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 88.2634949684143,
+          "memory_peak_bytes": 1151188992,
+          "fail_to_pass_failed": 8,
+          "pass_to_pass_passed": 3580
+        },
+        {
+          "label": "reference-1",
+          "seconds": 80.85188221931458,
+          "memory_peak_bytes": 1111863296,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 3580
+        },
+        {
+          "label": "reference-2",
+          "seconds": 79.09268045425415,
+          "memory_peak_bytes": 1108643840,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 3580
+        },
+        {
+          "label": "reference-3",
+          "seconds": 84.2411744594574,
+          "memory_peak_bytes": 1185099776,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 3580
+        }
+      ]
+    },
+    {
+      "task_id": "L06",
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "difficulty": "medium",
+      "repository": "aws-cloudformation/cfn-lint",
+      "base_commit": "07652d4a4133e825aeeb09973398575b25713c82",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 58.050496339797974,
+          "memory_peak_bytes": 331939840,
+          "fail_to_pass_failed": 3,
+          "pass_to_pass_passed": 1223
+        },
+        {
+          "label": "reference-1",
+          "seconds": 58.11582565307617,
+          "memory_peak_bytes": 306442240,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1223
+        },
+        {
+          "label": "reference-2",
+          "seconds": 57.92174792289734,
+          "memory_peak_bytes": 306540544,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1223
+        },
+        {
+          "label": "reference-3",
+          "seconds": 58.293906450271606,
+          "memory_peak_bytes": 386260992,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1223
+        }
+      ]
+    },
+    {
+      "task_id": "L07",
+      "instance_id": "pvlib__pvlib-python-2286",
+      "difficulty": "medium",
+      "repository": "pvlib/pvlib-python",
+      "base_commit": "6af80da35a7c96059c534ee38be9123bcfc7f50f",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 15.58614730834961,
+          "memory_peak_bytes": 207761408,
+          "fail_to_pass_failed": 3,
+          "pass_to_pass_passed": 1189
+        },
+        {
+          "label": "reference-1",
+          "seconds": 16.71678924560547,
+          "memory_peak_bytes": 168267776,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1189
+        },
+        {
+          "label": "reference-2",
+          "seconds": 17.10419774055481,
+          "memory_peak_bytes": 168103936,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1189
+        },
+        {
+          "label": "reference-3",
+          "seconds": 16.29727578163147,
+          "memory_peak_bytes": 251998208,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1189
+        }
+      ]
+    },
+    {
+      "task_id": "L08",
+      "instance_id": "python-babel__babel-1120",
+      "difficulty": "medium",
+      "repository": "python-babel/babel",
+      "base_commit": "0005c85fccccb491930f064ea8d064e87ce7ee79",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 54.62634325027466,
+          "memory_peak_bytes": 378572800,
+          "fail_to_pass_failed": 1,
+          "pass_to_pass_passed": 7104
+        },
+        {
+          "label": "reference-1",
+          "seconds": 44.80940270423889,
+          "memory_peak_bytes": 382775296,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 7104
+        },
+        {
+          "label": "reference-2",
+          "seconds": 46.20500707626343,
+          "memory_peak_bytes": 377544704,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 7104
+        },
+        {
+          "label": "reference-3",
+          "seconds": 46.835169553756714,
+          "memory_peak_bytes": 450908160,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 7104
+        }
+      ]
+    },
+    {
+      "task_id": "L09",
+      "instance_id": "jupyterlab__jupyter-ai-879",
+      "difficulty": "medium",
+      "repository": "jupyterlab/jupyter-ai",
+      "base_commit": "4664a0baa2993efb2b0265d41f376dd5c902c6c8",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 6.209131956100464,
+          "memory_peak_bytes": 237412352,
+          "fail_to_pass_failed": 1,
+          "pass_to_pass_passed": 35
+        },
+        {
+          "label": "reference-1",
+          "seconds": 3.172694683074951,
+          "memory_peak_bytes": 181731328,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 35
+        },
+        {
+          "label": "reference-2",
+          "seconds": 3.3766372203826904,
+          "memory_peak_bytes": 181747712,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 35
+        },
+        {
+          "label": "reference-3",
+          "seconds": 3.1783344745635986,
+          "memory_peak_bytes": 269750272,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 35
+        }
+      ]
+    },
+    {
+      "task_id": "L10",
+      "instance_id": "falconry__falcon-2248",
+      "difficulty": "medium",
+      "repository": "falconry/falcon",
+      "base_commit": "cd707961898e7012159b7205dabc4a2824eb3a68",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 73.12566494941711,
+          "memory_peak_bytes": 1138147328,
+          "fail_to_pass_failed": 31,
+          "pass_to_pass_passed": 3332
+        },
+        {
+          "label": "reference-1",
+          "seconds": 66.8069360256195,
+          "memory_peak_bytes": 1133498368,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 3332
+        },
+        {
+          "label": "reference-2",
+          "seconds": 66.54166436195374,
+          "memory_peak_bytes": 1109143552,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 3332
+        },
+        {
+          "label": "reference-3",
+          "seconds": 70.16448092460632,
+          "memory_peak_bytes": 1180393472,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 3332
+        }
+      ]
+    },
+    {
+      "task_id": "L11",
+      "instance_id": "python-attrs__attrs-1321",
+      "difficulty": "hard",
+      "repository": "python-attrs/attrs",
+      "base_commit": "fd7538f0e23a49ec34b636484de2d1b4b690c7fb",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 24.46824073791504,
+          "memory_peak_bytes": 95891456,
+          "fail_to_pass_failed": 2,
+          "pass_to_pass_passed": 1262
+        },
+        {
+          "label": "reference-1",
+          "seconds": 23.05405592918396,
+          "memory_peak_bytes": 64233472,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1262
+        },
+        {
+          "label": "reference-2",
+          "seconds": 24.521303176879883,
+          "memory_peak_bytes": 66109440,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1262
+        },
+        {
+          "label": "reference-3",
+          "seconds": 22.487528085708618,
+          "memory_peak_bytes": 154259456,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1262
+        }
+      ]
+    },
+    {
+      "task_id": "L12",
+      "instance_id": "pylint-dev__pylint-9990",
+      "difficulty": "hard",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "537e9da59e7df337fa39897d0b583ce0c12d3ed9",
+      "runs": [
+        {
+          "label": "original",
+          "seconds": 168.83911418914795,
+          "memory_peak_bytes": 1167712256,
+          "fail_to_pass_failed": 2,
+          "pass_to_pass_passed": 1862
+        },
+        {
+          "label": "reference-1",
+          "seconds": 170.17502212524414,
+          "memory_peak_bytes": 1134227456,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1862
+        },
+        {
+          "label": "reference-2",
+          "seconds": 170.76270961761475,
+          "memory_peak_bytes": 1161068544,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1862
+        },
+        {
+          "label": "reference-3",
+          "seconds": 172.17306184768677,
+          "memory_peak_bytes": 1209155584,
+          "fail_to_pass_failed": 0,
+          "pass_to_pass_passed": 1862
+        }
+      ]
+    }
+  ],
+  "model_calls": 0
+}

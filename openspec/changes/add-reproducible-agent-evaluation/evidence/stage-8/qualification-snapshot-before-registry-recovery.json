@@ -1,0 +1,764 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "root": "stage8",
+      "attempt": "conan-io__conan-16870",
+      "instance_id": "conan-io__conan-16870",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "3d657ac9d5c3d8e57707dd99109c299816642f9b8830977613d2c1663c864d49"
+    },
+    {
+      "root": "stage8",
+      "attempt": "pdm-project__pdm-3419",
+      "instance_id": "pdm-project__pdm-3419",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "68f1966199a73eb0333461e40bc8e1769d567460ae7fedd2c0cc0bf3b9af861d"
+    },
+    {
+      "root": "stage8",
+      "attempt": "python-attrs__attrs-1321",
+      "instance_id": "python-attrs__attrs-1321",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "a6bc6d3a63430355f7e4b375dd62ae6126d6749fb1149eec00bfe9d685915453"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3749",
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "53a5d794b0d72296bc6d92ab971e2c4caf0be8e8d7e2dbede5357ddf1eace2ca"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3749-image-retry-2",
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "53a5d794b0d72296bc6d92ab971e2c4caf0be8e8d7e2dbede5357ddf1eace2ca"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3749-image-retry-3",
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "53a5d794b0d72296bc6d92ab971e2c4caf0be8e8d7e2dbede5357ddf1eace2ca"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3875",
+      "instance_id": "aws-cloudformation__cfn-lint-3875",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "7ebfab5c45dca0d672582efab1ff707ba6f8244f8779c0bee73063136034012a"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3900",
+      "instance_id": "aws-cloudformation__cfn-lint-3900",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "e0685269421b1cacf1c8d79e22b4417a291bc0e6934424d6e5de7c640c91d8f3"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3900-image-retry-2",
+      "instance_id": "aws-cloudformation__cfn-lint-3900",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "e0685269421b1cacf1c8d79e22b4417a291bc0e6934424d6e5de7c640c91d8f3"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3900-image-retry-3",
+      "instance_id": "aws-cloudformation__cfn-lint-3900",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "e0685269421b1cacf1c8d79e22b4417a291bc0e6934424d6e5de7c640c91d8f3"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "aws-cloudformation__cfn-lint-3908",
+      "instance_id": "aws-cloudformation__cfn-lint-3908",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "2e9e0df88bad9b79c060feee6f00a64de0e5e13fabe89e22048a005daae3fa19"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-16789",
+      "instance_id": "conan-io__conan-16789",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "e68eb4225dddced7b919a2e2a9787d66d4fb9e09663c049762e410fcc80bcb20"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-16789-image-retry-2",
+      "instance_id": "conan-io__conan-16789",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 镜像初始源码或测试已有修改",
+      "sha256": "ef4dafb3d5e6b4fcece3d9316d8790afc19742b195f35660610b4084591c777a"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-16870",
+      "instance_id": "conan-io__conan-16870",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 官方判题超时",
+      "sha256": "04b2a3d309075b1f9456448d22f0e3c67992954367a55f242caee926491b7c89"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-17051",
+      "instance_id": "conan-io__conan-17051",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: ",
+      "sha256": "37742ad152eeca240a285ddc3c56831257120cdc2137a4b4c652da9e7425f2cc"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-17346",
+      "instance_id": "conan-io__conan-17346",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "802afa1ccb4df8725b05e6552a0a954ab9901c4460e5b3a967381d0992754e9f"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-17346-image-retry-2",
+      "instance_id": "conan-io__conan-17346",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "802afa1ccb4df8725b05e6552a0a954ab9901c4460e5b3a967381d0992754e9f"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "conan-io__conan-17346-image-retry-3",
+      "instance_id": "conan-io__conan-17346",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "802afa1ccb4df8725b05e6552a0a954ab9901c4460e5b3a967381d0992754e9f"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "falconry__falcon-2426",
+      "instance_id": "falconry__falcon-2426",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "82c9c2a9f5892b6275eed204ee763e9765beb75d10c9305c5e16068d7bdd1ecd"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "geopandas__geopandas-3424",
+      "instance_id": "geopandas__geopandas-3424",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "45a1f65279ff4bd17f95b803e5739e5a568f64824a7052bf977b32333b4bc6ed"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "geopandas__geopandas-3424-image-retry-2",
+      "instance_id": "geopandas__geopandas-3424",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "20887afc7106bc87601730fcfe069fdc9b75c923e711bd5a67ec414d76ed0f5f"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "joke2k__faker-2093",
+      "instance_id": "joke2k__faker-2093",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "31f72564d70d2148274215d19b7c10500253d6c473ef046c84173485dcc10a2e"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "joke2k__faker-2096",
+      "instance_id": "joke2k__faker-2096",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "94a40e4daae1fcaf11eaafc3778edc1288e63ab45ee6d4840bc787b9289e578a"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "kedro-org__kedro-4075",
+      "instance_id": "kedro-org__kedro-4075",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "94da4b3dde628ad3a8c5a24c80c83b3264fb2886d5f4ea4a5a09ce7b0236f844"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "kedro-org__kedro-4580",
+      "instance_id": "kedro-org__kedro-4580",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "TimeoutExpired: Command '['/snap/bin/docker', 'pull', 'starryzhang/sweb.eval.x86_64.kedro-org_1776_kedro-4580:latest']' timed out after 599.9999840400014 seconds",
+      "sha256": "4f3cb257f6e2f4f92ef43aea384eea99c74830370f1ecca35ce5886169de950c"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "kedro-org__kedro-4580-image-retry-2",
+      "instance_id": "kedro-org__kedro-4580",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 官方判题超时",
+      "sha256": "d522041c6d17698671e774d6a37d59746d7b0e6ed56edb69129ea1482cad7573"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "pdm-project__pdm-3419",
+      "instance_id": "pdm-project__pdm-3419",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "68f1966199a73eb0333461e40bc8e1769d567460ae7fedd2c0cc0bf3b9af861d"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "pylint-dev__pylint-10225",
+      "instance_id": "pylint-dev__pylint-10225",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "6ee3fa21cd16680e6740d50e339365c6cd23731c17980d37af53d5f28b5bef81"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "pylint-dev__pylint-9990",
+      "instance_id": "pylint-dev__pylint-9990",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "1363a7c73be86fcc00e41c1e025e3c0cd8eab8d7a669ab9fb07c393fa8913205"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "python-attrs__attrs-1321",
+      "instance_id": "python-attrs__attrs-1321",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "ae011557d4c9289912815089b27c67cd2a766204cf77b473c4a84cdfbde6ceb8"
+    },
+    {
+      "root": "stage8-loopback",
+      "attempt": "python-babel__babel-1104",
+      "instance_id": "python-babel__babel-1104",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "302a8264b1d44853c82315619c7a8a9497cebc2dbfca35d60673771b68e48a73"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3629",
+      "instance_id": "aws-cloudformation__cfn-lint-3629",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "2c21a02201fd61f5ccd28b2bf970d2066402dc2b2dc85d71df861dd68f363e2b"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3749",
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "63ea2524aa6a419fb651b00fc8135b18245290e9da7819ffe54209ef3e6cd48f"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3749-image-retry-2",
+      "instance_id": "aws-cloudformation__cfn-lint-3749",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "173b33d17b64d0c06e84f88925100c643d9c15cf2a1b66a7b28f490ca18b419c"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3768",
+      "instance_id": "aws-cloudformation__cfn-lint-3768",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "4a2eb02696f5a9d13151148a1b9dc96c0177f2cfba541582172eae04e0924467"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3770",
+      "instance_id": "aws-cloudformation__cfn-lint-3770",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "97e767c5a0db829b4da04aa39947233b91f1ad89cfaf5ac8d97e703e956ad836"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3875",
+      "instance_id": "aws-cloudformation__cfn-lint-3875",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "7ebfab5c45dca0d672582efab1ff707ba6f8244f8779c0bee73063136034012a"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3900",
+      "instance_id": "aws-cloudformation__cfn-lint-3900",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "85a7ae1b63615d430baa469594b1cc2a3c640f386a58e3d0a217ebd0b818c014"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-3908",
+      "instance_id": "aws-cloudformation__cfn-lint-3908",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "2e9e0df88bad9b79c060feee6f00a64de0e5e13fabe89e22048a005daae3fa19"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-4032",
+      "instance_id": "aws-cloudformation__cfn-lint-4032",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "275ecea9e292873c845b338b6e2bc3e668fce45f354eb5f560040759c7022b8b"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "aws-cloudformation__cfn-lint-4051",
+      "instance_id": "aws-cloudformation__cfn-lint-4051",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "0e598580701c5724ffee098a2cf20c4ba517007fafc9f743b1a4c66b8b5225c8"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "bridgecrewio__checkov-7119",
+      "instance_id": "bridgecrewio__checkov-7119",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "aa4d17c8a06dcaf7319e7ded17df8ac64f8ea42f3fc721fb569b18b5ab82dcff"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "conan-io__conan-16789-image-retry-2",
+      "instance_id": "conan-io__conan-16789",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 镜像初始源码或测试已有修改",
+      "sha256": "ef4dafb3d5e6b4fcece3d9316d8790afc19742b195f35660610b4084591c777a"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "conan-io__conan-16870",
+      "instance_id": "conan-io__conan-16870",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 官方判题超时",
+      "sha256": "04b2a3d309075b1f9456448d22f0e3c67992954367a55f242caee926491b7c89"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "conan-io__conan-17051",
+      "instance_id": "conan-io__conan-17051",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: ",
+      "sha256": "37742ad152eeca240a285ddc3c56831257120cdc2137a4b4c652da9e7425f2cc"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "conan-io__conan-17123",
+      "instance_id": "conan-io__conan-17123",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "26a99303eccba3fc976b7afe466c60f1e8bbd6123eab46ceeefe6bf1a2ec3c1c"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "conan-io__conan-17346",
+      "instance_id": "conan-io__conan-17346",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 官方判题超时",
+      "sha256": "4d91059669affd6d1d31f3ac9fda3387d1718db44b50dfbcbcc2ec00b6844fca"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "falconry__falcon-2426",
+      "instance_id": "falconry__falcon-2426",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "82c9c2a9f5892b6275eed204ee763e9765beb75d10c9305c5e16068d7bdd1ecd"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "geopandas__geopandas-3424",
+      "instance_id": "geopandas__geopandas-3424",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "8438a9bf9f14c8c8a61f2e02b5129a4e933897f0f1523fb5c85be47b0e7e0fec"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "geopandas__geopandas-3424-image-retry-2",
+      "instance_id": "geopandas__geopandas-3424",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "20887afc7106bc87601730fcfe069fdc9b75c923e711bd5a67ec414d76ed0f5f"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "joke2k__faker-2093",
+      "instance_id": "joke2k__faker-2093",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "31f72564d70d2148274215d19b7c10500253d6c473ef046c84173485dcc10a2e"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "joke2k__faker-2096",
+      "instance_id": "joke2k__faker-2096",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "94a40e4daae1fcaf11eaafc3778edc1288e63ab45ee6d4840bc787b9289e578a"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "kedro-org__kedro-4075",
+      "instance_id": "kedro-org__kedro-4075",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "94da4b3dde628ad3a8c5a24c80c83b3264fb2886d5f4ea4a5a09ce7b0236f844"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "kedro-org__kedro-4580-image-retry-2",
+      "instance_id": "kedro-org__kedro-4580",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 官方判题超时",
+      "sha256": "d522041c6d17698671e774d6a37d59746d7b0e6ed56edb69129ea1482cad7573"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "pdm-project__pdm-3314",
+      "instance_id": "pdm-project__pdm-3314",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 镜像初始源码或测试已有修改",
+      "sha256": "d145c15d9cfddc3d41e2daa1ea290816cc5842a97d5ca28f4ff5498122513bd9"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "pdm-project__pdm-3419",
+      "instance_id": "pdm-project__pdm-3419",
+      "qualified": false,
+      "test_started": true,
+      "completed_runs": [],
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "68f1966199a73eb0333461e40bc8e1769d567460ae7fedd2c0cc0bf3b9af861d"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "pvlib__pvlib-python-2286",
+      "instance_id": "pvlib__pvlib-python-2286",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "10f68c04bef1fb4eb0a4343f8dfb8fdf6cf5f6b7d03146ce4208226548ed2485"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "pylint-dev__pylint-10225",
+      "instance_id": "pylint-dev__pylint-10225",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "6ee3fa21cd16680e6740d50e339365c6cd23731c17980d37af53d5f28b5bef81"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "pylint-dev__pylint-9990",
+      "instance_id": "pylint-dev__pylint-9990",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "1363a7c73be86fcc00e41c1e025e3c0cd8eab8d7a669ab9fb07c393fa8913205"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "python-attrs__attrs-1321",
+      "instance_id": "python-attrs__attrs-1321",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "ae011557d4c9289912815089b27c67cd2a766204cf77b473c4a84cdfbde6ceb8"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "python-babel__babel-1104",
+      "instance_id": "python-babel__babel-1104",
+      "qualified": true,
+      "test_started": true,
+      "completed_runs": [
+        "original",
+        "reference-1",
+        "reference-2",
+        "reference-3"
+      ],
+      "error": null,
+      "sha256": "302a8264b1d44853c82315619c7a8a9497cebc2dbfca35d60673771b68e48a73"
+    },
+    {
+      "root": "stage8-oci-qualified",
+      "attempt": "python-babel__babel-1120",
+      "instance_id": "python-babel__babel-1120",
+      "qualified": false,
+      "test_started": false,
+      "completed_runs": [],
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "a6b5c471af00515dcdaaea485b94689c838ac7e09b6437c7f84608051361c285"
+    }
+  ],
+  "redactions": [
+    {
+      "path": "stage8-loopback/final-qualification/aws-cloudformation__cfn-lint-3749/image-pull.txt",
+      "original_sha256": "667c00993b7b77d965a7cdef14bf4d89e44448fe2d32be47883f8c4ebe2eb42f",
+      "delivered_sha256": "06f180a6c864b5bbfdad1b9f87ff20191cfebc7484267a023822b02baf6c0725"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/aws-cloudformation__cfn-lint-3749-image-retry-2/image-pull.txt",
+      "original_sha256": "1ce1e66e17ad07da465334e309cbcdde5224048e0ca90375ec4de1a7fbd0212b",
+      "delivered_sha256": "06f180a6c864b5bbfdad1b9f87ff20191cfebc7484267a023822b02baf6c0725"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/aws-cloudformation__cfn-lint-3749-image-retry-3/image-pull.txt",
+      "original_sha256": "e471d593288fc78e6197b277cee3dd417b165a93b40a33289e67d73f35fe3687",
+      "delivered_sha256": "06f180a6c864b5bbfdad1b9f87ff20191cfebc7484267a023822b02baf6c0725"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/aws-cloudformation__cfn-lint-3900/image-pull.txt",
+      "original_sha256": "0fa1911c9a0177352bc351ffecdb68ecc18f80882008044b0bc89fc724073102",
+      "delivered_sha256": "9b62c0f02fc49b3364c239db9d8490c34d17023f8cdbc3fdf845fed90da5f2ca"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/aws-cloudformation__cfn-lint-3900-image-retry-2/image-pull.txt",
+      "original_sha256": "57d80d423d4be9fab25ad59e0e2469873c86f4a400c344e6f02db549439def4b",
+      "delivered_sha256": "9b62c0f02fc49b3364c239db9d8490c34d17023f8cdbc3fdf845fed90da5f2ca"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/aws-cloudformation__cfn-lint-3900-image-retry-3/image-pull.txt",
+      "original_sha256": "0ca492566919cbb5002cd69992e0077843da6351004e3feafb2cbf89654d306b",
+      "delivered_sha256": "9b62c0f02fc49b3364c239db9d8490c34d17023f8cdbc3fdf845fed90da5f2ca"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/conan-io__conan-16789/image-pull.txt",
+      "original_sha256": "75268177ffd779c94653c4d78e26963594cdde77c852388edb0ad0829fed6910",
+      "delivered_sha256": "16410842e3407080e9badfe8494f2513ceb23af9ac5cdc8112d00ae6ac3ff183"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/conan-io__conan-17346/image-pull.txt",
+      "original_sha256": "c0b3aad9c993aeec3334de37146f6e2d77d3dbececdb86b35d6f5beb8933095c",
+      "delivered_sha256": "8d5386f89044bdafe619d96bd53e2198bcf563623c6125c5a24545c1ee507c7f"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/conan-io__conan-17346-image-retry-2/image-pull.txt",
+      "original_sha256": "a9cf14761afb3afc4877ee3bc7ea47d3544d49b72169eaf0a7467d922dc9bb0e",
+      "delivered_sha256": "8d5386f89044bdafe619d96bd53e2198bcf563623c6125c5a24545c1ee507c7f"
+    },
+    {
+      "path": "stage8-loopback/final-qualification/conan-io__conan-17346-image-retry-3/image-pull.txt",
+      "original_sha256": "64aea6b77ca8762d8fb533cf68fd6f30b609ecea5b13493911a6b2f575167f8b",
+      "delivered_sha256": "8d5386f89044bdafe619d96bd53e2198bcf563623c6125c5a24545c1ee507c7f"
+    }
+  ],
+  "originals_retained_in": "/home/louishyh/.cache/novacode-evaluation",
+  "boundary": "历史/失败/准备记录；非最终入库；429 不能作为任务无效排除"
+}

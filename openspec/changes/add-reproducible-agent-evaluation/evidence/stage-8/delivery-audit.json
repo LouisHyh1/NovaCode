@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "state": "DEV_ADMITTED",
+  "quota": {
+    "schema_version": 1,
+    "rows": [
+      {
+        "suite": "development",
+        "source": "live",
+        "candidates": 12,
+        "admitted": 12,
+        "frozen": 0,
+        "target": 12,
+        "gap": 0,
+        "difficulty": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 0,
+          "medium": 0,
+          "hard": 0
+        },
+        "categories": {
+          "issue-fix": 12
+        },
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "development",
+        "source": "specialty",
+        "candidates": 12,
+        "admitted": 12,
+        "frozen": 0,
+        "target": 12,
+        "gap": 0,
+        "difficulty": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 0,
+          "medium": 0,
+          "hard": 0
+        },
+        "categories": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        },
+        "category_targets": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        },
+        "category_gaps": {
+          "localization": 0,
+          "test-addition": 0,
+          "tool-failure": 0,
+          "long-context": 0,
+          "tool-discovery": 0
+        }
+      },
+      {
+        "suite": "frozen",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "frozen",
+        "source": "specialty",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        },
+        "category_gaps": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        }
+      }
+    ]
+  },
+  "tasks": 24,
+  "credential_matches": 0,
+  "scanned_files": 199,
+  "scanned_archive_members": 10639,
+  "boundary": "12 Live + 12 specialty admission only; no pilot/frozen/formal success claim"
+}

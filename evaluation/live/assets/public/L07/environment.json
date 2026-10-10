@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2286@sha256:4c525f81a3461b515f8c9a4f17c57534d867b9e9a3d60374b33473508de62189",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "reviews": {
+    "instructlab__instructlab-2236": {
+      "difficulty": "hard",
+      "reason": "训练与评估 journal 的多阶段持久化/重启状态符合困难语义",
+      "exclude_reason": "本轮 CPU 仓库范围不含重型训练栈；未证实无需 GPU、权重下载或在线 judge，保持候选排除，不称环境已经失败"
+    },
+    "aws-cloudformation__cfn-lint-3650": {
+      "difficulty": "medium",
+      "reason": "GetAtt 数组和 Join 类型兼容，19 文件中的多数为资源 schema 更新；未体现多阶段复杂推断，不能按文件数认定困难"
+    }
+  },
+  "note": "仅审查规划目录候选的 CPU 资格与难度，不将候选计入入库"
+}

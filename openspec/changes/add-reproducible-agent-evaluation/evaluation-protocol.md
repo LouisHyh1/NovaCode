@@ -1,6 +1,6 @@
 # 评测执行、冻结与分析协议
 
-协议版本：规划v1，2026-10-09。对应 [proposal.md](proposal.md)、[design.md](design.md)、[specs](specs/) 和 [task-catalog.md](task-catalog.md)。本文件规定未来执行行为；尚未形成可执行冻结清单、已入库资产或实测结果，数值预算等字段须在对应阶段取得证据后填写。
+协议版本：规划v1，2026-10-09；执行进度更新于 2026-10-10。对应 [proposal.md](proposal.md)、[design.md](design.md)、[specs](specs/) 和 [task-catalog.md](task-catalog.md)。第八阶段已完成：12 Live 与 12 开发专项入库为 DEV_ADMITTED；尚未形成可执行冻结清单或正式结果。真实单题产品验收与主集先导/正式实验分列。先导及正式数值预算仍须在对应阶段取得证据后填写，当前入库与验证见 [第八阶段报告](evidence/stage-8/live-validation.md)。
 
 ## 1. 对象与成功口径
 
@@ -12,7 +12,7 @@
 
 ## 2. 题库身份与入库
 
-目标为24开发题和48冻结题，Live与专项等量，具体配额见任务目录。Live候选数据身份为 `SWE-bench-Live/SWE-bench-Live`、`verified`、revision `b51a86422e10cfd403beb4773e5a2947953e36ec`。这是观察到的元数据身份；实际入库须从指定revision提取完整数据并核对ID、base_commit及字段指纹。verified是LLM筛选，不表述成人工验证。[官方数据卡](https://huggingface.co/datasets/SWE-bench-Live/SWE-bench-Live)
+目标为24开发题和48冻结题，Live与专项等量，具体配额见任务目录。Live候选数据身份为 `SWE-bench-Live/SWE-bench-Live`、`verified`、revision `b51a86422e10cfd403beb4773e5a2947953e36ec`。第八阶段已核对该固定 revision 的完整 500 行源文件、官方 LFS 身份、SHA-256 与候选 ID/base_commit；后续入库仍需校验源文件与缓存身份，不直接使用未核对的题库服务结果。verified是LLM筛选，不表述成人工验证。[官方数据卡](https://huggingface.co/datasets/SWE-bench-Live/SWE-bench-Live)
 
 Live资格筛选顺序为：固定完整版本；定义CPU、依赖、网络与自动判题资格；审查问题和家族；核验镜像及独立Agent环境；确认原始代码在目标行为验收失败且相关原有行为有效；参考补丁连续三次通过；保存资源峰值、时间和日志指纹。随后按事前记录的仓库上限、复杂度层、种子和替补规则选择任务。排除和替换须可追溯，不依据NovaCode正式成败。[官方有效性核验](https://github.com/microsoft/SWE-bench-Live/blob/main/evaluation/README.md#run-gold-patch)
 

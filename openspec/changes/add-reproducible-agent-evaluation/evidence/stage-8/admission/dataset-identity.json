@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "revision": "b51a86422e10cfd403beb4773e5a2947953e36ec",
+  "metadata_url": "https://huggingface.co/api/datasets/SWE-bench-Live/SWE-bench-Live/tree/b51a86422e10cfd403beb4773e5a2947953e36ec/data",
+  "remote_file": {
+    "type": "file",
+    "oid": "4512d68af2eb05a3d25a5b8b01992f5b9e28f6c9",
+    "size": 24696977,
+    "lfs": {
+      "oid": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+      "size": 24696977,
+      "pointerSize": 133
+    },
+    "xetHash": "a134290d2f23898be23d12df8cb33f7917ae06ec8ad56014ed5c09e74bf583a2",
+    "path": "data/verified-00000-of-00001.parquet"
+  },
+  "sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+  "rows": 500,
+  "model_calls": 0
+}

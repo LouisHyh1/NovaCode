@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "unidiomatic-typecheck only checks left-hand side\n### Bug description\n\n```python\n# pylint: disable=missing-module-docstring, expression-not-assigned\ntype(1) == int\nint == type(1)\n```\n\n\n### Pylint output\n\n```python\n************* Module a\na.py:2:0: C0123: Use isinstance() rather than type() for a typecheck. (unidiomatic-typecheck)\n```\n\n### Expected behavior\n```python\n************* Module a\na.py:2:0: C0123: Use isinstance() rather than type() for a typecheck. (unidiomatic-typecheck)\na.py:3:0: C0123: Use isinstance() rather than type() for a typecheck. (unidiomatic-typecheck)\n```\n\n### Pylint version\n\n```shell\npylint 4.0.0-dev0\nastroid 4.0.0-dev0\nPython 3.13.1 (v3.13.1:06714517797, Dec  3 2024, 14:00:22) [Clang 15.0.0 (clang-1500.3.9.4)]\n```\n\n### OS / Environment\n\n_No response_\n\n### Additional dependencies\n\n```python\n\n```\n"
+  ]
+}

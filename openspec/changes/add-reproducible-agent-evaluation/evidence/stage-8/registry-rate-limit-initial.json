@@ -1,0 +1,16 @@
+{
+  "status": 429,
+  "headers": {
+    "Date": "Sat, 10 Oct 2026 12:35:05 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "149",
+    "Connection": "close",
+    "docker-ratelimit-source": "203.10.98.186",
+    "x-ratelimit-limit": "100;w=3600",
+    "ratelimit-limit": "100;w=3600",
+    "x-ratelimit-remaining": "0;w=3600",
+    "ratelimit-remaining": "0;w=3600",
+    "strict-transport-security": "max-age=31536000"
+  },
+  "body": ""
+}

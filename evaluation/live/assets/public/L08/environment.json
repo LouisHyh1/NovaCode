@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1120@sha256:9a9c44884dc9e0a7ad327598373f7aebf7791f647e21d8d9f30445c2db437ba5",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "catalog_id": "L01",
+      "candidate_id": "conan-io__conan-16776",
+      "base_commit": "8ebf1ca548854919398c38d9f15912ad01f3b18a",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "e3a4c637bc47f80d300c15be23747b8d4ddcf4096a7125952ecdab0424cb1648",
+      "row_index": 30,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L02",
+      "candidate_id": "geopandas__geopandas-3424",
+      "base_commit": "3d0ff15aaa0c7e5165aecc4f33bdb3171f04d7b0",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "55f99ad8e6b8f2928e010e0af78a5c422aed719092b01ba87fb31bbdbfde6db9",
+      "row_index": 96,
+      "provisional_pool_difficulty": "easy",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L03",
+      "candidate_id": "joke2k__faker-2096",
+      "base_commit": "4240ef8fc783c0c1598085b596783ace9ccaee03",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "d9caa9b166ac86e3b4c923c3d215c2dc68dc0c66cfb91f1552bd6f4ebfc7ea9f",
+      "row_index": 75,
+      "provisional_pool_difficulty": "easy",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L04",
+      "candidate_id": "kedro-org__kedro-4075",
+      "base_commit": "5ec27a365963afd3f8910434ab21ddbb7463adc6",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "ae9eb6bdc4c848ba5e3662419359a89f53bb002187bb341dbf6bab80f3f5377d",
+      "row_index": 37,
+      "provisional_pool_difficulty": "easy",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L05",
+      "candidate_id": "bridgecrewio__checkov-6657",
+      "base_commit": "ea3ab628b456c0d8d401f37b568c90628a39e33a",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "e4e87872e202c9a19c65111fe16281b15f70ed91ed25210c2ee65870dac0abff",
+      "row_index": 50,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L06",
+      "candidate_id": "falconry__falcon-2248",
+      "base_commit": "cd707961898e7012159b7205dabc4a2824eb3a68",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "70f52740b47bde6633d2773ebb21938ca301914bcd4964043278ec39ea650b18",
+      "row_index": 7,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L07",
+      "candidate_id": "jupyterlab__jupyter-ai-962",
+      "base_commit": "920a65634cd89d47f2a561e17b99c2a5233cfa39",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "31fa2047d28b98a4566fa33cfe6d087e22bd9d256ff345caaaeee2a62b97052f",
+      "row_index": 62,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L08",
+      "candidate_id": "pdm-project__pdm-3109",
+      "base_commit": "fdfc2fb5ea7df6664c35b7d8188caa4551f3be5d",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "57908583f747ce2147012058d3027e158e07b425701874d935e5900c5da10692",
+      "row_index": 48,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L09",
+      "candidate_id": "pvlib__pvlib-python-2190",
+      "base_commit": "cc700f91ddfc511002d7468d335b43271dc7974a",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "411d968178008a34141c356b9f491f09f011a177f3781b528571b49e8e22dcb3",
+      "row_index": 74,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L10",
+      "candidate_id": "pylint-dev__pylint-9785",
+      "base_commit": "52fe657ef65e4bf808ea4667b130bc177385a773",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "beb1cbc1daae8aa69f80a9800ddc9e3838ac2d32e89e8ffda079d956e8e1a3b3",
+      "row_index": 4,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    },
+    {
+      "catalog_id": "L11",
+      "candidate_id": "instructlab__instructlab-2236",
+      "base_commit": "832ebf0f1cec31d294b12a67b6a7e199ed22882e",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "3efe04366887eda118aad2099cb7ba79d927b10c33fa63dff388709c7a04f347",
+      "row_index": 92,
+      "provisional_pool_difficulty": "hard",
+      "screening": "outside-declared-repository-scope"
+    },
+    {
+      "catalog_id": "L12",
+      "candidate_id": "aws-cloudformation__cfn-lint-3650",
+      "base_commit": "24021be4f3e968c11fc46d2e175c0fa0a0c17bd4",
+      "base_matches_fixed_revision": true,
+      "row_sha256": "4d2d7b501dcfb62a9512406d22829c22585c4175f0566c3bbaf764e66cc5493f",
+      "row_index": 79,
+      "provisional_pool_difficulty": "medium",
+      "screening": "eligible-for-review"
+    }
+  ],
+  "data_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2"
+}

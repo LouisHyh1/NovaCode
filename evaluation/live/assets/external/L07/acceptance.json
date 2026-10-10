@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2286@sha256:4c525f81a3461b515f8c9a4f17c57534d867b9e9a3d60374b33473508de62189",
+  "limits": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256,
+    "test_timeout_seconds": 600,
+    "minimum_free_disk_bytes": 21474836480,
+    "image_pull_timeout_seconds": 600
+  },
+  "row_sha256": "82478e9a91a561d8424d8bd15c167c2553f2f417cca35718155726ec66f0af47",
+  "judge_sha256": "23b28f7a83bd32a3b0acd2bd103243884a9af753f2479eafea728d2c23f96c91",
+  "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+  "conditions": [
+    "official-tests"
+  ],
+  "timeout_seconds": 600,
+  "command": [
+    "/home/louishyh/.cache/novacode-evaluation/stage1/grader-venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/live/assets/external/L07/judge.py",
+    "/home/louishyh/projects/NovaCode/evaluation/live/assets/external/L07/acceptance.json"
+  ]
+}

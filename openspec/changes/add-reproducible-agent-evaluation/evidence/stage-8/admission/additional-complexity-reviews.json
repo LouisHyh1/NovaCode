@@ -1,0 +1,127 @@
+{
+  "pdm-project__pdm-3419": {
+    "difficulty": "hard",
+    "reason": "嵌套 include-group 依赖图解析与 lock/sync/export/add/update 多入口共同维护包组元数据；无真实服务需求，须通过离线全套验收"
+  },
+  "pylint-dev__pylint-9990": {
+    "difficulty": "hard",
+    "reason": "TYPE_CHECKING 导入的静态/运行期区分、延迟注解、消费者状态与跨局部作用域报告生命周期联动"
+  },
+  "pylint-dev__pylint-10275": {
+    "difficulty": "hard",
+    "reason": "仅已有名称违规判定函数的返回注解分支",
+    "exclude_reason": "认知审查不支持困难层，保持事前层顺序，排除本层候选"
+  },
+  "pylint-dev__pylint-10062": {
+    "difficulty": "hard",
+    "reason": "既有 same-test guard 对 walrus 的局部规则调整",
+    "exclude_reason": "认知审查不支持困难层"
+  },
+  "jupyterlab__jupyter-ai-1022": {
+    "difficulty": "hard",
+    "reason": "TS 按钮、WebSocket 取消与 Python handler 状态跨前后端",
+    "exclude_reason": "主集限 Python；官方 Python 验收不能证明前端按钮合同"
+  },
+  "pylint-dev__pylint-10344": {
+    "difficulty": "hard",
+    "reason": "列表推导式对聚合关系的推断映射",
+    "exclude_reason": "认知审查支持中等，但不足困难层"
+  },
+  "pylint-dev__pylint-10240": {
+    "difficulty": "hard",
+    "reason": "条件导入、限定属性名称、作用域消费者与分支可达性相互影响，困难需保留合法分支和真实未定义的区别"
+  },
+  "geopandas__geopandas-3424": {
+    "difficulty": "easy",
+    "reason": "空 GeoDataFrame 的 GeometryArray 零长度 dtype 归一化，同一边界同时服务 union/symmetric_difference/identity；GIS 依赖与资源另按官方离线验收核验"
+  },
+  "conan-io__conan-17346": {
+    "difficulty": "medium",
+    "reason": "虚拟 CLI consumer、profile tool_requires 的匹配与多个消费者判定调用方联动"
+  },
+  "conan-io__conan-16789": {
+    "difficulty": "medium",
+    "reason": "PkgConfigDeps 公开覆盖 API、依赖属性优先级和生成名称一致性"
+  },
+  "conan-io__conan-17123": {
+    "difficulty": "medium",
+    "reason": "配置安装 ignore/inverse-match 优先级、目录递归与兼容默认联动"
+  },
+  "pvlib__pvlib-python-2286": {
+    "difficulty": "medium",
+    "reason": "湿度/露点双向转换、标量/数组和物理单位合同，逆关系与边界须同时正确"
+  },
+  "aws-cloudformation__cfn-lint-3749": {
+    "difficulty": "medium",
+    "reason": "ForEach 与 FindInMap、AccountId 引用和动态映射键关联"
+  },
+  "aws-cloudformation__cfn-lint-3900": {
+    "difficulty": "medium",
+    "reason": "共享 glob 解析区分必需输入和可选 ignore，配置/CLI 兼容与错误路径关联"
+  },
+  "bridgecrewio__checkov-7022": {
+    "difficulty": "medium",
+    "reason": "单个字符串匹配函数对结构化 Name 的类型转换",
+    "exclude_reason": "认知跨度不足中等层，保留初分层并排除该层候选"
+  },
+  "bridgecrewio__checkov-7119": {
+    "difficulty": "medium",
+    "reason": "Terraform plan provider 名称与 alias 数据模型、解析和规则匹配关联"
+  },
+  "kedro-org__kedro-4580": {
+    "difficulty": "easy",
+    "reason": "DataCatalog 懒加载的 ImportError 传播与 CLI traceback 恢复，沿用既有异常机制"
+  },
+  "python-babel__babel-1104": {
+    "difficulty": "easy",
+    "reason": "Locale modifier 规范化与已有 locale-data 文件存在性检查的局部边界"
+  },
+  "aws-cloudformation__cfn-lint-3629": {
+    "difficulty": "medium",
+    "reason": "ForEach、FindInMap 和伪参数的参数上下文传播，避免错误采用映射默认值"
+  },
+  "aws-cloudformation__cfn-lint-4032": {
+    "difficulty": "medium",
+    "reason": "IAM action 的多种 ARN 资源形式、通配符匹配及 any/all 约束关系"
+  },
+  "aws-cloudformation__cfn-lint-3768": {
+    "difficulty": "medium",
+    "reason": "StateMachine Definition/DefinitionString 和 substitution 占位符的解析、校验与错误位置联动"
+  },
+  "aws-cloudformation__cfn-lint-4051": {
+    "difficulty": "medium",
+    "reason": "JSONata/JSONPath 双模式 schema 条件分支、choice 类型及兼容规则，不因 schema 行数认定困难"
+  },
+  "aws-cloudformation__cfn-lint-3557": {
+    "difficulty": "medium",
+    "reason": "共享类型检查器单个 null 边界",
+    "exclude_reason": "认知审查不足中等层"
+  },
+  "aws-cloudformation__cfn-lint-3770": {
+    "difficulty": "medium",
+    "reason": "DefinitionString 的内在函数与嵌入 JSON 解析边界，保留静态内容验收"
+  },
+  "pvlib__pvlib-python-2249": {
+    "difficulty": "medium",
+    "reason": "已有历法函数的 Julian/Gregorian 修正适用边界；数值单位和日期局部关系集中",
+    "exclude_reason": "认知跨度不足中等层；不为填配额改层"
+  },
+  "conan-io__conan-18089": {
+    "difficulty": "medium",
+    "reason": "已有凭据获取日志在 authenticate 入口的局部开关",
+    "exclude_reason": "认知跨度不足中等层"
+  },
+  "jupyterlab__jupyter-ai-879": {
+    "difficulty": "medium",
+    "reason": "异步片段累计、前缀和代码围栏后处理、流式与最终帧一致性；参考测试须使用离线 mock，不允许外部模型"
+  },
+  "python-babel__babel-1132": {
+    "difficulty": "medium",
+    "reason": "既有 catalog._key_for 的单个 obsolete 字典写入调用遗漏 context",
+    "exclude_reason": "已有复合键 API 的局部替换，认知跨度不足中等层"
+  },
+  "falconry__falcon-2248": {
+    "difficulty": "medium",
+    "reason": "公开 Cookie 参数、Morsel 保留属性、Falcon 序列化与 Python 版本兼容共同约束；不以文件数分级"
+  }
+}

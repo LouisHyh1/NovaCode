@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "Some surnames for uk_UA locale have male form when name_female() is called\n* Faker version: 28.0.0\r\n* OS: all\r\nSome surnames for uk_UA locale have different forms for male and female\r\n\r\nSurnames that formed as adjectives will change ending for female:\r\n-ий -> -а\r\n-ин -> -ина\r\n-ін -> -іна\r\n-їн -> -їн\r\n\r\nSurnames that ends on -ишин (-їшин), -ин, -ін (-їн) for female could have the same form and form with aded ending -a\r\n\r\nhttps://webpen.com.ua/pages/linguistic_norm/first_name_declination.html\r\n\r\n\r\n### Steps to reproduce\r\n\r\n```\r\nfrom faker import Faker\r\nFaker.seed(25)\r\nfake = Faker('uk_UA')\r\nprint(fake.name_female())  # \"Аліна Забарний\" instead of \"Аліна Забарна\"\r\n```\r\n\r\n### Expected behavior\r\n\r\nname_female() should return \"Аліна Забарна\"\r\n\r\n### Actual behavior\r\n\r\nname_female() returns \"Аліна Забарний\"\r\n\n"
+  ]
+}

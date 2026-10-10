@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "source_symlink": true,
+  "tar_exit": 2,
+  "output": "lrwxrwxrwx 1 1000 1000 60 Oct 10 05:07 /agent-runtime.tar -> /home/louishyh/.cache/novacode-evaluation/stage8/runtime.tar\ntar: /agent-runtime.tar: Cannot open: No such file or directory\ntar: Error is not recoverable: exiting now\n"
+}

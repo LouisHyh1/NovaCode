@@ -97,7 +97,7 @@ def verify(args):
                 image_digest,
                 command="tail -f /dev/null",
                 detach=True,
-                network_disabled=True,
+                network_mode="none",
                 nano_cpus=2_000_000_000,
                 mem_limit=4 * 1024**3,
                 memswap_limit=4 * 1024**3,

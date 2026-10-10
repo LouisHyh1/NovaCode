@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "rows": 500,
+  "screening": {
+    "eligible-for-review": 181,
+    "outside-declared-repository-scope": 316,
+    "contract-review-excluded": 1,
+    "conflicting-duplicate": 2
+  },
+  "strata": {
+    "hard": 9,
+    "easy": 15,
+    "medium": 157
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "attempt": "aws-cloudformation__cfn-lint-3770",
+      "instance_id": "aws-cloudformation__cfn-lint-3770",
+      "qualified": false,
+      "original_directory_created": false,
+      "error": "TimeoutExpired: Command '['/home/louishyh/.cache/novacode-evaluation/stage1/grader-venv/bin/python', '/home/louishyh/projects/NovaCode/evaluation/live/fetch_image.py', '--image', 'starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3770:latest', '--cache', '/home/louishyh/.cache/novacode-evaluation/stage8/oci']' timed out after 599.9999719619955 seconds",
+      "sha256": "ef27960f07c9b1feaa370d4b40563fa196a96a0348c96c2734c2587166159e1d"
+    },
+    {
+      "attempt": "aws-cloudformation__cfn-lint-3770-image-retry-2",
+      "instance_id": "aws-cloudformation__cfn-lint-3770",
+      "qualified": false,
+      "original_directory_created": true,
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "10bba8949b119c7972c0bcf1c416c1085ea563ebe3846e86684d66e427e588bf"
+    },
+    {
+      "attempt": "aws-cloudformation__cfn-lint-4051",
+      "instance_id": "aws-cloudformation__cfn-lint-4051",
+      "qualified": false,
+      "original_directory_created": false,
+      "error": "TimeoutExpired: Command '['/home/louishyh/.cache/novacode-evaluation/stage1/grader-venv/bin/python', '/home/louishyh/projects/NovaCode/evaluation/live/fetch_image.py', '--image', 'starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4051:latest', '--cache', '/home/louishyh/.cache/novacode-evaluation/stage8/oci']' timed out after 599.9999610110026 seconds",
+      "sha256": "62bbf3a286c6d5f167d65d1a790c53a4f7ad244d2987c6da62436590f8ac986e"
+    },
+    {
+      "attempt": "aws-cloudformation__cfn-lint-4051-image-retry-2",
+      "instance_id": "aws-cloudformation__cfn-lint-4051",
+      "qualified": false,
+      "original_directory_created": true,
+      "error": "AssertionError: 原有回归失败",
+      "sha256": "98160d0faa8a91296b9d03d85f0cedb95de922f2c1ec6fbc8bec922d89bd9bd7"
+    },
+    {
+      "attempt": "bridgecrewio__checkov-7119",
+      "instance_id": "bridgecrewio__checkov-7119",
+      "qualified": false,
+      "original_directory_created": false,
+      "error": "TimeoutExpired: Command '['/home/louishyh/.cache/novacode-evaluation/stage1/grader-venv/bin/python', '/home/louishyh/projects/NovaCode/evaluation/live/fetch_image.py', '--image', 'starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-7119:latest', '--cache', '/home/louishyh/.cache/novacode-evaluation/stage8/oci']' timed out after 599.999957470005 seconds",
+      "sha256": "e725477dc526c31e38cfb9433eb536699ab2cada536357a107a4a63681c10c65"
+    },
+    {
+      "attempt": "bridgecrewio__checkov-7119-image-retry-2",
+      "instance_id": "bridgecrewio__checkov-7119",
+      "qualified": false,
+      "original_directory_created": false,
+      "error": "TimeoutExpired: Command '['/home/louishyh/.cache/novacode-evaluation/stage1/grader-venv/bin/python', '/home/louishyh/projects/NovaCode/evaluation/live/fetch_image.py', '--image', 'starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-7119:latest', '--cache', '/home/louishyh/.cache/novacode-evaluation/stage8/oci']' timed out after 599.9999796039992 seconds",
+      "sha256": "ffc4a00b249b5da6ad4c8bbd0ebd39461c95ac3fbfe5a92937a0f78704b19302"
+    },
+    {
+      "attempt": "bridgecrewio__checkov-7119-image-retry-3",
+      "instance_id": "bridgecrewio__checkov-7119",
+      "qualified": false,
+      "original_directory_created": true,
+      "error": "AssertionError: 镜像初始源码或测试已有修改",
+      "sha256": "c0f05af15c902a3132a86bfc8d0773a9535e23e43e8ee7aed1f8a3e91b366dfa"
+    },
+    {
+      "attempt": "conan-io__conan-17123",
+      "instance_id": "conan-io__conan-17123",
+      "qualified": false,
+      "original_directory_created": true,
+      "error": "AssertionError: 官方判题超时",
+      "sha256": "e37faae529f753475d3e767dc6b4e87f385f05efa12dfd34c6f78bc6bc5e4272"
+    },
+    {
+      "attempt": "falconry__falcon-2248",
+      "instance_id": "falconry__falcon-2248",
+      "qualified": true,
+      "original_directory_created": true,
+      "error": null,
+      "sha256": "66c3f77b69f6a56b2ca6f4f52a5b749368cda0e49f844741545ad92e2e710ecb"
+    },
+    {
+      "attempt": "jupyterlab__jupyter-ai-879",
+      "instance_id": "jupyterlab__jupyter-ai-879",
+      "qualified": false,
+      "original_directory_created": false,
+      "error": "AssertionError: 官方镜像不可用",
+      "sha256": "2df0865f464b0d77b398b60025e3b1798995bacd683e5588f762e3026e3ee2c9"
+    },
+    {
+      "attempt": "jupyterlab__jupyter-ai-879-image-retry-2",
+      "instance_id": "jupyterlab__jupyter-ai-879",
+      "qualified": false,
+      "original_directory_created": false,
+      "error": "PreparationInterrupted: process absent with no original/reference directory; finalized missing end record on authorized recovery",
+      "sha256": "8ce31b0c4662325860b2cf1e71c0cc13fc4ea76435e558110eeab37532084b4f"
+    },
+    {
+      "attempt": "jupyterlab__jupyter-ai-879-image-retry-3",
+      "instance_id": "jupyterlab__jupyter-ai-879",
+      "qualified": true,
+      "original_directory_created": true,
+      "error": null,
+      "sha256": "4d0796965eeac55d960d89c489b09b0ccef58f366e8c94010e16aeea12ffcac8"
+    },
+    {
+      "attempt": "python-babel__babel-1120",
+      "instance_id": "python-babel__babel-1120",
+      "qualified": true,
+      "original_directory_created": true,
+      "error": null,
+      "sha256": "441a2c6f4156ab605148993e23935d6640a97254167c745929c6969e8b5b16fa"
+    }
+  ],
+  "redactions": [],
+  "reused_started_attempts": [
+    "aws-cloudformation__cfn-lint-3629",
+    "aws-cloudformation__cfn-lint-3749-image-retry-2",
+    "aws-cloudformation__cfn-lint-3768",
+    "aws-cloudformation__cfn-lint-3875",
+    "aws-cloudformation__cfn-lint-3900",
+    "aws-cloudformation__cfn-lint-3908",
+    "aws-cloudformation__cfn-lint-4032",
+    "conan-io__conan-16789-image-retry-2",
+    "conan-io__conan-16870",
+    "conan-io__conan-17051",
+    "conan-io__conan-17346",
+    "falconry__falcon-2426",
+    "geopandas__geopandas-3424-image-retry-2",
+    "joke2k__faker-2093",
+    "joke2k__faker-2096",
+    "kedro-org__kedro-4075",
+    "kedro-org__kedro-4580-image-retry-2",
+    "pdm-project__pdm-3314",
+    "pdm-project__pdm-3419",
+    "pvlib__pvlib-python-2286",
+    "pylint-dev__pylint-10225",
+    "pylint-dev__pylint-9990",
+    "python-attrs__attrs-1321",
+    "python-babel__babel-1104"
+  ],
+  "boundary": "准备恢复与中断历史；原始/参考验收未择优重跑"
+}

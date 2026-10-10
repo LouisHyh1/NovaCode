@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "Long path with space lead to wrong PO file.\n## Overview Description\r\n\r\n## Steps to Reproduce\r\n\r\n```\r\nfrom io import BytesIO\r\n\r\nfrom babel.messages import Catalog\r\nfrom babel.messages.pofile import write_po, read_po\r\n\r\noutput_bytes = BytesIO()\r\n\r\ncatalog = Catalog()\r\ncatalog.add('test', locations=[('x x\\\\' * 40, 1)])\r\nwrite_po(output_bytes, catalog, width=0)\r\ndata = output_bytes.getvalue()\r\nprint(data.decode('utf-8'))\r\n\r\ninput_bytes = BytesIO(data)\r\ncatalog = read_po(input_bytes)\r\nprint(catalog.get('test').locations)\r\n```\r\n\r\n## Actual Results\r\n\r\nThree paths.\r\n\r\n## Expected Results\r\n\r\nOne path 'x x\\\\' * 40\r\n\r\n## Reproducibility\r\n\r\nRun code.\r\n\r\n## Additional Information\r\n\r\nI try to replace ' ' with '%20' - it is wrong but it works.\r\n\r\nOption with not works as documented.\r\n\r\nwidth=None # wrong type hints\r\nwidth=-1 # wrap occurs\r\nwidth= 0 # wrap occurs\r\n\r\nWorkaround is to replace ' ' or set large width.\r\n\n"
+  ]
+}

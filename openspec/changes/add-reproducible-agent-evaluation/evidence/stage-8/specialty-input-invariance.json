@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "task_id": "S01",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S02",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S03",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S04",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S05",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S06",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S07",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S08",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S09",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S10",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S11",
+      "same_initial_public_environment": true
+    },
+    {
+      "task_id": "S12",
+      "same_initial_public_environment": true
+    }
+  ],
+  "archive_sha256": "68867ec69c74018575b5922f435b2c39b3f6b8b733a5650600f18c705b96ffcb"
+}

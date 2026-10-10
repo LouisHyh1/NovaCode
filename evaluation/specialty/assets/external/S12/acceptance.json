@@ -29,7 +29,7 @@
   "implementation": {
     "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
     "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
-    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "judge.py": "6ef95f53a964448c1418ec24d0e2e1b5c137c31b5dc92546b7eab8681c60290e",
     "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
   },
   "initial_files": {

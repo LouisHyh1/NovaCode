@@ -1,6 +1,6 @@
 # 首批任务候选与入库合同
 
-本目录记录首批24题内容与选题方向。2026-10-10 第七阶段完成后，S01–S12 已建设公开 fixture、固定脚本、独立验收与正确/缺陷对照，并通过入库核验为 `ADMITTED`，见 [第七阶段报告](evidence/stage-7/specialty-validation.md) 及 [执行资产](../../../evaluation/specialty/README.md)。L01–L12 仍是开发候选；L03 的历史代表环境核验不替代第八阶段的正式开发集筛选与入库。入库规则见 [evaluation-protocol.md](evaluation-protocol.md)，规范见 [agent-evaluation-corpus](specs/agent-evaluation-corpus/spec.md)。
+本目录记录开发题内容合同与初始候选历史。2026-10-10 第八阶段完成后，12 道 Live 与 12 道专项均已入库，形成 `DEV_ADMITTED`；最终任务以 [Live 执行合同](../../../evaluation/live/assets/contracts/)、[专项执行合同](../../../evaluation/specialty/assets/contracts/) 与当前入库账本为准。固定完整 500 行题池、资格与替补、三次参考、资源、初始 12 候选差异及真实产品验收见 [第八阶段报告](evidence/stage-8/live-validation.md)。入库规则见 [evaluation-protocol.md](evaluation-protocol.md)，规范见 [agent-evaluation-corpus](specs/agent-evaluation-corpus/spec.md)。
 
 ## 配额与分类
 
@@ -43,7 +43,28 @@ S07–S09优先使用真实模型执行固定多轮脚本逐步形成历史，�
 
 S10–S12的服务使用固定业务记录，不查询操作者外部账户。工具集来自真实职责，包括CI记录、issue和关联查询，不为了制造Token收益放入大量无关工具。按需组初始仅有基础工具和发现入口，全量组初始有全部同能力Schema；发现本身也在两组可用。最终目标优先，合法绕过发现仍可成功，发现覆盖另报。
 
-## L01–L12 Live开发候选
+## L01–L12 最终 Live 开发入库
+
+固定完整 verified 题池按事前规则核验 31 个不同候选，最终入库清单如下。每题均通过原始失败/原有回归和三次参考资格；第三次包含独立 Agent 部署及目标环境不变检查。全部公开请求精确保留原始 problem_statement，判题使用固定官方 grader、镜像 digest 与外部资产，见 [执行说明](../../../evaluation/live/README.md)。
+
+| ID | 难度 | instance_id | base_commit |
+|---|---|---|---|
+| L01 | easy | pylint-dev__pylint-10225 | `12a8747ec98617fa1989ce069f174b3587005cdf` |
+| L02 | easy | joke2k__faker-2096 | `4240ef8fc783c0c1598085b596783ace9ccaee03` |
+| L03 | easy | joke2k__faker-2093 | `b51f852b097f416d9c60198a838ce3d5f396ea19` |
+| L04 | easy | python-babel__babel-1104 | `2f87363410f3c904e107e85ca10b9f84902db93f` |
+| L05 | medium | falconry__falcon-2426 | `62c80e679c5a17eb08e1a836a2a8ad3f75697fdb` |
+| L06 | medium | aws-cloudformation__cfn-lint-3749 | `07652d4a4133e825aeeb09973398575b25713c82` |
+| L07 | medium | pvlib__pvlib-python-2286 | `6af80da35a7c96059c534ee38be9123bcfc7f50f` |
+| L08 | medium | python-babel__babel-1120 | `0005c85fccccb491930f064ea8d064e87ce7ee79` |
+| L09 | medium | jupyterlab__jupyter-ai-879 | `4664a0baa2993efb2b0265d41f376dd5c902c6c8` |
+| L10 | medium | falconry__falcon-2248 | `cd707961898e7012159b7205dabc4a2824eb3a68` |
+| L11 | hard | python-attrs__attrs-1321 | `fd7538f0e23a49ec34b636484de2d1b4b690c7fb` |
+| L12 | hard | pylint-dev__pylint-9990 | `537e9da59e7df337fa39897d0b583ce0c12d3ed9` |
+
+最终难度 4/6/2，覆盖 8 个仓库，每仓库最多 2 道，issue/fix 家族不冲突。此开发队列限定事前审查的 CPU Python 工程仓库，不宣称随机代表整个 verified 或完整官方榜单。以下原 12 候选表仅保留初次规划历史，其 Lxx 编号不再表示当前执行合同；逐项差异见第八阶段报告。
+
+## 初次规划的 L01–L12 历史候选
 
 候选数据来源为 [SWE-bench-Live/SWE-bench-Live](https://huggingface.co/datasets/SWE-bench-Live/SWE-bench-Live) 的 `verified`。2026-10-09官方元数据API前后两次均显示 revision `b51a86422e10cfd403beb4773e5a2947953e36ec`；候选内容从默认分支的题库服务前100行白名单字段观察取得，尚未独立证明服务缓存对应该commit。实际入库须从指定revision下载数据并重新核对ID、base_commit和字段指纹。[官方元数据API](https://huggingface.co/api/datasets/SWE-bench-Live/SWE-bench-Live)
 
@@ -93,4 +114,4 @@ L11替代初次观察到的aiogram方法别名候选：大批别名或生成代�
 
 ## 本轮交付边界
 
-已完成24个候选内容及来源合同，其中12道自建开发专项现已入库，具有公开 fixture、固定脚本、独立验收、正确/缺陷对照和指纹账本。Live 开发集筛选入库、24题真实模型先导、48题冻结清单与正式结果尚未完成；两道真实模型代表验收不替代整个开发集实验。入库数量以执行合同、资格资产和选择账本为准，不能将候选表直接当成完整题库就绪的证明。
+当前 24 道开发题已满足 DEV_ADMITTED，具备公开输入、固定初始条件、独立验收、有效性与资源证据以及指纹账本。12 Live 的参考资格和 12 专项正确/负例核验不等于真实模型开发集成功率；单题真实 tmux 结果与专项判题修订复评分别保存。24 题三配置先导、48 题冻结清单、正式配对实验与统计报告尚未完成。下一阶段从第九阶段开始，本轮在第八阶段验证后停止并按授权提交推送。

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "evaluation/live/curate.py",
+    "select",
+    "--pool",
+    "/home/louishyh/.cache/novacode-evaluation/stage8-authenticated/pool-final",
+    "--archive",
+    "/home/louishyh/.cache/novacode-evaluation/stage8/runtime.tar"
+  ],
+  "exit_code": 0,
+  "ended_at": "2026-10-10T14:55:28.843796+00:00"
+}

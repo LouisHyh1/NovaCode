@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.falconry_1776_falcon-2248@sha256:33f3293001f93d8e6774b72d00ad8d9ed519ff5437d9f3873db8e6385aa8dcc2",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

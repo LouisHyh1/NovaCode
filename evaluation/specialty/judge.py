@@ -21,7 +21,7 @@ from novacode.evaluation.artifacts import extract_patch, scope_status
 from novacode.evaluation.contracts import require
 
 
-def answer_json(answer: str) -> dict[str, Any] | None:
+def answer_json(answer: str, shapes: list[set[str]]) -> dict[str, Any] | None:
     decoder = json.JSONDecoder()
     matches = []
     for index, char in enumerate(answer):
@@ -29,7 +29,7 @@ def answer_json(answer: str) -> dict[str, Any] | None:
             continue
         try:
             value, _ = decoder.raw_decode(answer[index:])
-            if isinstance(value, dict):
+            if isinstance(value, dict) and any(shape <= value.keys() for shape in shapes):
                 matches.append(value)
         except ValueError:
             continue
@@ -48,7 +48,7 @@ def canonical(value: dict[str, Any]) -> dict[str, Any]:
 
 
 def facts_pass(answer: str, expected: list[dict[str, Any]]) -> bool:
-    actual = answer_json(answer)
+    actual = answer_json(answer, [set(option) for option in expected])
     if actual is None:
         return False
     try:

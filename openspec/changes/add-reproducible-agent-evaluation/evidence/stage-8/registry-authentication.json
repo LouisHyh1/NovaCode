@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "authenticated": true,
+  "status": 200,
+  "config_path": "/home/louishyh/snap/docker/current/.docker/config.json",
+  "credential_values_recorded": false,
+  "request_method": "HEAD",
+  "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4051:latest",
+  "headers": {
+    "Date": "Sat, 10 Oct 2026 13:01:04 GMT",
+    "Docker-Content-Digest": "sha256:2c809ab85aa894ad8f3e75688a65bc3624940a9b18ced7114f78b092914f834f",
+    "ratelimit-limit": "200;w=3600",
+    "ratelimit-remaining": "200;w=3600"
+  },
+  "model_calls": 0
+}

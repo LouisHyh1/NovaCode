@@ -1,0 +1,8 @@
+evaluation/live/assets/external/L02/judge.py: error: Duplicate module named
+"judge" (also at "evaluation/live/assets/external/L01/judge.py")
+evaluation/live/assets/external/L02/judge.py: note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#mapping-file-paths-to-modules for more info
+evaluation/live/assets/external/L02/judge.py: note: Common resolutions include:
+evaluation/live/assets/external/L02/judge.py: note:     a) using `--exclude` to avoid checking one of them,
+evaluation/live/assets/external/L02/judge.py: note:     b) adding `__init__.py` somewhere,
+evaluation/live/assets/external/L02/judge.py: note:     c) using `--explicit-package-bases` or adjusting `MYPYPATH`
+Found 1 error in 1 file (errors prevented further checking)
