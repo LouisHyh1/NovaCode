@@ -1,0 +1,8 @@
+{
+  "base_commit": "f58fe55827057009c919696e0c56e0c4786291fc",
+  "files": {
+    "batches.py": "def chunks(values, size):\n    if size <= 0:\n        raise ValueError(\"size must be positive\")\n    return [values[i:i+size] for i in range(0, len(values) - size + 1, size)]\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_chunks(self):\n        from batches import chunks\n        self.assertEqual(chunks([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])\n        self.assertEqual(chunks([], 2), [])\n        self.assertEqual(chunks([1], 1), [[1]])\n    def test_invalid(self):\n        from batches import chunks\n        for size in (0, -1):\n            with self.assertRaises(ValueError):\n                chunks([1], size)\n"
+  },
+  "schema_version": 1
+}

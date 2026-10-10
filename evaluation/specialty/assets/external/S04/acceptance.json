@@ -1,0 +1,44 @@
+{
+  "allowed_paths": [
+    "tests/test_added.py"
+  ],
+  "answers": [],
+  "base_commit": "0dc1c5b561e8efb0d4bc739a50615d369aae5056",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/assets/external/S04/acceptance.json"
+  ],
+  "conditions": [
+    "correct-tests",
+    "all-mutants",
+    "scope"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
+    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "operation.py": "import asyncio\n\nclass Operation:\n    def __init__(self, resource):\n        self.resource = resource\n        self.state = \"idle\"\n        self.started = asyncio.Event()\n        self.release = asyncio.Event()\n    async def run(self):\n        self.state = \"running\"\n        self.started.set()\n        try:\n            await self.release.wait()\n        finally:\n            await self.resource.close()\n            self.state = \"idle\"\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import operation\n        self.assertTrue(callable(operation.Operation))\n"
+  },
+  "mutants": {
+    "missing-close": {
+      "operation.py": "import asyncio\n\nclass Operation:\n    def __init__(self, resource):\n        self.resource = resource\n        self.state = \"idle\"\n        self.started = asyncio.Event()\n        self.release = asyncio.Event()\n    async def run(self):\n        self.state = \"running\"\n        self.started.set()\n        try:\n            await self.release.wait()\n        finally:\n            pass\n            self.state = \"idle\"\n"
+    },
+    "wrong-state": {
+      "operation.py": "import asyncio\n\nclass Operation:\n    def __init__(self, resource):\n        self.resource = resource\n        self.state = \"running\"\n        self.started = asyncio.Event()\n        self.release = asyncio.Event()\n    async def run(self):\n        self.state = \"running\"\n        self.started.set()\n        try:\n            await self.release.wait()\n        finally:\n            await self.resource.close()\n            self.state = \"running\"\n"
+    }
+  },
+  "reference": {
+    "tests/test_added.py": "import asyncio\nimport unittest\nfrom operation import Operation\n\nclass CancelTests(unittest.IsolatedAsyncioTestCase):\n    async def test_cancel(self):\n        class Resource:\n            count = 0\n            async def close(self):\n                self.count += 1\n        resource = Resource()\n        operation = Operation(resource)\n        task = asyncio.create_task(operation.run())\n        await operation.started.wait()\n        task.cancel()\n        with self.assertRaises(asyncio.CancelledError):\n            await task\n        self.assertEqual(resource.count, 1)\n        self.assertEqual(operation.state, \"idle\")\n    async def test_normal(self):\n        class Resource:\n            count = 0\n            async def close(self):\n                self.count += 1\n        resource = Resource()\n        operation = Operation(resource)\n        task = asyncio.create_task(operation.run())\n        await operation.started.wait()\n        operation.release.set()\n        await task\n        self.assertEqual(resource.count, 1)\n        self.assertEqual(operation.state, \"idle\")\n"
+  },
+  "schema_version": 1,
+  "task_id": "S04",
+  "timeout_seconds": 180
+}

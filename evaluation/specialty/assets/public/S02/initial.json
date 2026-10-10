@@ -1,0 +1,9 @@
+{
+  "base_commit": "a7a219121d441b607ea40e8841c4110d362743e6",
+  "files": {
+    "cli.py": "from service import get, RequestError\n\nasync def main(key):\n    try:\n        return await get(key)\n    except RequestError as exc:\n        return display(str(exc))\n\ndef display(message):\n    return \"ERROR: \" + message\n\ndef network_error(exc):\n    return \"NETWORK: \" + str(exc)\n",
+    "service.py": "from storage import fetch, MissingRecord\n\nclass RequestError(Exception):\n    pass\n\nasync def get(key):\n    try:\n        return await fetch(key)\n    except MissingRecord as exc:\n        raise RequestError(\"record unavailable\") from exc\n",
+    "storage.py": "class MissingRecord(Exception):\n    pass\n\nasync def fetch(key):\n    raise MissingRecord(key)\n"
+  },
+  "schema_version": 1
+}

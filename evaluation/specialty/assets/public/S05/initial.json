@@ -1,0 +1,7 @@
+{
+  "base_commit": "75a329e0589d4acd2e4713b0140452e95f2c029f",
+  "files": {
+    "bounds.py": "def clamp(value, lower, upper):\n    if lower > upper:\n        raise ValueError(\"reversed range\")\n    return max(min(value, lower), upper)\n"
+  },
+  "schema_version": 1
+}

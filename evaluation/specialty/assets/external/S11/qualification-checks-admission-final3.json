@@ -1,0 +1,55 @@
+{
+  "environment": {
+    "called": [],
+    "error_ids": [],
+    "errors": 0,
+    "executed": [],
+    "failure_ids": [],
+    "failures": 0,
+    "resource_limits": {
+      "Memory": 536870912,
+      "MemorySwap": 536870912,
+      "NanoCpus": 1000000000,
+      "NetworkMode": "none",
+      "PidsLimit": 64
+    },
+    "run": 1,
+    "skipped": 0,
+    "successful": true
+  },
+  "input_source": "fixed-public-script",
+  "model_runs": 0,
+  "negatives": {
+    "missing-goal": {
+      "conditions": {
+        "facts": false,
+        "scope": true
+      },
+      "details": {}
+    },
+    "out-of-scope": {
+      "conditions": {
+        "facts": true,
+        "scope": false
+      },
+      "details": {}
+    },
+    "wrong-facts": {
+      "conditions": {
+        "facts": false,
+        "scope": true
+      },
+      "details": {}
+    }
+  },
+  "reference": {
+    "conditions": {
+      "facts": true,
+      "scope": true
+    },
+    "details": {}
+  },
+  "schema_version": 1,
+  "script_requests": 1,
+  "task_sha256": "fb57c5fd0ab8e4ae6b0cdfa21b4edbd4a5fb56abdff7e9f204635e560564c254"
+}

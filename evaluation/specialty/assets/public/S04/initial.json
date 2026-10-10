@@ -1,0 +1,8 @@
+{
+  "base_commit": "0dc1c5b561e8efb0d4bc739a50615d369aae5056",
+  "files": {
+    "operation.py": "import asyncio\n\nclass Operation:\n    def __init__(self, resource):\n        self.resource = resource\n        self.state = \"idle\"\n        self.started = asyncio.Event()\n        self.release = asyncio.Event()\n    async def run(self):\n        self.state = \"running\"\n        self.started.set()\n        try:\n            await self.release.wait()\n        finally:\n            await self.resource.close()\n            self.state = \"idle\"\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import operation\n        self.assertTrue(callable(operation.Operation))\n"
+  },
+  "schema_version": 1
+}

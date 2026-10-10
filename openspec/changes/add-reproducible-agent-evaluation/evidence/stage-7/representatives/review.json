@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "runs": [
+    {
+      "run_id": "auto-s12",
+      "task_id": "S12",
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 8,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 29269,
+        "measured_tokens": 29269,
+        "tool_calls": 11,
+        "tool_retries": 0,
+        "tool_executed": 11,
+        "tool_succeeded": 11,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 3,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.7887768010004947,
+          "initialization": 0.010869663999983459,
+          "agent": 9.409225449000587,
+          "cleanup": 0.0980728660006207,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 9.523888710999927,
+        "total_wall_seconds": 10.332942637000087,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "source_matches_wheel": true,
+      "version": "0.1.32"
+    },
+    {
+      "run_id": "tmux-s05",
+      "task_id": "S05",
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 6,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 21706,
+        "measured_tokens": 21706,
+        "tool_calls": 7,
+        "tool_retries": 1,
+        "tool_executed": 7,
+        "tool_succeeded": 6,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 0,
+        "fault_injections": 1,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.38500176800062036,
+          "initialization": 0.010183516999859421,
+          "agent": 7.80607905099987,
+          "cleanup": 0.0038164050001796568,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 7.8239651140002024,
+        "total_wall_seconds": 8.227820894000615,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "source_matches_wheel": true,
+      "version": "0.1.32"
+    }
+  ],
+  "secrets_absent": true
+}

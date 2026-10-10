@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读定位：key 缺失错误如何产生、转换并在异步 CLI 展示？最终 JSON 用 files、symbols（路径:符号）、relations（[源,目标]）表示实际路径，不修改文件。"
+  ],
+  "schema_version": 1
+}

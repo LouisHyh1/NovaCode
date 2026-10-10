@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "仅新增 tests/test_added.py，使用标准库 unittest 给 settings.resolve 补充测试：配置覆盖优先级、缺省值、显式空字符串和 None。生产文件和已有测试保持不变；测试需在正确实现通过并检出缺陷。"
+  ],
+  "schema_version": 1
+}

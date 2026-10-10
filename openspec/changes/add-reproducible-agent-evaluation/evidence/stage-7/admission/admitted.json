@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "tasks": [
+    {
+      "task_id": "S01",
+      "task_sha256": "f0d220c267aac1621b0862c4afb9d50c286fdd05355098ba9c26604db599b4ce",
+      "initial_sha256": "d2e34b29b0f641a79bbc764d3b9a7968c2c3055b643f6f8938bce0d928b4b97a",
+      "qualification": "S01/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "wrong-facts"
+      ]
+    },
+    {
+      "task_id": "S02",
+      "task_sha256": "9e5d76e7a3f40d8836a96ea8634b2b52ef98ea3ac953c4fe171a8e13a3a7b520",
+      "initial_sha256": "98ca65f3cb648bff172de4a925e6b2d4d7d9116c2bd88eedf0f4088cca4a87f2",
+      "qualification": "S02/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "wrong-facts"
+      ]
+    },
+    {
+      "task_id": "S03",
+      "task_sha256": "c2a64fbe3d547e4cfb693b98ff6a58db035bb7453464e9e94dc4615fe8f65623",
+      "initial_sha256": "8baf245544f41d5e410768cc09e818b58a6af976d377790dda2b27bd9f91cc04",
+      "qualification": "S03/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "collection-error",
+        "skipped",
+        "unconditional",
+        "deleted-existing"
+      ]
+    },
+    {
+      "task_id": "S04",
+      "task_sha256": "685b5a666bf6cdee1bc81b845e89af4cf79c18bd0eadb879f2fd25ff40aeafca",
+      "initial_sha256": "c1deaddf8afdd8f3f48e715eb6036ca5545a666b3522aa3190264a4b5d04f2b7",
+      "qualification": "S04/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "collection-error",
+        "skipped",
+        "unconditional",
+        "deleted-existing"
+      ]
+    },
+    {
+      "task_id": "S05",
+      "task_sha256": "e1b879fe3ac2ece5391725fac9246e660232a1b0fe4e631e6cf882bfd791795f",
+      "initial_sha256": "8070f507b30749c30a1784f4971eb66ffbda57d01e1c09dd992d7d85d278a39b",
+      "qualification": "S05/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope"
+      ]
+    },
+    {
+      "task_id": "S06",
+      "task_sha256": "3ca9318f66a23b7679f67cca2e5c8223e9dbc8a4440fad383e55010c85c51e2b",
+      "initial_sha256": "68027a70efb1db266b5e8b77d49611e0e108196a4189e1b5b63e0b9f53557d33",
+      "qualification": "S06/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope"
+      ]
+    },
+    {
+      "task_id": "S07",
+      "task_sha256": "6f5fe5855c691262f9c15f64fc66f7ac8d4f3b51cb3e146542242a7e2b374bec",
+      "initial_sha256": "55f056c9e0f0ee2ae7f98740be3dbc7e43587a467a56c180f391cec09e208e22",
+      "qualification": "S07/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope"
+      ]
+    },
+    {
+      "task_id": "S08",
+      "task_sha256": "f026cfc586f10230c299445f084867b4a596b2e4b6175b3f84fb4fcd3acc7b8c",
+      "initial_sha256": "065a0d1292a0c97c68f448bc0fab85bebfb8a622735559f383adc10f3eed41af",
+      "qualification": "S08/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope"
+      ]
+    },
+    {
+      "task_id": "S09",
+      "task_sha256": "c0e2ee8b9acdf19bda7c65848417f1f4d574460cd6ca1f3c1f768688639078c1",
+      "initial_sha256": "93616f31e4befde88e60e1272db43f2d04c240687e0307c0e97e01163c1e1f76",
+      "qualification": "S09/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "erased-config.py",
+        "erased-client.py"
+      ]
+    },
+    {
+      "task_id": "S10",
+      "task_sha256": "856a796febf7f5b4d5dacd8aadecbdae94438055cf15d9452f66b620aebf2467",
+      "initial_sha256": "fe7e59759e9993aa7166e0f544a0c5397dc81b248b0c62a757ffca79ef1f9451",
+      "qualification": "S10/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "wrong-facts"
+      ]
+    },
+    {
+      "task_id": "S11",
+      "task_sha256": "fb57c5fd0ab8e4ae6b0cdfa21b4edbd4a5fb56abdff7e9f204635e560564c254",
+      "initial_sha256": "3cac92f372812d842aef4a521daff988902d23e48e3df54aca29116627180e22",
+      "qualification": "S11/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "wrong-facts"
+      ]
+    },
+    {
+      "task_id": "S12",
+      "task_sha256": "3fe93fddd56cace87b1e4f8a8ee13259b55cd49dc583b7bd4f2b832d862df53f",
+      "initial_sha256": "41adf44868b1fb7aa7c8b18029591602db1309376f9ab6864ef6d9d3ce220239",
+      "qualification": "S12/qualification-admission-final3.json",
+      "negative_controls": [
+        "missing-goal",
+        "out-of-scope",
+        "wrong-facts"
+      ]
+    }
+  ],
+  "quota": {
+    "schema_version": 1,
+    "rows": [
+      {
+        "suite": "development",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 12,
+        "gap": 12,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "development",
+        "source": "specialty",
+        "candidates": 12,
+        "admitted": 12,
+        "frozen": 0,
+        "target": 12,
+        "gap": 0,
+        "difficulty": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 0,
+          "medium": 0,
+          "hard": 0
+        },
+        "categories": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        },
+        "category_targets": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        },
+        "category_gaps": {
+          "localization": 0,
+          "test-addition": 0,
+          "tool-failure": 0,
+          "long-context": 0,
+          "tool-discovery": 0
+        }
+      },
+      {
+        "suite": "frozen",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "frozen",
+        "source": "specialty",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        },
+        "category_gaps": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        }
+      }
+    ]
+  }
+}

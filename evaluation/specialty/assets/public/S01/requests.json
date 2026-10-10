@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读定位：说明配置文件中的 mode 从读取到运行生效的路径。最终 JSON 包含 files（相对路径）、symbols（文件路径:符号）、relations（[源符号,目标符号] 数组）；可加自由解释。"
+  ],
+  "schema_version": 1
+}

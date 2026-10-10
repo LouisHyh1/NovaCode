@@ -1,0 +1,8 @@
+{
+  "base_commit": "f3f9580ba7f589b2742f2573e496be7942dee6b1",
+  "files": {
+    "normalize.py": "def normalize(values):\n    if not values:\n        return [0]\n    total = sum(values)\n    if total == 0:\n        return [0 for _ in values]\n    return [value / total for value in values]\n",
+    "records.json": "{\n  \"issue_lookup\": {\n    \"ISSUE-42\": {\n      \"issue\": \"ISSUE-42\",\n      \"commit\": \"c731\",\n      \"source\": \"issues\"\n    }\n  },\n  \"ci_commit\": {\n    \"c731\": {\n      \"commit\": \"c731\",\n      \"job\": \"unit-linux\",\n      \"reason\": \"ASSERT_EMPTY\",\n      \"test\": \"tests/test_normalize.py::empty\",\n      \"source\": \"ci\"\n    },\n    \"c732\": {\n      \"commit\": \"c732\",\n      \"job\": \"type-check\",\n      \"reason\": \"TYPE_ERROR\",\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

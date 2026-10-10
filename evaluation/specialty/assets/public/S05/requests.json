@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "修复 bounds.clamp 的区间夹取边界错误；保留 lower>upper 时 ValueError。内容搜索 grep 的首次有效执行会收到一次规定错误，可重试或使用其他合法工具。只修改 bounds.py。"
+  ],
+  "schema_version": 1
+}

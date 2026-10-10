@@ -1,0 +1,11 @@
+{
+  "requests": [
+    "后续操作必须保持 render 的公共返回字段 value/kind 及 kind=counter；不改函数名。现在阅读 counter.py 并记录兼容约束。",
+    "阅读 notes/block-1.txt，简要报告该块条目数；这一轮不修改代码。",
+    "阅读 notes/block-2.txt，简要报告该块条目数；这一轮不修改代码。",
+    "阅读 notes/block-3.txt，简要报告该块条目数；这一轮不修改代码。",
+    "阅读 notes/block-4.txt，简要报告该块条目数；这一轮不修改代码。",
+    "在 counter.py 新增 increment(value, step=1)，通过原有格式返回 value+step。"
+  ],
+  "schema_version": 1
+}

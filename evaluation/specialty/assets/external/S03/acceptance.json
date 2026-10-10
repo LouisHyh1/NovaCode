@@ -1,0 +1,47 @@
+{
+  "allowed_paths": [
+    "tests/test_added.py"
+  ],
+  "answers": [],
+  "base_commit": "d132282b6a7ae65e0a14337f561f648eb667c32b",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/assets/external/S03/acceptance.json"
+  ],
+  "conditions": [
+    "correct-tests",
+    "all-mutants",
+    "scope"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
+    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"safe\", \"label\": \"default\"}\n    result.update(file_values)\n    result.update(overrides)\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import settings\n        self.assertTrue(callable(settings.resolve))\n"
+  },
+  "mutants": {
+    "lost-empty": {
+      "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"safe\", \"label\": \"default\"}\n    result.update(file_values)\n    result.update({k: v for k, v in overrides.items() if v})\n    return result\n"
+    },
+    "reversed-priority": {
+      "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"safe\", \"label\": \"default\"}\n    result.update(overrides)\n    result.update(file_values)\n    return result\n"
+    },
+    "wrong-default": {
+      "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"fast\", \"label\": \"default\"}\n    result.update(file_values)\n    result.update(overrides)\n    return result\n"
+    }
+  },
+  "reference": {
+    "tests/test_added.py": "import unittest\nfrom settings import resolve\n\nclass ConfigTests(unittest.TestCase):\n    def test_defaults(self):\n        self.assertEqual(resolve({}, {}), {\"mode\": \"safe\", \"label\": \"default\"})\n    def test_priority(self):\n        self.assertEqual(resolve({\"mode\": \"file\"}, {\"mode\": \"cli\"})[\"mode\"], \"cli\")\n    def test_empty(self):\n        self.assertEqual(resolve({\"label\": \"file\"}, {\"label\": \"\"})[\"label\"], \"\")\n        self.assertIsNone(resolve({\"label\": \"file\"}, {\"label\": None})[\"label\"])\n"
+  },
+  "schema_version": 1,
+  "task_id": "S03",
+  "timeout_seconds": 180
+}

@@ -1,0 +1,7 @@
+{
+  "base_commit": "f6912b9a61aa1b73a886ca02e21f559955019780",
+  "files": {
+    "records.json": "{\n  \"ci_commit\": {\n    \"c731\": {\n      \"commit\": \"c731\",\n      \"job\": \"unit-linux\",\n      \"reason\": \"ASSERT_EMPTY\",\n      \"test\": \"tests/test_normalize.py::empty\",\n      \"source\": \"ci\"\n    },\n    \"c732\": {\n      \"commit\": \"c732\",\n      \"job\": \"type-check\",\n      \"reason\": \"TYPE_ERROR\",\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

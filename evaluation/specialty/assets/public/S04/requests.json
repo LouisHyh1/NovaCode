@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "仅新增 tests/test_added.py，用标准库 unittest 给 Operation 补充正常完成和取消后的资源恰好关闭一次、状态恢复 idle 测试。通过 started/release 事件建立确定性同步，不依赖 sleep 碰巧时序；生产文件与原测试保持不变。"
+  ],
+  "schema_version": 1
+}

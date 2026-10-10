@@ -35,6 +35,13 @@ TARGETS = (
     "src/novacode/tool/exposure.py",
     "src/novacode/tui",
     "scripts",
+    "evaluation/specialty/build.py",
+    "evaluation/specialty/definitions.py",
+    "evaluation/specialty/judge.py",
+    "evaluation/specialty/test_driver.py",
+    "evaluation/specialty/validate.py",
+    "evaluation/specialty/run.py",
+    "evaluation/specialty/review.py",
 )
 
 

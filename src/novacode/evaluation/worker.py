@@ -128,7 +128,6 @@ async def execute(
     compression, progressive = strategy(payload)
     registry = registry or new_default_registry()
     allowed = payload["allowed_tools"]
-    require(bool(allowed) and set(allowed) <= {t.name for t in registry.definitions()}, "未知工具")
     ledger = Ledger(output / "ledger.jsonl", payload["run_id"], secrets=(cfg.api_key,))
     limits = BudgetLimits(**payload["limits"])
     total = BudgetLimits(**payload["total_limits"])
@@ -141,7 +140,12 @@ async def execute(
     session: SessionService | None = None
     hooks = HookEngine([], ["frozen-empty"])
     cleanup = "passed"
+    manager = None
     try:
+        registry, manager = await prepare_registry(payload, root, registry, ledger)
+        require(
+            bool(allowed) and set(allowed) <= {t.name for t in registry.definitions()}, "未知工具"
+        )
         with ledger.phase("initialization"):
             engine = frozen_engine(root, payload["permissions"])
             session = SessionService.create(root)
@@ -223,7 +227,9 @@ async def execute(
             "worker_error", error_type=type(exc).__name__, termination=tracker.termination
         )
     finally:
-        cleanup = await close_resources(session, hooks, observed, ledger, budget.cleanup_seconds)
+        cleanup = await close_resources(
+            session, hooks, observed, ledger, budget.cleanup_seconds, manager=manager
+        )
         if session is not None:
             tracker.final = next(
                 (
@@ -254,12 +260,47 @@ async def execute(
     return result
 
 
+async def prepare_registry(
+    payload: dict[str, Any], root: Path, registry: Registry, ledger: Ledger
+) -> tuple[Registry, Any]:
+    if not payload.get("specialty"):
+        return registry, None
+    from novacode.evaluation.specialty_tools import connect_records, registry_for
+
+    specialty = payload["specialty"]
+    with ledger.phase("preparation"):
+        registry = registry_for(
+            specialty["task_id"], specialty.get("tool_records", {}), ledger.append
+        )
+        manager = await connect_records(specialty["task_id"], root / "records.json")
+        if manager is not None:
+            for tool in manager.tools():
+                registry.register(tool)
+    return registry, manager
+
+
+async def close_specialty(manager: Any, ledger: Ledger, seconds: float) -> bool:
+    if manager is None:
+        return True
+    try:
+        with ledger.phase("cleanup"):
+            await asyncio.wait_for(manager.close(), seconds)
+            require(all(task.done() for task in manager._tasks), "MCP 任务未退出")
+            ledger.append("mcp_closed", cleanup="passed")
+        return True
+    except BaseException as exc:
+        ledger.append("cleanup_error", error_type=type(exc).__name__)
+        return False
+
+
 async def close_resources(
     session: SessionService | None,
     hooks: HookEngine,
     observed: ObservedProvider,
     ledger: Ledger,
     seconds: float,
+    *,
+    manager: Any = None,
 ) -> str:
     status = "passed"
     with ledger.phase("cleanup"):
@@ -271,6 +312,8 @@ async def close_resources(
             except BaseException as exc:
                 status = "failed"
                 ledger.append("cleanup_error", error_type=type(exc).__name__)
+    if not await close_specialty(manager, ledger, seconds):
+        status = "failed"
     return status
 
 
@@ -336,7 +379,7 @@ def main() -> None:
         payload = json.loads(sys.stdin.readline())
     output = Path("/run/novacode-output")
     output.mkdir(exist_ok=False)
-    root = Path("/testbed")
+    root = Path(payload.get("workspace", "/testbed"))
     os.chdir(root)
     asyncio.run(execute(payload, root, output, tui="--tui" in sys.argv))
 

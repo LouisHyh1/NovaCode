@@ -1,0 +1,11 @@
+{
+  "requests": [
+    "阅读 data/service-policy.txt，记录其中服务的重试退避事实；可分段阅读，不修改该文件。",
+    "阅读 notes/block-1.txt，简要概括，再把块编号写入 review-1.txt。",
+    "阅读 notes/block-2.txt，简要概括，再把块编号写入 review-2.txt。",
+    "阅读 notes/block-3.txt，简要概括，再把块编号写入 review-3.txt。",
+    "阅读 notes/block-4.txt，简要概括，再把块编号写入 review-4.txt。",
+    "根据之前读到的原始策略，在 policy.py 实现 retry_delay(service)，未知服务抛 KeyError。可重新读取原文件。"
+  ],
+  "schema_version": 1
+}

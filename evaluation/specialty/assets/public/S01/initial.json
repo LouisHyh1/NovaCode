@@ -1,0 +1,9 @@
+{
+  "base_commit": "eba2b240adc1f5f0ae36878d87a420be3daf33a7",
+  "files": {
+    "cli.py": "from settings import load, resolve\nfrom runtime import start\n\ndef main(path, overrides):\n    return start(resolve(load(path), overrides))\n",
+    "runtime.py": "def start(values):\n    return {\"active_mode\": values[\"mode\"]}\n",
+    "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"safe\", \"label\": \"default\"}\n    result.update(file_values)\n    result.update(overrides)\n    return result\n"
+  },
+  "schema_version": 1
+}

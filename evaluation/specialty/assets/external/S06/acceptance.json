@@ -1,0 +1,36 @@
+{
+  "allowed_paths": [
+    "batches.py"
+  ],
+  "answers": [],
+  "base_commit": "f58fe55827057009c919696e0c56e0c4786291fc",
+  "checks": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_chunks(self):\n        from batches import chunks\n        self.assertEqual(chunks([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])\n        self.assertEqual(chunks([], 2), [])\n        self.assertEqual(chunks([1], 1), [[1]])\n    def test_invalid(self):\n        from batches import chunks\n        for size in (0, -1):\n            with self.assertRaises(ValueError):\n                chunks([1], size)\n",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/assets/external/S06/acceptance.json"
+  ],
+  "conditions": [
+    "behavior",
+    "scope"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
+    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "batches.py": "def chunks(values, size):\n    if size <= 0:\n        raise ValueError(\"size must be positive\")\n    return [values[i:i+size] for i in range(0, len(values) - size + 1, size)]\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_chunks(self):\n        from batches import chunks\n        self.assertEqual(chunks([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])\n        self.assertEqual(chunks([], 2), [])\n        self.assertEqual(chunks([1], 1), [[1]])\n    def test_invalid(self):\n        from batches import chunks\n        for size in (0, -1):\n            with self.assertRaises(ValueError):\n                chunks([1], size)\n"
+  },
+  "mutants": {},
+  "reference": {
+    "batches.py": "def chunks(values, size):\n    if size <= 0:\n        raise ValueError(\"size must be positive\")\n    return [values[i:i+size] for i in range(0, len(values), size)]\n"
+  },
+  "schema_version": 1,
+  "task_id": "S06",
+  "timeout_seconds": 180
+}

@@ -1,0 +1,84 @@
+{
+  "allowed_paths": [],
+  "answers": [
+    {
+      "files": [
+        "settings.py",
+        "cli.py",
+        "runtime.py"
+      ],
+      "relations": [
+        [
+          "settings.py:load",
+          "settings.py:resolve"
+        ],
+        [
+          "settings.py:resolve",
+          "runtime.py:start"
+        ]
+      ],
+      "symbols": [
+        "settings.py:load",
+        "settings.py:resolve",
+        "cli.py:main",
+        "runtime.py:start"
+      ]
+    },
+    {
+      "files": [
+        "settings.py",
+        "cli.py",
+        "runtime.py"
+      ],
+      "relations": [
+        [
+          "cli.py:main",
+          "settings.py:load"
+        ],
+        [
+          "cli.py:main",
+          "settings.py:resolve"
+        ],
+        [
+          "cli.py:main",
+          "runtime.py:start"
+        ]
+      ],
+      "symbols": [
+        "settings.py:load",
+        "settings.py:resolve",
+        "cli.py:main",
+        "runtime.py:start"
+      ]
+    }
+  ],
+  "base_commit": "eba2b240adc1f5f0ae36878d87a420be3daf33a7",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/assets/external/S01/acceptance.json"
+  ],
+  "conditions": [
+    "facts",
+    "scope"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
+    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "cli.py": "from settings import load, resolve\nfrom runtime import start\n\ndef main(path, overrides):\n    return start(resolve(load(path), overrides))\n",
+    "runtime.py": "def start(values):\n    return {\"active_mode\": values[\"mode\"]}\n",
+    "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"safe\", \"label\": \"default\"}\n    result.update(file_values)\n    result.update(overrides)\n    return result\n"
+  },
+  "mutants": {},
+  "reference": {},
+  "schema_version": 1,
+  "task_id": "S01",
+  "timeout_seconds": 180
+}

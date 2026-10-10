@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读查询提交 c731 对应的 CI 失败任务和原因；可发现并使用本地查询工具或采用其他合法路径。最终 JSON 含 commit、job、reason、source。"
+  ],
+  "schema_version": 1
+}

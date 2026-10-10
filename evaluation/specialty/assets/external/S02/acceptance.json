@@ -1,0 +1,90 @@
+{
+  "allowed_paths": [],
+  "answers": [
+    {
+      "files": [
+        "storage.py",
+        "service.py",
+        "cli.py"
+      ],
+      "relations": [
+        [
+          "storage.py:fetch",
+          "service.py:get"
+        ],
+        [
+          "service.py:get",
+          "cli.py:main"
+        ],
+        [
+          "cli.py:main",
+          "cli.py:display"
+        ]
+      ],
+      "symbols": [
+        "storage.py:fetch",
+        "service.py:get",
+        "cli.py:main",
+        "cli.py:display"
+      ]
+    },
+    {
+      "files": [
+        "storage.py",
+        "service.py",
+        "cli.py"
+      ],
+      "relations": [
+        [
+          "storage.py:fetch",
+          "storage.py:MissingRecord"
+        ],
+        [
+          "storage.py:MissingRecord",
+          "service.py:RequestError"
+        ],
+        [
+          "service.py:RequestError",
+          "cli.py:display"
+        ]
+      ],
+      "symbols": [
+        "storage.py:fetch",
+        "storage.py:MissingRecord",
+        "service.py:get",
+        "service.py:RequestError",
+        "cli.py:main",
+        "cli.py:display"
+      ]
+    }
+  ],
+  "base_commit": "a7a219121d441b607ea40e8841c4110d362743e6",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/assets/external/S02/acceptance.json"
+  ],
+  "conditions": [
+    "facts",
+    "scope"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
+    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "cli.py": "from service import get, RequestError\n\nasync def main(key):\n    try:\n        return await get(key)\n    except RequestError as exc:\n        return display(str(exc))\n\ndef display(message):\n    return \"ERROR: \" + message\n\ndef network_error(exc):\n    return \"NETWORK: \" + str(exc)\n",
+    "service.py": "from storage import fetch, MissingRecord\n\nclass RequestError(Exception):\n    pass\n\nasync def get(key):\n    try:\n        return await fetch(key)\n    except MissingRecord as exc:\n        raise RequestError(\"record unavailable\") from exc\n",
+    "storage.py": "class MissingRecord(Exception):\n    pass\n\nasync def fetch(key):\n    raise MissingRecord(key)\n"
+  },
+  "mutants": {},
+  "reference": {},
+  "schema_version": 1,
+  "task_id": "S02",
+  "timeout_seconds": 180
+}

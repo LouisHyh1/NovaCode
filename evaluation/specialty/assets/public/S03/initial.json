@@ -1,0 +1,8 @@
+{
+  "base_commit": "d132282b6a7ae65e0a14337f561f648eb667c32b",
+  "files": {
+    "settings.py": "import json\n\ndef load(path):\n    with open(path) as stream:\n        return json.load(stream)\n\ndef resolve(file_values, overrides):\n    result = {\"mode\": \"safe\", \"label\": \"default\"}\n    result.update(file_values)\n    result.update(overrides)\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import settings\n        self.assertTrue(callable(settings.resolve))\n"
+  },
+  "schema_version": 1
+}

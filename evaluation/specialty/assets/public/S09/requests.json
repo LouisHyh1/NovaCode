@@ -1,0 +1,12 @@
+{
+  "requests": [
+    "约束：迁移不得修改输入，保留未知扩展字段，显式 retries=0/timeout=0 不得丢失；旧 host 仍可用。实现 config.migrate 的 endpoint 优先于 host 迁移。",
+    "阅读 notes/block-1.txt并简要概括。",
+    "阅读 notes/block-2.txt并简要概括。",
+    "在 client.request_options 增加校验：endpoint 非空字符串；retries 是非负整数且不是 bool；timeout 是非负数且不是 bool。非法抛 ValueError，保持先前迁移成果。",
+    "阅读 notes/block-3.txt并简要概括。",
+    "阅读 notes/block-4.txt并简要概括。",
+    "新增 client.connect(data)，返回 {'url': endpoint, 'attempts': retries+1, 'timeout': timeout}，沿用现有迁移和校验。"
+  ],
+  "schema_version": 1
+}

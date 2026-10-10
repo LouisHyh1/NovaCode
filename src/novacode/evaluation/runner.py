@@ -54,7 +54,7 @@ def validate_execution(payload: dict[str, Any], task: EvaluationTask, hidden: Pa
         isinstance(allowed, list)
         and bool(allowed)
         and len(allowed) == len(set(allowed))
-        and set(allowed) <= {"read_file", "write_file", "edit_file", "bash", "glob", "grep"},
+        and set(allowed) <= allowed_names(task),
         "工具允许集合无效",
     )
     from novacode.permission.settings import PermissionsBlock, Settings, to_rule_set
@@ -73,6 +73,57 @@ def validate_execution(payload: dict[str, Any], task: EvaluationTask, hidden: Pa
         and manifest["timeout_seconds"] > 0,
         "判题时间不完整",
     )
+
+
+def allowed_names(task: EvaluationTask) -> set[str]:
+    names = {"read_file", "write_file", "edit_file", "bash", "glob", "grep"}
+    if task.source == "specialty":
+        names |= {
+            "S10": {"ci_commit"},
+            "S11": {"mcp__specialty__ci_test", "mcp__specialty__ci_deploy"},
+            "S12": {"issue_lookup", "mcp__specialty__ci_commit"},
+        }.get(task.task_id, set())
+    return names
+
+
+async def prepare_specialty(container: str, initial: dict[str, Any], task: EvaluationTask) -> str:
+    """只部署公开文件，固定提交身份；隐藏资产不复制进任务容器。"""
+    require(
+        initial["base_commit"] == task.base_commit and initial["schema_version"] == 1,
+        "专项初始合同不符",
+    )
+    from novacode.evaluation.contracts import relative_path
+
+    for name in initial["files"]:
+        relative_path(name)
+        require(not name.startswith((".git/", ".novacode/")), "禁止内部资产")
+    workspace = "/specialty-bed"
+    script = (
+        "import json,sys,subprocess,os; from pathlib import Path; "
+        "data=json.load(sys.stdin); root=Path('/specialty-bed');"
+        " root.mkdir(); os.chdir(root); "
+        "[(Path(n).parent.mkdir(parents=True,exist_ok=True),Path(n).write_text(v)) "
+        "for n,v in data['files'].items()]; "
+        "env=dict(os.environ,GIT_AUTHOR_NAME='Specialty Builder'"
+        ",GIT_AUTHOR_EMAIL='builder@example.invalid',"
+        "GIT_COMMITTER_NAME='Specialty Builder',GIT_COMMITTER_EMAIL='builder@example.invalid',"
+        "GIT_AUTHOR_DATE='2026-10-10T00:00:00Z',GIT_COMMITTER_DATE='2026-10-10T00:00:00Z',"
+        "GIT_CONFIG_NOSYSTEM='1',GIT_CONFIG_GLOBAL='/dev/null'); "
+        "[subprocess.run(['git']+args,env=env,check=True,stdout=subprocess.DEVNULL) "
+        "for args in [['init','-q','-b','main'],['add','--','.'],"
+        "['-c','core.hooksPath=/dev/null','commit','-q','-m','fixed initial fixture']]]"
+    )
+    await command(
+        "docker",
+        "exec",
+        "-i",
+        container,
+        "python",
+        "-c",
+        script,
+        stdin=json.dumps(initial).encode(),
+    )
+    return workspace
 
 
 async def command(*args: str, stdin: bytes | None = None, timeout: float = 120) -> bytes:
@@ -150,7 +201,6 @@ async def run_task(
             limits = BudgetLimits(**payload["limits"])
             BudgetLimits(**payload["total_limits"])
             validate_execution(payload, task, acceptance_root)
-            require(payload["config_id"] == "eager-schema", "尚未实现其他策略")
             cfg = payload["provider"]
             require(
                 cfg.get("max_retries") == 0
@@ -160,10 +210,11 @@ async def run_task(
             )
             environment = json.loads(verify_asset(task.environment, public_root).read_text())
             initial = json.loads(verify_asset(task.initial_state, public_root).read_text())
-            require(
-                initial == {"schema_version": 1, "base_commit": task.base_commit},
-                "初始环境合同不一致",
-            )
+            if task.source == "live":
+                require(
+                    initial == {"schema_version": 1, "base_commit": task.base_commit},
+                    "初始环境合同不一致",
+                )
             image = environment["image"]
             require(
                 re.fullmatch(r"[^\s]+@sha256:[0-9a-f]{64}", image) is not None,
@@ -177,7 +228,7 @@ async def run_task(
                 ),
                 "缺少资源上限",
             )
-            archive_asset = environment["runtime"]
+            archive_asset = environment.get("runtime", payload.get("runtime", {}))
             with runtime_archive.open("rb") as archive:
                 require(
                     hashlib.file_digest(archive, "sha256").hexdigest() == archive_asset["sha256"],
@@ -233,19 +284,25 @@ async def run_task(
                 "--find-links /opt/novacode/wheels "
                 "--python /opt/novacode/venv/bin/python novacode",
             )
+            workspace = (
+                await prepare_specialty(container, initial, task)
+                if task.source == "specialty"
+                else "/testbed"
+            )
+            payload = {**payload, "workspace": workspace}
             actual = await command(
-                "docker", "exec", "-w", "/testbed", container, "git", "rev-parse", "HEAD"
+                "docker", "exec", "-w", workspace, container, "git", "rev-parse", "HEAD"
             )
             require(actual.decode().strip() == task.base_commit, "任务源码不是固定 base")
             dirty = await command(
-                "docker", "exec", "-w", "/testbed", container, "git", "status", "--porcelain"
+                "docker", "exec", "-w", workspace, container, "git", "status", "--porcelain"
             )
             require(not dirty, "任务初始源码不干净")
             ignored = await command(
                 "docker",
                 "exec",
                 "-w",
-                "/testbed",
+                workspace,
                 container,
                 "python",
                 "-c",
@@ -258,6 +315,11 @@ async def run_task(
             initial_ignored = json.loads(ignored)
             await command("docker", "exec", container, "mkdir", "-p", "/isolated-user")
             worker_payload = {**payload, "requests": list(requests)}
+            if task.source == "specialty":
+                worker_payload["specialty"] = {
+                    "task_id": task.task_id,
+                    "tool_records": environment.get("tool_records", {}),
+                }
             if tui:
                 await command(
                     "docker",
@@ -293,7 +355,7 @@ async def run_task(
                 "exec",
                 "-i",
                 "-w",
-                "/testbed",
+                workspace,
                 "-e",
                 "HOME=/isolated-user",
                 container,
@@ -358,7 +420,12 @@ async def stop_and_extract(
             require(state.strip() == b"false", "所属容器进程仍在运行")
             stopped = True
             if started:
-                await command("docker", "cp", container + ":/testbed", str(output / "workspace"))
+                await command(
+                    "docker",
+                    "cp",
+                    container + ":" + payload.get("workspace", "/testbed"),
+                    str(output / "workspace"),
+                )
                 try:
                     await command(
                         "docker", "cp", container + ":/run/novacode-output", str(output / "worker")

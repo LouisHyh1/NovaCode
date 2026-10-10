@@ -1,0 +1,34 @@
+{
+  "fault_rule": null,
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "pressure_dimensions": {
+    "public_bytes": 320,
+    "script_requests": 1
+  },
+  "resources": {
+    "cpus": 1,
+    "memory_bytes": 536870912,
+    "pids": 64
+  },
+  "schema_version": 1,
+  "target_python": "python",
+  "task_id": "S10",
+  "test_command": "python -m unittest discover -s tests -v",
+  "tool_records": {
+    "ci_commit": {
+      "c731": {
+        "commit": "c731",
+        "job": "unit-linux",
+        "reason": "ASSERT_EMPTY",
+        "source": "ci",
+        "test": "tests/test_normalize.py::empty"
+      },
+      "c732": {
+        "commit": "c732",
+        "job": "type-check",
+        "reason": "TYPE_ERROR",
+        "source": "ci"
+      }
+    }
+  }
+}

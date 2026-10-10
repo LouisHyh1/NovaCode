@@ -155,6 +155,7 @@ def rebuild(path: Path) -> dict[str, Any]:
         if "end" in p and p["start"]["phase"] == "cleanup"
     ]
     ends = [item.get("end", {}) for item in tools.values()]
+    faults = [record["data"] for record in records if record["kind"] == "fault_injected"]
     return {
         "provider_calls": len(requests),
         "unknown_usage_requests": unknown,
@@ -171,6 +172,8 @@ def rebuild(path: Path) -> dict[str, Any]:
         "discovery_calls": sum(
             item["start"]["name"] == "discover_tools" for item in tools.values()
         ),
+        "fault_injections": len(faults),
+        "fault_cleanup_failed": sum(item.get("cleanup") == "failed" for item in faults),
         "incomplete_tools": sum("end" not in item for item in tools.values()),
         "phase_seconds": durations,
         "main_end_to_end_seconds": max(cleanup) - min(initial) if initial and cleanup else None,

@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读定位 CI 测试记录 case-884 的失败，注意部署记录不是测试记录。最终 JSON 含 case_id、commit、job、reason、source，可使用本地工具或合法替代路径。"
+  ],
+  "schema_version": 1
+}

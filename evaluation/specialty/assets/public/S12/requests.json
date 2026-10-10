@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "关联 ISSUE-42、对应提交和 CI 失败测试，并修复 normalize.py 对空列表的错误，保持零和及普通归一化行为。仅修改 normalize.py。最终 JSON 含 issue、commit、job、reason、test、source（CI 来源）。可用本地查询能力或合法替代。"
+  ],
+  "schema_version": 1
+}

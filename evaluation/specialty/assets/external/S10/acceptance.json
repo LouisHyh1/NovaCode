@@ -1,0 +1,38 @@
+{
+  "allowed_paths": [],
+  "answers": [
+    {
+      "commit": "c731",
+      "job": "unit-linux",
+      "reason": "ASSERT_EMPTY",
+      "source": "ci"
+    }
+  ],
+  "base_commit": "f6912b9a61aa1b73a886ca02e21f559955019780",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/specialty/assets/external/S10/acceptance.json"
+  ],
+  "conditions": [
+    "facts",
+    "scope"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "definitions.py": "f43717138dd02160308b99e9603e34fee4c88ef4f13bf161cd74a80fab93809a",
+    "judge.py": "64f70d795322118519aa551b654bb2a96d7b92e557840e69689972e014e1f26f",
+    "test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "records.json": "{\n  \"ci_commit\": {\n    \"c731\": {\n      \"commit\": \"c731\",\n      \"job\": \"unit-linux\",\n      \"reason\": \"ASSERT_EMPTY\",\n      \"test\": \"tests/test_normalize.py::empty\",\n      \"source\": \"ci\"\n    },\n    \"c732\": {\n      \"commit\": \"c732\",\n      \"job\": \"type-check\",\n      \"reason\": \"TYPE_ERROR\",\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "mutants": {},
+  "reference": {},
+  "schema_version": 1,
+  "task_id": "S10",
+  "timeout_seconds": 180
+}

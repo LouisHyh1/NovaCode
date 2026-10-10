@@ -1,0 +1,7 @@
+{
+  "base_commit": "b61b97528b0429a3104b009ee9f649cec18098c2",
+  "files": {
+    "records.json": "{\n  \"ci_test\": {\n    \"case-884\": {\n      \"case_id\": \"case-884\",\n      \"commit\": \"c884\",\n      \"job\": \"unit-windows\",\n      \"reason\": \"PATH_SEPARATOR\",\n      \"source\": \"ci-tests\"\n    }\n  },\n  \"ci_deploy\": {\n    \"case-884\": {\n      \"case_id\": \"case-884\",\n      \"commit\": \"c885\",\n      \"job\": \"deploy\",\n      \"reason\": \"NETWORK\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}
