@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-12",
+  "requested_model": "deepseek-v4-flash",
+  "documented_served_model": "DeepSeek-V4.1-Flash",
+  "response_model_names": [
+    "deepseek-v4-flash"
+  ],
+  "endpoint": "https://api.deepseek.com/anthropic",
+  "endpoint_context_tokens_documented": 1048576,
+  "application_context_window": 200000,
+  "immutable_remote_weights_pin": false,
+  "endpoint_budget_tokens_honored": false,
+  "thinking_omitted_uses_endpoint_default": true,
+  "actual_thinking_with_tool_history_observed": true,
+  "sdk_versions": [
+    "0.112.0"
+  ],
+  "sdk_retry_values": [
+    0
+  ],
+  "output_limits": [
+    4096
+  ],
+  "reasoning_token_subcount": "unknown; raw field is absent, not zero; output aggregate is retained without adding reasoning again",
+  "cache_normalization": "input + cache_read + cache_creation + output; native input includes cache",
+  "native_probe_sha256": "e7a47a652242095844530e92953c1cbb7ee7718c15bf64ba226e818cbb5879a6",
+  "sources": [
+    "https://api-docs.deepseek.com/quick_start/pricing/",
+    "https://api-docs.deepseek.com/guides/anthropic_api/",
+    "https://api-docs.deepseek.com/guides/thinking_mode/",
+    "https://api-docs.deepseek.com/quick_start/agent_integrations/codex"
+  ],
+  "endpoint_sampling": "not explicitly set; service default; adapter exposes no server seed, with no determinism claim; three configurations use same adapter",
+  "fees": "current documented peak-rate upper bound only; actual billed amount unknown"
+}

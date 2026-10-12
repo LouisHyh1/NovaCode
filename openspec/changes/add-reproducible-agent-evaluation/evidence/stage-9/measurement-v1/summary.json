@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "state": "PILOT_MEASURED",
+  "planned": 72,
+  "recorded": 72,
+  "independent_tasks": 24,
+  "repeats": 1,
+  "groups": {
+    "live/full": {
+      "runs": 12,
+      "strict_success": 2,
+      "live_resolved": 7,
+      "terminations": {
+        "completed": 3,
+        "budget-exhausted": 8,
+        "provider-error": 1
+      },
+      "known_token_lower_bound": 4424568,
+      "unknown_usage_requests": 1,
+      "provider_calls": 215,
+      "tool_calls": 281,
+      "discovery_calls": 0,
+      "offloads": 9,
+      "summary_requests": 0,
+      "main_end_to_end_seconds": 805.2966545280008,
+      "peak_price_usd_upper": null
+    },
+    "live/no-compression": {
+      "runs": 12,
+      "strict_success": 3,
+      "live_resolved": 6,
+      "terminations": {
+        "completed": 4,
+        "budget-exhausted": 8
+      },
+      "known_token_lower_bound": 5919569,
+      "unknown_usage_requests": 0,
+      "provider_calls": 224,
+      "tool_calls": 269,
+      "discovery_calls": 0,
+      "offloads": 0,
+      "summary_requests": 0,
+      "main_end_to_end_seconds": 840.6576394899987,
+      "peak_price_usd_upper": 0.263224692
+    },
+    "live/eager-schema": {
+      "runs": 12,
+      "strict_success": 1,
+      "live_resolved": 4,
+      "terminations": {
+        "completed": 6,
+        "budget-exhausted": 6
+      },
+      "known_token_lower_bound": 4437575,
+      "unknown_usage_requests": 0,
+      "provider_calls": 224,
+      "tool_calls": 293,
+      "discovery_calls": 0,
+      "offloads": 14,
+      "summary_requests": 0,
+      "main_end_to_end_seconds": 755.3464764720007,
+      "peak_price_usd_upper": 0.206143044
+    },
+    "specialty/full": {
+      "runs": 12,
+      "strict_success": 8,
+      "live_resolved": null,
+      "terminations": {
+        "completed": 12
+      },
+      "known_token_lower_bound": 1110759,
+      "unknown_usage_requests": 0,
+      "provider_calls": 126,
+      "tool_calls": 126,
+      "discovery_calls": 8,
+      "offloads": 1,
+      "summary_requests": 0,
+      "main_end_to_end_seconds": 267.70553597399976,
+      "peak_price_usd_upper": 0.087246888
+    },
+    "specialty/no-compression": {
+      "runs": 12,
+      "strict_success": 8,
+      "live_resolved": null,
+      "terminations": {
+        "completed": 11,
+        "budget-exhausted": 1
+      },
+      "known_token_lower_bound": 1645906,
+      "unknown_usage_requests": 0,
+      "provider_calls": 114,
+      "tool_calls": 120,
+      "discovery_calls": 10,
+      "offloads": 0,
+      "summary_requests": 0,
+      "main_end_to_end_seconds": 245.17884922599978,
+      "peak_price_usd_upper": 0.128152092
+    },
+    "specialty/eager-schema": {
+      "runs": 12,
+      "strict_success": 8,
+      "live_resolved": null,
+      "terminations": {
+        "completed": 12
+      },
+      "known_token_lower_bound": 1048328,
+      "unknown_usage_requests": 0,
+      "provider_calls": 114,
+      "tool_calls": 116,
+      "discovery_calls": 3,
+      "offloads": 1,
+      "summary_requests": 0,
+      "main_end_to_end_seconds": 248.03384731499955,
+      "peak_price_usd_upper": 0.091712112
+    }
+  },
+  "formal_model_calls": 0,
+  "response_model_is_alias": true
+}

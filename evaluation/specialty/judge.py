@@ -52,7 +52,29 @@ def facts_pass(answer: str, expected: list[dict[str, Any]]) -> bool:
     if actual is None:
         return False
     try:
-        return any(canonical(actual) == canonical(option) for option in expected)
+        for option in expected:
+            if not option.keys() <= actual.keys():
+                continue
+            # 解释字段不计语义分；只比较合同声明的事实字段。
+            projected = canonical({key: actual[key] for key in option})
+            target = canonical(option)
+            if {"files", "symbols", "relations"} <= option.keys():
+                compatible = [
+                    canonical(item)
+                    for item in expected
+                    if canonical(item).get("files") == projected["files"]
+                    and canonical(item).get("symbols") == projected["symbols"]
+                ]
+                allowed = {tuple(edge) for item in compatible for edge in item["relations"]}
+                required = {tuple(edge) for edge in target["relations"]}
+                supplied = {tuple(edge) for edge in projected["relations"]}
+                # 至少覆盖一条完整合法路径；组合可以，未知关系不可以。
+                if not required <= supplied <= allowed:
+                    continue
+                projected["relations"] = target["relations"]
+            if projected == target:
+                return True
+        return False
     except (TypeError, AttributeError, ValueError):
         return False
 

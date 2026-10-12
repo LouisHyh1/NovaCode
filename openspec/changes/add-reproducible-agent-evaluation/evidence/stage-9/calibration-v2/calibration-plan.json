@@ -1,0 +1,92 @@
+[
+  {
+    "run_id": "calibration-S01-full",
+    "task_id": "S01",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S01",
+    "limits": {
+      "seconds": 200,
+      "tokens": 100000,
+      "provider_calls": 12,
+      "tool_calls": 15,
+      "single_request_tokens": 50000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "calibration-S01-no-compression",
+    "task_id": "S01",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S01",
+    "limits": {
+      "seconds": 200,
+      "tokens": 100000,
+      "provider_calls": 12,
+      "tool_calls": 15,
+      "single_request_tokens": 50000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "calibration-S01-eager-schema",
+    "task_id": "S01",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S01",
+    "limits": {
+      "seconds": 200,
+      "tokens": 100000,
+      "provider_calls": 12,
+      "tool_calls": 15,
+      "single_request_tokens": 50000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "calibration-S08-full",
+    "task_id": "S08",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S08",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "calibration-S08-no-compression",
+    "task_id": "S08",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S08",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "calibration-S08-eager-schema",
+    "task_id": "S08",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S08",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  }
+]

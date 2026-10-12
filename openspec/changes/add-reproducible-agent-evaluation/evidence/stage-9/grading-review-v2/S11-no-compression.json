@@ -1,0 +1,18 @@
+{
+  "run_id": "S11-no-compression",
+  "task_id": "S11",
+  "old_task_sha256": "ccb3a322397a6704193cde97b464965720681e1e494fc7af5dccf361ce86d066",
+  "new_task_sha256": "f222cb545c2a8826015b5483d2fe38b3d526bf4144f95692d6f003091defa4ce",
+  "original_acceptance": "passed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "facts": true
+    },
+    "details": {}
+  },
+  "strict_success_regraded": true,
+  "original_result_sha256": "527566d58c2da162a9558856ded18685ec627e12dc3add3661bb152121913e3f",
+  "ledger_sha256": "37e13a598e17152058e601e7a3284b096093b08feaccdf3965c6ec7f999b008f",
+  "new_model_calls": 0
+}

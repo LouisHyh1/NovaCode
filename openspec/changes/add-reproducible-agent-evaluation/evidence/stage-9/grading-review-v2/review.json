@@ -1,0 +1,2954 @@
+{
+  "schema_version": 1,
+  "scope": "all_started_specialty_runs",
+  "new_model_calls": 0,
+  "runs": [
+    {
+      "run_id": "S01-eager-schema",
+      "task_id": "S01",
+      "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+      "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "a767dd8642b35d8ec1fd25e344e7168ec731e873cceb8c1f3c2bc69dd04c91fe",
+      "ledger_sha256": "1b118bb758744eeb93a53d8d21b343b5f0148f226ebe8678c195d3f3bfcd9fa7",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S01-full",
+      "task_id": "S01",
+      "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+      "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "fbb6077c0de6f7e6632b786e17aae871a90ffb84604f5b4835d0ddae8e74049d",
+      "ledger_sha256": "98344893cc7b29fe10a9160b76244e91cbe16aae9e0efcf2b3a6afd72a16713e",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S01-no-compression",
+      "task_id": "S01",
+      "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+      "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "109383d101a0f05bfe46b75b1824a1ae8da48cc70c9e6a2ff4d86a8961891dca",
+      "ledger_sha256": "bbb3444ea307509fbeaba80d3dc960e678ba785f9ff206e34931e56e34b5f2f6",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S02-eager-schema",
+      "task_id": "S02",
+      "old_task_sha256": "c53a8061e62ccd07b5035460e3b597d6489798f21dbf8ae0636fdddf18a9c8b0",
+      "new_task_sha256": "cefc3bf34441a0421d342e129f064d16f8e81205d41c6d6ffb53a366cd41bdd3",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": false
+        },
+        "details": {}
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "f71df97de064470da99aca45188a53742ce84d8d2027635bad5796b2de59192d",
+      "ledger_sha256": "ff64244ac0267beec02caa96342f1eeb5bf34b06667ac2d830098ed8fd0c6598",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S02-full",
+      "task_id": "S02",
+      "old_task_sha256": "c53a8061e62ccd07b5035460e3b597d6489798f21dbf8ae0636fdddf18a9c8b0",
+      "new_task_sha256": "cefc3bf34441a0421d342e129f064d16f8e81205d41c6d6ffb53a366cd41bdd3",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "86193630b45d05ae22e651a845054983211a54b9f2193fd43656086f185a76d8",
+      "ledger_sha256": "f8f7a3c60fd1b067c942e2b261a94770c9ad28629049498725ec354af7e92307",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S02-no-compression",
+      "task_id": "S02",
+      "old_task_sha256": "c53a8061e62ccd07b5035460e3b597d6489798f21dbf8ae0636fdddf18a9c8b0",
+      "new_task_sha256": "cefc3bf34441a0421d342e129f064d16f8e81205d41c6d6ffb53a366cd41bdd3",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": false
+        },
+        "details": {}
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "d77590ec21e59778bc856de678b95763243e09a13b8e37ae02994b5c84f89798",
+      "ledger_sha256": "32cae6b8ceccaad62664202688406c223d350c943e645953d9db4ab006035768",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S03-eager-schema",
+      "task_id": "S03",
+      "old_task_sha256": "16f12a98ff1be5e30cb9c3bd05396afab7fc431ecc12f9ffcd17fbeb48ab4237",
+      "new_task_sha256": "b04e6a23fc5d73ed2bec6bf2d07ea7904a176a3e7cbe5e350b9230c35e168227",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "correct-tests": false,
+          "all-mutants": false
+        },
+        "details": {
+          "correct": {
+            "run": 13,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 6,
+            "successful": false,
+            "failure_ids": [
+              "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+              "test_added.ResolveContract.test_empty_string_override_falls_back_to_file_value",
+              "test_added.ResolveContract.test_empty_string_override_on_defaulted_key_falls_back_to_default",
+              "test_added.ResolveContract.test_none_file_value_falls_back_to_default",
+              "test_added.ResolveContract.test_none_override_falls_back_to_file_value",
+              "test_added.ResolveContract.test_none_override_on_defaulted_key_falls_back_to_default"
+            ],
+            "error_ids": [],
+            "called": [
+              "<string>",
+              "settings.py"
+            ],
+            "executed": [
+              "<string>:__new__",
+              "settings.py:resolve"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "mutants": {
+            "lost-empty": {
+              "run": 13,
+              "errors": 1,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+                "test_added.ResolveContract.test_none_file_value_falls_back_to_default"
+              ],
+              "error_ids": [
+                "test_added.ResolveContract.test_other_falsy_values_are_kept"
+              ],
+              "called": [
+                "<string>",
+                "settings.py"
+              ],
+              "executed": [
+                "<string>:__new__",
+                "settings.py:<dictcomp>",
+                "settings.py:resolve"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "reversed-priority": {
+              "run": 13,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 5,
+              "successful": false,
+              "failure_ids": [
+                "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+                "test_added.ResolveContract.test_empty_string_override_on_defaulted_key_falls_back_to_default",
+                "test_added.ResolveContract.test_none_file_value_falls_back_to_default",
+                "test_added.ResolveContract.test_none_override_on_defaulted_key_falls_back_to_default",
+                "test_added.ResolveContract.test_overrides_take_precedence_over_file_values"
+              ],
+              "error_ids": [],
+              "called": [
+                "<string>",
+                "settings.py"
+              ],
+              "executed": [
+                "<string>:__new__",
+                "settings.py:resolve"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "wrong-default": {
+              "run": 13,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 8,
+              "successful": false,
+              "failure_ids": [
+                "test_added.ResolveContract.test_defaults_applied_when_no_values_provided",
+                "test_added.ResolveContract.test_defaults_are_not_shared_mutable_state",
+                "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+                "test_added.ResolveContract.test_empty_string_override_falls_back_to_file_value",
+                "test_added.ResolveContract.test_empty_string_override_on_defaulted_key_falls_back_to_default",
+                "test_added.ResolveContract.test_none_file_value_falls_back_to_default",
+                "test_added.ResolveContract.test_none_override_falls_back_to_file_value",
+                "test_added.ResolveContract.test_none_override_on_defaulted_key_falls_back_to_default"
+              ],
+              "error_ids": [],
+              "called": [
+                "<string>",
+                "settings.py"
+              ],
+              "executed": [
+                "<string>:__new__",
+                "settings.py:resolve"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "cf128af7b1ec6b73a9f5e46204c0d9d8fcb16f940109af3dc4feb6097969bcbe",
+      "ledger_sha256": "48a53e8afe1a000ae21efcfed553bec5e5c2c9bb49b98aecf8336c57ad1124d2",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S03-full",
+      "task_id": "S03",
+      "old_task_sha256": "16f12a98ff1be5e30cb9c3bd05396afab7fc431ecc12f9ffcd17fbeb48ab4237",
+      "new_task_sha256": "b04e6a23fc5d73ed2bec6bf2d07ea7904a176a3e7cbe5e350b9230c35e168227",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "correct-tests": false,
+          "all-mutants": true
+        },
+        "details": {
+          "correct": {
+            "run": 13,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 3,
+            "successful": false,
+            "failure_ids": [
+              "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default",
+              "test_added.ResolveExplicitFalsy.test_none_override_falls_back_to_file",
+              "test_added.ResolveExplicitFalsy.test_none_override_without_file_falls_back_to_default"
+            ],
+            "error_ids": [],
+            "called": [
+              "settings.py"
+            ],
+            "executed": [
+              "settings.py:resolve"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "mutants": {
+            "lost-empty": {
+              "run": 13,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.ResolveExplicitFalsy.test_empty_string_override_wins",
+                "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default"
+              ],
+              "error_ids": [],
+              "called": [
+                "<string>",
+                "settings.py"
+              ],
+              "executed": [
+                "<string>:__new__",
+                "settings.py:<dictcomp>",
+                "settings.py:resolve"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "reversed-priority": {
+              "run": 13,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 5,
+              "successful": false,
+              "failure_ids": [
+                "test_added.ResolveExplicitFalsy.test_empty_string_override_wins",
+                "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default",
+                "test_added.ResolveExplicitFalsy.test_none_override_without_file_falls_back_to_default",
+                "test_added.ResolveExplicitFalsy.test_value_override_wins_over_file_none",
+                "test_added.ResolvePrecedence.test_overrides_beat_file_values"
+              ],
+              "error_ids": [],
+              "called": [
+                "<string>",
+                "settings.py"
+              ],
+              "executed": [
+                "<string>:__new__",
+                "settings.py:resolve"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "wrong-default": {
+              "run": 13,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 4,
+              "successful": false,
+              "failure_ids": [
+                "test_added.ResolveDefaults.test_empty_inputs_return_defaults",
+                "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default",
+                "test_added.ResolveExplicitFalsy.test_none_override_falls_back_to_file",
+                "test_added.ResolveExplicitFalsy.test_none_override_without_file_falls_back_to_default"
+              ],
+              "error_ids": [],
+              "called": [
+                "<string>",
+                "settings.py"
+              ],
+              "executed": [
+                "<string>:__new__",
+                "settings.py:resolve"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "65c63a1a4784e742d3e28eece26262663a5c5bce51d6256b8ab574777ee891d9",
+      "ledger_sha256": "36f02cafd8d091b1ba989ef3ee9a651dbf502f3c0254f311bc8db0bcf000d0d5",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S03-no-compression",
+      "task_id": "S03",
+      "old_task_sha256": "16f12a98ff1be5e30cb9c3bd05396afab7fc431ecc12f9ffcd17fbeb48ab4237",
+      "new_task_sha256": "b04e6a23fc5d73ed2bec6bf2d07ea7904a176a3e7cbe5e350b9230c35e168227",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "correct-tests": false,
+          "all-mutants": false
+        },
+        "details": {
+          "correct": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "settings.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "settings.py:<module>"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "mutants": {
+            "lost-empty": {
+              "run": 1,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 0,
+              "successful": true,
+              "failure_ids": [],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<frozen importlib._bootstrap_external>",
+                "settings.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:__enter__",
+                "<frozen importlib._bootstrap>:__exit__",
+                "<frozen importlib._bootstrap>:__init__",
+                "<frozen importlib._bootstrap>:_call_with_frames_removed",
+                "<frozen importlib._bootstrap>:_find_and_load",
+                "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+                "<frozen importlib._bootstrap>:_find_spec",
+                "<frozen importlib._bootstrap>:_get_module_lock",
+                "<frozen importlib._bootstrap>:_init_module_attrs",
+                "<frozen importlib._bootstrap>:_load_unlocked",
+                "<frozen importlib._bootstrap>:_new_module",
+                "<frozen importlib._bootstrap>:_verbose_message",
+                "<frozen importlib._bootstrap>:acquire",
+                "<frozen importlib._bootstrap>:cached",
+                "<frozen importlib._bootstrap>:cb",
+                "<frozen importlib._bootstrap>:find_spec",
+                "<frozen importlib._bootstrap>:has_location",
+                "<frozen importlib._bootstrap>:module_from_spec",
+                "<frozen importlib._bootstrap>:parent",
+                "<frozen importlib._bootstrap>:release",
+                "<frozen importlib._bootstrap_external>:<genexpr>",
+                "<frozen importlib._bootstrap_external>:<listcomp>",
+                "<frozen importlib._bootstrap_external>:__init__",
+                "<frozen importlib._bootstrap_external>:_cache_bytecode",
+                "<frozen importlib._bootstrap_external>:_calc_mode",
+                "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+                "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+                "<frozen importlib._bootstrap_external>:_get_cached",
+                "<frozen importlib._bootstrap_external>:_get_spec",
+                "<frozen importlib._bootstrap_external>:_pack_uint32",
+                "<frozen importlib._bootstrap_external>:_path_importer_cache",
+                "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+                "<frozen importlib._bootstrap_external>:_path_isdir",
+                "<frozen importlib._bootstrap_external>:_path_isfile",
+                "<frozen importlib._bootstrap_external>:_path_join",
+                "<frozen importlib._bootstrap_external>:_path_split",
+                "<frozen importlib._bootstrap_external>:_path_stat",
+                "<frozen importlib._bootstrap_external>:_relax_case",
+                "<frozen importlib._bootstrap_external>:_write_atomic",
+                "<frozen importlib._bootstrap_external>:cache_from_source",
+                "<frozen importlib._bootstrap_external>:create_module",
+                "<frozen importlib._bootstrap_external>:exec_module",
+                "<frozen importlib._bootstrap_external>:find_spec",
+                "<frozen importlib._bootstrap_external>:get_code",
+                "<frozen importlib._bootstrap_external>:get_data",
+                "<frozen importlib._bootstrap_external>:get_filename",
+                "<frozen importlib._bootstrap_external>:path_stats",
+                "<frozen importlib._bootstrap_external>:set_data",
+                "<frozen importlib._bootstrap_external>:source_to_code",
+                "<frozen importlib._bootstrap_external>:spec_from_file_location",
+                "settings.py:<module>"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "reversed-priority": {
+              "run": 1,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 0,
+              "successful": true,
+              "failure_ids": [],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<frozen importlib._bootstrap_external>",
+                "settings.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:__enter__",
+                "<frozen importlib._bootstrap>:__exit__",
+                "<frozen importlib._bootstrap>:__init__",
+                "<frozen importlib._bootstrap>:_call_with_frames_removed",
+                "<frozen importlib._bootstrap>:_find_and_load",
+                "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+                "<frozen importlib._bootstrap>:_find_spec",
+                "<frozen importlib._bootstrap>:_get_module_lock",
+                "<frozen importlib._bootstrap>:_init_module_attrs",
+                "<frozen importlib._bootstrap>:_load_unlocked",
+                "<frozen importlib._bootstrap>:_new_module",
+                "<frozen importlib._bootstrap>:_verbose_message",
+                "<frozen importlib._bootstrap>:acquire",
+                "<frozen importlib._bootstrap>:cached",
+                "<frozen importlib._bootstrap>:cb",
+                "<frozen importlib._bootstrap>:find_spec",
+                "<frozen importlib._bootstrap>:has_location",
+                "<frozen importlib._bootstrap>:module_from_spec",
+                "<frozen importlib._bootstrap>:parent",
+                "<frozen importlib._bootstrap>:release",
+                "<frozen importlib._bootstrap_external>:<genexpr>",
+                "<frozen importlib._bootstrap_external>:<listcomp>",
+                "<frozen importlib._bootstrap_external>:__init__",
+                "<frozen importlib._bootstrap_external>:_cache_bytecode",
+                "<frozen importlib._bootstrap_external>:_calc_mode",
+                "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+                "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+                "<frozen importlib._bootstrap_external>:_get_cached",
+                "<frozen importlib._bootstrap_external>:_get_spec",
+                "<frozen importlib._bootstrap_external>:_pack_uint32",
+                "<frozen importlib._bootstrap_external>:_path_importer_cache",
+                "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+                "<frozen importlib._bootstrap_external>:_path_isdir",
+                "<frozen importlib._bootstrap_external>:_path_isfile",
+                "<frozen importlib._bootstrap_external>:_path_join",
+                "<frozen importlib._bootstrap_external>:_path_split",
+                "<frozen importlib._bootstrap_external>:_path_stat",
+                "<frozen importlib._bootstrap_external>:_relax_case",
+                "<frozen importlib._bootstrap_external>:_write_atomic",
+                "<frozen importlib._bootstrap_external>:cache_from_source",
+                "<frozen importlib._bootstrap_external>:create_module",
+                "<frozen importlib._bootstrap_external>:exec_module",
+                "<frozen importlib._bootstrap_external>:find_spec",
+                "<frozen importlib._bootstrap_external>:get_code",
+                "<frozen importlib._bootstrap_external>:get_data",
+                "<frozen importlib._bootstrap_external>:get_filename",
+                "<frozen importlib._bootstrap_external>:path_stats",
+                "<frozen importlib._bootstrap_external>:set_data",
+                "<frozen importlib._bootstrap_external>:source_to_code",
+                "<frozen importlib._bootstrap_external>:spec_from_file_location",
+                "settings.py:<module>"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "wrong-default": {
+              "run": 1,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 0,
+              "successful": true,
+              "failure_ids": [],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<frozen importlib._bootstrap_external>",
+                "settings.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:__enter__",
+                "<frozen importlib._bootstrap>:__exit__",
+                "<frozen importlib._bootstrap>:__init__",
+                "<frozen importlib._bootstrap>:_call_with_frames_removed",
+                "<frozen importlib._bootstrap>:_find_and_load",
+                "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+                "<frozen importlib._bootstrap>:_find_spec",
+                "<frozen importlib._bootstrap>:_get_module_lock",
+                "<frozen importlib._bootstrap>:_init_module_attrs",
+                "<frozen importlib._bootstrap>:_load_unlocked",
+                "<frozen importlib._bootstrap>:_new_module",
+                "<frozen importlib._bootstrap>:_verbose_message",
+                "<frozen importlib._bootstrap>:acquire",
+                "<frozen importlib._bootstrap>:cached",
+                "<frozen importlib._bootstrap>:cb",
+                "<frozen importlib._bootstrap>:find_spec",
+                "<frozen importlib._bootstrap>:has_location",
+                "<frozen importlib._bootstrap>:module_from_spec",
+                "<frozen importlib._bootstrap>:parent",
+                "<frozen importlib._bootstrap>:release",
+                "<frozen importlib._bootstrap_external>:<genexpr>",
+                "<frozen importlib._bootstrap_external>:<listcomp>",
+                "<frozen importlib._bootstrap_external>:__init__",
+                "<frozen importlib._bootstrap_external>:_cache_bytecode",
+                "<frozen importlib._bootstrap_external>:_calc_mode",
+                "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+                "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+                "<frozen importlib._bootstrap_external>:_get_cached",
+                "<frozen importlib._bootstrap_external>:_get_spec",
+                "<frozen importlib._bootstrap_external>:_pack_uint32",
+                "<frozen importlib._bootstrap_external>:_path_importer_cache",
+                "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+                "<frozen importlib._bootstrap_external>:_path_isdir",
+                "<frozen importlib._bootstrap_external>:_path_isfile",
+                "<frozen importlib._bootstrap_external>:_path_join",
+                "<frozen importlib._bootstrap_external>:_path_split",
+                "<frozen importlib._bootstrap_external>:_path_stat",
+                "<frozen importlib._bootstrap_external>:_relax_case",
+                "<frozen importlib._bootstrap_external>:_write_atomic",
+                "<frozen importlib._bootstrap_external>:cache_from_source",
+                "<frozen importlib._bootstrap_external>:create_module",
+                "<frozen importlib._bootstrap_external>:exec_module",
+                "<frozen importlib._bootstrap_external>:find_spec",
+                "<frozen importlib._bootstrap_external>:get_code",
+                "<frozen importlib._bootstrap_external>:get_data",
+                "<frozen importlib._bootstrap_external>:get_filename",
+                "<frozen importlib._bootstrap_external>:path_stats",
+                "<frozen importlib._bootstrap_external>:set_data",
+                "<frozen importlib._bootstrap_external>:source_to_code",
+                "<frozen importlib._bootstrap_external>:spec_from_file_location",
+                "settings.py:<module>"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "8df9a7c4357ca8ea29a0221dbcb89d421dc69582331a0fe5782ee9259fca56fe",
+      "ledger_sha256": "c336dcfa8280a3ec40311bf095e14a2cd0ca95926068537282ed85f4eff0a77b",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S04-eager-schema",
+      "task_id": "S04",
+      "old_task_sha256": "eb2fbd26642db99ca9810369b4512b841572ce33c063b8a5842d200477ea7625",
+      "new_task_sha256": "01580ab91c222975af05958e45a126ea39cc7656779b082ddd3a35d1b9a285ce",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "correct-tests": true,
+          "all-mutants": true
+        },
+        "details": {
+          "correct": {
+            "run": 3,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<string>",
+              "operation.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:_handle_fromlist",
+              "<frozen importlib._bootstrap>:parent",
+              "<string>:__new__",
+              "operation.py:__init__",
+              "operation.py:run"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "mutants": {
+            "missing-close": {
+              "run": 3,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.OperationLifecycle.test_cancellation",
+                "test_added.OperationLifecycle.test_normal_completion"
+              ],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<string>",
+                "operation.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:_handle_fromlist",
+                "<frozen importlib._bootstrap>:parent",
+                "<string>:__new__",
+                "operation.py:__init__",
+                "operation.py:run"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "wrong-state": {
+              "run": 3,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.OperationLifecycle.test_cancellation",
+                "test_added.OperationLifecycle.test_normal_completion"
+              ],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<string>",
+                "operation.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:_handle_fromlist",
+                "<frozen importlib._bootstrap>:parent",
+                "<string>:__new__",
+                "operation.py:__init__",
+                "operation.py:run"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "26d45d7ffec4c6cc56dc5ba91c304728fa44612ba91e8821e6ec00c37b2ac46a",
+      "ledger_sha256": "556a5de54c300bcc80ce4f6132aab5794d02db09189e9bd63472c477d2d522f2",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S04-full",
+      "task_id": "S04",
+      "old_task_sha256": "eb2fbd26642db99ca9810369b4512b841572ce33c063b8a5842d200477ea7625",
+      "new_task_sha256": "01580ab91c222975af05958e45a126ea39cc7656779b082ddd3a35d1b9a285ce",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "correct-tests": true,
+          "all-mutants": true
+        },
+        "details": {
+          "correct": {
+            "run": 3,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<string>",
+              "operation.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:_handle_fromlist",
+              "<frozen importlib._bootstrap>:parent",
+              "<string>:__new__",
+              "operation.py:__init__",
+              "operation.py:run"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "mutants": {
+            "missing-close": {
+              "run": 3,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.OperationLifecycleTest.test_cancellation_closes_resource_once_and_restores_idle",
+                "test_added.OperationLifecycleTest.test_normal_completion_closes_resource_once_and_restores_idle"
+              ],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<string>",
+                "operation.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:_handle_fromlist",
+                "<frozen importlib._bootstrap>:parent",
+                "<string>:__new__",
+                "operation.py:__init__",
+                "operation.py:run"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "wrong-state": {
+              "run": 3,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.OperationLifecycleTest.test_cancellation_closes_resource_once_and_restores_idle",
+                "test_added.OperationLifecycleTest.test_normal_completion_closes_resource_once_and_restores_idle"
+              ],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<string>",
+                "operation.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:_handle_fromlist",
+                "<frozen importlib._bootstrap>:parent",
+                "<string>:__new__",
+                "operation.py:__init__",
+                "operation.py:run"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "64da825ed91b165c05b545f12b776592d9ed5d8c7c4296ff7c0bdd49f55aa62f",
+      "ledger_sha256": "4462a8d9025dd3e89330bdd8439bbf12ca0e2650e09124597264b7775ff2d9f9",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S04-no-compression",
+      "task_id": "S04",
+      "old_task_sha256": "eb2fbd26642db99ca9810369b4512b841572ce33c063b8a5842d200477ea7625",
+      "new_task_sha256": "01580ab91c222975af05958e45a126ea39cc7656779b082ddd3a35d1b9a285ce",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "correct-tests": true,
+          "all-mutants": true
+        },
+        "details": {
+          "correct": {
+            "run": 3,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<string>",
+              "operation.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:_handle_fromlist",
+              "<frozen importlib._bootstrap>:parent",
+              "<string>:__new__",
+              "operation.py:__init__",
+              "operation.py:run"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "mutants": {
+            "missing-close": {
+              "run": 3,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.OperationLifecycle.test_cancellation_closes_resource_once_and_restores_idle",
+                "test_added.OperationLifecycle.test_completes_and_closes_resource_once"
+              ],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<string>",
+                "operation.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:_handle_fromlist",
+                "<frozen importlib._bootstrap>:parent",
+                "<string>:__new__",
+                "operation.py:__init__",
+                "operation.py:run"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            },
+            "wrong-state": {
+              "run": 3,
+              "errors": 0,
+              "skipped": 0,
+              "failures": 2,
+              "successful": false,
+              "failure_ids": [
+                "test_added.OperationLifecycle.test_cancellation_closes_resource_once_and_restores_idle",
+                "test_added.OperationLifecycle.test_completes_and_closes_resource_once"
+              ],
+              "error_ids": [],
+              "called": [
+                "<frozen importlib._bootstrap>",
+                "<string>",
+                "operation.py"
+              ],
+              "executed": [
+                "<frozen importlib._bootstrap>:_handle_fromlist",
+                "<frozen importlib._bootstrap>:parent",
+                "<string>:__new__",
+                "operation.py:__init__",
+                "operation.py:run"
+              ],
+              "resource_limits": {
+                "Memory": 536870912,
+                "MemorySwap": 536870912,
+                "NanoCpus": 1000000000,
+                "PidsLimit": 64,
+                "NetworkMode": "none"
+              }
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "65261a40192c44e753bffaf3aa913f4326254b88200d801dda166db0d029991a",
+      "ledger_sha256": "a4019e6ab72463fee93a292a3a889c85e17e09f61b00011349a31d3c1c48ddaf",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S05-eager-schema",
+      "task_id": "S05",
+      "old_task_sha256": "5f07bea3552a3e7ab203040382a0700e5d07b7e761b8d752d806095393edf5fe",
+      "new_task_sha256": "988e24b58f5707da9ce006f257f8c9e33a7c4edd1776c7c899d1d0be7b043500",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 2,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "bounds.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "bounds.py:<module>",
+              "bounds.py:clamp"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "f2a62edbc5d52010ab0c3b8793fc08312c660af981c47de02bc2382f815e28eb",
+      "ledger_sha256": "8a899281747289c4508cbdce55d5926b784596816fb80ab21dd61fa640d23b4e",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S05-full",
+      "task_id": "S05",
+      "old_task_sha256": "5f07bea3552a3e7ab203040382a0700e5d07b7e761b8d752d806095393edf5fe",
+      "new_task_sha256": "988e24b58f5707da9ce006f257f8c9e33a7c4edd1776c7c899d1d0be7b043500",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 2,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "bounds.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "bounds.py:<module>",
+              "bounds.py:clamp"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "a563b585594187376803b35b558a43e867f7384e2ebadf19b5c9e07540f340ec",
+      "ledger_sha256": "f6bddab3a936b9cf011fcbfacbfc34a08de7fde9ae91371bf6f1de4fb1d379ce",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S05-no-compression",
+      "task_id": "S05",
+      "old_task_sha256": "5f07bea3552a3e7ab203040382a0700e5d07b7e761b8d752d806095393edf5fe",
+      "new_task_sha256": "988e24b58f5707da9ce006f257f8c9e33a7c4edd1776c7c899d1d0be7b043500",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 2,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "bounds.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "bounds.py:<module>",
+              "bounds.py:clamp"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "d23b05f685115cfe0a63404fbad79df5c882adeb5470115d4bbe7c5ea85ddcbf",
+      "ledger_sha256": "86de8df68bfa2740c2d86e238d7fe2602dcbd2f36bd6cf5b54645d86b3cc9733",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S06-eager-schema",
+      "task_id": "S06",
+      "old_task_sha256": "cbada5cf55d0c8018e10b5639d097da6722c38a9de8d6facab572c56b5b87cbd",
+      "new_task_sha256": "13706691d96cda1006258d4c8f606c4d83ee3db9b686c15e0f04c0ba41a372f2",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 4,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "batches.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "batches.py:<listcomp>",
+              "batches.py:<module>",
+              "batches.py:chunks"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "e297e4c09f3894250623b6f55bf1b2bc07229694f8b7aa944b4368639bbd97e8",
+      "ledger_sha256": "3a28172e711c697b5998946dbc537eaf6f8e70100c27670d5fd15bd55f640146",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S06-full",
+      "task_id": "S06",
+      "old_task_sha256": "cbada5cf55d0c8018e10b5639d097da6722c38a9de8d6facab572c56b5b87cbd",
+      "new_task_sha256": "13706691d96cda1006258d4c8f606c4d83ee3db9b686c15e0f04c0ba41a372f2",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 4,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "batches.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "batches.py:<listcomp>",
+              "batches.py:<module>",
+              "batches.py:chunks"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "9f6438936f42ae99916c0ddda7a3bfeccf834b825add243937b2ac5eb9c90fec",
+      "ledger_sha256": "ff25828aabbfb2bb7c91fc5b385ca6b971f2bf6fd3de4236281929c78ad6527a",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S06-no-compression",
+      "task_id": "S06",
+      "old_task_sha256": "cbada5cf55d0c8018e10b5639d097da6722c38a9de8d6facab572c56b5b87cbd",
+      "new_task_sha256": "13706691d96cda1006258d4c8f606c4d83ee3db9b686c15e0f04c0ba41a372f2",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 4,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "batches.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "batches.py:<listcomp>",
+              "batches.py:<module>",
+              "batches.py:chunks"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "21a29fc3e45d62cefee96f56b6d9e5b0228d7de96338aeea8c9ab45145fcc796",
+      "ledger_sha256": "4646fc5f2563c10121f7fdc894e94215d978ce7d70d2352160081a850950f7b1",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S07-eager-schema",
+      "task_id": "S07",
+      "old_task_sha256": "0f2f63e635742f5b919000a6066a030103b0bac6b7d22ebc149630d427cae8eb",
+      "new_task_sha256": "d2d04f9974c114dff685ac953bcfee59168743cd5c9a569986ab1e8dec9cf3f3",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "counter.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "counter.py:<module>",
+              "counter.py:increment",
+              "counter.py:render"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "67b250719e190aac30e7bcc53c06abc95d51aeaf3bb7d5e45e144d4cf33d580d",
+      "ledger_sha256": "35fcca36404330feb7c89d1097d1b0593cfbc912f71a60c0f739bc54bac35045",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S07-full",
+      "task_id": "S07",
+      "old_task_sha256": "0f2f63e635742f5b919000a6066a030103b0bac6b7d22ebc149630d427cae8eb",
+      "new_task_sha256": "d2d04f9974c114dff685ac953bcfee59168743cd5c9a569986ab1e8dec9cf3f3",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "counter.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "counter.py:<module>",
+              "counter.py:increment",
+              "counter.py:render"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "ffb0103817b5fa3641e74359e6ac62e795ad335a2117954aa68fead89a3b20e7",
+      "ledger_sha256": "aad8cfd7d14e46976fda798ad79bb6603e6273dc4360da3699fa56d6640be255",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S07-no-compression",
+      "task_id": "S07",
+      "old_task_sha256": "0f2f63e635742f5b919000a6066a030103b0bac6b7d22ebc149630d427cae8eb",
+      "new_task_sha256": "d2d04f9974c114dff685ac953bcfee59168743cd5c9a569986ab1e8dec9cf3f3",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "counter.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "counter.py:<module>",
+              "counter.py:increment",
+              "counter.py:render"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "da934d3ed5f9aa282a1757dfff1930a0c71203992fef2165f8a549d7e41072b7",
+      "ledger_sha256": "bc3a91af295d4256a80562cd915ca479a174293835035d711e9f6b7ffde0a58b",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S08-eager-schema",
+      "task_id": "S08",
+      "old_task_sha256": "5e824682d08aa3933f3f82b819f9ebc17d647b542c010924f14377a7d025f59c",
+      "new_task_sha256": "58f5d7c43087acf7da9863739c7d778de445e5bc40b2130c7dbef66bb0b4e048",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": false,
+          "behavior": false
+        },
+        "details": {
+          "behavior": {
+            "run": 2,
+            "errors": 1,
+            "skipped": 0,
+            "failures": 0,
+            "successful": false,
+            "failure_ids": [],
+            "error_ids": [
+              "test_contract.Contract.test_middle_artifacts"
+            ],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "policy.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "policy.py:<module>",
+              "policy.py:retry_delay"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "454e2aefef60f151c4fc2a32cb946dc2b8129a8a1db21a03c2fafe18b3f25a7f",
+      "ledger_sha256": "ee51cb51a276c97ffaa854678fc120ebe96b0649d19b93eb5ccba9bc5277fc6b",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S08-full",
+      "task_id": "S08",
+      "old_task_sha256": "5e824682d08aa3933f3f82b819f9ebc17d647b542c010924f14377a7d025f59c",
+      "new_task_sha256": "58f5d7c43087acf7da9863739c7d778de445e5bc40b2130c7dbef66bb0b4e048",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": false,
+          "behavior": false
+        },
+        "details": {
+          "behavior": {
+            "run": 2,
+            "errors": 1,
+            "skipped": 0,
+            "failures": 0,
+            "successful": false,
+            "failure_ids": [],
+            "error_ids": [
+              "test_contract.Contract.test_middle_artifacts"
+            ],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "policy.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "policy.py:<module>",
+              "policy.py:retry_delay"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "f6601581186ab8dabefcb0d13183a7babf622f0bd6456d50c9c6a52389d9439b",
+      "ledger_sha256": "a46fef2e1a7c6c573731ef660a5b15f70923b083cff5d2953095f866aee83a72",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S08-no-compression",
+      "task_id": "S08",
+      "old_task_sha256": "5e824682d08aa3933f3f82b819f9ebc17d647b542c010924f14377a7d025f59c",
+      "new_task_sha256": "58f5d7c43087acf7da9863739c7d778de445e5bc40b2130c7dbef66bb0b4e048",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": false,
+          "behavior": false
+        },
+        "details": {
+          "behavior": {
+            "run": 2,
+            "errors": 1,
+            "skipped": 0,
+            "failures": 0,
+            "successful": false,
+            "failure_ids": [],
+            "error_ids": [
+              "test_contract.Contract.test_middle_artifacts"
+            ],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "policy.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "policy.py:<module>",
+              "policy.py:retry_delay"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "5aee41ac0d2a4eb9dfab5b89073016b4f3911e7673610f019451fb05706a3f69",
+      "ledger_sha256": "374b086d9f4fb879cc6a4ce5ac91a3a89ef90288d6edcb8efa343152dde826fb",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S09-eager-schema",
+      "task_id": "S09",
+      "old_task_sha256": "b5c7e5ba67e8eb262703551780ecc64c8f25c8a0b8e78271e09f1abc353acd3e",
+      "new_task_sha256": "275aeaa13ff3f0898badd2b7e40e38d963da6f514fa0aba0b7e9a2a6782df29f",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": false
+        },
+        "details": {
+          "behavior": {
+            "run": 3,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 1,
+            "successful": false,
+            "failure_ids": [
+              "test_contract.Contract.test_early"
+            ],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "<string>",
+              "client.py",
+              "config.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "<string>:__new__",
+              "client.py:<module>",
+              "client.py:connect",
+              "client.py:request_options",
+              "config.py:<module>",
+              "config.py:migrate"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "489339e6f46a3a2d9ff68f142bb23cce56207c609e2ff87a4c522e2350f96420",
+      "ledger_sha256": "fbc8c3f29b0f3ac61991bbef5e8579cdc56451b0abfb26f19e8841b2c0948f45",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S09-full",
+      "task_id": "S09",
+      "old_task_sha256": "b5c7e5ba67e8eb262703551780ecc64c8f25c8a0b8e78271e09f1abc353acd3e",
+      "new_task_sha256": "275aeaa13ff3f0898badd2b7e40e38d963da6f514fa0aba0b7e9a2a6782df29f",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 3,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "client.py",
+              "config.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "client.py:<module>",
+              "client.py:_validate",
+              "client.py:connect",
+              "client.py:request_options",
+              "config.py:<module>",
+              "config.py:migrate"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "2499404069925f63730aa3fab76497a77442c4b36db1993069c6295f311d23cc",
+      "ledger_sha256": "6183c707fb8b9c2b5ac9b07e4cf3af604389cc09e73bff2a02ee7827cc563e89",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S09-no-compression",
+      "task_id": "S09",
+      "old_task_sha256": "b5c7e5ba67e8eb262703551780ecc64c8f25c8a0b8e78271e09f1abc353acd3e",
+      "new_task_sha256": "275aeaa13ff3f0898badd2b7e40e38d963da6f514fa0aba0b7e9a2a6782df29f",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 3,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "client.py",
+              "config.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "client.py:<module>",
+              "client.py:connect",
+              "client.py:request_options",
+              "config.py:<module>",
+              "config.py:migrate"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "83607fb73ec2487ae707db41828095f62c1766dcf6c0a95bdb46e8a741d11051",
+      "ledger_sha256": "42a84aa94cc745051c0615ec5297018e391596dad594861d702d69b84efb7650",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S10-eager-schema",
+      "task_id": "S10",
+      "old_task_sha256": "40ce80dfe5456e65b56833c2019e34bc898810262561c0acf8ef0adb171600b2",
+      "new_task_sha256": "0923f2448239607e8b56af8abe4c49a99de5a51dbe034c3ce9d7f15cc0cbbf74",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "3d4851a6085d32d345844d85eb1843a63ba532d9b2c7f505c20b63ec6199018d",
+      "ledger_sha256": "b35e5546b2cc43097871d09ebf92327252885fbbc56161b6698694b901e92af6",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S10-full",
+      "task_id": "S10",
+      "old_task_sha256": "40ce80dfe5456e65b56833c2019e34bc898810262561c0acf8ef0adb171600b2",
+      "new_task_sha256": "0923f2448239607e8b56af8abe4c49a99de5a51dbe034c3ce9d7f15cc0cbbf74",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "36990d82dd3a5d8cf9b0fadfee43a2361924b29fa81521d58dd15d1d9f93c259",
+      "ledger_sha256": "478af9d2ce045938f0b050ab670d11096b3b64daa17bc174515defac8e3dcd24",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S10-no-compression",
+      "task_id": "S10",
+      "old_task_sha256": "40ce80dfe5456e65b56833c2019e34bc898810262561c0acf8ef0adb171600b2",
+      "new_task_sha256": "0923f2448239607e8b56af8abe4c49a99de5a51dbe034c3ce9d7f15cc0cbbf74",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "b68ddeefcbc3cf12f381c4ee686e62674ed7f22aae56fccf55deb97128149aa0",
+      "ledger_sha256": "e1819a0894a199c9655f458e2c4c4b021c31bfd3e287cc8c8f4a5df51073dfa0",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S11-eager-schema",
+      "task_id": "S11",
+      "old_task_sha256": "ccb3a322397a6704193cde97b464965720681e1e494fc7af5dccf361ce86d066",
+      "new_task_sha256": "f222cb545c2a8826015b5483d2fe38b3d526bf4144f95692d6f003091defa4ce",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "08664105eb2d71fe04c7893d32a917ffc74fbd1d3e25a5ec88c2154ddbd96172",
+      "ledger_sha256": "8a2340ccb78cd9fa70af889776647d1141ff37b665069ae76cb3cbf609b71ef0",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S11-full",
+      "task_id": "S11",
+      "old_task_sha256": "ccb3a322397a6704193cde97b464965720681e1e494fc7af5dccf361ce86d066",
+      "new_task_sha256": "f222cb545c2a8826015b5483d2fe38b3d526bf4144f95692d6f003091defa4ce",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "07ac6158337453b07f5928658c6181663c094064df271bb02d289ce96b831f54",
+      "ledger_sha256": "584f7af59b0f2dc3c2f522aeb9ae1d1f5951cecb1aeef7221dbd27ebd395c81a",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S11-no-compression",
+      "task_id": "S11",
+      "old_task_sha256": "ccb3a322397a6704193cde97b464965720681e1e494fc7af5dccf361ce86d066",
+      "new_task_sha256": "f222cb545c2a8826015b5483d2fe38b3d526bf4144f95692d6f003091defa4ce",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "527566d58c2da162a9558856ded18685ec627e12dc3add3661bb152121913e3f",
+      "ledger_sha256": "37e13a598e17152058e601e7a3284b096093b08feaccdf3965c6ec7f999b008f",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S12-eager-schema",
+      "task_id": "S12",
+      "old_task_sha256": "cd0d981f886165d098a4fde1155a22155b215ab57a22abccd7177fda67a379e7",
+      "new_task_sha256": "e5ccfd188ce9fdab0d7d5c20fa639a362234f2f313b994eafba986cd9feced2d",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "normalize.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "normalize.py:<listcomp>",
+              "normalize.py:<module>",
+              "normalize.py:normalize"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "7a51592330d9f961d87bd65642a1be0448ceb3d4c65c500f8bcfdecadac62fe9",
+      "ledger_sha256": "b52243925105bbb2daecfd2e2d1474a0b343861ca4435f84f2d84b40e1a8b980",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S12-full",
+      "task_id": "S12",
+      "old_task_sha256": "cd0d981f886165d098a4fde1155a22155b215ab57a22abccd7177fda67a379e7",
+      "new_task_sha256": "e5ccfd188ce9fdab0d7d5c20fa639a362234f2f313b994eafba986cd9feced2d",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "normalize.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "normalize.py:<listcomp>",
+              "normalize.py:<module>",
+              "normalize.py:normalize"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "a534d422ee2d428690a14b14faf3dd90b649a080101c9d4b4c27ebe8d0ca60da",
+      "ledger_sha256": "cdc71aa45c437570d3dadc17f8415c4176bfeb3646fe8fd6374c43fd7ec33bc7",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "S12-no-compression",
+      "task_id": "S12",
+      "old_task_sha256": "cd0d981f886165d098a4fde1155a22155b215ab57a22abccd7177fda67a379e7",
+      "new_task_sha256": "e5ccfd188ce9fdab0d7d5c20fa639a362234f2f313b994eafba986cd9feced2d",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true,
+          "behavior": true
+        },
+        "details": {
+          "behavior": {
+            "run": 1,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 0,
+            "successful": true,
+            "failure_ids": [],
+            "error_ids": [],
+            "called": [
+              "<frozen importlib._bootstrap>",
+              "<frozen importlib._bootstrap_external>",
+              "normalize.py"
+            ],
+            "executed": [
+              "<frozen importlib._bootstrap>:__enter__",
+              "<frozen importlib._bootstrap>:__exit__",
+              "<frozen importlib._bootstrap>:__init__",
+              "<frozen importlib._bootstrap>:_call_with_frames_removed",
+              "<frozen importlib._bootstrap>:_find_and_load",
+              "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+              "<frozen importlib._bootstrap>:_find_spec",
+              "<frozen importlib._bootstrap>:_get_module_lock",
+              "<frozen importlib._bootstrap>:_init_module_attrs",
+              "<frozen importlib._bootstrap>:_load_unlocked",
+              "<frozen importlib._bootstrap>:_new_module",
+              "<frozen importlib._bootstrap>:_verbose_message",
+              "<frozen importlib._bootstrap>:acquire",
+              "<frozen importlib._bootstrap>:cached",
+              "<frozen importlib._bootstrap>:cb",
+              "<frozen importlib._bootstrap>:find_spec",
+              "<frozen importlib._bootstrap>:has_location",
+              "<frozen importlib._bootstrap>:module_from_spec",
+              "<frozen importlib._bootstrap>:parent",
+              "<frozen importlib._bootstrap>:release",
+              "<frozen importlib._bootstrap_external>:<genexpr>",
+              "<frozen importlib._bootstrap_external>:<listcomp>",
+              "<frozen importlib._bootstrap_external>:__init__",
+              "<frozen importlib._bootstrap_external>:_cache_bytecode",
+              "<frozen importlib._bootstrap_external>:_calc_mode",
+              "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+              "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+              "<frozen importlib._bootstrap_external>:_fill_cache",
+              "<frozen importlib._bootstrap_external>:_get_cached",
+              "<frozen importlib._bootstrap_external>:_get_spec",
+              "<frozen importlib._bootstrap_external>:_pack_uint32",
+              "<frozen importlib._bootstrap_external>:_path_importer_cache",
+              "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+              "<frozen importlib._bootstrap_external>:_path_isdir",
+              "<frozen importlib._bootstrap_external>:_path_isfile",
+              "<frozen importlib._bootstrap_external>:_path_join",
+              "<frozen importlib._bootstrap_external>:_path_split",
+              "<frozen importlib._bootstrap_external>:_path_stat",
+              "<frozen importlib._bootstrap_external>:_relax_case",
+              "<frozen importlib._bootstrap_external>:_write_atomic",
+              "<frozen importlib._bootstrap_external>:cache_from_source",
+              "<frozen importlib._bootstrap_external>:create_module",
+              "<frozen importlib._bootstrap_external>:exec_module",
+              "<frozen importlib._bootstrap_external>:find_spec",
+              "<frozen importlib._bootstrap_external>:get_code",
+              "<frozen importlib._bootstrap_external>:get_data",
+              "<frozen importlib._bootstrap_external>:get_filename",
+              "<frozen importlib._bootstrap_external>:path_stats",
+              "<frozen importlib._bootstrap_external>:set_data",
+              "<frozen importlib._bootstrap_external>:source_to_code",
+              "<frozen importlib._bootstrap_external>:spec_from_file_location",
+              "normalize.py:<listcomp>",
+              "normalize.py:<module>",
+              "normalize.py:normalize"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "78e6c2c1c8c6a925dd868c35263a93dda9a8664c272a41f02d451217f831c23f",
+      "ledger_sha256": "25eaa5f8543ae61bdff06b3cc9275baded6a8a1697d9b593ab925369cd8c3df6",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "tmux-S01-eager-schema",
+      "task_id": "S01",
+      "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+      "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+      "original_acceptance": "passed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "53475cf0e13bf857859feaa06deba58993a7b1888469431ce90d957b1586f72c",
+      "ledger_sha256": "bf162d011c688d43d9feb5c8af90425b850f22ae282b8c7c2ba7061d590c9127",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "tmux-S01-full",
+      "task_id": "S01",
+      "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+      "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": true
+        },
+        "details": {}
+      },
+      "strict_success_regraded": true,
+      "original_result_sha256": "9cc250ad073b9692dc6b641c09afe5d7cde4afc3a6df7c86ed199ac19ebc5c44",
+      "ledger_sha256": "77eafde9d0644b916ecf1edc184c658da58496d1a8fd81af3821261c320c56a2",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "tmux-S01-no-compression",
+      "task_id": "S01",
+      "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+      "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+      "original_acceptance": "failed",
+      "grading": {
+        "conditions": {
+          "scope": true,
+          "facts": false
+        },
+        "details": {}
+      },
+      "strict_success_regraded": false,
+      "original_result_sha256": "afcce3e9f1d01dab106712ad9f57a9c8a145e6d40961397eef006a57a3998c7f",
+      "ledger_sha256": "bf378dd54fe674c5f863e7b55e49ae5e5a5c6b86c840d283d7aa4211a562a50a",
+      "new_model_calls": 0
+    }
+  ]
+}

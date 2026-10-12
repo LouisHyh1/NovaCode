@@ -1,0 +1,57 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_______________ test_combined_legal_paths_and_explanation_fields _______________
+
+    def test_combined_legal_paths_and_explanation_fields():
+        case = next(c for c in cases() if c.task_id == "S01")
+        answer = copy.deepcopy(case.answers[0])
+        answer["relations"] = [list(edge) for edge in sorted({tuple(edge) for option in case.answers
+                                                            for edge in option["relations"]})]
+        answer["explanation"] = "两条预先验证的路径描述同一段代码。"
+>       assert facts_pass(json.dumps(answer), case.answers)
+E       assert False
+E        +  where False = facts_pass('{"files": ["settings.py", "cli.py", "runtime.py"], "symbols": ["settings.py:load", "settings.py:resolve", "cli.py:mai...4e24\\u6761\\u9884\\u5148\\u9a8c\\u8bc1\\u7684\\u8def\\u5f84\\u63cf\\u8ff0\\u540c\\u4e00\\u6bb5\\u4ee3\\u7801\\u3002"}', [{'files': ['settings.py', 'cli.py', 'runtime.py'], 'symbols': ['settings.py:load', 'settings.py:resolve', 'cli.py:mai...': [['cli.py:main', 'settings.py:load'], ['cli.py:main', 'settings.py:resolve'], ['cli.py:main', 'runtime.py:start']]}])
+E        +    where '{"files": ["settings.py", "cli.py", "runtime.py"], "symbols": ["settings.py:load", "settings.py:resolve", "cli.py:mai...4e24\\u6761\\u9884\\u5148\\u9a8c\\u8bc1\\u7684\\u8def\\u5f84\\u63cf\\u8ff0\\u540c\\u4e00\\u6bb5\\u4ee3\\u7801\\u3002"}' = <function dumps at 0x77b388dda7a0>({'files': ['settings.py', 'cli.py', 'runtime.py'], 'symbols': ['settings.py:load', 'settings.py:resolve', 'cli.py:main...ngs.py:load', 'settings.py:resolve'], ['settings.py:resolve', 'runtime.py:start']], 'explanation': '两条预先验证的路径描述同一段代码。'})
+E        +      where <function dumps at 0x77b388dda7a0> = json.dumps
+E        +    and   [{'files': ['settings.py', 'cli.py', 'runtime.py'], 'symbols': ['settings.py:load', 'settings.py:resolve', 'cli.py:mai...': [['cli.py:main', 'settings.py:load'], ['cli.py:main', 'settings.py:resolve'], ['cli.py:main', 'runtime.py:start']]}] = Case(task_id='S01', difficulty='easy', category='localization', files={'settings.py': 'import json\n\ndef load(path):\...], ['cli.py:main', 'settings.py:resolve'], ['cli.py:main', 'runtime.py:start']]}], mutants={}, records={}, pressure=[]).answers
+
+tests/evaluation/test_specialty.py:86: AssertionError
+___________ test_exception_class_path_accepts_only_relevant_symbols ____________
+
+    def test_exception_class_path_accepts_only_relevant_symbols():
+        case = next(c for c in cases() if c.task_id == "S02")
+        answer = {
+            "files": ["storage.py", "service.py", "cli.py"],
+            "symbols": ["storage.py:fetch", "storage.py:MissingRecord", "service.py:get",
+                        "service.py:RequestError", "cli.py:main", "cli.py:display"],
+            "relations": [["storage.py:fetch", "storage.py:MissingRecord"],
+                          ["storage.py:MissingRecord", "service.py:get"],
+                          ["service.py:get", "service.py:RequestError"],
+                          ["service.py:RequestError", "cli.py:main"],
+                          ["cli.py:main", "cli.py:display"]],
+        }
+>       assert facts_pass(json.dumps(answer), case.answers)
+E       assert False
+E        +  where False = facts_pass('{"files": ["storage.py", "service.py", "cli.py"], "symbols": ["storage.py:fetch", "storage.py:MissingRecord", "servic...e.py:get", "service.py:RequestError"], ["service.py:RequestError", "cli.py:main"], ["cli.py:main", "cli.py:display"]]}', [{'files': ['storage.py', 'service.py', 'cli.py'], 'symbols': ['storage.py:fetch', 'service.py:get', 'cli.py:main', 'c...singRecord'], ['storage.py:MissingRecord', 'service.py:RequestError'], ['service.py:RequestError', 'cli.py:display']]}])
+E        +    where '{"files": ["storage.py", "service.py", "cli.py"], "symbols": ["storage.py:fetch", "storage.py:MissingRecord", "servic...e.py:get", "service.py:RequestError"], ["service.py:RequestError", "cli.py:main"], ["cli.py:main", "cli.py:display"]]}' = <function dumps at 0x77b388dda7a0>({'files': ['storage.py', 'service.py', 'cli.py'], 'symbols': ['storage.py:fetch', 'storage.py:MissingRecord', 'service...ce.py:get', 'service.py:RequestError'], ['service.py:RequestError', 'cli.py:main'], ['cli.py:main', 'cli.py:display']]})
+E        +      where <function dumps at 0x77b388dda7a0> = json.dumps
+E        +    and   [{'files': ['storage.py', 'service.py', 'cli.py'], 'symbols': ['storage.py:fetch', 'service.py:get', 'cli.py:main', 'c...singRecord'], ['storage.py:MissingRecord', 'service.py:RequestError'], ['service.py:RequestError', 'cli.py:display']]}] = Case(task_id='S02', difficulty='medium', category='localization', files={'storage.py': 'class MissingRecord(Exception)...rd', 'service.py:RequestError'], ['service.py:RequestError', 'cli.py:display']]}], mutants={}, records={}, pressure=[]).answers
+
+tests/evaluation/test_specialty.py:103: AssertionError
+___________ test_input_admission_does_not_underreserve_dense_unicode ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-4/test_input_admission_does_not_0')
+
+    async def test_input_admission_does_not_underreserve_dense_unicode(tmp_path):
+        wrapper, _, ledger = observed(tmp_path, [[StreamEvent(usage=usage(input_tokens=2000), done=True)]])
+        await drain(wrapper, Request(messages=[Message("user", "中" * 1000)]))
+        end = events(ledger, "request_end")[0]
+>       assert end["usage"]["measured_total"] <= events(ledger, "request_start")[0]["reserved_tokens"]
+E       assert 2060 <= 1418
+
+tests/evaluation/test_observation.py:137: AssertionError
+=========================== short test summary info ============================
+FAILED tests/evaluation/test_specialty.py::test_combined_legal_paths_and_explanation_fields
+FAILED tests/evaluation/test_specialty.py::test_exception_class_path_accepts_only_relevant_symbols
+FAILED tests/evaluation/test_observation.py::test_input_admission_does_not_underreserve_dense_unicode
+3 failed in 0.50s

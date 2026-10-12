@@ -1,0 +1,18 @@
+{
+  "run_id": "S01-full",
+  "task_id": "S01",
+  "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+  "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+  "original_acceptance": "failed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "facts": true
+    },
+    "details": {}
+  },
+  "strict_success_regraded": true,
+  "original_result_sha256": "fbb6077c0de6f7e6632b786e17aae871a90ffb84604f5b4835d0ddae8e74049d",
+  "ledger_sha256": "98344893cc7b29fe10a9160b76244e91cbe16aae9e0efcf2b3a6afd72a16713e",
+  "new_model_calls": 0
+}

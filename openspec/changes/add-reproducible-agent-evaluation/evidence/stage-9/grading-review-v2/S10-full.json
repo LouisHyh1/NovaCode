@@ -1,0 +1,18 @@
+{
+  "run_id": "S10-full",
+  "task_id": "S10",
+  "old_task_sha256": "40ce80dfe5456e65b56833c2019e34bc898810262561c0acf8ef0adb171600b2",
+  "new_task_sha256": "0923f2448239607e8b56af8abe4c49a99de5a51dbe034c3ce9d7f15cc0cbbf74",
+  "original_acceptance": "passed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "facts": true
+    },
+    "details": {}
+  },
+  "strict_success_regraded": true,
+  "original_result_sha256": "36990d82dd3a5d8cf9b0fadfee43a2361924b29fa81521d58dd15d1d9f93c259",
+  "ledger_sha256": "478af9d2ce045938f0b050ab670d11096b3b64daa17bc174515defac8e3dcd24",
+  "new_model_calls": 0
+}

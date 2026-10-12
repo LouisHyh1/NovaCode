@@ -1,0 +1,18 @@
+{
+  "run_id": "S01-eager-schema",
+  "task_id": "S01",
+  "old_task_sha256": "7a87dee9437d1a707ba1cbb51cc26daa5f39fbbd9edd5b103fe5f2944a8d6c69",
+  "new_task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+  "original_acceptance": "passed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "facts": true
+    },
+    "details": {}
+  },
+  "strict_success_regraded": true,
+  "original_result_sha256": "a767dd8642b35d8ec1fd25e344e7168ec731e873cceb8c1f3c2bc69dd04c91fe",
+  "ledger_sha256": "1b118bb758744eeb93a53d8d21b343b5f0148f226ebe8678c195d3f3bfcd9fa7",
+  "new_model_calls": 0
+}

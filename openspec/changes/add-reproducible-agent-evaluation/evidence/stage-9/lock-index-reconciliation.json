@@ -1,0 +1,37 @@
+{
+  "original_index_retained": "pypi.tuna.tsinghua.edu.cn",
+  "executed_lock_sha256": "85e8e4ca2cb8ba0f59b468c4e8837237093175ee0fc57e28ff66507324ae0f2e",
+  "release_lock_sha256": "60618db07bf6f3a05871941049ce3a1689cc5cf72a76a9409b2b22355e1d380c",
+  "dependency_versions_hashes_sizes_and_requirements_equal": true,
+  "only_novacode_version_changed_since_head": true,
+  "checks": [
+    {
+      "command": [
+        "uv",
+        "lock",
+        "--check"
+      ],
+      "exit": 0,
+      "output": "Resolved 60 packages in 1ms\n"
+    },
+    {
+      "command": [
+        "uv",
+        "sync",
+        "--locked"
+      ],
+      "exit": 0,
+      "output": "Resolved 60 packages in 0.92ms\nChecked 58 packages in 15ms\n"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "novacode",
+        "--version"
+      ],
+      "exit": 0,
+      "output": "0.1.34\n"
+    }
+  ]
+}

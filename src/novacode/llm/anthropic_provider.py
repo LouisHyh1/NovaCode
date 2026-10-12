@@ -95,7 +95,14 @@ class AnthropicProvider:
                 final_message = await stream.get_final_message()
                 # 用量：含缓存写/读字段
                 if final_message.usage is not None:
-                    yield StreamEvent(usage=_usage_from_anthropic(final_message.usage))
+                    yield StreamEvent(
+                        usage=_usage_from_anthropic(final_message.usage),
+                        response_metadata={
+                            "model": final_message.model,
+                            "stop_reason": final_message.stop_reason,
+                            "content_types": [block.type for block in final_message.content],
+                        },
+                    )
                 if final_message.stop_reason == "tool_use":
                     calls = []
                     for block in final_message.content:

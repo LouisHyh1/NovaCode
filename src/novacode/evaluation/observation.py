@@ -7,7 +7,7 @@ import json
 import math
 import time
 from collections.abc import AsyncIterator
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 from uuid import uuid4
 
@@ -25,8 +25,11 @@ class _Observation:
     ambiguous_usage: bool = False
     status: str = "incomplete"
     error_type: str = ""
+    response: dict[str, Any] = field(default_factory=dict)
 
     def update(self, event: StreamEvent) -> None:
+        if event.response_metadata:
+            self.response = event.response_metadata
         if event.usage is not None:
             if self.usage is not None and self.usage != event.usage:
                 self.ambiguous_usage = True
@@ -99,7 +102,9 @@ class ObservedProvider:
         metadata = self._metadata(req)
         payload = asdict(req)
         # 估计只用于准入：包含正文、系统块、reminder 和完整工具 Schema。
-        estimate = math.ceil(len(json.dumps(payload, ensure_ascii=False).encode("utf-8")) / 3.5)
+        # UTF-8字节数作保守准入估计，避免密集代码/中文被固定字符比低估。
+        # 该值不计作实测Token或费用；结算仍只使用Provider原始usage。
+        estimate = len(json.dumps(payload, ensure_ascii=False).encode("utf-8"))
         try:
             reserve = self.budget.reserve_request(estimate, metadata["max_output_tokens"])
         except BudgetExceededError as exc:
@@ -125,7 +130,7 @@ class ObservedProvider:
             schema_sha256=sha256([asdict(t) for t in req.tools]),
             visible_tools=[tool.name for tool in req.tools],
             input_estimate=estimate,
-            estimate_kind="utf8-bytes-div-3.5",
+            estimate_kind="utf8-bytes-conservative",
             reserved_tokens=reserve,
         )
         observation = _Observation()
@@ -170,6 +175,7 @@ class ObservedProvider:
                     error_type=observation.error_type,
                     seconds=time.monotonic() - start,
                     usage=normalized,
+                    response=observation.response,
                     budget=self.budget.snapshot(),
                 )
 

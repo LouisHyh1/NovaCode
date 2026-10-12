@@ -1,0 +1,43 @@
+{
+  "groups": {
+    "live/full": {
+      "n": 12,
+      "original_strict": 2,
+      "regraded_strict": 2,
+      "live_resolved": 7
+    },
+    "live/no-compression": {
+      "n": 12,
+      "original_strict": 3,
+      "regraded_strict": 3,
+      "live_resolved": 6
+    },
+    "live/eager-schema": {
+      "n": 12,
+      "original_strict": 1,
+      "regraded_strict": 1,
+      "live_resolved": 4
+    },
+    "specialty/full": {
+      "n": 12,
+      "original_strict": 8,
+      "regraded_strict": 10,
+      "live_resolved": null
+    },
+    "specialty/no-compression": {
+      "n": 12,
+      "original_strict": 8,
+      "regraded_strict": 9,
+      "live_resolved": null
+    },
+    "specialty/eager-schema": {
+      "n": 12,
+      "original_strict": 8,
+      "regraded_strict": 8,
+      "live_resolved": null
+    }
+  },
+  "main_runs": 72,
+  "tasks": 24,
+  "calibration_runs_replace_main": 0
+}

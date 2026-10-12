@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "all_24_tasks_policy_checks": {
+    "L04": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L09": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L12": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S07": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S04": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S12": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L02": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S08": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L07": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L05": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S02": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S03": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L06": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L01": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L10": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L08": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S05": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L03": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S11": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S06": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "L11": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S09": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S10": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    },
+    "S01": {
+      "same_allowed_tools": true,
+      "actual_strategies_match": true
+    }
+  },
+  "pressure": [
+    {
+      "run_id": "S11-no-compression",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 1,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S11-full",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 1,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S11-eager-schema",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S12-no-compression",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 3,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S12-eager-schema",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S12-full",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 3,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S10-no-compression",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 1,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S10-eager-schema",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S10-full",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 1,
+      "completed_requests": 1
+    },
+    {
+      "run_id": "S07-no-compression",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 2,
+      "completed_requests": 6
+    },
+    {
+      "run_id": "S07-eager-schema",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 3,
+      "completed_requests": 6
+    },
+    {
+      "run_id": "S07-full",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 2,
+      "completed_requests": 6
+    },
+    {
+      "run_id": "S09-eager-schema",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 7
+    },
+    {
+      "run_id": "S09-no-compression",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 7
+    },
+    {
+      "run_id": "S09-full",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 7
+    },
+    {
+      "run_id": "S08-no-compression",
+      "offloads": 0,
+      "summary_requests": 0,
+      "discovery_calls": 3,
+      "completed_requests": 6
+    },
+    {
+      "run_id": "S08-full",
+      "offloads": 1,
+      "summary_requests": 0,
+      "discovery_calls": 1,
+      "completed_requests": 6
+    },
+    {
+      "run_id": "S08-eager-schema",
+      "offloads": 1,
+      "summary_requests": 0,
+      "discovery_calls": 0,
+      "completed_requests": 6
+    }
+  ],
+  "decisions": {
+    "base_tools": "保留现有六工具；所有实际允许集合已逐题核对",
+    "prompt": "保留统一通用提示，不加入逐题答案或冻结反馈",
+    "discovery": "现有名称/职责规则已发生21次发现调用，保留并计入费用",
+    "pressure_scripts": "保留公开脚本与初始文件，不用缩小窗口或删除合法替代工具制造触发",
+    "layer2": "首轮无摘要请求；这些脚本主要覆盖早期约束/文件事实及Layer1，不能称已证明Layer2效果",
+    "input_reservation": "旧字符比产生实际超预留，修订为UTF8字节保守准入；新Campaign代表复验另列"
+  },
+  "frozen_tasks_read": 0,
+  "frozen_results_accessed": false,
+  "public_input_changes": 0
+}

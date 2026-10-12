@@ -1,0 +1,108 @@
+[
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.15171642899986182,
+    "output": "quality-0.txt"
+  },
+  {
+    "command": [
+      "ruff",
+      "check",
+      "src",
+      "tests",
+      "scripts",
+      "evaluation/pilot",
+      "evaluation/specialty"
+    ],
+    "exit": 0,
+    "seconds": 0.010870983000131673,
+    "output": "quality-1.txt"
+  },
+  {
+    "command": [
+      "ruff",
+      "format",
+      "--check",
+      "src",
+      "tests",
+      "scripts",
+      "evaluation/pilot",
+      "evaluation/specialty"
+    ],
+    "exit": 0,
+    "seconds": 0.010163564999857044,
+    "output": "quality-2.txt"
+  },
+  {
+    "command": [
+      "python",
+      "scripts/check_boundaries.py"
+    ],
+    "exit": 0,
+    "seconds": 13.10637063500053,
+    "output": "quality-3.txt"
+  },
+  {
+    "command": [
+      "mypy",
+      "--strict",
+      "--explicit-package-bases",
+      "src/novacode/evaluation/pilot.py",
+      "evaluation/pilot/run.py",
+      "evaluation/pilot/review.py",
+      "evaluation/pilot/regrade.py",
+      "evaluation/pilot/calibrate.py"
+    ],
+    "exit": 0,
+    "seconds": 0.4157217739993939,
+    "output": "quality-4.txt"
+  },
+  {
+    "command": [
+      "ruff",
+      "check",
+      "evaluation/pilot",
+      "--select",
+      "C901"
+    ],
+    "exit": 0,
+    "seconds": 0.009181830000670743,
+    "output": "quality-5.txt"
+  },
+  {
+    "command": [
+      "pytest",
+      "-q"
+    ],
+    "exit": 0,
+    "seconds": 58.44172052399972,
+    "output": "quality-6.txt"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "novacode",
+      "--version"
+    ],
+    "exit": 0,
+    "seconds": 0.611403343999882,
+    "output": "quality-7.txt"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "novacode",
+      "--help"
+    ],
+    "exit": 0,
+    "seconds": 0.594080665000547,
+    "output": "quality-8.txt"
+  }
+]

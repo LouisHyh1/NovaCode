@@ -1,0 +1,18 @@
+{
+  "run_id": "S02-no-compression",
+  "task_id": "S02",
+  "old_task_sha256": "c53a8061e62ccd07b5035460e3b597d6489798f21dbf8ae0636fdddf18a9c8b0",
+  "new_task_sha256": "cefc3bf34441a0421d342e129f064d16f8e81205d41c6d6ffb53a366cd41bdd3",
+  "original_acceptance": "failed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "facts": false
+    },
+    "details": {}
+  },
+  "strict_success_regraded": false,
+  "original_result_sha256": "d77590ec21e59778bc856de678b95763243e09a13b8e37ae02994b5c84f89798",
+  "ledger_sha256": "32cae6b8ceccaad62664202688406c223d350c943e645953d9db4ab006035768",
+  "new_model_calls": 0
+}

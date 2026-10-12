@@ -15,3 +15,5 @@ S10 使用非基础内置 CI 工具，S11 使用职责相近的本地 stdio MCP 
 `run.py` 会调用真实模型，只用于已授权、有界的 S05 tmux/S12 自动代表验收；`review.py` 只读复核并无损导出账本、补丁、屏幕及原始 worker 产物。已入库清单、复跑命令和证据边界见 [第七阶段报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-7/specialty-validation.md)。本阶段只交付 12 道开发专项；完整 24 道开发集、先导校准、冻结题与正式统计仍待后续阶段。
 
 2026-10-10 第八阶段修正了事实答案解析：仅包含合同字段的完整 JSON 对象进入答案冲突检查，解释中的配置示例不计候选答案。公开 fixture、输入和环境字节未变；全部 12 题已重新核验，当前资格文件为 `assets/external/Sxx/qualification-specialty-admission.json`，当前选择账本为 `openspec/changes/add-reproducible-agent-evaluation/evidence/stage-8/specialty-admission/selection.jsonl`。旧资产与旧判题源码原字节保留在第八阶段 `specialty-before-parser-fix.tar.gz`，旧第七阶段账本保留历史身份。
+
+2026-10-12 第九阶段根据真实开发轨迹修订事实比较：只投影合同字段，允许已验证路径的关系组合，未知边与无关符号仍失败；S02 增补详细异常类传播路径。公开输入和环境不变，12 题全部重新入库，当前资格为 `qualification-stage9-specialty-admission.json`，当前账本为第九阶段 `evidence/stage-9/specialty-admission/selection.jsonl`。旧合同/验收与模型结果保留，所有首轮专项产物统一无新增模型调用复评；见 [第九阶段报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-9/pilot-validation.md)。

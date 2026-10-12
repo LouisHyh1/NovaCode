@@ -1,0 +1,135 @@
+{
+  "run_id": "S03-full",
+  "task_id": "S03",
+  "old_task_sha256": "16f12a98ff1be5e30cb9c3bd05396afab7fc431ecc12f9ffcd17fbeb48ab4237",
+  "new_task_sha256": "b04e6a23fc5d73ed2bec6bf2d07ea7904a176a3e7cbe5e350b9230c35e168227",
+  "original_acceptance": "failed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "correct-tests": false,
+      "all-mutants": true
+    },
+    "details": {
+      "correct": {
+        "run": 13,
+        "errors": 0,
+        "skipped": 0,
+        "failures": 3,
+        "successful": false,
+        "failure_ids": [
+          "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default",
+          "test_added.ResolveExplicitFalsy.test_none_override_falls_back_to_file",
+          "test_added.ResolveExplicitFalsy.test_none_override_without_file_falls_back_to_default"
+        ],
+        "error_ids": [],
+        "called": [
+          "settings.py"
+        ],
+        "executed": [
+          "settings.py:resolve"
+        ],
+        "resource_limits": {
+          "Memory": 536870912,
+          "MemorySwap": 536870912,
+          "NanoCpus": 1000000000,
+          "PidsLimit": 64,
+          "NetworkMode": "none"
+        }
+      },
+      "mutants": {
+        "lost-empty": {
+          "run": 13,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 2,
+          "successful": false,
+          "failure_ids": [
+            "test_added.ResolveExplicitFalsy.test_empty_string_override_wins",
+            "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default"
+          ],
+          "error_ids": [],
+          "called": [
+            "<string>",
+            "settings.py"
+          ],
+          "executed": [
+            "<string>:__new__",
+            "settings.py:<dictcomp>",
+            "settings.py:resolve"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "reversed-priority": {
+          "run": 13,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 5,
+          "successful": false,
+          "failure_ids": [
+            "test_added.ResolveExplicitFalsy.test_empty_string_override_wins",
+            "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default",
+            "test_added.ResolveExplicitFalsy.test_none_override_without_file_falls_back_to_default",
+            "test_added.ResolveExplicitFalsy.test_value_override_wins_over_file_none",
+            "test_added.ResolvePrecedence.test_overrides_beat_file_values"
+          ],
+          "error_ids": [],
+          "called": [
+            "<string>",
+            "settings.py"
+          ],
+          "executed": [
+            "<string>:__new__",
+            "settings.py:resolve"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "wrong-default": {
+          "run": 13,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 4,
+          "successful": false,
+          "failure_ids": [
+            "test_added.ResolveDefaults.test_empty_inputs_return_defaults",
+            "test_added.ResolveExplicitFalsy.test_none_in_file_falls_back_to_default",
+            "test_added.ResolveExplicitFalsy.test_none_override_falls_back_to_file",
+            "test_added.ResolveExplicitFalsy.test_none_override_without_file_falls_back_to_default"
+          ],
+          "error_ids": [],
+          "called": [
+            "<string>",
+            "settings.py"
+          ],
+          "executed": [
+            "<string>:__new__",
+            "settings.py:resolve"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        }
+      }
+    }
+  },
+  "strict_success_regraded": false,
+  "original_result_sha256": "65c63a1a4784e742d3e28eece26262663a5c5bce51d6256b8ab574777ee891d9",
+  "ledger_sha256": "36f02cafd8d091b1ba989ef3ee9a651dbf502f3c0254f311bc8db0bcf000d0d5",
+  "new_model_calls": 0
+}

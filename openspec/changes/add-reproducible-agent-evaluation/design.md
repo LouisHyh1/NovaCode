@@ -137,4 +137,6 @@ Live 与专项分别报告，内部综合指标若展示只按冻结的来源等
 
 ## Open Questions
 
+2026-10-12 模型身份修订：用户确认沿用现有端点及请求名 `deepseek-v4-flash`。官方当前说明该别名转发到 DeepSeek-V4.1-Flash；先导及后续冻结均区分请求名、响应模型名和文档声明的实际服务版本，不能将别名声称为旧模型或不可变权重版本。端点支持 1M 上下文；先导显式沿用产品既有 200,000 Token 应用窗口（三组相同且小于端点能力），不通过改变窗口制造压缩触发。端点忽略发送的 `thinking.budget_tokens=2048`，未传 thinking 时使用端点默认；因此逐请求记录的是发送条件，实际预算和思考强度按端点文档及响应块另行核验。[官方模型说明](https://api-docs.deepseek.com/quick_start/pricing/)、[Anthropic 兼容规则](https://api-docs.deepseek.com/guides/anthropic_api/)。
+
 以下是已确定测量与冻结流程中的待实测值，不是尚未选择的需求方向：当前机器可承载哪些任务镜像及峰值资源；独立 Agent 环境在各镜像中的适配结果；模型端点实际可用性、窗口和 usage 语义；各类别预算与先导总预算数值；最终 Live task ID、官方 Python 判题代码 commit、镜像 digest 和抽样种子。它们在指定阶段取得证据并填入清单，前置值缺失时不执行相应模型或正式实验。

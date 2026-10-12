@@ -1,0 +1,146 @@
+{
+  "run_id": "S03-eager-schema",
+  "task_id": "S03",
+  "old_task_sha256": "16f12a98ff1be5e30cb9c3bd05396afab7fc431ecc12f9ffcd17fbeb48ab4237",
+  "new_task_sha256": "b04e6a23fc5d73ed2bec6bf2d07ea7904a176a3e7cbe5e350b9230c35e168227",
+  "original_acceptance": "failed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "correct-tests": false,
+      "all-mutants": false
+    },
+    "details": {
+      "correct": {
+        "run": 13,
+        "errors": 0,
+        "skipped": 0,
+        "failures": 6,
+        "successful": false,
+        "failure_ids": [
+          "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+          "test_added.ResolveContract.test_empty_string_override_falls_back_to_file_value",
+          "test_added.ResolveContract.test_empty_string_override_on_defaulted_key_falls_back_to_default",
+          "test_added.ResolveContract.test_none_file_value_falls_back_to_default",
+          "test_added.ResolveContract.test_none_override_falls_back_to_file_value",
+          "test_added.ResolveContract.test_none_override_on_defaulted_key_falls_back_to_default"
+        ],
+        "error_ids": [],
+        "called": [
+          "<string>",
+          "settings.py"
+        ],
+        "executed": [
+          "<string>:__new__",
+          "settings.py:resolve"
+        ],
+        "resource_limits": {
+          "Memory": 536870912,
+          "MemorySwap": 536870912,
+          "NanoCpus": 1000000000,
+          "PidsLimit": 64,
+          "NetworkMode": "none"
+        }
+      },
+      "mutants": {
+        "lost-empty": {
+          "run": 13,
+          "errors": 1,
+          "skipped": 0,
+          "failures": 2,
+          "successful": false,
+          "failure_ids": [
+            "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+            "test_added.ResolveContract.test_none_file_value_falls_back_to_default"
+          ],
+          "error_ids": [
+            "test_added.ResolveContract.test_other_falsy_values_are_kept"
+          ],
+          "called": [
+            "<string>",
+            "settings.py"
+          ],
+          "executed": [
+            "<string>:__new__",
+            "settings.py:<dictcomp>",
+            "settings.py:resolve"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "reversed-priority": {
+          "run": 13,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 5,
+          "successful": false,
+          "failure_ids": [
+            "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+            "test_added.ResolveContract.test_empty_string_override_on_defaulted_key_falls_back_to_default",
+            "test_added.ResolveContract.test_none_file_value_falls_back_to_default",
+            "test_added.ResolveContract.test_none_override_on_defaulted_key_falls_back_to_default",
+            "test_added.ResolveContract.test_overrides_take_precedence_over_file_values"
+          ],
+          "error_ids": [],
+          "called": [
+            "<string>",
+            "settings.py"
+          ],
+          "executed": [
+            "<string>:__new__",
+            "settings.py:resolve"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "wrong-default": {
+          "run": 13,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 8,
+          "successful": false,
+          "failure_ids": [
+            "test_added.ResolveContract.test_defaults_applied_when_no_values_provided",
+            "test_added.ResolveContract.test_defaults_are_not_shared_mutable_state",
+            "test_added.ResolveContract.test_empty_string_file_value_falls_back_to_default",
+            "test_added.ResolveContract.test_empty_string_override_falls_back_to_file_value",
+            "test_added.ResolveContract.test_empty_string_override_on_defaulted_key_falls_back_to_default",
+            "test_added.ResolveContract.test_none_file_value_falls_back_to_default",
+            "test_added.ResolveContract.test_none_override_falls_back_to_file_value",
+            "test_added.ResolveContract.test_none_override_on_defaulted_key_falls_back_to_default"
+          ],
+          "error_ids": [],
+          "called": [
+            "<string>",
+            "settings.py"
+          ],
+          "executed": [
+            "<string>:__new__",
+            "settings.py:resolve"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        }
+      }
+    }
+  },
+  "strict_success_regraded": false,
+  "original_result_sha256": "cf128af7b1ec6b73a9f5e46204c0d9d8fcb16f940109af3dc4feb6097969bcbe",
+  "ledger_sha256": "48a53e8afe1a000ae21efcfed553bec5e5c2c9bb49b98aecf8336c57ad1124d2",
+  "new_model_calls": 0
+}

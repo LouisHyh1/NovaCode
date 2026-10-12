@@ -12,7 +12,7 @@
 - **THEN** 在开发集修改并重新核验，冻结阶段开始后不得基于冻结题的结果继续调参
 
 ### Requirement: 正式实验前冻结可执行身份
-正式运行 SHALL 具有完整冻结清单，包含源码版本、资产指纹、数据与判题代码版本、环境身份、模型和端点身份、实际请求参数、权限、记忆与 Hook 配置、工具清单、预算、顺序、统计方法及运行计划。模型 SHALL 固定为 deepseek-v4-flash、Anthropic 协议、thinking=true，主调用和摘要调用 SHALL 一致；未知或缺失的必要执行字段 SHALL 阻止正式运行。
+正式运行 SHALL 具有完整冻结清单，包含源码版本、资产指纹、数据与判题代码版本、环境身份、模型和端点身份、实际请求参数、权限、记忆与 Hook 配置、工具清单、预算、顺序、统计方法及运行计划。按 2026-10-12 用户确认，请求 SHALL 保留 deepseek-v4-flash 与 https://api.deepseek.com/anthropic，实际服务身份 SHALL 记录为官方当前映射的 DeepSeek-V4.1-Flash，并逐请求保存响应模型名；SHALL NOT 将兼容别名等同于旧 V4-Flash 的不可变权重版本。Anthropic 协议、thinking=true，主调用和摘要适配规则 SHALL 一致；未知或缺失的必要执行字段 SHALL 阻止正式运行，远端版本无法不可变固定的限制 SHALL 明示。
 
 #### Scenario: 只记录模型名称而没有预算
 - **WHEN** 正式清单缺少类别 Token 或时间上限

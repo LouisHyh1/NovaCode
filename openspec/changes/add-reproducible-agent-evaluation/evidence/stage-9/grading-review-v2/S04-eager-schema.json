@@ -1,0 +1,112 @@
+{
+  "run_id": "S04-eager-schema",
+  "task_id": "S04",
+  "old_task_sha256": "eb2fbd26642db99ca9810369b4512b841572ce33c063b8a5842d200477ea7625",
+  "new_task_sha256": "01580ab91c222975af05958e45a126ea39cc7656779b082ddd3a35d1b9a285ce",
+  "original_acceptance": "passed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "correct-tests": true,
+      "all-mutants": true
+    },
+    "details": {
+      "correct": {
+        "run": 3,
+        "errors": 0,
+        "skipped": 0,
+        "failures": 0,
+        "successful": true,
+        "failure_ids": [],
+        "error_ids": [],
+        "called": [
+          "<frozen importlib._bootstrap>",
+          "<string>",
+          "operation.py"
+        ],
+        "executed": [
+          "<frozen importlib._bootstrap>:_handle_fromlist",
+          "<frozen importlib._bootstrap>:parent",
+          "<string>:__new__",
+          "operation.py:__init__",
+          "operation.py:run"
+        ],
+        "resource_limits": {
+          "Memory": 536870912,
+          "MemorySwap": 536870912,
+          "NanoCpus": 1000000000,
+          "PidsLimit": 64,
+          "NetworkMode": "none"
+        }
+      },
+      "mutants": {
+        "missing-close": {
+          "run": 3,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 2,
+          "successful": false,
+          "failure_ids": [
+            "test_added.OperationLifecycle.test_cancellation",
+            "test_added.OperationLifecycle.test_normal_completion"
+          ],
+          "error_ids": [],
+          "called": [
+            "<frozen importlib._bootstrap>",
+            "<string>",
+            "operation.py"
+          ],
+          "executed": [
+            "<frozen importlib._bootstrap>:_handle_fromlist",
+            "<frozen importlib._bootstrap>:parent",
+            "<string>:__new__",
+            "operation.py:__init__",
+            "operation.py:run"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "wrong-state": {
+          "run": 3,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 2,
+          "successful": false,
+          "failure_ids": [
+            "test_added.OperationLifecycle.test_cancellation",
+            "test_added.OperationLifecycle.test_normal_completion"
+          ],
+          "error_ids": [],
+          "called": [
+            "<frozen importlib._bootstrap>",
+            "<string>",
+            "operation.py"
+          ],
+          "executed": [
+            "<frozen importlib._bootstrap>:_handle_fromlist",
+            "<frozen importlib._bootstrap>:parent",
+            "<string>:__new__",
+            "operation.py:__init__",
+            "operation.py:run"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        }
+      }
+    }
+  },
+  "strict_success_regraded": true,
+  "original_result_sha256": "26d45d7ffec4c6cc56dc5ba91c304728fa44612ba91e8821e6ec00c37b2ac46a",
+  "ledger_sha256": "556a5de54c300bcc80ce4f6132aab5794d02db09189e9bd63472c477d2d522f2",
+  "new_model_calls": 0
+}

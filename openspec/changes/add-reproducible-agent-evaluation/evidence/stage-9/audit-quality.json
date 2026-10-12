@@ -1,0 +1,38 @@
+[
+  {
+    "command": [
+      "ruff",
+      "format",
+      "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-9/delivery-audit.py"
+    ],
+    "exit": 0,
+    "output": "1 file left unchanged\n"
+  },
+  {
+    "command": [
+      "ruff",
+      "check",
+      "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-9/delivery-audit.py"
+    ],
+    "exit": 0,
+    "output": "All checks passed!\n"
+  },
+  {
+    "command": [
+      "mypy",
+      "--strict",
+      "--explicit-package-bases",
+      "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-9/delivery-audit.py"
+    ],
+    "exit": 0,
+    "output": "Success: no issues found in 1 source file\n"
+  },
+  {
+    "command": [
+      "python",
+      "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-9/delivery-audit.py"
+    ],
+    "exit": 0,
+    "output": "{\"schema_version\": 1, \"admitted_development_tasks\": 24, \"main_runs\": 72, \"tmux_runs\": 3, \"calibration_runs\": 6, \"archives\": 81, \"unknown_usage_requests_retained\": 1, \"secrets_absent\": true, \"ledger_and_artifact_hashes_valid\": true, \"shared_budget_valid\": true, \"formal_model_calls\": 0, \"state\": \"PILOT_COMPLETE\"}\n"
+  }
+]

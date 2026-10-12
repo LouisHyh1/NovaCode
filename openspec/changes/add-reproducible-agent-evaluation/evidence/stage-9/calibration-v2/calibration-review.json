@@ -1,0 +1,485 @@
+{
+  "schema_version": 1,
+  "source_round": "calibration-v2",
+  "independent_new_tasks": 0,
+  "main_matrix_replacements": 0,
+  "runs": [
+    {
+      "result": {
+        "acceptance": "passed",
+        "agent_run_ids": [
+          "4fb0736be999461387d67ec1c4874190"
+        ],
+        "block_reason": "",
+        "campaign_id": "stage9-calibration-v2",
+        "cleanup": "passed",
+        "completed_requests": 1,
+        "config_id": "full",
+        "initial_sha256": "d2e34b29b0f641a79bbc764d3b9a7968c2c3055b643f6f8938bce0d928b4b97a",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "calibration-S01-full",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S01",
+        "task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+        "termination": "completed"
+      },
+      "started": true,
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 4,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 12325,
+        "measured_tokens": 12325,
+        "tool_calls": 6,
+        "tool_retries": 0,
+        "tool_executed": 6,
+        "tool_succeeded": 6,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.5087934759994823,
+          "initialization": 0.01508201700016798,
+          "agent": 6.706716647000576,
+          "cleanup": 0.010160752000047069,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 6.740193304999593,
+        "total_wall_seconds": 7.276901363000434,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "response_models": [
+        "deepseek-v4-flash"
+      ],
+      "raw_token_lower_bounds": {
+        "input_tokens": 1024,
+        "output_tokens": 1189,
+        "cache_read_input_tokens": 10112,
+        "cache_creation_input_tokens": 0
+      },
+      "raw_field_unknown_requests": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "peak_price_usd_upper": 0.001794672,
+      "unknown_cost": false,
+      "offloads": 0,
+      "summary_requests": 0,
+      "summaries_accepted": 0,
+      "thinking_sent_requests": 1,
+      "max_input_estimate": 13786,
+      "max_request_tokens": 4071,
+      "budget_stops": []
+    },
+    {
+      "result": {
+        "acceptance": "passed",
+        "agent_run_ids": [
+          "2868792b7713405f984a49bdb6dbda6a"
+        ],
+        "block_reason": "",
+        "campaign_id": "stage9-calibration-v2",
+        "cleanup": "passed",
+        "completed_requests": 1,
+        "config_id": "no-compression",
+        "initial_sha256": "d2e34b29b0f641a79bbc764d3b9a7968c2c3055b643f6f8938bce0d928b4b97a",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "calibration-S01-no-compression",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S01",
+        "task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+        "termination": "completed"
+      },
+      "started": true,
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 4,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 12341,
+        "measured_tokens": 12341,
+        "tool_calls": 6,
+        "tool_retries": 0,
+        "tool_executed": 6,
+        "tool_succeeded": 6,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.5002549380005803,
+          "initialization": 0.016785341999820957,
+          "agent": 6.980779081000037,
+          "cleanup": 0.010012060000008205,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 7.016747986000155,
+        "total_wall_seconds": 7.545609056000103,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "response_models": [
+        "deepseek-v4-flash"
+      ],
+      "raw_token_lower_bounds": {
+        "input_tokens": 1111,
+        "output_tokens": 1246,
+        "cache_read_input_tokens": 9984,
+        "cache_creation_input_tokens": 0
+      },
+      "raw_field_unknown_requests": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "peak_price_usd_upper": 0.001888404,
+      "unknown_cost": false,
+      "offloads": 0,
+      "summary_requests": 0,
+      "summaries_accepted": 0,
+      "thinking_sent_requests": 1,
+      "max_input_estimate": 13629,
+      "max_request_tokens": 4091,
+      "budget_stops": []
+    },
+    {
+      "result": {
+        "acceptance": "passed",
+        "agent_run_ids": [
+          "8cace36018fd47b9a5532640d36c643e"
+        ],
+        "block_reason": "",
+        "campaign_id": "stage9-calibration-v2",
+        "cleanup": "passed",
+        "completed_requests": 1,
+        "config_id": "eager-schema",
+        "initial_sha256": "d2e34b29b0f641a79bbc764d3b9a7968c2c3055b643f6f8938bce0d928b4b97a",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "calibration-S01-eager-schema",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S01",
+        "task_sha256": "c665c46327c4aab52706185e33f73b19f02aa3cedb09eacda460360d4206788d",
+        "termination": "completed"
+      },
+      "started": true,
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 5,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 19069,
+        "measured_tokens": 19069,
+        "tool_calls": 8,
+        "tool_retries": 0,
+        "tool_executed": 8,
+        "tool_succeeded": 8,
+        "tool_denied": 0,
+        "tool_errors": 0,
+        "discovery_calls": 0,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.4208482180001738,
+          "initialization": 0.014282332000220777,
+          "agent": 11.140835606999644,
+          "cleanup": 0.010111677000168129,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 11.173271263999595,
+        "total_wall_seconds": 11.624349164000705,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "response_models": [
+        "deepseek-v4-flash"
+      ],
+      "raw_token_lower_bounds": {
+        "input_tokens": 1645,
+        "output_tokens": 2064,
+        "cache_read_input_tokens": 15360,
+        "cache_creation_input_tokens": 0
+      },
+      "raw_field_unknown_requests": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "peak_price_usd_upper": 0.0030624599999999995,
+      "unknown_cost": false,
+      "offloads": 0,
+      "summary_requests": 0,
+      "summaries_accepted": 0,
+      "thinking_sent_requests": 1,
+      "max_input_estimate": 16352,
+      "max_request_tokens": 5361,
+      "budget_stops": []
+    },
+    {
+      "result": {
+        "acceptance": "passed",
+        "agent_run_ids": [
+          "5f2f5d82834f4c0fb984d2a684618dba",
+          "39f0a4e58d0a4dc3a4ae1e6acc55214e",
+          "5a6ae48c44354140bf4c188690c400e7",
+          "f528daefb9ab4b2091100d4ee5e32ec3",
+          "fc57344f6fb3427c82110c0b9557f758",
+          "eb7d860b2b63409e9924436c8ec625ef"
+        ],
+        "block_reason": "",
+        "campaign_id": "stage9-calibration-v2",
+        "cleanup": "passed",
+        "completed_requests": 6,
+        "config_id": "full",
+        "initial_sha256": "065a0d1292a0c97c68f448bc0fab85bebfb8a622735559f383adc10f3eed41af",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "calibration-S08-full",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S08",
+        "task_sha256": "58f5d7c43087acf7da9863739c7d778de445e5bc40b2130c7dbef66bb0b4e048",
+        "termination": "completed"
+      },
+      "started": true,
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 25,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 396157,
+        "measured_tokens": 396157,
+        "tool_calls": 30,
+        "tool_retries": 0,
+        "tool_executed": 30,
+        "tool_succeeded": 29,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 2,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.4566944110001714,
+          "initialization": 0.024049116999776743,
+          "agent": 35.73663855799987,
+          "cleanup": 0.0162957649999953,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 35.792573663999974,
+        "total_wall_seconds": 36.36838334799995,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "response_models": [
+        "deepseek-v4-flash"
+      ],
+      "raw_token_lower_bounds": {
+        "input_tokens": 107871,
+        "output_tokens": 5278,
+        "cache_read_input_tokens": 283008,
+        "cache_creation_input_tokens": 0
+      },
+      "raw_field_unknown_requests": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "peak_price_usd_upper": 0.040392948,
+      "unknown_cost": false,
+      "offloads": 1,
+      "summary_requests": 0,
+      "summaries_accepted": 0,
+      "thinking_sent_requests": 1,
+      "max_input_estimate": 120213,
+      "max_request_tokens": 32096,
+      "budget_stops": []
+    },
+    {
+      "result": {
+        "acceptance": "passed",
+        "agent_run_ids": [
+          "3a4ad20399264682b0da1ff90181e225",
+          "d612f7bf8f2c4ce1aaeba403883c4a88",
+          "691675ad230b4e7aa7858ba99e10927a",
+          "98d47ec707cc46c7af1d1ee63fd5791f",
+          "a7e6ca0e495a4f06bf5ff3a63b0d5f85",
+          "0fff342853ee49818a43d3a414bb1deb"
+        ],
+        "block_reason": "",
+        "campaign_id": "stage9-calibration-v2",
+        "cleanup": "passed",
+        "completed_requests": 6,
+        "config_id": "no-compression",
+        "initial_sha256": "065a0d1292a0c97c68f448bc0fab85bebfb8a622735559f383adc10f3eed41af",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "calibration-S08-no-compression",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S08",
+        "task_sha256": "58f5d7c43087acf7da9863739c7d778de445e5bc40b2130c7dbef66bb0b4e048",
+        "termination": "completed"
+      },
+      "started": true,
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 27,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 979729,
+        "measured_tokens": 979729,
+        "tool_calls": 22,
+        "tool_retries": 0,
+        "tool_executed": 22,
+        "tool_succeeded": 21,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 1,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.4034466009998141,
+          "initialization": 0.08461929800068901,
+          "agent": 34.6765369270006,
+          "cleanup": 0.009904343000016524,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 34.78887745500015,
+        "total_wall_seconds": 35.25942324100015,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "response_models": [
+        "deepseek-v4-flash"
+      ],
+      "raw_token_lower_bounds": {
+        "input_tokens": 218915,
+        "output_tokens": 3950,
+        "cache_read_input_tokens": 756864,
+        "cache_creation_input_tokens": 0
+      },
+      "raw_field_unknown_requests": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "peak_price_usd_upper": 0.074955684,
+      "unknown_cost": false,
+      "offloads": 0,
+      "summary_requests": 0,
+      "summaries_accepted": 0,
+      "thinking_sent_requests": 1,
+      "max_input_estimate": 190154,
+      "max_request_tokens": 49819,
+      "budget_stops": []
+    },
+    {
+      "result": {
+        "acceptance": "passed",
+        "agent_run_ids": [
+          "24f042bfcc1648cda6c4f5e257e088f6",
+          "3c93d4c4394b4e24bd23672586c6eee1",
+          "bcef418ad2d1497e8e6d2238a876be1b",
+          "7694224113eb4c7eb35196bc2a73e17c",
+          "4852e4a2516747c798abe620e39d09dc",
+          "755e0b33307c45beb233ef241f63524b"
+        ],
+        "block_reason": "",
+        "campaign_id": "stage9-calibration-v2",
+        "cleanup": "passed",
+        "completed_requests": 6,
+        "config_id": "eager-schema",
+        "initial_sha256": "065a0d1292a0c97c68f448bc0fab85bebfb8a622735559f383adc10f3eed41af",
+        "live_resolved": null,
+        "repeat_id": 1,
+        "retry_of": null,
+        "run_id": "calibration-S08-eager-schema",
+        "schema_version": 1,
+        "scope": "passed",
+        "state": "RECORDED",
+        "task_id": "S08",
+        "task_sha256": "58f5d7c43087acf7da9863739c7d778de445e5bc40b2130c7dbef66bb0b4e048",
+        "termination": "completed"
+      },
+      "started": true,
+      "strict_success": true,
+      "metrics": {
+        "provider_calls": 30,
+        "unknown_usage_requests": 0,
+        "known_token_lower_bound": 387879,
+        "measured_tokens": 387879,
+        "tool_calls": 32,
+        "tool_retries": 0,
+        "tool_executed": 32,
+        "tool_succeeded": 31,
+        "tool_denied": 0,
+        "tool_errors": 1,
+        "discovery_calls": 3,
+        "fault_injections": 0,
+        "fault_cleanup_failed": 0,
+        "incomplete_tools": 0,
+        "phase_seconds": {
+          "preparation": 0.4520940669999618,
+          "initialization": 0.01568656000017654,
+          "agent": 42.43918732200018,
+          "cleanup": 0.016693327999746543,
+          "grading": null
+        },
+        "main_end_to_end_seconds": 42.483661158999894,
+        "total_wall_seconds": 43.06190765700012,
+        "truncated_tail": false,
+        "incomplete_phases": 0
+      },
+      "response_models": [
+        "deepseek-v4-flash"
+      ],
+      "raw_token_lower_bounds": {
+        "input_tokens": 77091,
+        "output_tokens": 5892,
+        "cache_read_input_tokens": 304896,
+        "cache_creation_input_tokens": 0
+      },
+      "raw_field_unknown_requests": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "peak_price_usd_upper": 0.032027076,
+      "unknown_cost": false,
+      "offloads": 1,
+      "summary_requests": 0,
+      "summaries_accepted": 0,
+      "thinking_sent_requests": 1,
+      "max_input_estimate": 78740,
+      "max_request_tokens": 19665,
+      "budget_stops": []
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "state": "CALIBRATED_NOT_FROZEN",
+  "categories": {
+    "live-easy": {
+      "observed_max": {
+        "seconds": 98.15997439800026,
+        "tokens": 573563,
+        "provider_calls": 24,
+        "tool_calls": 27,
+        "single_request_tokens": 177027,
+        "cleanup_seconds": 5.9651932990000205
+      },
+      "limits": {
+        "seconds": 450,
+        "tokens": 900000,
+        "provider_calls": 36,
+        "tool_calls": 75,
+        "single_request_tokens": 265541,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "L02-full",
+        "L02-eager-schema",
+        "L02-no-compression",
+        "L01-eager-schema",
+        "L01-no-compression",
+        "L01-full",
+        "L03-eager-schema",
+        "L03-no-compression",
+        "L03-full",
+        "L04-eager-schema",
+        "L04-full",
+        "L04-no-compression"
+      ],
+      "censored_runs": [
+        "L01-no-compression",
+        "L01-full",
+        "L03-eager-schema",
+        "L03-no-compression",
+        "L03-full"
+      ],
+      "planned_frozen_tasks": 8
+    },
+    "live-medium": {
+      "observed_max": {
+        "seconds": 110.46279411299975,
+        "tokens": 572788,
+        "provider_calls": 24,
+        "tool_calls": 35,
+        "single_request_tokens": 269315,
+        "cleanup_seconds": 36.098603940999965
+      },
+      "limits": {
+        "seconds": 450,
+        "tokens": 900000,
+        "provider_calls": 36,
+        "tool_calls": 75,
+        "single_request_tokens": 403973,
+        "cleanup_seconds": 55
+      },
+      "evidence_runs": [
+        "L10-eager-schema",
+        "L10-full",
+        "L10-no-compression",
+        "L08-full",
+        "L08-eager-schema",
+        "L08-no-compression",
+        "L09-no-compression",
+        "L09-full",
+        "L09-eager-schema",
+        "L07-eager-schema",
+        "L07-full",
+        "L07-no-compression",
+        "L05-full",
+        "L05-eager-schema",
+        "L05-no-compression",
+        "L06-no-compression",
+        "L06-eager-schema",
+        "L06-full"
+      ],
+      "censored_runs": [
+        "L10-eager-schema",
+        "L10-full",
+        "L10-no-compression",
+        "L08-full",
+        "L08-no-compression",
+        "L07-eager-schema",
+        "L07-full",
+        "L05-full",
+        "L05-eager-schema",
+        "L05-no-compression",
+        "L06-no-compression",
+        "L06-full"
+      ],
+      "planned_frozen_tasks": 12
+    },
+    "live-hard": {
+      "observed_max": {
+        "seconds": 73.8686086079997,
+        "tokens": 569493,
+        "provider_calls": 24,
+        "tool_calls": 35,
+        "single_request_tokens": 339214,
+        "cleanup_seconds": 6.312957138999991
+      },
+      "limits": {
+        "seconds": 450,
+        "tokens": 900000,
+        "provider_calls": 36,
+        "tool_calls": 75,
+        "single_request_tokens": 508821,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "L12-no-compression",
+        "L12-full",
+        "L12-eager-schema",
+        "L11-eager-schema",
+        "L11-no-compression",
+        "L11-full"
+      ],
+      "censored_runs": [
+        "L12-no-compression",
+        "L12-eager-schema",
+        "L11-eager-schema",
+        "L11-no-compression",
+        "L11-full"
+      ],
+      "planned_frozen_tasks": 4
+    },
+    "specialty-localization": {
+      "observed_max": {
+        "seconds": 11.993538211000214,
+        "tokens": 19103,
+        "provider_calls": 5,
+        "tool_calls": 8,
+        "single_request_tokens": 22020,
+        "cleanup_seconds": 3.6149154400000043
+      },
+      "limits": {
+        "seconds": 18,
+        "tokens": 33030,
+        "provider_calls": 8,
+        "tool_calls": 12,
+        "single_request_tokens": 33030,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "S01-full",
+        "S01-no-compression",
+        "S01-eager-schema",
+        "S02-full",
+        "S02-no-compression",
+        "S02-eager-schema",
+        "calibration-S01-full",
+        "calibration-S01-no-compression",
+        "calibration-S01-eager-schema"
+      ],
+      "censored_runs": [],
+      "planned_frozen_tasks": 4
+    },
+    "specialty-test-addition": {
+      "observed_max": {
+        "seconds": 34.34990175199982,
+        "tokens": 71247,
+        "provider_calls": 11,
+        "tool_calls": 14,
+        "single_request_tokens": 31734,
+        "cleanup_seconds": 3.7585286810008256
+      },
+      "limits": {
+        "seconds": 450,
+        "tokens": 900000,
+        "provider_calls": 36,
+        "tool_calls": 75,
+        "single_request_tokens": 47601,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "S04-eager-schema",
+        "S04-full",
+        "S04-no-compression",
+        "S03-full",
+        "S03-no-compression",
+        "S03-eager-schema"
+      ],
+      "censored_runs": [
+        "S03-no-compression"
+      ],
+      "planned_frozen_tasks": 4
+    },
+    "specialty-tool-failure": {
+      "observed_max": {
+        "seconds": 27.56709928300006,
+        "tokens": 90861,
+        "provider_calls": 14,
+        "tool_calls": 18,
+        "single_request_tokens": 32405,
+        "cleanup_seconds": 3.4150456389998
+      },
+      "limits": {
+        "seconds": 42,
+        "tokens": 136292,
+        "provider_calls": 21,
+        "tool_calls": 27,
+        "single_request_tokens": 48608,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "S05-full",
+        "S05-no-compression",
+        "S05-eager-schema",
+        "S06-full",
+        "S06-eager-schema",
+        "S06-no-compression"
+      ],
+      "censored_runs": [],
+      "planned_frozen_tasks": 4
+    },
+    "specialty-long-context": {
+      "observed_max": {
+        "seconds": 47.20663043100012,
+        "tokens": 1046464,
+        "provider_calls": 30,
+        "tool_calls": 32,
+        "single_request_tokens": 197216,
+        "cleanup_seconds": 3.536237725000319
+      },
+      "limits": {
+        "seconds": 71,
+        "tokens": 1569696,
+        "provider_calls": 45,
+        "tool_calls": 48,
+        "single_request_tokens": 295824,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "S07-no-compression",
+        "S07-eager-schema",
+        "S07-full",
+        "S09-eager-schema",
+        "S09-no-compression",
+        "S09-full",
+        "S08-no-compression",
+        "S08-full",
+        "S08-eager-schema",
+        "calibration-S08-full",
+        "calibration-S08-no-compression",
+        "calibration-S08-eager-schema"
+      ],
+      "censored_runs": [],
+      "planned_frozen_tasks": 6
+    },
+    "specialty-tool-discovery": {
+      "observed_max": {
+        "seconds": 12.139785612999958,
+        "tokens": 35658,
+        "provider_calls": 9,
+        "tool_calls": 13,
+        "single_request_tokens": 23376,
+        "cleanup_seconds": 3.4345769730002758
+      },
+      "limits": {
+        "seconds": 19,
+        "tokens": 53487,
+        "provider_calls": 14,
+        "tool_calls": 20,
+        "single_request_tokens": 35064,
+        "cleanup_seconds": 20
+      },
+      "evidence_runs": [
+        "S11-no-compression",
+        "S11-full",
+        "S11-eager-schema",
+        "S12-no-compression",
+        "S12-eager-schema",
+        "S12-full",
+        "S10-no-compression",
+        "S10-eager-schema",
+        "S10-full"
+      ],
+      "censored_runs": [],
+      "planned_frozen_tasks": 6
+    }
+  },
+  "total": {
+    "seconds": 132462,
+    "tokens": 352602222,
+    "provider_calls": 14633,
+    "tool_calls": 26374,
+    "single_request_tokens": 508821,
+    "cleanup_seconds": 55
+  },
+  "margin": "类别最大值/预算删失下界乘1.5，总计划预留再乘1.1",
+  "formal_model_calls": 0,
+  "requires_stage10_identity_validation": true,
+  "input_admission_rule": "utf8-bytes-conservative",
+  "unknown_items": [
+    "Layer2无真实先导触发，不能声称其效果或实测摘要成本",
+    "L12-full一请求usage未知，成本只报下界",
+    "远端模型权重无法不可变固定；按官方现行映射标记V4.1-Flash"
+  ]
+}

@@ -118,6 +118,30 @@ async def test_main_and_summary_ignored_usage_are_counted_once(tmp_path):
     ledger.close()
 
 
+async def test_response_identity_is_preserved_separately_from_requested_model(tmp_path):
+    response = {"model": "served-alias", "stop_reason": "end_turn", "content_types": ["text"]}
+    wrapper, _, ledger = observed(
+        tmp_path, [[StreamEvent(usage=usage(), response_metadata=response), StreamEvent(done=True)]]
+    )
+    await drain(wrapper)
+    assert events(ledger, "request_end")[0]["response"] == response
+    assert events(ledger, "request_start")[0]["model"] == "no-real-model"
+    await wrapper.close()
+    ledger.close()
+
+
+async def test_input_admission_does_not_underreserve_dense_unicode(tmp_path):
+    wrapper, _, ledger = observed(
+        tmp_path, [[StreamEvent(usage=usage(input_tokens=2000), done=True)]]
+    )
+    await drain(wrapper, Request(messages=[Message("user", "中" * 1000)]))
+    end = events(ledger, "request_end")[0]
+    assert end["usage"]["measured_total"] <= events(ledger, "request_start")[0]["reserved_tokens"]
+    assert all(not item["stop_reason"] for item in end["budget"])
+    await wrapper.close()
+    ledger.close()
+
+
 async def test_summary_retry_has_explicit_role_and_parent(tmp_path):
     wrapper, _, ledger = observed(
         tmp_path,

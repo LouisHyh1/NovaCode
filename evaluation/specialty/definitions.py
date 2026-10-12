@@ -207,6 +207,24 @@ def cases() -> list[Case]:
                     ["service.py:RequestError", "cli.py:display"],
                 ],
             ),
+            facts(
+                ["storage.py", "service.py", "cli.py"],
+                [
+                    "storage.py:fetch",
+                    "storage.py:MissingRecord",
+                    "service.py:get",
+                    "service.py:RequestError",
+                    "cli.py:main",
+                    "cli.py:display",
+                ],
+                [
+                    ["storage.py:fetch", "storage.py:MissingRecord"],
+                    ["storage.py:MissingRecord", "service.py:get"],
+                    ["service.py:get", "service.py:RequestError"],
+                    ["service.py:RequestError", "cli.py:main"],
+                    ["cli.py:main", "cli.py:display"],
+                ],
+            ),
         ],
     )
     s03 = Case(

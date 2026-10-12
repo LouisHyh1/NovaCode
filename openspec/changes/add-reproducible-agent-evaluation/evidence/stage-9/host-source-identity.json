@@ -1,0 +1,11 @@
+{
+  "files": {
+    "evaluation/pilot/run.py": "8572c5dad262539803b7f92be3775fd989847867e13e85fd99758e832c1052fe",
+    "evaluation/examples/stage4_usage_probe.py": "037d1c16dc24584cab925965e99553ec07e1645a7c10a4bc4df085a184e592bc",
+    "evaluation/examples/stage4_live.py": "eb06eb81e4edaed2feafcccbc4c05d773ff0c428a0b2c00b75cbf0db34c0d4ba",
+    "evaluation/preflight/pack_agent_runtime.py": "2c582339e7da9c3f451bb409baf693b22c3e7051ac07daad9f79f3fc7e0e275b"
+  },
+  "captured": "2026-10-12",
+  "host_files_changed_since_setup": false,
+  "product_source_identity": "identity.json"
+}

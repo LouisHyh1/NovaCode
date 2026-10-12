@@ -77,6 +77,44 @@ def test_alternative_paths_and_wrong_relation(task_id):
     assert not facts_pass(json.dumps(case.answers[0]) + json.dumps(wrong), case.answers)
 
 
+def test_combined_legal_paths_and_explanation_fields():
+    case = next(c for c in cases() if c.task_id == "S01")
+    answer = copy.deepcopy(case.answers[0])
+    answer["relations"] = [
+        list(edge)
+        for edge in sorted({tuple(edge) for option in case.answers for edge in option["relations"]})
+    ]
+    answer["explanation"] = "两条预先验证的路径描述同一段代码。"
+    assert facts_pass(json.dumps(answer), case.answers)
+    answer["relations"].append(["runtime.py:start", "settings.py:load"])
+    assert not facts_pass(json.dumps(answer), case.answers)
+
+
+def test_exception_class_path_accepts_only_relevant_symbols():
+    case = next(c for c in cases() if c.task_id == "S02")
+    answer = {
+        "files": ["storage.py", "service.py", "cli.py"],
+        "symbols": [
+            "storage.py:fetch",
+            "storage.py:MissingRecord",
+            "service.py:get",
+            "service.py:RequestError",
+            "cli.py:main",
+            "cli.py:display",
+        ],
+        "relations": [
+            ["storage.py:fetch", "storage.py:MissingRecord"],
+            ["storage.py:MissingRecord", "service.py:get"],
+            ["service.py:get", "service.py:RequestError"],
+            ["service.py:RequestError", "cli.py:main"],
+            ["cli.py:main", "cli.py:display"],
+        ],
+    }
+    assert facts_pass(json.dumps(answer), case.answers)
+    answer["symbols"].append("cli.py:network_error")
+    assert not facts_pass(json.dumps(answer), case.answers)
+
+
 @pytest.mark.parametrize("task_id", ["S03", "S04"])
 @pytest.mark.parametrize(
     "body",

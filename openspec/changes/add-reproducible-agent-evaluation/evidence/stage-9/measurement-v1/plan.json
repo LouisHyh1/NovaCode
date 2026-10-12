@@ -1,0 +1,1154 @@
+[
+  {
+    "run_id": "S01-full",
+    "task_id": "S01",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S01",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S01-no-compression",
+    "task_id": "S01",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S01",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S01-eager-schema",
+    "task_id": "S01",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S01",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L02-full",
+    "task_id": "L02",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L02",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L02-eager-schema",
+    "task_id": "L02",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L02",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L02-no-compression",
+    "task_id": "L02",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L02",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S11-no-compression",
+    "task_id": "S11",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S11",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S11-full",
+    "task_id": "S11",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S11",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S11-eager-schema",
+    "task_id": "S11",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S11",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S12-no-compression",
+    "task_id": "S12",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S12",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S12-eager-schema",
+    "task_id": "S12",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S12",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S12-full",
+    "task_id": "S12",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S12",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L10-eager-schema",
+    "task_id": "L10",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L10",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L10-full",
+    "task_id": "L10",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L10",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L10-no-compression",
+    "task_id": "L10",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L10",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L01-eager-schema",
+    "task_id": "L01",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L01",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L01-no-compression",
+    "task_id": "L01",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L01",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L01-full",
+    "task_id": "L01",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L01",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S02-full",
+    "task_id": "S02",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S02",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S02-no-compression",
+    "task_id": "S02",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S02",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S02-eager-schema",
+    "task_id": "S02",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S02",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L08-full",
+    "task_id": "L08",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L08",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L08-eager-schema",
+    "task_id": "L08",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L08",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L08-no-compression",
+    "task_id": "L08",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L08",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L09-no-compression",
+    "task_id": "L09",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L09",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L09-full",
+    "task_id": "L09",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L09",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L09-eager-schema",
+    "task_id": "L09",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L09",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S10-no-compression",
+    "task_id": "S10",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S10",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S10-eager-schema",
+    "task_id": "S10",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S10",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S10-full",
+    "task_id": "S10",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S10",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L07-eager-schema",
+    "task_id": "L07",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L07",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L07-full",
+    "task_id": "L07",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L07",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L07-no-compression",
+    "task_id": "L07",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L07",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L03-eager-schema",
+    "task_id": "L03",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L03",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L03-no-compression",
+    "task_id": "L03",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L03",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L03-full",
+    "task_id": "L03",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L03",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S05-full",
+    "task_id": "S05",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S05",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S05-no-compression",
+    "task_id": "S05",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S05",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S05-eager-schema",
+    "task_id": "S05",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S05",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L05-full",
+    "task_id": "L05",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L05",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L05-eager-schema",
+    "task_id": "L05",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L05",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L05-no-compression",
+    "task_id": "L05",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L05",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L12-no-compression",
+    "task_id": "L12",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L12",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L12-full",
+    "task_id": "L12",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L12",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L12-eager-schema",
+    "task_id": "L12",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L12",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S07-no-compression",
+    "task_id": "S07",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S07",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S07-eager-schema",
+    "task_id": "S07",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S07",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S07-full",
+    "task_id": "S07",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S07",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S04-eager-schema",
+    "task_id": "S04",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S04",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S04-full",
+    "task_id": "S04",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S04",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S04-no-compression",
+    "task_id": "S04",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S04",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S09-eager-schema",
+    "task_id": "S09",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S09",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S09-no-compression",
+    "task_id": "S09",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S09",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S09-full",
+    "task_id": "S09",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S09",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S03-full",
+    "task_id": "S03",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S03",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S03-no-compression",
+    "task_id": "S03",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S03",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S03-eager-schema",
+    "task_id": "S03",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S03",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S06-full",
+    "task_id": "S06",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S06",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S06-eager-schema",
+    "task_id": "S06",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S06",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S06-no-compression",
+    "task_id": "S06",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S06",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S08-no-compression",
+    "task_id": "S08",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "S08",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S08-full",
+    "task_id": "S08",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "S08",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "S08-eager-schema",
+    "task_id": "S08",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "S08",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 420,
+      "tokens": 1500000,
+      "provider_calls": 40,
+      "tool_calls": 70,
+      "single_request_tokens": 240000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L06-no-compression",
+    "task_id": "L06",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L06",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L06-eager-schema",
+    "task_id": "L06",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L06",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L06-full",
+    "task_id": "L06",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L06",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L04-eager-schema",
+    "task_id": "L04",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L04",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L04-full",
+    "task_id": "L04",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L04",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L04-no-compression",
+    "task_id": "L04",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L04",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L11-eager-schema",
+    "task_id": "L11",
+    "config_id": "eager-schema",
+    "repeat_id": 1,
+    "pair_id": "L11",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L11-no-compression",
+    "task_id": "L11",
+    "config_id": "no-compression",
+    "repeat_id": 1,
+    "pair_id": "L11",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "L11-full",
+    "task_id": "L11",
+    "config_id": "full",
+    "repeat_id": 1,
+    "pair_id": "L11",
+    "state": "PLANNED",
+    "limits": {
+      "seconds": 300,
+      "tokens": 600000,
+      "provider_calls": 24,
+      "tool_calls": 50,
+      "single_request_tokens": 100000,
+      "cleanup_seconds": 20
+    }
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "run_id": "S10-no-compression",
+  "task_id": "S10",
+  "old_task_sha256": "40ce80dfe5456e65b56833c2019e34bc898810262561c0acf8ef0adb171600b2",
+  "new_task_sha256": "0923f2448239607e8b56af8abe4c49a99de5a51dbe034c3ce9d7f15cc0cbbf74",
+  "original_acceptance": "passed",
+  "grading": {
+    "conditions": {
+      "scope": true,
+      "facts": true
+    },
+    "details": {}
+  },
+  "strict_success_regraded": true,
+  "original_result_sha256": "b68ddeefcbc3cf12f381c4ee686e62674ed7f22aae56fccf55deb97128149aa0",
+  "ledger_sha256": "e1819a0894a199c9655f458e2c4c4b021c31bfd3e287cc8c8f4a5df51073dfa0",
+  "new_model_calls": 0
+}

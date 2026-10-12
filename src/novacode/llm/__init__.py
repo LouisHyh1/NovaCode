@@ -85,6 +85,7 @@ class StreamEvent:
     usage: "Usage | None" = None
     done: bool = False
     err: Exception | None = None
+    response_metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass

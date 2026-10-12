@@ -1,0 +1,11 @@
+{
+  "files": {
+    "calibration-S01-eager-schema.tar.gz": "30d784106b90e915dedaf285719651d73f03c3d5482ff7e83f027339cc662405",
+    "calibration-S01-full.tar.gz": "3c0f8ac9fac8c460f28186720afddd572557219a4795b7e4cf7487db97ff82f1",
+    "calibration-S01-no-compression.tar.gz": "eb438a348b0fadcbba083e71636e91cf578414dfedb39f0037ddc91059427b8f",
+    "calibration-S08-eager-schema.tar.gz": "2a53644314bf635bbabff4ea9ffcf76fac10628726a391a19596e4d1f0a19b19",
+    "calibration-S08-full.tar.gz": "223218449c0b5d1cb64e62397e2dded07ea50c6f7c64dd359a5e9a1639d786df",
+    "calibration-S08-no-compression.tar.gz": "17c1f5c54976f21077f0059bdc1a47408ddca8d4774a979ac075065b39ad30c0"
+  },
+  "secrets_absent": true
+}
