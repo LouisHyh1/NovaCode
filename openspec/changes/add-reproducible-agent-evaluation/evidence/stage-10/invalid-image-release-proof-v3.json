@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "candidate": "reflex-dev__reflex-4958",
+      "image_id": "sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+      "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4958@sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+      "size": 2503654901,
+      "manifest_sha256": "4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "reflex-dev__reflex-4958",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4958@sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+        "image_id": "sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+        "base_commit": "c32f1a8f09923b8a22641755fd9e43aba35368be",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 原有回归失败"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f": "4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/dbb1eb41205765a35e46c1adb8a558ecfca5f8e8cbaa7cffaf684bf9b9e031ab": "dbb1eb41205765a35e46c1adb8a558ecfca5f8e8cbaa7cffaf684bf9b9e031ab",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849": "23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905": "07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7": "1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621": "b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c": "e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4": "ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/ddc10eb61d177c0c9f8f8b78d2f265e1cbadb2cde6313d5f866635df52010609": "ddc10eb61d177c0c9f8f8b78d2f265e1cbadb2cde6313d5f866635df52010609",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0af7fea8545b494f9813bbd22417f66d86982eaab0ce9e6caff91805d1e77b32": "0af7fea8545b494f9813bbd22417f66d86982eaab0ce9e6caff91805d1e77b32",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/d84aeb2a6d344f0c58196059cc263e4e252a0d612896f1e98c5efdb5d165f84e": "d84aeb2a6d344f0c58196059cc263e4e252a0d612896f1e98c5efdb5d165f84e"
+      },
+      "image_before": {
+        "Id": "sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4958:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4958@sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f"
+        ],
+        "Created": "2025-04-30T22:08:36.9186907Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+            "PYTHON_VERSION=3.11.12",
+            "PYTHON_SHA256=849da87af4df137710c1796e276a955f7a85c9f971081067c8f565d15c352a09"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 2503654901,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+            "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+            "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+            "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+            "sha256:d3262b68815cc1cc34b597cdda16d4ec708b624a84d13ab06c590ce12d0fbec7",
+            "sha256:f0848283ad07e2b6e91b6cd8e16d9d9b595270cca8ebca9a453a9945ae017640",
+            "sha256:a91f0cd2daf7ac1468a0d155ba420c7dea9feac5eea3e37d8fc63b65e724f0e6",
+            "sha256:2ef7849638f4e61a8851951d6dfb28b3c91c0a97a18b370a4a802e02b1958ec3",
+            "sha256:b2817c5efd30b148e05921a7d70a7886ced6028ad022f5e611f7b89735889e21"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-13T06:23:50.494725993Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:4766934779cbd515d4093347770b973f288ddb01b439c49c0769ba27f43c209f",
+          "size": 2216,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4958",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4958:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    }
+  ],
+  "first_qualification_records_unchanged": true,
+  "model_calls": 0
+}

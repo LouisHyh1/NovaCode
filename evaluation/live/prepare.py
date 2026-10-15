@@ -19,16 +19,26 @@ def save(path: Path, value: object) -> None:
         stream.write(json.dumps(value, ensure_ascii=False, indent=2, default=str) + "\n")
 
 
-def prepare(dataset: Path, output: Path, rule_path: Path) -> None:
+def prepare(
+    dataset: Path, output: Path, rule_path: Path, identity_path: Path | None = None
+) -> None:
     rule = json.loads(rule_path.read_text())
     url = (
         "https://huggingface.co/api/datasets/SWE-bench-Live/SWE-bench-Live/tree/"
         + rule["dataset_revision"]
         + "/data"
     )
-    with urllib.request.urlopen(url, timeout=60) as response:
-        metadata = json.load(response)
-    item = next(item for item in metadata if item["path"] == "data/verified-00000-of-00001.parquet")
+    if identity_path is None:
+        with urllib.request.urlopen(url, timeout=60) as response:
+            metadata = json.load(response)
+        item = next(
+            item for item in metadata if item["path"] == "data/verified-00000-of-00001.parquet"
+        )
+    else:
+        cached = json.loads(identity_path.read_text())
+        assert cached["revision"] == rule["dataset_revision"] and cached["metadata_url"] == url
+        item = cached["remote_file"]
+        assert item["path"] == "data/verified-00000-of-00001.parquet"
     actual = hashlib.sha256(dataset.read_bytes()).hexdigest()
     assert actual == item["lfs"]["oid"] == rule["dataset_sha256"]
     assert dataset.stat().st_size == item["lfs"]["size"]
@@ -45,6 +55,7 @@ def prepare(dataset: Path, output: Path, rule_path: Path) -> None:
             "sha256": actual,
             "rows": len(rows),
             "model_calls": 0,
+            "metadata_identity_source": str(identity_path) if identity_path else "live-fetch",
         },
     )
     save(output / "selection-rule.json", rule)
@@ -75,5 +86,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "--rule", type=Path, default=Path(__file__).with_name("selection-rule.json")
     )
+    parser.add_argument("--identity", type=Path)
     args = parser.parse_args()
-    prepare(args.dataset, args.output, args.rule)
+    prepare(args.dataset, args.output, args.rule, args.identity)

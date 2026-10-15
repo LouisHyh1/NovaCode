@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "reason": "为扩充资格池维持20GiB空闲下限，原有可重建传输包按原字节保留到宿主盘；原资格/模型记录不变",
+  "files": [
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/2c809ab85aa894ad8f3e75688a65bc3624940a9b18ced7114f78b092914f834f.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/2c809ab85aa894ad8f3e75688a65bc3624940a9b18ced7114f78b092914f834f.tar",
+      "sha256": "b6a8bff1dcdbeffc25eca5957cd235aa9cbcc9eed6ced0c33fb5cc8540dc2c59",
+      "bytes": 727664640
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/4c525f81a3461b515f8c9a4f17c57534d867b9e9a3d60374b33473508de62189.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/4c525f81a3461b515f8c9a4f17c57534d867b9e9a3d60374b33473508de62189.tar",
+      "sha256": "fd6526d58ff033c00ad0453f6365d3273ebac196c86f93b29ccb9316272d28aa",
+      "bytes": 726333440
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/9a9c44884dc9e0a7ad327598373f7aebf7791f647e21d8d9f30445c2db437ba5.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/9a9c44884dc9e0a7ad327598373f7aebf7791f647e21d8d9f30445c2db437ba5.tar",
+      "sha256": "14798213ea090eb7651c146863320f371e11d7c38df1d2baeb0df6102325f2e0",
+      "bytes": 500828160
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/33f3293001f93d8e6774b72d00ad8d9ed519ff5437d9f3873db8e6385aa8dcc2.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/33f3293001f93d8e6774b72d00ad8d9ed519ff5437d9f3873db8e6385aa8dcc2.tar",
+      "sha256": "7ecad4efe89ac36115fdce53eeb39479f31cb4d9e063b09e4358d796a169213c",
+      "bytes": 447016960
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/f66404b8fee73c41820929afe4778e2c0dbba735a950ad9a042ae9e2ea649d29.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/f66404b8fee73c41820929afe4778e2c0dbba735a950ad9a042ae9e2ea649d29.tar",
+      "sha256": "cb6f329c5d6b6a0f27a54126ec6ccccb10e0e1102264dd9a3ea8a47b3060b611",
+      "bytes": 756316160
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/9a67192d40b61daedd0e64572d1d7a29d49bcff60e2b4dbdef87db6a1702ebfe.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/9a67192d40b61daedd0e64572d1d7a29d49bcff60e2b4dbdef87db6a1702ebfe.tar",
+      "sha256": "f571962668137c0b1afea0f4d49c3a862b6c6d65f936d2ce9cb2c613d8f88704",
+      "bytes": 1338777600
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/4731ba6cfb97095662897e7ffd1406e90a4c0ce84218d6c284432d8d4ce29e62.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/4731ba6cfb97095662897e7ffd1406e90a4c0ce84218d6c284432d8d4ce29e62.tar",
+      "sha256": "7228bc76941a0266360548465bbb1b359084e132851310e2e449f22e526038d8",
+      "bytes": 669009920
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/d7a9460ed0628baaefab4ef21bf86f1cba4daf16f8fdf3133d612f4d1db505a3.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/d7a9460ed0628baaefab4ef21bf86f1cba4daf16f8fdf3133d612f4d1db505a3.tar",
+      "sha256": "84da2ccd24bde9c16b3b2e31fc0f30bae303a7c1444659cac358f654882def87",
+      "bytes": 734054400
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/62d1f525dbc67aae399232200d881e95b76256dc9e5a0b02e5495435560615cd.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/62d1f525dbc67aae399232200d881e95b76256dc9e5a0b02e5495435560615cd.tar",
+      "sha256": "50837b9d58fff2cf7533834cba2e8b69aea3f92907809263526c24b8b79e7d0c",
+      "bytes": 596684800
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/425f6503d7b74229bd5eb81f0e8319f063fddd4539b0d952f6b9e7ec6175a2cd.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/425f6503d7b74229bd5eb81f0e8319f063fddd4539b0d952f6b9e7ec6175a2cd.tar",
+      "sha256": "00e47698b170851dd90c107fca9f53f9b58ba9af796fdc5e298d7cd1204ae0ae",
+      "bytes": 531169280
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/97d68ed0dc3bb40f6829f864a13288a1666c40f570e1b09c797b631eb1f52fee.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/97d68ed0dc3bb40f6829f864a13288a1666c40f570e1b09c797b631eb1f52fee.tar",
+      "sha256": "0f9cad852addb07b5787bebbfe6a9dfda2d7892cc5737ec8d9b61d4abd564e79",
+      "bytes": 735703040
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/d0034100201ca0a20060d4457c3273823c33e624febef8d12f3ef796a40975ef.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/d0034100201ca0a20060d4457c3273823c33e624febef8d12f3ef796a40975ef.tar",
+      "sha256": "45cf33e3a8e9f844074ee637a580f106bdc08ff3b40162e786fe76c22d6f7fe6",
+      "bytes": 464742400
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/03e0f1da85fb0525aa2c481519e42f52ba90752c52672e155da3697a8be1f0e3.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/03e0f1da85fb0525aa2c481519e42f52ba90752c52672e155da3697a8be1f0e3.tar",
+      "sha256": "7a1a80524f0983392ef7e6b28a065b9238322639eecdda1683338f7fcda70a81",
+      "bytes": 750940160
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/3dfaa06af3f09f26d0a82520fefd91506d807b22d848e768eb01d13702b8c9a6.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/3dfaa06af3f09f26d0a82520fefd91506d807b22d848e768eb01d13702b8c9a6.tar",
+      "sha256": "ba9850905edbfb68069200ca3d455fde6f8e3c2b24ff09030b54427eaa2649a3",
+      "bytes": 742246400
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/8bc0ebfe2d26297708ecc856152a00f38f9f7d3232b1a644b7903e6cdcdc1fbf.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/8bc0ebfe2d26297708ecc856152a00f38f9f7d3232b1a644b7903e6cdcdc1fbf.tar",
+      "sha256": "db2d81d65286771e42cf8e11466136b11383f97fa811d1bca6b645852fa3aba9",
+      "bytes": 521922560
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/f60773dba9325880ceac5b9aeee418f70f92c76ace2e04bcbef84fb97cb94263.tar",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-transport-preservation-20261012/f60773dba9325880ceac5b9aeee418f70f92c76ace2e04bcbef84fb97cb94263.tar",
+      "sha256": "6f0c16fa7e0cd0f4897c495097479e99997972c015a0f0df0396b57f227c7b4b",
+      "bytes": 755671040
+    }
+  ]
+}

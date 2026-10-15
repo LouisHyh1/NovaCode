@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3112@sha256:72745b6b44b7e0d2139c68f1b9a8b86af3813c23ab6eeeaa36b3244942afbd1c",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

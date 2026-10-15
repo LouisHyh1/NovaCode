@@ -1,0 +1,7 @@
+{
+  "base_commit": "8e39fe5fe2d1a822ff4b70107124ec3dcb87dad3",
+  "files": {
+    "records.json": "{\n  \"ci_commit\": {\n    \"d20\": {\n      \"commit\": \"d20\",\n      \"attempts\": [\n        {\n          \"attempt\": 1,\n          \"jobs\": {\n            \"unit\": \"failed\",\n            \"schema\": \"failed\",\n            \"doc\": \"passed\"\n          }\n        },\n        {\n          \"attempt\": 2,\n          \"jobs\": {\n            \"unit\": \"passed\",\n            \"schema\": \"failed\",\n            \"doc\": \"failed\"\n          }\n        }\n      ],\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

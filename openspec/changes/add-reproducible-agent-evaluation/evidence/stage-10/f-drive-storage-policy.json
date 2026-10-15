@@ -1,0 +1,9 @@
+{
+  "DownloadTemp": "F:\\NovaCode-evaluation-cache\\registry-temp",
+  "WslTemp": "/mnt/f/NovaCode-evaluation-cache/registry-temp",
+  "DockerVhdx": "F:\\WSL\\Ubuntu-22.04\\ext4.vhdx",
+  "SwapFile": "F:\\NovaCode-evaluation-cache\\wsl-swap.vhdx",
+  "Backup": "F:\\NovaCode-evaluation-cache\\config-backups\\wslconfig-before-20261013-111156.txt",
+  "SwapActivation": "next WSL VM restart",
+  "PagefileAllocatedMiB": 16149
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "reported_by": "user",
+  "live_processes": false,
+  "original_started": false,
+  "resume_rule": "只恢复测试前准备；不重跑已开始验收"
+}

@@ -14,6 +14,8 @@ from typing import Any
 import docker
 import pyarrow.parquet as parquet
 from judge import create, evaluate, execute, identity, save
+from registry_http import run_preparation
+from requests.exceptions import RequestException
 from swebench.harness.test_spec.test_spec import make_test_spec
 
 TARGET_IDENTITY = (
@@ -49,7 +51,9 @@ def qualify(
     }
     client = docker.from_env()
     try:
-        assert shutil.disk_usage(output).free >= rule["limits"]["minimum_free_disk_bytes"]
+        assert shutil.disk_usage(output).free >= rule["limits"]["minimum_free_disk_bytes"], (
+            "准备磁盘余量不足"
+        )
         key = make_test_spec(row, namespace="starryzhang").instance_image_key
         try:
             image = client.images.get(key)
@@ -66,13 +70,12 @@ def qualify(
                         "--cache",
                         str(Path.home() / ".cache/novacode-evaluation/stage8/oci"),
                     ]
-                pull = subprocess.run(
+                pull_code = run_preparation(
                     download,
-                    stdout=log,
-                    stderr=subprocess.STDOUT,
+                    log,
                     timeout=rule["limits"]["image_pull_timeout_seconds"],
                 )
-            assert pull.returncode == 0, "官方镜像不可用"
+            assert pull_code == 0, "官方镜像不可用"
             image = client.images.get(key)
         image_digest = next(
             d for d in image.attrs["RepoDigests"] if d.split("@")[0] == key.split(":")[0]
@@ -163,6 +166,7 @@ def qualify(
         StopIteration,
         subprocess.SubprocessError,
         docker.errors.DockerException,
+        RequestException,
     ) as error:
         result["error"] = type(error).__name__ + ": " + str(error)
         print(instance, "REJECTED", result["error"][:350], flush=True)

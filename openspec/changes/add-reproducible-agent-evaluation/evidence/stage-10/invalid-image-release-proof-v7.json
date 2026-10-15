@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "candidate": "aws-cloudformation__cfn-lint-3593",
+      "image_id": "sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+      "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3593@sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+      "size": 2398094653,
+      "manifest_sha256": "cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "aws-cloudformation__cfn-lint-3593",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3593@sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+        "image_id": "sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+        "base_commit": "5b268db34d9f989cab67ecb340379a0ba9ec0da6",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 原有回归失败"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d": "cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/e61f55360a19d798e35adcab60db495804c0d17c468d8af92b4f92086a498da9": "e61f55360a19d798e35adcab60db495804c0d17c468d8af92b4f92086a498da9",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849": "23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905": "07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7": "1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621": "b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c": "e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4": "ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/ddc10eb61d177c0c9f8f8b78d2f265e1cbadb2cde6313d5f866635df52010609": "ddc10eb61d177c0c9f8f8b78d2f265e1cbadb2cde6313d5f866635df52010609",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/444258edf70b6874a71717ff3b367abf0a496819fff0f0f8df1c79c50c650784": "444258edf70b6874a71717ff3b367abf0a496819fff0f0f8df1c79c50c650784",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/1d19d351009d0b33a12eac5f10187e4c86e5b97f2132551a8f9f5d0b40da4f4f": "1d19d351009d0b33a12eac5f10187e4c86e5b97f2132551a8f9f5d0b40da4f4f"
+      },
+      "image_before": {
+        "Id": "sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3593:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3593@sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d"
+        ],
+        "Created": "2025-05-01T06:44:44.920625624Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+            "PYTHON_VERSION=3.11.12",
+            "PYTHON_SHA256=849da87af4df137710c1796e276a955f7a85c9f971081067c8f565d15c352a09"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 2398094653,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+            "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+            "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+            "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+            "sha256:d3262b68815cc1cc34b597cdda16d4ec708b624a84d13ab06c590ce12d0fbec7",
+            "sha256:f0848283ad07e2b6e91b6cd8e16d9d9b595270cca8ebca9a453a9945ae017640",
+            "sha256:a91f0cd2daf7ac1468a0d155ba420c7dea9feac5eea3e37d8fc63b65e724f0e6",
+            "sha256:d4936a23f1fc38456066da472e421c659269c8d920aec11c0d75735d4d2e3456",
+            "sha256:218eca81fc73d085891b605b30c053a5db824fcc4f221686a9fd135a412ffa39"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-15T06:37:17.034442235Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:cbc7798ce0be8331697aad7898a6f3a6ef8ac1f18676926df9a4e8093514547d",
+          "size": 2216,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3593",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3593:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    }
+  ],
+  "first_qualification_records_unchanged": true,
+  "model_calls": 0
+}

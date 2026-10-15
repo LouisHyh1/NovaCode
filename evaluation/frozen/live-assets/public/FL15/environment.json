@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4230@sha256:d3c3efc9caf0b118652ea28b2b33f14eebddc675e0d3081d62eeebf2e845ac29",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

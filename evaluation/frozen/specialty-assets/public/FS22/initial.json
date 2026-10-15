@@ -1,0 +1,7 @@
+{
+  "base_commit": "f37d69e30f6bd957798cbec8bdb80f4ee044e31f",
+  "files": {
+    "records.json": "{\n  \"ci_test\": {\n    \"test-22\": {\n      \"case_id\": \"test-22\",\n      \"required_shards\": [\n        \"linux\",\n        \"windows\"\n      ],\n      \"shards\": {\n        \"linux\": \"passed\",\n        \"windows\": \"failed\",\n        \"docs\": \"failed\"\n      },\n      \"source\": \"ci-tests\"\n    }\n  },\n  \"ci_deploy\": {\n    \"test-22\": {\n      \"case_id\": \"test-22\",\n      \"approved_regions\": [\n        \"sg\"\n      ],\n      \"requested_region\": \"sg\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

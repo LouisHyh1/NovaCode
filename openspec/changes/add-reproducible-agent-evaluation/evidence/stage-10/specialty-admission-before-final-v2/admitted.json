@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "state": "ADMITTED",
+  "quota": {
+    "schema_version": 1,
+    "rows": [
+      {
+        "suite": "development",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 12,
+        "gap": 12,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "development",
+        "source": "specialty",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 12,
+        "gap": 12,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "difficulty_gaps": {
+          "easy": 4,
+          "medium": 6,
+          "hard": 2
+        },
+        "categories": {},
+        "category_targets": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        },
+        "category_gaps": {
+          "localization": 2,
+          "test-addition": 2,
+          "tool-failure": 2,
+          "long-context": 3,
+          "tool-discovery": 3
+        }
+      },
+      {
+        "suite": "frozen",
+        "source": "live",
+        "candidates": 0,
+        "admitted": 0,
+        "frozen": 0,
+        "target": 24,
+        "gap": 24,
+        "difficulty": {},
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "categories": {},
+        "category_targets": {},
+        "category_gaps": {}
+      },
+      {
+        "suite": "frozen",
+        "source": "specialty",
+        "candidates": 24,
+        "admitted": 24,
+        "frozen": 0,
+        "target": 24,
+        "gap": 0,
+        "difficulty": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_targets": {
+          "easy": 8,
+          "medium": 12,
+          "hard": 4
+        },
+        "difficulty_gaps": {
+          "easy": 0,
+          "medium": 0,
+          "hard": 0
+        },
+        "categories": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        },
+        "category_targets": {
+          "localization": 4,
+          "test-addition": 4,
+          "tool-failure": 4,
+          "long-context": 6,
+          "tool-discovery": 6
+        },
+        "category_gaps": {
+          "localization": 0,
+          "test-addition": 0,
+          "tool-failure": 0,
+          "long-context": 0,
+          "tool-discovery": 0
+        }
+      }
+    ]
+  },
+  "model_calls": 0
+}

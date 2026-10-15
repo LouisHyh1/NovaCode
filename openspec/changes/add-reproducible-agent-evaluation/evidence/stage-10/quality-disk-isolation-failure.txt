@@ -1,0 +1,329 @@
+Resolved 60 packages in 1ms
+All checks passed!
+276 files already formatted
+All checks passed!
+15 files already formatted
+Success: no issues found in 8 source files
+All checks passed!
+130 files already formatted
+All checks passed!
+mypy: baseline=180, current=179, new=0
+C901: baseline=21, current=20, new=0
+......                                                                   [100%]
+6 passed in 0.25s
+........................................................................ [  7%]
+........................................................................ [ 14%]
+........................................................................ [ 21%]
+.....FF.FFF............................................................. [ 28%]
+........................................................................ [ 35%]
+........................................................................ [ 42%]
+........................................................................ [ 49%]
+........................................................................ [ 56%]
+........................................................................ [ 63%]
+........................................................................ [ 70%]
+........................................................................ [ 77%]
+........................................................................ [ 84%]
+........................................................................ [ 91%]
+........................................................................ [ 98%]
+.................                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_official_blob_hash_mismatch_is_not_imported _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_official_blob_hash_mismat0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7483d4b6fad0>
+
+    def test_official_blob_hash_mismatch_is_not_imported(tmp_path, monkeypatch):
+        import hashlib
+        import io
+
+        import pytest
+
+        from evaluation.live.fetch_image import blob
+
+        monkeypatch.setattr("evaluation.live.fetch_image.authorization", lambda repo: {})
+
+        correct = b"official-layer"
+        descriptor = {"digest": "sha256:" + hashlib.sha256(correct).hexdigest(), "size": len(correct)}
+
+        class Response(io.BytesIO):
+            status = 200
+
+        monkeypatch.setattr("urllib.request.urlopen", lambda *a, **k: Response(b"x" * len(correct)))
+>       with pytest.raises(AssertionError, match="SHA-256"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'SHA-256'
+E         Actual message: '准备磁盘余量不足'
+
+tests/evaluation/test_live.py:274: AssertionError
+__________________ test_official_blob_resumes_verified_range ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_official_blob_resumes_ver0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7483d4b6ce00>
+
+    def test_official_blob_resumes_verified_range(tmp_path, monkeypatch):
+        import hashlib
+        import io
+
+        from evaluation.live.fetch_image import blob
+
+        monkeypatch.setattr("evaluation.live.fetch_image.authorization", lambda repo: {})
+
+        correct = b"official-layer"
+        digest = hashlib.sha256(correct).hexdigest()
+        (tmp_path / (digest + ".part")).write_bytes(correct[:3])
+
+        class Response(io.BytesIO):
+            status = 206
+            headers = {"Content-Range": f"bytes 3-{len(correct) - 1}/{len(correct)}"}
+
+        monkeypatch.setattr("urllib.request.urlopen", lambda *a, **k: Response(correct[3:]))
+        assert (
+>           blob(
+                "https://example.invalid/v2/repo/",
+                {"digest": "sha256:" + digest, "size": len(correct)},
+                {},
+                tmp_path,
+            ).read_bytes()
+            == correct
+        )
+
+tests/evaluation/test_live.py:297:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+base = 'https://example.invalid/v2/repo/'
+descriptor = {'digest': 'sha256:f06d417aadb44ddd53807600859c7230170d9d7120c1b6c5cdff2a36940fafb2', 'size': 14}
+headers = {}
+cache = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_official_blob_resumes_ver0')
+
+    def blob(base: str, descriptor: dict[str, Any], headers: dict[str, str], cache: Path) -> Path:
+        digest = str(descriptor["digest"])
+        assert re.fullmatch(r"sha256:[0-9a-f]{64}", digest), "Registry digest 无效"
+        path = cache / digest.split(":")[1]
+        if path.exists() and sha(path) == path.name:
+            return path
+>       assert shutil.disk_usage(cache).free > descriptor["size"] + 20 * 1024**3, "准备磁盘余量不足"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: 准备磁盘余量不足
+
+evaluation/live/fetch_image.py:51: AssertionError
+___________ test_blob_tls_retry_preserves_prefix_and_is_bounded[2-3] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_blob_tls_retry_preserves_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7483d4b6cd10>
+failures = 2, expected_calls = 3
+
+    @pytest.mark.parametrize(("failures", "expected_calls"), [(2, 3), (3, 3), (-1, 1)])
+    def test_blob_tls_retry_preserves_prefix_and_is_bounded(
+        tmp_path, monkeypatch, failures, expected_calls
+    ):
+        import hashlib
+        import io
+        from contextlib import contextmanager
+
+        from evaluation.live.fetch_image import blob
+
+        correct = b"official-layer"
+        digest = hashlib.sha256(correct).hexdigest()
+        partial = tmp_path / (digest + ".part")
+        partial.write_bytes(correct[:3])
+        calls = []
+        monkeypatch.setattr("evaluation.live.fetch_image.authorization", lambda repo: {})
+
+        class Response(io.BytesIO):
+            status = 206
+            headers = {"Content-Range": f"bytes 3-{len(correct) - 1}/{len(correct)}"}
+
+        @contextmanager
+        def flaky(request, timeout):
+            calls.append(request.get_header("Range"))
+            if failures == -1:
+                raise RuntimeError("Registry 网络请求失败，exit=22: HTTP 404")
+            if len(calls) <= failures:
+                raise RuntimeError("Registry 网络请求失败，exit=35: TLS handshake failed")
+            with Response(correct[3:]) as response:
+                yield response
+
+        monkeypatch.setattr("evaluation.live.fetch_image.open_registry", flaky)
+        args = (
+            "https://example.invalid/v2/repo/",
+            {"digest": "sha256:" + digest, "size": len(correct)},
+            {},
+            tmp_path,
+        )
+        if failures == 2:
+>           assert blob(*args).read_bytes() == correct
+                   ^^^^^^^^^^^
+
+tests/evaluation/test_live.py:412:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+base = 'https://example.invalid/v2/repo/'
+descriptor = {'digest': 'sha256:f06d417aadb44ddd53807600859c7230170d9d7120c1b6c5cdff2a36940fafb2', 'size': 14}
+headers = {}
+cache = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_blob_tls_retry_preserves_0')
+
+    def blob(base: str, descriptor: dict[str, Any], headers: dict[str, str], cache: Path) -> Path:
+        digest = str(descriptor["digest"])
+        assert re.fullmatch(r"sha256:[0-9a-f]{64}", digest), "Registry digest 无效"
+        path = cache / digest.split(":")[1]
+        if path.exists() and sha(path) == path.name:
+            return path
+>       assert shutil.disk_usage(cache).free > descriptor["size"] + 20 * 1024**3, "准备磁盘余量不足"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: 准备磁盘余量不足
+
+evaluation/live/fetch_image.py:51: AssertionError
+___________ test_blob_tls_retry_preserves_prefix_and_is_bounded[3-3] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_blob_tls_retry_preserves_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7483d4bbe660>
+failures = 3, expected_calls = 3
+
+    @pytest.mark.parametrize(("failures", "expected_calls"), [(2, 3), (3, 3), (-1, 1)])
+    def test_blob_tls_retry_preserves_prefix_and_is_bounded(
+        tmp_path, monkeypatch, failures, expected_calls
+    ):
+        import hashlib
+        import io
+        from contextlib import contextmanager
+
+        from evaluation.live.fetch_image import blob
+
+        correct = b"official-layer"
+        digest = hashlib.sha256(correct).hexdigest()
+        partial = tmp_path / (digest + ".part")
+        partial.write_bytes(correct[:3])
+        calls = []
+        monkeypatch.setattr("evaluation.live.fetch_image.authorization", lambda repo: {})
+
+        class Response(io.BytesIO):
+            status = 206
+            headers = {"Content-Range": f"bytes 3-{len(correct) - 1}/{len(correct)}"}
+
+        @contextmanager
+        def flaky(request, timeout):
+            calls.append(request.get_header("Range"))
+            if failures == -1:
+                raise RuntimeError("Registry 网络请求失败，exit=22: HTTP 404")
+            if len(calls) <= failures:
+                raise RuntimeError("Registry 网络请求失败，exit=35: TLS handshake failed")
+            with Response(correct[3:]) as response:
+                yield response
+
+        monkeypatch.setattr("evaluation.live.fetch_image.open_registry", flaky)
+        args = (
+            "https://example.invalid/v2/repo/",
+            {"digest": "sha256:" + digest, "size": len(correct)},
+            {},
+            tmp_path,
+        )
+        if failures == 2:
+            assert blob(*args).read_bytes() == correct
+        else:
+            with pytest.raises(RuntimeError, match="exit="):
+>               blob(*args)
+
+tests/evaluation/test_live.py:415:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+base = 'https://example.invalid/v2/repo/'
+descriptor = {'digest': 'sha256:f06d417aadb44ddd53807600859c7230170d9d7120c1b6c5cdff2a36940fafb2', 'size': 14}
+headers = {}
+cache = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_blob_tls_retry_preserves_1')
+
+    def blob(base: str, descriptor: dict[str, Any], headers: dict[str, str], cache: Path) -> Path:
+        digest = str(descriptor["digest"])
+        assert re.fullmatch(r"sha256:[0-9a-f]{64}", digest), "Registry digest 无效"
+        path = cache / digest.split(":")[1]
+        if path.exists() and sha(path) == path.name:
+            return path
+>       assert shutil.disk_usage(cache).free > descriptor["size"] + 20 * 1024**3, "准备磁盘余量不足"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: 准备磁盘余量不足
+
+evaluation/live/fetch_image.py:51: AssertionError
+__________ test_blob_tls_retry_preserves_prefix_and_is_bounded[-1-1] ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_blob_tls_retry_preserves_2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7483d4bbcfe0>
+failures = -1, expected_calls = 1
+
+    @pytest.mark.parametrize(("failures", "expected_calls"), [(2, 3), (3, 3), (-1, 1)])
+    def test_blob_tls_retry_preserves_prefix_and_is_bounded(
+        tmp_path, monkeypatch, failures, expected_calls
+    ):
+        import hashlib
+        import io
+        from contextlib import contextmanager
+
+        from evaluation.live.fetch_image import blob
+
+        correct = b"official-layer"
+        digest = hashlib.sha256(correct).hexdigest()
+        partial = tmp_path / (digest + ".part")
+        partial.write_bytes(correct[:3])
+        calls = []
+        monkeypatch.setattr("evaluation.live.fetch_image.authorization", lambda repo: {})
+
+        class Response(io.BytesIO):
+            status = 206
+            headers = {"Content-Range": f"bytes 3-{len(correct) - 1}/{len(correct)}"}
+
+        @contextmanager
+        def flaky(request, timeout):
+            calls.append(request.get_header("Range"))
+            if failures == -1:
+                raise RuntimeError("Registry 网络请求失败，exit=22: HTTP 404")
+            if len(calls) <= failures:
+                raise RuntimeError("Registry 网络请求失败，exit=35: TLS handshake failed")
+            with Response(correct[3:]) as response:
+                yield response
+
+        monkeypatch.setattr("evaluation.live.fetch_image.open_registry", flaky)
+        args = (
+            "https://example.invalid/v2/repo/",
+            {"digest": "sha256:" + digest, "size": len(correct)},
+            {},
+            tmp_path,
+        )
+        if failures == 2:
+            assert blob(*args).read_bytes() == correct
+        else:
+            with pytest.raises(RuntimeError, match="exit="):
+>               blob(*args)
+
+tests/evaluation/test_live.py:415:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+base = 'https://example.invalid/v2/repo/'
+descriptor = {'digest': 'sha256:f06d417aadb44ddd53807600859c7230170d9d7120c1b6c5cdff2a36940fafb2', 'size': 14}
+headers = {}
+cache = PosixPath('/tmp/pytest-of-louishyh/pytest-7/test_blob_tls_retry_preserves_2')
+
+    def blob(base: str, descriptor: dict[str, Any], headers: dict[str, str], cache: Path) -> Path:
+        digest = str(descriptor["digest"])
+        assert re.fullmatch(r"sha256:[0-9a-f]{64}", digest), "Registry digest 无效"
+        path = cache / digest.split(":")[1]
+        if path.exists() and sha(path) == path.name:
+            return path
+>       assert shutil.disk_usage(cache).free > descriptor["size"] + 20 * 1024**3, "准备磁盘余量不足"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: 准备磁盘余量不足
+
+evaluation/live/fetch_image.py:51: AssertionError
+=========================== short test summary info ============================
+FAILED tests/evaluation/test_live.py::test_official_blob_hash_mismatch_is_not_imported
+FAILED tests/evaluation/test_live.py::test_official_blob_resumes_verified_range
+FAILED tests/evaluation/test_live.py::test_blob_tls_retry_preserves_prefix_and_is_bounded[2-3]
+FAILED tests/evaluation/test_live.py::test_blob_tls_retry_preserves_prefix_and_is_bounded[3-3]
+FAILED tests/evaluation/test_live.py::test_blob_tls_retry_preserves_prefix_and_is_bounded[-1-1]
+5 failed, 1020 passed in 81.74s (0:01:21)
+Traceback (most recent call last):
+  File "/home/louishyh/projects/NovaCode/scripts/validate_change.py", line 76, in <module>
+    main()
+  File "/home/louishyh/projects/NovaCode/scripts/validate_change.py", line 70, in main
+    subprocess.run(
+  File "/home/louishyh/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['uv', 'run', '--locked', 'pytest', '-q']' returned non-zero exit status 1.

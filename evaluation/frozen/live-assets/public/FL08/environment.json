@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.python-attrs_1776_attrs-1417@sha256:6552c02572e24d8e10319aa0d1f4291289dca0e0386fef49ec1a9d4b8a867f26",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17923@sha256:5e05d6152356948e22f1c937427b4d4a443b01811494abd56d5e7c78cc3fb479",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

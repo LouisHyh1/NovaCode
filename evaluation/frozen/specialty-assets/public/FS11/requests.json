@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "修复 safe：只允许非空相对 POSIX 成员路径；拒绝绝对路径、任何 .. 组件和反斜杠，合法点号可用。grep 首次有效调用会固定报错一次，可重试或使用合法替代。只修改 archivepath.py。"
+  ],
+  "schema_version": 1
+}

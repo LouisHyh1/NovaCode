@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "repository_copy": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-10/f-drive-storage-policy.json",
+      "preserved_original": "/mnt/f/NovaCode-evaluation-cache/evidence-raw-line-endings-20261015/f-drive-storage-policy.json",
+      "original_sha256": "dca733fbd301d6e5f133445a47cb0e87d630d2c6758df1cb0c03014e0f4eacd2",
+      "repository_sha256": "3374786a31ee0b1147181a9727e97168c9042e344fedc1134490ecb5ba0fba96",
+      "json_value_unchanged": true
+    },
+    {
+      "repository_copy": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-10/historical-transport-recheck-20261015.json",
+      "preserved_original": "/mnt/f/NovaCode-evaluation-cache/evidence-raw-line-endings-20261015/historical-transport-recheck-20261015.json",
+      "original_sha256": "5f380dcf98b49b8f906a507f47bdc94977d24795e5048c9ae6194bd474c38ebd",
+      "repository_sha256": "57c81fac24821ff54fb95597ab29760f967395357b0abf330b1516b1f40b1c53",
+      "json_value_unchanged": true
+    },
+    {
+      "repository_copy": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-10/quality-disk-isolation-failure.txt",
+      "preserved_original": "/mnt/f/NovaCode-evaluation-cache/evidence-raw-line-endings-20261015/quality-disk-isolation-failure.txt",
+      "original_sha256": "e0c97193e0c2358f34aac73eb23e1d76969ac8b7e0942d74f61e4a9d96f06bbe",
+      "repository_sha256": "e4d2f63eb8678f8a6f794506fc941e403914c9b097d45a5a7e3df6ff4122164e",
+      "json_value_unchanged": null
+    },
+    {
+      "repository_copy": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-10/storage-final-20261015.json",
+      "preserved_original": "/mnt/f/NovaCode-evaluation-cache/evidence-raw-line-endings-20261015/storage-final-20261015.json",
+      "original_sha256": "a4b792ffe763c0eac9c5e4361fecb6aabef7e9f828246dfd516b0e58417c9542",
+      "repository_sha256": "e02903c0c36e51154bdb7b08fd98f266991a20f60674391b86be9023955ebc16",
+      "json_value_unchanged": true
+    },
+    {
+      "repository_copy": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-10/storage-snapshot-20261015.json",
+      "preserved_original": "/mnt/f/NovaCode-evaluation-cache/evidence-raw-line-endings-20261015/storage-snapshot-20261015.json",
+      "original_sha256": "fd1d913eb188715a7fac18d2123ae6a677f7002abd259cf03ad54458a46b42d4",
+      "repository_sha256": "adf31c6cd7a46b02fab6a30cbd1579ca3ddb1a75cd9244bc58b30b760d4d4531",
+      "json_value_unchanged": true
+    }
+  ],
+  "model_calls": 0
+}

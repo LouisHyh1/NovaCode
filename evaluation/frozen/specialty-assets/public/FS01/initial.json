@@ -1,0 +1,9 @@
+{
+  "base_commit": "c16debef6c5be2fb5a90c468279522fe717c21e6",
+  "files": {
+    "codec.py": "import json\ndef pack(value):\n    return json.dumps(value).encode('utf-8')\n",
+    "entry.py": "from transport import send\ndef publish(event, sink):\n    return send(event, sink)\n",
+    "transport.py": "from codec import pack\ndef send(value, sink):\n    return sink.write(pack(value))\n"
+  },
+  "schema_version": 1
+}

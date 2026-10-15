@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "修复 encode 的查询参数编码，空格、&、Unicode 和多值都按 urllib 标准，保留输入顺序。grep 首次有效调用会固定报错一次，可重试或使用合法替代。只修改 query.py。"
+  ],
+  "schema_version": 1
+}

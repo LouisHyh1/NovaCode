@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-962@sha256:60c00c1ef2b68947e051d733cb4d6d03fd0ca8d5db51cce878116487bbb9a637",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

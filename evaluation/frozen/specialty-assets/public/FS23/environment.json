@@ -1,0 +1,34 @@
+{
+  "fault_rule": null,
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "pressure_dimensions": {
+    "public_bytes": 456,
+    "script_requests": 1
+  },
+  "resources": {
+    "cpus": 1,
+    "memory_bytes": 536870912,
+    "pids": 64
+  },
+  "schema_version": 1,
+  "target_python": "python",
+  "task_id": "FS23",
+  "test_command": "python -m unittest discover -s tests -v",
+  "tool_records": {
+    "ci_commit": {
+      "d23": {
+        "commit": "d23",
+        "job": "mime-contract",
+        "reason": "PARAMETER_CASE",
+        "source": "ci"
+      }
+    },
+    "issue_lookup": {
+      "MIME-23": {
+        "commit": "d23",
+        "issue": "MIME-23",
+        "source": "issues"
+      }
+    }
+  }
+}

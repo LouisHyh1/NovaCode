@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17923@sha256:5e05d6152356948e22f1c937427b4d4a443b01811494abd56d5e7c78cc3fb479",
+  "model_calls": 0,
+  "original": {
+    "exit_code": 2,
+    "stderr": "change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/N: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/L: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/A: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/9: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/8: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/7: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/6: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/5: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/4: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/3: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/2: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo/1: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share/terminfo: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python/share: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: opt/novacode/python: Cannot change ownership to uid 1000, gid 1000: Operation not permitted\ntar: Exiting with failure status due to previous errors\n"
+  },
+  "aligned_with_runner": {
+    "exit_code": 0,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "base_commit": "e499fe56484946c2d86a9c36fce56be7d8fe88c4",
+  "files": {
+    "intervals.py": "def overlaps(a, b):\n    return max(a[0], b[0]) < min(a[1], b[1])\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import intervals\n        self.assertTrue(callable(intervals.overlaps))\n"
+  },
+  "schema_version": 1
+}

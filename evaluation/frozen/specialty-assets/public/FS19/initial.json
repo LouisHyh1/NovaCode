@@ -1,0 +1,7 @@
+{
+  "base_commit": "e6c21c17190a43db75d02c2cc423ffca3ec030a0",
+  "files": {
+    "records.json": "{\n  \"ci_commit\": {\n    \"d19\": {\n      \"commit\": \"d19\",\n      \"jobs\": [\n        {\n          \"job\": \"lint-linux\",\n          \"state\": \"failed\"\n        },\n        {\n          \"job\": \"unit-linux\",\n          \"state\": \"passed\"\n        },\n        {\n          \"job\": \"type-linux\",\n          \"state\": \"failed\"\n        }\n      ],\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

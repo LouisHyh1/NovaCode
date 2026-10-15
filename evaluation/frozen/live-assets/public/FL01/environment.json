@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.wireservice_1776_csvkit-1281@sha256:c5b41589106db06ceaaa98b4a0d10aa185bc2d32d9a002ce7559662f4aab64bd",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "selector_pid": 43715,
+  "reason": "C盘仅1.85GiB，Defender超过12GiB，等待用户恢复系统资源",
+  "model_calls": 0,
+  "root": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v13",
+  "current_acceptance": "only-unstarted-preparation-interrupted",
+  "acceptance_containers_active": false,
+  "selector_stopped": true
+}

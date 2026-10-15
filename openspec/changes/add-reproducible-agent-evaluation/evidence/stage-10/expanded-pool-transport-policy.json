@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "primary_transport": "verified-oci",
+  "reused_test_attempts": [
+    "aws-cloudformation__cfn-lint-3861",
+    "conan-io__conan-17877",
+    "conan-io__conan-18101",
+    "pdm-project__pdm-3374",
+    "pylint-dev__pylint-10275",
+    "pylint-dev__pylint-9785"
+  ],
+  "previous_root": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v4",
+  "authorization": "用户授权扩充资格池；不重跑已开始的原始/参考验收",
+  "registry_transport": "windows-curl-direct",
+  "temporary_root": "/mnt/c/Users/LouisHyh/AppData/Local/Temp"
+}

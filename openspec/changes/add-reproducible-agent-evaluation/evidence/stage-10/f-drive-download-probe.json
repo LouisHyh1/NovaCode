@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "windows_download_root": "F:\\NovaCode-evaluation-cache\\registry-temp",
+  "actual_body_path": "/mnt/f/NovaCode-evaluation-cache/registry-temp/nova-registry-pf53nkq4/body",
+  "bytes": 1048576,
+  "sha256": "3a25d9e8d4185001be7ea76587d17c8484c895ff341287f087616de2684524f4",
+  "official_cached_prefix_match": true,
+  "temporary_directory_cleaned": true,
+  "docker_root": "/var/snap/docker/common/var-lib-docker",
+  "docker_vhdx": "F:\\WSL\\Ubuntu-22.04\\ext4.vhdx",
+  "model_calls": 0
+}

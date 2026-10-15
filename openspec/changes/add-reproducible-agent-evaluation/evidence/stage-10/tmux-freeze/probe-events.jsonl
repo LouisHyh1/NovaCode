@@ -1,0 +1,4 @@
+{"event": "request", "user": "请读取 freeze-summary.json，报告冻结合同数量、计划数量和正式模型调用次数。", "provider_kind": "scripted", "real_model_calls": 0}
+{"event": "tool_result", "call_id": "freeze-read", "content": "     1\t{\n     2\t  \"schema_version\": 1,\n     3\t  \"state\": \"FROZEN_VALID\",\n     4\t  \"manifest_sha256\": \"67a35add8b42f90b2d8dc0fb842444a5b410f576f17a7e75889e2ebb70d1b32c\",\n     5\t  \"tasks\": 48,\n     6\t  \"planned\": 432,\n     7\t  \"formal_model_calls\": 0,\n     8\t  \"all_states\": \"PLANNED\",\n     9\t  \"source_equals_wheel\": true\n    10\t}"}
+{"event": "reply", "text": "冻结机制核验：48 个合同、432 个 PLANNED；正式模型调用为零。", "provider_kind": "scripted"}
+{"event": "close", "stream_requests": 2, "real_model_calls": 0}

@@ -1,0 +1,13 @@
+{
+  "actual_body_path": "/home/louishyh/.cache/novacode-evaluation/registry-temp/nova-registry-32v4jaby/body",
+  "schema_version": 1,
+  "bytes": 1048576,
+  "sha256": "a1927b00363739cc649040108c02effb2a4873ca64ccfe32f950ac577f6a5523",
+  "official_cached_prefix_match": true,
+  "temporary_directory_cleaned": true,
+  "physical_storage": "F:/WSL/Ubuntu-22.04/ext4.vhdx",
+  "windows_pagefile_changed": false,
+  "body_transport": "binary-stdout-to-WSL",
+  "network_route": "existing-Windows-proxy-TLS1.2",
+  "model_calls": 0
+}

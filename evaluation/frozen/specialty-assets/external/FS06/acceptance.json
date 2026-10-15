@@ -1,0 +1,47 @@
+{
+  "allowed_paths": [
+    "tests/test_added.py"
+  ],
+  "answers": [],
+  "base_commit": "88beb6798981de4a840784c9ee08b1624894b608",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets/external/FS06/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "correct-tests",
+    "all-mutants"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "81a8aea39ecec780e2b951cbc7c6f8dcd15cdda3da92648b65ccb0091328b01b",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "grouping.py": "def group(pairs):\n    result = {}\n    for key, value in pairs:\n        result.setdefault(key, []).append(value)\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import grouping\n        self.assertTrue(callable(grouping.group))\n"
+  },
+  "mutants": {
+    "overwrite": {
+      "grouping.py": "def group(pairs):\n    result = {}\n    for key, value in pairs:\n        result[key] = [value]\n    return result\n"
+    },
+    "reverse": {
+      "grouping.py": "def group(pairs):\n    result = {}\n    for key, value in pairs:\n        result.setdefault(key, []).insert(0, value)\n    return result\n"
+    }
+  },
+  "reference": {
+    "tests/test_added.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import grouping as m\n        pairs = [('a', 1), ('b', 0), ('a', 2)]\n        self.assertEqual(m.group(iter(pairs)), {'a': [1, 2], 'b': [0]})\n        self.assertEqual(pairs, [('a', 1), ('b', 0), ('a', 2)])\n        self.assertEqual(m.group(iter([])), {})\n"
+  },
+  "schema_version": 1,
+  "task_id": "FS06",
+  "test_target": "grouping.py:group",
+  "timeout_seconds": 180
+}

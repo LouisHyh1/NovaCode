@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "candidate": "bridgecrewio__checkov-6657",
+      "image_id": "sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+      "image": "starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-6657@sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+      "size": 2663735569,
+      "manifest_sha256": "9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "bridgecrewio__checkov-6657",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-6657@sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+        "image_id": "sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+        "base_commit": "ea3ab628b456c0d8d401f37b568c90628a39e33a",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 镜像初始工作树不干净"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562": "9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/89c7fc0ddbbbc5d062db9c965b87920e81037af47607362bde973e320e9d402f": "89c7fc0ddbbbc5d062db9c965b87920e81037af47607362bde973e320e9d402f",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e": "cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343": "a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5": "a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32": "01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09": "cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac": "cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a": "5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0493f6c7d27f59b57dcedcc04de59e03d9d27bd7b1652ba97d81a0897c3a5729": "0493f6c7d27f59b57dcedcc04de59e03d9d27bd7b1652ba97d81a0897c3a5729",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/43106f204fc51eef8de2008fcc7ca0ef4f1c380b3155986a1b8f27aee81cd538": "43106f204fc51eef8de2008fcc7ca0ef4f1c380b3155986a1b8f27aee81cd538"
+      },
+      "image_before": {
+        "Id": "sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-6657:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-6657@sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562"
+        ],
+        "Created": "2025-04-30T23:31:15.625167918Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=E3FF2839C048B25C084DEBE9B26995E310250568",
+            "PYTHON_VERSION=3.8.20"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 2663735569,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+            "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+            "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+            "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+            "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+            "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+            "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+            "sha256:fb1eec26daec7e0d1b69fa52250d04f278993671126023b3b333e2eb9aba37ac",
+            "sha256:500ca715366d3a6fa8287b593539e210d3f85efc8d68988938d8d0bcc514708f"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-13T05:39:14.416834469Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:9488e65723497a931b763160d4eb1a5c25474354e683a794b1d8b346d989f562",
+          "size": 2216,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-6657",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.bridgecrewio_1776_checkov-6657:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    }
+  ],
+  "first_qualification_records_unchanged": true,
+  "model_calls": 0
+}

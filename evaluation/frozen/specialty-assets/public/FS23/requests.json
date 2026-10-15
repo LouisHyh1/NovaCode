@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "关联 MIME-23 和对应提交 CI，然后修复 mime.py media_type：去除参数和两侧空白并忽略大小写。另在 handlers.py 实现 select(header,handlers,fallback)，按精确类型、主类型/*、*/*、fallback 顺序选处理器；decode(value,header,handlers,fallback) 调用所选处理器且保留其 None/空字符串返回。JSON 含 issue、commit、job、reason、source（CI来源）。仅改 mime.py 和 handlers.py。可发现内置/MCP 查询能力，也接受读取公开记录的合法替代。"
+  ],
+  "schema_version": 1
+}

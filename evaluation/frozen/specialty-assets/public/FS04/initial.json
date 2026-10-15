@@ -1,0 +1,8 @@
+{
+  "base_commit": "7208d5d5aaa35b0554ecbae0d00b81fe5b964aa1",
+  "files": {
+    "batch.py": "from journal import snapshot, restore\ndef apply(store, actions):\n    before = snapshot(store)\n    try:\n        for action in actions:\n            action(store)\n    except Exception:\n        restore(store, before)\n        raise\n",
+    "journal.py": "def snapshot(store):\n    return dict(store)\ndef restore(store, before):\n    store.clear()\n    store.update(before)\n"
+  },
+  "schema_version": 1
+}

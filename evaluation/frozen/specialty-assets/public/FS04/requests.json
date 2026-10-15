@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读追踪批处理 action 抛错时快照和回滚调用关系。最终 JSON 含 files、symbols、relations；不把正常完成当作回滚。"
+  ],
+  "schema_version": 1
+}

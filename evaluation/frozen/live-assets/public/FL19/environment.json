@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2099@sha256:c00ff488c9f71dac266ad515c27ecae92483fe60f4a3da81531a7d940686523e",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

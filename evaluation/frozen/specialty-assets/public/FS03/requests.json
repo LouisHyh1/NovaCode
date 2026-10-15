@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读追踪过期缓存 read→判断→驱逐后重新装载的路径；loader 为外部参数，不列作文件符号。最终 JSON 含 files、symbols、relations。"
+  ],
+  "schema_version": 1
+}

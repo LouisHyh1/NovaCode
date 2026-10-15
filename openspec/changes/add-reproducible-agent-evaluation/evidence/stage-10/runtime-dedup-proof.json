@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v1/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v10/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v11/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v12/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v2/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v3/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v4/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v5/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v6/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v7/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v8/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    },
+    {
+      "path": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v9/runtime.tar",
+      "canonical": "/home/louishyh/.cache/novacode-evaluation/stage9-calibration-v2/runtime.tar",
+      "sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+      "bytes": 188928000,
+      "byte_identical": true
+    }
+  ],
+  "free_before": 22387531776,
+  "free_after": 24654680064,
+  "model_calls": 0
+}

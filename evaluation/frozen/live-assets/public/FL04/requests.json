@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "requests": [
+    "conditional import X.Y causes false positive possibly-used-before-assignment\n### Bug description\n\n```python\nif input():\n    import os.path\nelse:\n    os = None\nif os:\n    pass\n```\n\n### Command used\n\n```console\n$ pylint -E condimport.py \n```\n\n### Pylint output\n\n```\ncondimport.py:5:3: E0606: Possibly using variable 'os' before assignment (possibly-used-before-assignment)\n```\n\n### Expected behavior\n\nThe `os` variable is set in both branches, so no error should be reported.\n\n### Pylint version\n\n```\npylint 3.3.1\nastroid 3.3.5\nPython 3.13.0 (main, Oct  8 2024, 08:51:27) [GCC 9.4.0]\n```\n"
+  ]
+}

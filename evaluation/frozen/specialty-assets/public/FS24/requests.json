@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "关联 ROUTE-24 对应提交的 CI 失败而非 canary 部署，修复 routes.py choose：精确路由优先，其次最长路径段前缀，最后 fallback；不把 /api 匹配 /apix。另实现 gateway.forward(url,routes,fallback)，返回 target、path、query：仅用URL的未解码路径匹配，去掉已匹配mount（空尾部为/），未匹配保留原路径，query原样保留。同目标可对应不同mount，不得倒查目标猜mount。JSON 含 issue、commit、job、reason、source（CI来源）。仅改 routes.py 和 gateway.py，保持输入字典。可发现内置/MCP 查询能力，也接受读取公开记录的合法替代。"
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "image": "starryzhang/sweb.eval.x86_64.jazzband_1776_tablib-613@sha256:b79693f36e1876a87aa343ea47e7a143e6f5097ef1413725c405908ebea44b7b",
+  "resources": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256
+  }
+}

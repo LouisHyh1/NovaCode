@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读关联 test-21 的 CI 构建产物与部署：必须以 artifact_sha256 全值匹配，不能按相同记录 key 猜测。JSON 含 case_id、artifact_sha256、verified_deployment、deployed_region、source（ci-tests+deployment）。可发现内置/MCP 查询能力，也接受读取公开记录的合法替代。"
+  ],
+  "schema_version": 1
+}

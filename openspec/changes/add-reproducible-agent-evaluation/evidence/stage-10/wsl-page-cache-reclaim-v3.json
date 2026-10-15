@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "reason": "最终质量门禁完成，正式模型未执行；临时回收可重建的干净页缓存，保留Windows分页设置",
+  "before": {
+    "MemTotal": 6215155712,
+    "MemFree": 435048448,
+    "MemAvailable": 5506236416,
+    "Buffers": 516059136,
+    "Cached": 4170211328,
+    "SwapTotal": 2147483648,
+    "SwapFree": 2094997504,
+    "Dirty": 839680,
+    "AnonPages": 184180736
+  },
+  "after": {
+    "MemTotal": 6215155712,
+    "MemFree": 5144387584,
+    "MemAvailable": 5526315008,
+    "Buffers": 1228800,
+    "Cached": 102752256,
+    "SwapTotal": 2147483648,
+    "SwapFree": 2094997504,
+    "Dirty": 0,
+    "AnonPages": 184266752
+  },
+  "processes_terminated": false,
+  "windows_pagefile_changed": false,
+  "model_calls": 0
+}

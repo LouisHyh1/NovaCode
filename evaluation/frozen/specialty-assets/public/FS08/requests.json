@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "给 encode 补测：仅消费一次生成器、逗号/引号/字段内换行、空输入，通过 csv.reader 读回原字段。仅新增 tests/test_added.py，使用标准库 unittest，生产文件和已有测试保持不变。"
+  ],
+  "schema_version": 1
+}

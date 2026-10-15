@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "修复 read 读取 UTF-8 BOM 文件时保留 BOM 的错误；普通 UTF-8 和空文件保持原内容。标准命令 python -m unittest discover -s tests -v 首次有效调用会超时并清理子进程，可恢复或合法替代。只修改 textfile.py。"
+  ],
+  "schema_version": 1
+}

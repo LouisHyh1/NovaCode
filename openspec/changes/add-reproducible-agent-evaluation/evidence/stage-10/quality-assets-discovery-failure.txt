@@ -1,0 +1,21 @@
+Resolved 60 packages in 18ms
+All checks passed!
+276 files already formatted
+All checks passed!
+51 files already formatted
+evaluation/frozen/live-assets/external/FL02/judge.py: error: Duplicate module
+named "judge" (also at "evaluation/frozen/live-assets/external/FL01/judge.py")
+evaluation/frozen/live-assets/external/FL02/judge.py: note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#mapping-file-paths-to-modules for more info
+evaluation/frozen/live-assets/external/FL02/judge.py: note: Common resolutions include:
+evaluation/frozen/live-assets/external/FL02/judge.py: note:     a) using `--exclude` to avoid checking one of them,
+evaluation/frozen/live-assets/external/FL02/judge.py: note:     b) adding `__init__.py` somewhere,
+evaluation/frozen/live-assets/external/FL02/judge.py: note:     c) using `--explicit-package-bases` or adjusting `MYPYPATH`
+Found 1 error in 1 file (errors prevented further checking)
+Traceback (most recent call last):
+  File "/home/louishyh/projects/NovaCode/scripts/validate_change.py", line 70, in <module>
+    main()
+  File "/home/louishyh/projects/NovaCode/scripts/validate_change.py", line 64, in main
+    subprocess.run(
+  File "/home/louishyh/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['uv', 'run', '--locked', 'mypy', '--strict', '--explicit-package-bases', '--follow-imports=silent', 'evaluation/frozen', 'evaluation/live/registry_http.py']' returned non-zero exit status 2.

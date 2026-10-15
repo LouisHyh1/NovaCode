@@ -1,0 +1,17 @@
+{
+  "CheckedAt": "2026-10-15T14:16:29.8515187+08:00",
+  "FreeCBytes": 10535251968,
+  "FreeFBytes": 72035885056,
+  "PageFile": [
+    {
+      "Name": "C:\\pagefile.sys",
+      "AllocatedBaseSize": 15317,
+      "CurrentUsage": 1550
+    }
+  ],
+  "WslPrivateBytes": 6534778880,
+  "DefenderPresent": false,
+  "FSwapFilePresent": true,
+  "WindowsPageFileChanged": false,
+  "ModelCalls": 0
+}

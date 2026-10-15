@@ -1,0 +1,173 @@
+{
+  "reflex-dev__reflex-4510": {
+    "difficulty": "medium",
+    "reason": "Field默认值与default_factory区别影响状态Var可选类型和foreach元素注解，保留既有默认构造语义"
+  },
+  "patroni__patroni-3338": {
+    "difficulty": "medium",
+    "reason": "ETCD gRPC不可用响应转换为transport超时触发现有节点故障转移，避免外层重试继续锁定坏节点；其它错误分类保持"
+  },
+  "reflex-dev__reflex-4958": {
+    "difficulty": "medium",
+    "reason": "旧规范化header字段、原始完整header映射、不可变/可hash表示与序列化合同联动；其它依赖改动仍须通过原有回归，不能以改动行数划层"
+  },
+  "patroni__patroni-3112": {
+    "difficulty": "medium",
+    "reason": "主节点不能作为同步standby，大小写无关的成员过滤与节点离开同步状态的执行时序共同保持"
+  },
+  "aws-cloudformation__cfn-lint-3920": {
+    "difficulty": "medium",
+    "reason": "Mapping中已知键与Include未知变换共存时，解析器不得把未知宏扩展判定为缺失，同时保留DefaultValue回退路径"
+  },
+  "pvlib__pvlib-python-2292": {
+    "difficulty": "medium",
+    "reason": "雪深阈值、小时降雪率、时间序列索引与累计滑落状态共同约束；无snow_depth仍保持既有合同"
+  },
+  "aws-cloudformation__cfn-lint-4016": {
+    "difficulty": "medium",
+    "reason": "IAM identity专用SID限制、资源空数组与三类PolicyDocument规则入口联动，保留其它policy子类型"
+  },
+  "pdm-project__pdm-3109": {
+    "difficulty": "medium",
+    "reason": "全局/本地配置、keyring服务名与用户名、删除密码/整源、提供者不可用回退及持久化删除共同保持"
+  },
+  "jupyterlab__jupyter-ai-962": {
+    "difficulty": "medium",
+    "reason": "line/cell magic默认模型、显式参数优先、帮助分支、shell命名空间与错误处理统一；资格必须证明mock provider下离线完整通过"
+  },
+  "aws-cloudformation__cfn-lint-3557": {
+    "difficulty": "medium",
+    "reason": "标题暂分层为medium，但实际仅局部null类型分派，不按补丁长度或配额把它提升为中等",
+    "exclude_reason": "事前认知审查未达到中等层；保留标题暂分层，仅排除，不进入已入库难度统计"
+  },
+  "aws-cloudformation__cfn-lint-3593": {
+    "difficulty": "medium",
+    "reason": "ECS Fargate任务能力、NetworkMode解析、未知内建函数及关联Service验证共同约束；保留明确非法模式的诊断。"
+  },
+  "aws-cloudformation__cfn-lint-3663": {
+    "difficulty": "medium",
+    "reason": "Equals未知符号构造与Rules多断言CNF组合联动；既有可求值布尔条件保持，未知表达式及组合异常不能使全局校验崩溃。"
+  },
+  "conan-io__conan-16986": {
+    "difficulty": "medium",
+    "reason": "版本范围交集需在OR条件集合、数值上下界及重新解析表达式之间保留保守prerelease规则；任一禁止预发布的参与条件不得被交集放宽。"
+  },
+  "joke2k__faker-2099": {
+    "difficulty": "medium",
+    "reason": "日期生成的多个公开入口新增可选格式化，并保持既有date返回、时区、年龄和日期范围默认语义；嵌套调用只在请求格式时转换。"
+  },
+  "joke2k__faker-2155": {
+    "difficulty": "medium",
+    "reason": "日期解析、时间戳精度、类型声明和随机采样联动；Windows整数randint与其它平台浮点uniform各自保持有效区间，浮点输入和边界不得截断。"
+  },
+  "reflex-dev__reflex-4620": {
+    "difficulty": "medium",
+    "reason": "NumberVar与BooleanVar的六类比较统一数值转换，生成JS与可选数值布尔转换语义共同保持，非数值相等比较仍走原路径。"
+  },
+  "jupyterlab__jupyter-ai-943": {
+    "difficulty": "medium",
+    "reason": "清空聊天必须同步可见消息、共享LLM有界历史和异步流回复；包装历史按请求时间阻止清空前的在途回复重新写入，handler配置和前端pending状态联动。"
+  },
+  "aws-cloudformation__cfn-lint-3596": {
+    "difficulty": "medium",
+    "reason": "实际仅元数据schema注册两个既有规则路径，认知跨度未达到中等层。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "conan-io__conan-17863": {
+    "difficulty": "medium",
+    "reason": "实际仅环境prepend序列的一处逆序，认知跨度未达到中等层。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "patroni__patroni-3152": {
+    "difficulty": "medium",
+    "reason": "实际仅递归文件遍历的权限异常局部处理，认知跨度未达到中等层。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "aws-cloudformation__cfn-lint-3767": {
+    "difficulty": "medium",
+    "reason": "实际仅IAM Condition schema额外属性开关的一处调整，认知跨度未达到中等层。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "pvlib__pvlib-python-2190": {
+    "difficulty": "medium",
+    "reason": "多个入口的同一falsy改为None判定，补丁重复和入口数量不足以证明独立的中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "aws-cloudformation__cfn-lint-3931": {
+    "difficulty": "medium",
+    "reason": "参数默认值字符串转换的局部类型防御，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "conan-io__conan-17954": {
+    "difficulty": "medium",
+    "reason": "生成器类名序列化的局部转换，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "aws-cloudformation__cfn-lint-3947": {
+    "difficulty": "medium",
+    "reason": "IAM PolicyDocument跨地区schema身份与JSON格式长度规则联动；字符串解析、对象紧凑计数、内建函数及无效JSON保持独立边界，普通字符串长度规则不变。"
+  },
+  "aws-cloudformation__cfn-lint-4023": {
+    "difficulty": "medium",
+    "reason": "Action非字符串分支的单处类型防御，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "conan-io__conan-18089": {
+    "difficulty": "medium",
+    "reason": "authenticate日志输出开关的局部调整，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "python-attrs__attrs-1319": {
+    "difficulty": "medium",
+    "reason": "kw_only预初始化调用的默认值文本移除，属于局部生成参数修复，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "conan-io__conan-17387": {
+    "difficulty": "medium",
+    "reason": "跨Linux到Windows的clang-cl前端判别、体系结构参数和构建类型参数联动，配置与settings入口统一；CMake、GNU、NMake工具链须保持其它编译器语义。"
+  },
+  "patroni__patroni-3207": {
+    "difficulty": "medium",
+    "reason": "DSN输出依据版本表过滤参数的局部兼容处理，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "jupyterlab__jupyter-ai-989": {
+    "difficulty": "medium",
+    "reason": "learn入口校验与目录加载器共同支持glob，同时保持单文件、目录遍历、隐藏/排除目录、扩展名过滤和可见回复转义合同；资格须使用离线mock。"
+  },
+  "aws-cloudformation__cfn-lint-4002": {
+    "difficulty": "medium",
+    "reason": "CodePipeline产物名称状态按资源隔离，Output/Input匹配及条件可满足性共同保持；不同资源的同名产物不能相互满足或误判冲突，初始化须清空。"
+  },
+  "falconry__falcon-2366": {
+    "difficulty": "medium",
+    "reason": "同步和ASGI流式multipart解析同时处理关闭分隔符、可选CRLF和epilogue；peek/consume语义及非法边界、分块读取不变。"
+  },
+  "patroni__patroni-3119": {
+    "difficulty": "medium",
+    "reason": "配置生成器与psycopg2/3连接适配统一超级用户参数查询；适配绑定方法、连接元数据和缺省返回保持，不能仅切换驱动掩盖兼容错误。"
+  },
+  "aws-cloudformation__cfn-lint-3528": {
+    "difficulty": "medium",
+    "reason": "StepFunctions新Map ItemProcessor递归状态、必需字段/互斥分支与Choice/Task路径形式同步升级，嵌套StartAt/States和旧校验边界共同保持，不能只移除报错关键字。"
+  },
+  "pdm-project__pdm-3435": {
+    "difficulty": "medium",
+    "reason": "Python解释器选择在全局/PEP582/venv/use入口共享配置优先级；版本文件的多行和注释输入、显式版本及环境变量和写回开关共同保持，不能仅捕获InvalidVersion。"
+  },
+  "pvlib__pvlib-python-2227": {
+    "difficulty": "medium",
+    "reason": "无DatetimeIndex时采用固定dni_extra缺省的局部类型判断，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "joke2k__faker-2162": {
+    "difficulty": "medium",
+    "reason": "新增独立DOI字符串生成器，公开格式约束局部且不涉及组合不变性，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  },
+  "bridgecrewio__checkov-7002": {
+    "difficulty": "medium",
+    "reason": "子网purpose排除的局部条件调整，不足以达到中等认知跨度。",
+    "exclude_reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+  }
+}

@@ -1,0 +1,593 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "row_index": 402,
+      "instance_id": "pylint-dev__pylint-10275",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "512c8bee6cd237a8e56ab5527ee2876d8070c0d6",
+      "row_sha256": "5f7d20b3173073f4f90157db0ce0c58981782fe5281334914e97ffb2a114560a",
+      "difficulty": "hard",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "hard",
+        "reason": "跨模块类定义、内层函数返回注解与类方法作用域/定义时机需要共同判定"
+      },
+      "title": "false positive used-before-assignment for type annotations in inner functions",
+      "reason": "eligible-for-review",
+      "rank": "072cb4f2b3209e3292cc61bfa378e648f70ff779f640a74c6f1ddad0e48f8fb7",
+      "problem_keys": [
+        "issue:pylint-dev/pylint#9391",
+        "fix:https://github.com/pylint-dev/pylint/commit/8562ceaf478f2b012359168fab8ee736bc848572",
+        "fix:https://github.com/pylint-dev/pylint/commit/ea5d18fb298cc543505ad772f05d4fa4ba748945",
+        "fix:https://github.com/pylint-dev/pylint/commit/e93ec76fedb06c175d89240b431408ed82eac006"
+      ],
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-10275"
+    },
+    {
+      "row_index": 4,
+      "instance_id": "pylint-dev__pylint-9785",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "52fe657ef65e4bf808ea4667b130bc177385a773",
+      "row_sha256": "beb1cbc1daae8aa69f80a9800ddc9e3838ac2d32e89e8ffda079d956e8e1a3b3",
+      "difficulty": "hard",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "hard",
+        "reason": "动态条件定义类的多结果推断、构造器签名不确定性、继承/方法代理与关键字调用校验跨共享推断和调用检查器联动"
+      },
+      "title": "pylint raises error saying \"default\" isn't valid for typevar",
+      "reason": "eligible-for-review",
+      "rank": "32308a6ea6b2c66498354162d75ef142df30879b51cc17d7f01b6c24104ecb8f",
+      "problem_keys": [
+        "issue:pylint-dev/pylint#9672",
+        "fix:https://github.com/pylint-dev/pylint/commit/fc987d8cd358b1af2a86cf6f0fc146cfc6a7438c",
+        "fix:https://github.com/pylint-dev/pylint/commit/eb2139583afeba441700f27d4dcef4a9bbba93df",
+        "fix:https://github.com/pylint-dev/pylint/commit/519b99711647d9547bc394d2dde7980baa36ed51"
+      ],
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-9785"
+    },
+    {
+      "row_index": 107,
+      "instance_id": "encode__starlette-2697",
+      "repository": "encode/starlette",
+      "base_commit": "8d0cff820f89b5d5b19677246293513a9d1c952c",
+      "row_sha256": "9974e65d266a7f09edbbd3b86602302d552f9131500b612495602c6a9ddb3e65",
+      "difficulty": "hard",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "hard",
+        "reason": "HTTP单/多区间解析、后缀与越界、If-Range协商、HEAD语义、分块multipart长度及后台清理共同约束异步文件响应"
+      },
+      "title": "support for http range requests (for fileresponse)",
+      "reason": "eligible-for-review",
+      "rank": "32e1125616901c1b79d22c129c0c4c340cdb60f286ceca5a6169baffefa5c3d3",
+      "problem_keys": [
+        "issue:encode/starlette#950",
+        "fix:https://github.com/encode/starlette/commit/33b0ac8896a0ab2972bfe4a077213185fd22855b",
+        "fix:https://github.com/encode/starlette/commit/e282912011f13db8efd67c8080828753d1bf598c",
+        "fix:https://github.com/encode/starlette/commit/22317640ec5f7836b7e835f4d6ccc109a2c5c028",
+        "fix:https://github.com/encode/starlette/commit/6160bc3a9a62300e5a13c2dc553534910b90574b"
+      ],
+      "qualification_relative_path": "final-qualification/encode__starlette-2697"
+    },
+    {
+      "row_index": 71,
+      "instance_id": "reflex-dev__reflex-3842",
+      "repository": "reflex-dev/reflex",
+      "base_commit": "43d79d3a2428122bf0284ce7f23fb3773a048a9f",
+      "row_sha256": "81e4da6c0e2f505dd3e9b7fca983cac2400cfb83fc3cc908fbbd9e928f7201d8",
+      "difficulty": "hard",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "hard",
+        "reason": "动态路由参数在类初始化后注册，继承层的依赖索引、缓存失效、脏子状态传播与热重载重建同时成立"
+      },
+      "title": "[ref-3239] var dependency bug",
+      "reason": "eligible-for-review",
+      "rank": "564a3f875944ab398b176d5b0436ed491f0708993fd90a7681105735358b444b",
+      "problem_keys": [
+        "issue:reflex-dev/reflex#3595",
+        "fix:https://github.com/reflex-dev/reflex/commit/b9a019d5384a116b9b41a0a72fb15357ea91a076",
+        "fix:https://github.com/reflex-dev/reflex/commit/c24764034db3e6293b37923c8775f13b1079b521",
+        "fix:https://github.com/reflex-dev/reflex/commit/564df60858d50883bd805e166c57a42d5415b16e",
+        "fix:https://github.com/reflex-dev/reflex/commit/46bc33b3ab47c6ad72b9532ee882e27f839bedeb",
+        "fix:https://github.com/reflex-dev/reflex/commit/580bd02a16765d490ff422d0c84871df4a5271e2",
+        "fix:https://github.com/reflex-dev/reflex/commit/5e785cd9249f36375a83d7c4ba00ee46e17b2fbe",
+        "fix:https://github.com/reflex-dev/reflex/commit/a5b9d6cc0da912482197b22d620113d486209237",
+        "fix:https://github.com/reflex-dev/reflex/commit/21db805e77df68d97dd6aa1f130f4ecc0ccd7e1a"
+      ],
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-3842-image-retry-2"
+    },
+    {
+      "row_index": 356,
+      "instance_id": "wireservice__csvkit-1281",
+      "repository": "wireservice/csvkit",
+      "base_commit": "d9ee9118884accc3cde5f3fd4dbf055d95446ff8",
+      "row_sha256": "0572cd3ba3cd6b3563a2ded9a0be3893cfa1b4665f1009d63597cbffbc54cac7",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "排除列入口的未知列错误恢复，保留正常列/范围以及非排除入口的原异常合同"
+      },
+      "title": "csvcut throws exception if you give it columns that don't exist; feature request: add option to ignore columns that don't exist",
+      "reason": "eligible-for-review",
+      "rank": "0df95dd862e7e3386a708082cd6f4193967c6ff95cbda6ef7d07dd48e46a68b7",
+      "problem_keys": [
+        "issue:wireservice/csvkit#1280",
+        "fix:https://github.com/wireservice/csvkit/commit/13cf6a37fe374ca2a85cef0d3ef79be0501fa7d9"
+      ],
+      "qualification_relative_path": "final-qualification/wireservice__csvkit-1281"
+    },
+    {
+      "row_index": 389,
+      "instance_id": "conan-io__conan-17923",
+      "repository": "conan-io/conan",
+      "base_commit": "ad8ff14bdd6b80ed9fd1c619b479f8a5c0838bab",
+      "row_sha256": "ae0d78b9f0f8fca3d2f535047a3879a4c5537592bd03158025123a572de78473",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "库文件精确匹配的局部告警规则，保留路径与候选排序"
+      },
+      "title": "exact matches for internal python find-libraries for cmakeconfigdeps",
+      "reason": "eligible-for-review",
+      "rank": "23fb74abe37f5a33a2970e86f337f9d2525f47cbd0f0abf863226ba0be5083b0",
+      "problem_keys": [
+        "issue:conan-io/conan#17884",
+        "fix:https://github.com/conan-io/conan/commit/b44d52bbdd44205e2862fb4d903ce62eb25e3763",
+        "fix:https://github.com/conan-io/conan/commit/c5f178e1fb6c6aaa1344356a1a5fe67dec3f8243"
+      ],
+      "qualification_relative_path": "final-qualification/conan-io__conan-17923"
+    },
+    {
+      "row_index": 110,
+      "instance_id": "python-babel__babel-1132",
+      "repository": "python-babel/babel",
+      "base_commit": "f91754b01cb9f32b83aeaa80b74ed10b5dfccb6a",
+      "row_sha256": "4127960444fcb8a9470fe836d2070307e8902771dfbe7088d41314a7b87d8bb4",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "PO过期消息身份保留context与plural，复用既有键构造"
+      },
+      "title": "obsoletes with same id from different contexts get removed on update",
+      "reason": "eligible-for-review",
+      "rank": "369ffb8f29e43d77271a0e211d9d64a0e4e1fced052e8a9d5a3424b556951ba1",
+      "problem_keys": [
+        "issue:python-babel/babel#1124",
+        "fix:https://github.com/python-babel/babel/commit/835ba638dce5b5b9bce3127a349597596582ff30",
+        "fix:https://github.com/python-babel/babel/commit/efea1fe40fffb72344c2e6cecfe155201bb92552"
+      ],
+      "qualification_relative_path": "final-qualification/python-babel__babel-1132"
+    },
+    {
+      "row_index": 348,
+      "instance_id": "pylint-dev__pylint-10240",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "abb81878fd114f309297b35e1d392bee0d196fbf",
+      "row_sha256": "559e193703b75fb544d6d5ecc8d4f46f254d91b825797c93091e9be21978e2ae",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "单个导入名字定义规则覆盖点分模块名"
+      },
+      "title": "conditional import x.y causes false positive possibly-used-before-assignment",
+      "reason": "eligible-for-review",
+      "rank": "4245fe455785b47f27342552a0811e13673dbc47c84eb696afe973140d8b5af4",
+      "problem_keys": [
+        "issue:pylint-dev/pylint#10081",
+        "fix:https://github.com/pylint-dev/pylint/commit/662042f0c0184e5cf598ee5ebb2a34af5fd29858",
+        "fix:https://github.com/pylint-dev/pylint/commit/2d69243587fd5854bd201570e289dc5c0ca3fcf2"
+      ],
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-10240"
+    },
+    {
+      "row_index": 249,
+      "instance_id": "pvlib__pvlib-python-2347",
+      "repository": "pvlib/pvlib-python",
+      "base_commit": "6caa903b7bdb6db5b1c83523edbbfc2c8204002a",
+      "row_sha256": "bd018dda255b87371b28e07ef011b2b300981c9239798a0e3332ff48d9339d3e",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "单个全无有效角度输入的前置校验，保留正常数值行为"
+      },
+      "title": "gti_dirint raises 'unboundlocalerror: local variable 'best_ghi' referenced before assignment'",
+      "reason": "eligible-for-review",
+      "rank": "4907740061e6485e408c41c5edf632fd202e633789ce3661d1b04361aa5d6bd2",
+      "problem_keys": [
+        "issue:pvlib/pvlib-python#1342",
+        "fix:https://github.com/pvlib/pvlib-python/commit/8e0c7f0b38669db705dd6833c5ea454dd97ac103",
+        "fix:https://github.com/pvlib/pvlib-python/commit/1f5562e1004f96e6b0cd696f537ffd080bfa45e3",
+        "fix:https://github.com/pvlib/pvlib-python/commit/ab7c41155725a4df263b5350c0ed550ed0d9b093",
+        "fix:https://github.com/pvlib/pvlib-python/commit/10dcb6dd950391eb39c722b212b19df2759cbad5",
+        "fix:https://github.com/pvlib/pvlib-python/commit/613f539298395adba414b497b67cdb3c0d8e3c92",
+        "fix:https://github.com/pvlib/pvlib-python/commit/504122b919ef8d17f81d6cd7e8fb40d8d2572464",
+        "fix:https://github.com/pvlib/pvlib-python/commit/675a422acecd77a35bdd97864e569b30437e973e",
+        "fix:https://github.com/pvlib/pvlib-python/commit/5ac3b35d1f71a62784d74393fdcd32677634903a",
+        "fix:https://github.com/pvlib/pvlib-python/commit/afbe880c8aa26d72fe1194577ba5f805c1e93797",
+        "fix:https://github.com/pvlib/pvlib-python/commit/93781e2e65e0a649b45f958b4fcfd1cea2c9364c",
+        "fix:https://github.com/pvlib/pvlib-python/commit/f3db9b2d0f9887abfe9749cbc50420d21eca92a4"
+      ],
+      "qualification_relative_path": "final-qualification/pvlib__pvlib-python-2347"
+    },
+    {
+      "row_index": 1,
+      "instance_id": "pylint-dev__pylint-9772",
+      "repository": "pylint-dev/pylint",
+      "base_commit": "52955ba4d867d2f4c78de8e2bf3c1df1f945a1d6",
+      "row_sha256": "2112b42348212c7b061bea8bb91b6c7075c8a0747122ddc43dcdeb7b6458a21b",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "指定 unittest 特殊方法命名的局部识别条件，保留已有命名规则"
+      },
+      "title": "`invalid-name` false positive on assignment to class attribute `teardown`",
+      "reason": "eligible-for-review",
+      "rank": "642c87cb457b372b7ecde3cdd3b1b8210b2e4ac586084b460047a73f56e20eb0",
+      "problem_keys": [
+        "issue:pylint-dev/pylint#9765",
+        "fix:https://github.com/pylint-dev/pylint/commit/872b60c7b8dd609e626f62b48cef538d6e51f325"
+      ],
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-9772"
+    },
+    {
+      "row_index": 347,
+      "instance_id": "jazzband__tablib-613",
+      "repository": "jazzband/tablib",
+      "base_commit": "70775bc922602ae535e0b2e525f6926030334ab8",
+      "row_sha256": "2f39df341e55b18044258838ba47c1bcd12b9e7b8b8ba57f820cf8d581b62dad",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "ODS单元格缺省value属性与递归空值返回的局部读回合同，保持其它数据类型"
+      },
+      "title": "ods loading issue - valueerror: 'value' is not in list",
+      "reason": "eligible-for-review",
+      "rank": "84eed2c9609f4fa207dbbbf4c6f581758afddb36ae8a4f83360cbd0232179634",
+      "problem_keys": [
+        "issue:jazzband/tablib#612",
+        "fix:https://github.com/jazzband/tablib/commit/2890ec610a5f61c6bee91a4d2328043945a2771d"
+      ],
+      "qualification_relative_path": "final-qualification/jazzband__tablib-613"
+    },
+    {
+      "row_index": 397,
+      "instance_id": "python-attrs__attrs-1417",
+      "repository": "python-attrs/attrs",
+      "base_commit": "19943b775d40c018e844f2cb1728442f58112a3b",
+      "row_sha256": "c390f121ff8806da7a697a050797cb97577a05733e8805ab358edb6e13e14287",
+      "difficulty": "easy",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "easy",
+        "reason": "迭代器形式字段转换只消费一次，保持继承字段生成"
+      },
+      "title": "creating a subclassed instance now errors with `got an unexpected keyword argument`",
+      "reason": "eligible-for-review",
+      "rank": "935b1e2bdcd124711603bc26878ccc2f2e05a4547801b6078220cb679b6970cb",
+      "problem_keys": [
+        "issue:python-attrs/attrs#1416",
+        "fix:https://github.com/python-attrs/attrs/commit/f0beb60f55b00837c7500f5462c4a8417ea639e4",
+        "fix:https://github.com/python-attrs/attrs/commit/017f9a984fab30fdf5774e966d481d4f49d07573"
+      ],
+      "qualification_relative_path": "final-qualification/python-attrs__attrs-1417-image-retry-2"
+    },
+    {
+      "row_index": 224,
+      "instance_id": "reflex-dev__reflex-4510",
+      "repository": "reflex-dev/reflex",
+      "base_commit": "2520c51aaf4c0a4af965026ae3a3fd5b03930288",
+      "row_sha256": "c145d08c9619f4ff1e91337b4b11469c2a682b52f81107bcfe862912662c4da9",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "Field默认值与default_factory区别影响状态Var可选类型和foreach元素注解，保留既有默认构造语义"
+      },
+      "title": "pydantic field with rx.foreach on state broken",
+      "reason": "eligible-for-review",
+      "rank": "0105f065c5c1f22bdd815a7bcfc4f855988970b9ab01c8cc56619ae33c10619a",
+      "problem_keys": [
+        "issue:reflex-dev/reflex#4471",
+        "fix:https://github.com/reflex-dev/reflex/commit/ce364e0bcee402d0e57767c0ffe218b7e1bc2afd",
+        "fix:https://github.com/reflex-dev/reflex/commit/b4722c4f8e21663705cc86cc407e027c421f1fe8"
+      ],
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-4510"
+    },
+    {
+      "row_index": 479,
+      "instance_id": "patroni__patroni-3338",
+      "repository": "patroni/patroni",
+      "base_commit": "8f22fd255efc5710e4fd1853f12c34abf893abe6",
+      "row_sha256": "aef168dc2259d1a5940db27b8f341473dcb9df4643883c97b5297d775e7d4bbd",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "ETCD gRPC不可用响应转换为transport超时触发现有节点故障转移，避免外层重试继续锁定坏节点；其它错误分类保持"
+      },
+      "title": "patroni failing to keep alive lease due to unhealthy etcd server",
+      "reason": "eligible-for-review",
+      "rank": "085a63a2081b32ae385c9cbd9c8a31dc85095be720dd67a443e00f0711bf38cc",
+      "problem_keys": [
+        "issue:patroni/patroni#3335",
+        "fix:https://github.com/patroni/patroni/commit/6bfe9c243d67f0c4f0b779985d41566caa499ebe"
+      ],
+      "qualification_relative_path": "final-qualification/patroni__patroni-3338"
+    },
+    {
+      "row_index": 425,
+      "instance_id": "jupyterlab__jupyter-ai-1294",
+      "repository": "jupyterlab/jupyter-ai",
+      "base_commit": "0e2c4e41ffdc4c35132840d97135664843c9fe2a",
+      "row_sha256": "0df3af264ea47661dbcca4bc499d7d2005d216d37e75434fc6f755df30f8b7c6",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "用户schema与新版schema合并同时保留扩展字段和新增必需键"
+      },
+      "title": "unable to load q chat using amazon-sagemaker-jupyter-ai-q-developer and jupyter ai 2.31.0",
+      "reason": "eligible-for-review",
+      "rank": "0bb214b444b020ed4b1980ab035bf5dc88a16e6e809b20761217461d6ec92250",
+      "problem_keys": [
+        "issue:jupyterlab/jupyter-ai#1291",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/99a2004887a79d745478f78f34739538a1e09312",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/a63edea79e574859bb1f01d51a5a54fa400d8c40"
+      ],
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-1294-image-retry-2"
+    },
+    {
+      "row_index": 21,
+      "instance_id": "patroni__patroni-3112",
+      "repository": "patroni/patroni",
+      "base_commit": "4456e267ebecdbc27f7c7ddc174b1997355a496e",
+      "row_sha256": "d770aac1c94e6f09e7e850185adbd1d6b3e0a6a9e3d2f666268bce5eadf0ebf4",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "主节点不能作为同步standby，大小写无关的成员过滤与节点离开同步状态的执行时序共同保持"
+      },
+      "title": "[3.1.0] synchronous_mode updating synchronous_standby_names with leader node",
+      "reason": "eligible-for-review",
+      "rank": "11e92ea4a0a33cfd911abf182d2046e0ed4b01af1bb19354eb1e27b846ca42ae",
+      "problem_keys": [
+        "issue:patroni/patroni#3111",
+        "fix:https://github.com/patroni/patroni/commit/7b4be1f52e3ae797db30593b8b4347f002f8bd8a",
+        "fix:https://github.com/patroni/patroni/commit/37aac39065b0b5f786f98d43ad1ee4fb77ffa8ff"
+      ],
+      "qualification_relative_path": "final-qualification/patroni__patroni-3112"
+    },
+    {
+      "row_index": 171,
+      "instance_id": "pvlib__pvlib-python-2292",
+      "repository": "pvlib/pvlib-python",
+      "base_commit": "4b113ab852b31df67db5f830833111e1159f4a51",
+      "row_sha256": "61ea413140e814efc5a574b70cbbead37de3a845dfc4d178da7e949c75095347",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "雪深阈值、小时降雪率、时间序列索引与累计滑落状态共同约束；无snow_depth仍保持既有合同"
+      },
+      "title": "snow.coverage_nrel not fully implemented according to reference",
+      "reason": "eligible-for-review",
+      "rank": "1da2110396f47355aed981170e2481b60d83cc5b2ceaac02c5fc8615a578a56b",
+      "problem_keys": [
+        "issue:pvlib/pvlib-python#1171",
+        "fix:https://github.com/pvlib/pvlib-python/commit/3594450987570e7cf524a67cf0aba4b93ff8dee7",
+        "fix:https://github.com/pvlib/pvlib-python/commit/9716bc8b36ed446f50cc11514590584a96414872",
+        "fix:https://github.com/pvlib/pvlib-python/commit/cd579f2f432f7ef880a1790da09d9c25aa74d54a",
+        "fix:https://github.com/pvlib/pvlib-python/commit/c11aee4a918da8f38c74caa4ba3f84d74f97dd09",
+        "fix:https://github.com/pvlib/pvlib-python/commit/7194e3cf5e59a132ee13c504a1d93cc2185f28ae",
+        "fix:https://github.com/pvlib/pvlib-python/commit/11cf12e8f8469ad3cfe91a8c62d6dd00b2acda36",
+        "fix:https://github.com/pvlib/pvlib-python/commit/b6424e3e462d7fd6335a18124aff1aa6a01351a9",
+        "fix:https://github.com/pvlib/pvlib-python/commit/d46837cabfd862f74baa8c26ba9e3727e88f65b9",
+        "fix:https://github.com/pvlib/pvlib-python/commit/0ef3d7a7626a1ce51d26a83b523db42ff58398ae",
+        "fix:https://github.com/pvlib/pvlib-python/commit/57f5eefa968866c6a455182b2b31ef8ad141213f",
+        "fix:https://github.com/pvlib/pvlib-python/commit/81c44d70a45c7e3ece5c091af482fd9baa337dfe",
+        "fix:https://github.com/pvlib/pvlib-python/commit/4e4350ebc7a086ce215ed71c3405a0c9279cb525",
+        "fix:https://github.com/pvlib/pvlib-python/commit/fb97cd99c837e252e877f8078c2ce65f6a18ecdd",
+        "fix:https://github.com/pvlib/pvlib-python/commit/e3d97e5ee3b585fa54dafbd796980ef196f4c74e",
+        "fix:https://github.com/pvlib/pvlib-python/commit/1113823094f0369301e2fa9ae4de41474926048f",
+        "fix:https://github.com/pvlib/pvlib-python/commit/4d0110aa01555ffbaf64aa209f351eaf0b53badb",
+        "fix:https://github.com/pvlib/pvlib-python/commit/b1ff01a81e7da4305a3478e602b921e9b5532add"
+      ],
+      "qualification_relative_path": "final-qualification/pvlib__pvlib-python-2292-image-retry-3"
+    },
+    {
+      "row_index": 62,
+      "instance_id": "jupyterlab__jupyter-ai-962",
+      "repository": "jupyterlab/jupyter-ai",
+      "base_commit": "920a65634cd89d47f2a561e17b99c2a5233cfa39",
+      "row_sha256": "31fa2047d28b98a4566fa33cfe6d087e22bd9d256ff345caaaeee2a62b97052f",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "line/cell magic默认模型、显式参数优先、帮助分支、shell命名空间与错误处理统一；资格必须证明mock provider下离线完整通过"
+      },
+      "title": "default model for %%ai magic command",
+      "reason": "eligible-for-review",
+      "rank": "29486f23b42518b2af89db337bafc2aac0cbca1eeac188c7b4cb9b083fa997d3",
+      "problem_keys": [
+        "issue:jupyterlab/jupyter-ai#372",
+        "issue:jupyterlab/jupyter-ai#952",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/cf5f697ef3ee05c10e3af11df1393f4973aa9f86",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/5bd035aea189b08be3eefc913e843cd16c2ff578"
+      ],
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-962"
+    },
+    {
+      "row_index": 152,
+      "instance_id": "reflex-dev__reflex-4230",
+      "repository": "reflex-dev/reflex",
+      "base_commit": "3eab2b6e7d8dab972b9e5714a845777d664e7ecb",
+      "row_sha256": "1f7e5c85ef97b9adc3716a645fe61108532caea2a8136f83767d828105e74219",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "持久化状态与当前类子状态树合并，保持父指针与新引入子状态可用"
+      },
+      "title": "getting error: \"cannot populate parent states\" (full error in desc) after upgrading to 0.6.3 (from 0.6.2.post1)",
+      "reason": "eligible-for-review",
+      "rank": "2bec63a2e5ed46f276576a4d51e942c1bd1ba49e49e5b96d6badd1310a75dc10",
+      "problem_keys": [
+        "issue:reflex-dev/reflex#4227",
+        "fix:https://github.com/reflex-dev/reflex/commit/2f8eebf3e4cfd3563047e40e57acb5bfe0a0a7dc"
+      ],
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-4230"
+    },
+    {
+      "row_index": 404,
+      "instance_id": "patroni__patroni-3310",
+      "repository": "patroni/patroni",
+      "base_commit": "5ed4d33f7da60a7780a5693c677bcb82249a92f5",
+      "row_sha256": "f01aa45cae3bdce2800d57ebf8c4d8f75667351f6435d6805695fe823d5060f6",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "手动候选过滤、排除候选开关与quorum投票条件联动，保留自动故障转移限制"
+      },
+      "title": "neither 'failover' nor 'switchover' commands work when in quorum mode",
+      "reason": "eligible-for-review",
+      "rank": "2d8e6ef3bfc9cdd8d76a04b34a06c4554e4d5803660efd366b723db2fcdb7eed",
+      "problem_keys": [
+        "issue:patroni/patroni#3307",
+        "fix:https://github.com/patroni/patroni/commit/48aff74c65d1c2d7aff8c54dd18870d9dd2eab3e",
+        "fix:https://github.com/patroni/patroni/commit/2a4f3ea6398332d2a4306cf86234add8d0c1f4ad",
+        "fix:https://github.com/patroni/patroni/commit/5721398b19ac5886c6a43665827025074638cb5d"
+      ],
+      "qualification_relative_path": "final-qualification/patroni__patroni-3310"
+    },
+    {
+      "row_index": 489,
+      "instance_id": "falconry__falcon-2450",
+      "repository": "falconry/falcon",
+      "base_commit": "d8e868beb4ec60bceb2897477e8983fe10ad3b94",
+      "row_sha256": "d4d9b6327eab654fe3c410706b4fc035a9ef8ce1b731ef3b8af2b54c89a43f86",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "WSGI/ASGI静态ETag/IfNoneMatch优先级、日期和文件清理联动"
+      },
+      "title": "support `etag` for static files",
+      "reason": "eligible-for-review",
+      "rank": "31414e942778525194f30394e59e9d19a5709a1eac176727037c6048f7473250",
+      "problem_keys": [
+        "issue:falconry/falcon#2243",
+        "fix:https://github.com/falconry/falcon/commit/451d98074ac30cc0966513db8888598496f918f2",
+        "fix:https://github.com/falconry/falcon/commit/1bd15154ed765b00f1bb1669057f92879b4e4171",
+        "fix:https://github.com/falconry/falcon/commit/a1ce1fde895b9b59da8c63011d92c9625d323cd6",
+        "fix:https://github.com/falconry/falcon/commit/481c8c7272f1b87390887cd2499195fbec582e7b",
+        "fix:https://github.com/falconry/falcon/commit/c674ba9ae371e8d030257d7c01e22267e98e3d5f",
+        "fix:https://github.com/falconry/falcon/commit/7e72e695c153928ba9a55ef2f1a35bcc4153354a",
+        "fix:https://github.com/falconry/falcon/commit/75c64e4b3f8a06709c659ba4c9ee2edf46d5b7df",
+        "fix:https://github.com/falconry/falcon/commit/00e03c5e733c6c7647e83dafb5d56f838f3ddcc2",
+        "fix:https://github.com/falconry/falcon/commit/2fc292f6039f7437c91a41da4c741b5ca31dc7cb",
+        "fix:https://github.com/falconry/falcon/commit/3387e0111c15472118f66cc733f69d7b6af1e778",
+        "fix:https://github.com/falconry/falcon/commit/f06c09d15ad6a2bea5d2b2e3ac45d9d72d88f058",
+        "fix:https://github.com/falconry/falcon/commit/5ca90ee7af7ecfb689071f4420b252257a2c8e96",
+        "fix:https://github.com/falconry/falcon/commit/e9c64e03560a097931245d0f78e4e995edacc655",
+        "fix:https://github.com/falconry/falcon/commit/88eaa1f04f936174af6eac84eb95afa486c9e58d"
+      ],
+      "qualification_relative_path": "final-qualification/falconry__falcon-2450"
+    },
+    {
+      "row_index": 259,
+      "instance_id": "python-babel__babel-1163",
+      "repository": "python-babel/babel",
+      "base_commit": "fb8dbba89cfc8d8a54d4c34c60b38fd504c4906e",
+      "row_sha256": "31c2b7d11f55d61f406ef326a964559a99b73ffc803ef02772b6717203e9746c",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "direction/past/future和format长度变体、locale回退联动"
+      },
+      "title": "format_timedelta add_direction ignores format",
+      "reason": "eligible-for-review",
+      "rank": "32725d280961b08847406582da7f337f3e033a785e0ecb7758b7a4db4b4be1d3",
+      "problem_keys": [
+        "issue:python-babel/babel#1162",
+        "fix:https://github.com/python-babel/babel/commit/dddc3be7f0d55353404c3556e2d9ee0904ffad90"
+      ],
+      "qualification_relative_path": "final-qualification/python-babel__babel-1163"
+    },
+    {
+      "row_index": 80,
+      "instance_id": "joke2k__faker-2099",
+      "repository": "joke2k/faker",
+      "base_commit": "71715c88c21a186043c4da7f015bbc9ebdb94bb8",
+      "row_sha256": "c1a4380df8ee3d58939e902f28600699335b9284b3999790dac140cacd9090ee",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "日期生成的多个公开入口新增可选格式化，并保持既有date返回、时区、年龄和日期范围默认语义；嵌套调用只在请求格式时转换。"
+      },
+      "title": "optionally return dates as strings in datetime provider",
+      "reason": "eligible-for-review",
+      "rank": "3a6394f188cb7ca2890004be8e7408dde3edf212a4768e2c616f7baa46ca45bb",
+      "problem_keys": [
+        "issue:joke2k/faker#2097",
+        "fix:https://github.com/joke2k/faker/commit/4d881ac75e6f0d2f63dca912caf307cff9089936",
+        "fix:https://github.com/joke2k/faker/commit/3a866f6b5b2fbef86bee2bda354cfd034de41091"
+      ],
+      "qualification_relative_path": "final-qualification/joke2k__faker-2099-image-retry-3"
+    },
+    {
+      "row_index": 39,
+      "instance_id": "jupyterlab__jupyter-ai-943",
+      "repository": "jupyterlab/jupyter-ai",
+      "base_commit": "a55db38c061522a2b6397516df1eeedf2e8b4dc5",
+      "row_sha256": "a7add295889d33f59082fd01c5efedbc5f22a9436b1a0061213c7732b41f7d3b",
+      "difficulty": "medium",
+      "difficulty_status": "reviewed",
+      "complexity_review": {
+        "difficulty": "medium",
+        "reason": "清空聊天必须同步可见消息、共享LLM有界历史和异步流回复；包装历史按请求时间阻止清空前的在途回复重新写入，handler配置和前端pending状态联动。"
+      },
+      "title": "new command to clear chat message history",
+      "reason": "eligible-for-review",
+      "rank": "419283fe633b5f027556aaaed91160246d8ccfe19c3357a1d1b6e0dc015eada2",
+      "problem_keys": [
+        "issue:jupyterlab/jupyter-ai#616",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/bf85c41212f7bf702604cf592f4046490ccf9111",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/fb938054ffc5c179788c9d03b501431fdde06007",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/fb167bc581cfb60846234418f0980306aeb98cb8",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/55fd8aa6e26d325c9f0877695344ad1b38c8fad7",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/b610d2e1fc6cb4aa85011327d3cd5d558143f491",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/40819d21da6b0bd1b9c9b68744af2fca62999f70",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/a25d4727598ebdcaf6a85cce706f1446ac10ecfe",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/6847260621ba2e69f1caac78d7992f65395fa176",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/6409dea450183ffcb01f78cf2af93d30d79f53cd",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/0c0efb9070df007d55aa0e6646c44698b985ea04",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/c5954523c08e62a54130f3002d6a1a99f8a974b8",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/3cae589ad1898de7b81a4847fa6d0e113cd761bc",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/a05b201bee81d01141dbf4cdc4969d00b5e113bb",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/64d5e6f2e70ee9a89977214ee6572ede39f471a6",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/4d087ecaac1a304d5282dbaad7ee7cf5c80919b8",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/d36fcb7af5633a9d579c66c8f171780fa816c65b",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/ce163aac76aced53be1faae2e707d9bc1221b7ff",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/eaff814279bcd4ef0b8e03bfbacd49e6f70e8189",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/0a8529078486a95e660a4e04424aafd828d8729e",
+        "fix:https://github.com/jupyterlab/jupyter-ai/commit/9053692099732bbac5d6c29869028075bf2420d8"
+      ],
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-943-image-retry-3"
+    }
+  ]
+}

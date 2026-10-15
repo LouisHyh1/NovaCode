@@ -1,0 +1,642 @@
+{
+  "schema_version": 1,
+  "decisions": [
+    {
+      "schema_version": 1,
+      "instance_id": "pylint-dev__pylint-10275",
+      "difficulty": "hard",
+      "qualification_sha256": "0bbfb9c50fb549700df2e38e219a2b86bc0ac24d38fa12c74e3849411f4e3ac8",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-10275",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "python-attrs__attrs-1321",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pdm-project__pdm-3374",
+      "difficulty": "hard",
+      "qualification_sha256": "94f85b5c299d4e1272cd07429964e1fd27aa4c2697d5535d2a871b3d1c6a57ae",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/pdm-project__pdm-3374",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pylint-dev__pylint-9785",
+      "difficulty": "hard",
+      "qualification_sha256": "02c4cf56586585a1f5c4d301f577b122ac543148cab54e173dabf33214394abf",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-9785",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "encode__starlette-2697",
+      "difficulty": "hard",
+      "qualification_sha256": "54c93059a1ce9cd4966acdcbcb975764d5af19ffd0903a1ecf19f9b0505cacbc",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/encode__starlette-2697",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "reflex-dev__reflex-3842",
+      "difficulty": "hard",
+      "qualification_sha256": "bc4854fed0b230ba37b20b8e16de136e971fb31da3ff56e47fce4f0394dd6744",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-3842-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3940",
+      "difficulty": "easy",
+      "qualification_sha256": "3309abece56b39f7ad50e87696d2046dbf2d114d982ff131f1aa6581062fc14a",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3940-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "wireservice__csvkit-1281",
+      "difficulty": "easy",
+      "qualification_sha256": "262dad4d1d6834043dd6601ad7716578b558ddd5372234602a7fb93695abb8ee",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/wireservice__csvkit-1281",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "joke2k__faker-2101",
+      "difficulty": "easy",
+      "qualification_sha256": "373b531cc6f64427628cb8ff9a122e0f09646303eac973b7d86de1228eeaf190",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/joke2k__faker-2101",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "bridgecrewio__checkov-7124",
+      "difficulty": "easy",
+      "qualification_sha256": "c93d0a22ff41c38d0eb9de85fc729aa4d5411fa731d5d067c1c166cab15fe9ab",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/bridgecrewio__checkov-7124",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "conan-io__conan-17923",
+      "difficulty": "easy",
+      "qualification_sha256": "e951014e7778bc1c88a89721a0ad36144677edffb15f1057b928b64ab2c9dec4",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/conan-io__conan-17923",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "networkx__networkx-8013",
+      "difficulty": "easy",
+      "qualification_sha256": "701226704db9f6b7c4e7d5c6359e5799a163d07aa1d159c059804a9b8dd0cc18",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/networkx__networkx-8013-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "joke2k__faker-2093",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "python-babel__babel-1132",
+      "difficulty": "easy",
+      "qualification_sha256": "53d0c7f64ada747708c1d037e3fa39407804e4936f869ebf8d4a11ca20981130",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/python-babel__babel-1132",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pylint-dev__pylint-10240",
+      "difficulty": "easy",
+      "qualification_sha256": "a61bcfb1b8a722f4c1725537ed91576d85c97e887d1dcfcc29d78eefebb85db0",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-10240",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pvlib__pvlib-python-2347",
+      "difficulty": "easy",
+      "qualification_sha256": "a748454c2ea8a111fb890985fd6223a9f44fbba2d3f2cba63e9950a5c649ac2a",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/pvlib__pvlib-python-2347",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "kedro-org__kedro-4580",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "instance_id": "python-babel__babel-1104",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pylint-dev__pylint-9772",
+      "difficulty": "easy",
+      "qualification_sha256": "87233de6bf27c769114295649f799538456872b0eac15568532c150a08afed76",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/pylint-dev__pylint-9772",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "joke2k__faker-2175",
+      "difficulty": "easy",
+      "qualification_sha256": "b6d93e48d57a6abe93fecfa0933f6aa6c0929ad4c7007fde7e61b9f728124019",
+      "action": "EXCLUDED",
+      "reason": "qualification-incomplete",
+      "qualification_relative_path": "final-qualification/joke2k__faker-2175",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "jazzband__tablib-613",
+      "difficulty": "easy",
+      "qualification_sha256": "de1c8a7318199e3b12679ef2bb783e6c0b82f5e75b3c900b8cfc236b8c2d046e",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/jazzband__tablib-613",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "pylint-dev__pylint-10225",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "instance_id": "kedro-org__kedro-4075",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "python-attrs__attrs-1417",
+      "difficulty": "easy",
+      "qualification_sha256": "88ae8a73fbd6d66a3c78647b592983a312093902615c31d0f690f123947c1a93",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/python-attrs__attrs-1417-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "reflex-dev__reflex-4510",
+      "difficulty": "medium",
+      "qualification_sha256": "e93258db91b6290663c8fcde52e1f1145dd2db0e97374fc4bb77e6e0c8186b92",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-4510",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "geopandas__geopandas-3471",
+      "difficulty": "medium",
+      "qualification_sha256": "9b4105cdcd863e4f8f5ff0021996b73e69310382ae1c5a5fbc82d1bc01987be8",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/geopandas__geopandas-3471",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3866",
+      "difficulty": "medium",
+      "qualification_sha256": "931c03060991fa6cf66177fd7dd79ed0c5291d9b26db354a94ab882f9e6d06b9",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3866",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "jupyterlab__jupyter-ai-879",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "instance_id": "falconry__falcon-2248",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "instance_id": "aws-cloudformation__cfn-lint-3768",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "patroni__patroni-3338",
+      "difficulty": "medium",
+      "qualification_sha256": "71a93878723a181168205397ddf9a5bbacc1473582caf6cfa9779e4c6310020d",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/patroni__patroni-3338",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "bridgecrewio__checkov-6922",
+      "difficulty": "medium",
+      "qualification_sha256": "3df7342e6d0da501d68cd6c63ea8fe2644a39ea3d73cd86a5b96526ede92528e",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/bridgecrewio__checkov-6922",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "bridgecrewio__checkov-6657",
+      "difficulty": "medium",
+      "qualification_sha256": "819bcdda521baaa5d82c5de246b728ad61c80f3975ec052704f94c9a8813f929",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/bridgecrewio__checkov-6657",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "pylint-dev__pylint-9838",
+      "reason": "repository-limit"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "jupyterlab__jupyter-ai-1294",
+      "difficulty": "medium",
+      "qualification_sha256": "ced57cb101190a2435675e20fa6447d12b9025b902d09792608115321829f8f0",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-1294-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "bridgecrewio__checkov-7119",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "reflex-dev__reflex-4958",
+      "difficulty": "medium",
+      "qualification_sha256": "25a7d5c231f97366a7492a5be5d3e147057d4124195c1787fb7c738a2fdb6cd9",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-4958",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "patroni__patroni-3112",
+      "difficulty": "medium",
+      "qualification_sha256": "20bc43ce1d3dfeb2897aa7846ea82185562023150ef159c93b54c0bce2914de4",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/patroni__patroni-3112",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3854",
+      "difficulty": "medium",
+      "qualification_sha256": "683a8e5271b0f62ba4362e072e22778566ce678f69a47dc86d7599ff7cee078e",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3854-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "falconry__falcon-2426",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3856",
+      "difficulty": "medium",
+      "qualification_sha256": "e42a04fd46b3ca1238e53e65c9d7a66c041947811f316f55dd7eb7cffbae7137",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3856",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "pylint-dev__pylint-10344",
+      "reason": "repository-limit"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "conan-io__conan-17591",
+      "difficulty": "medium",
+      "qualification_sha256": "85d12ff14139730cbaf4bb67032102ecb8b9bbc50613f5134dc920fbdf776fc1",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/conan-io__conan-17591-image-retry-3",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3920",
+      "difficulty": "medium",
+      "qualification_sha256": "e7f27a550d615ef116db8f6d783ee809aa164798d41788290b526bfaaca2853a",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3920",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pvlib__pvlib-python-2292",
+      "difficulty": "medium",
+      "qualification_sha256": "3c77c97421f713cf6f1f206fff30318f715ad417f28933974b08803f0558580c",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/pvlib__pvlib-python-2292-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/pvlib__pvlib-python-2292",
+          "qualification_sha256": "b7b81cb976674be2b66815fccdb1e6057e815639663ca6abf4a66a328af1198f"
+        },
+        {
+          "path": "final-qualification/pvlib__pvlib-python-2292-image-retry-2",
+          "qualification_sha256": "b7b81cb976674be2b66815fccdb1e6057e815639663ca6abf4a66a328af1198f"
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-4016",
+      "difficulty": "medium",
+      "qualification_sha256": "a1cecb955f20a15d1f6da873f7dc15f0f2384dac1de2d3320adfbde75b388df5",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-4016-image-retry-2",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pdm-project__pdm-3109",
+      "difficulty": "medium",
+      "qualification_sha256": "d36ce28064712dacc3ed7db69f22215402065db52d3c4b62f7b17b5e1a1a9284",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/pdm-project__pdm-3109",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "aws-cloudformation__cfn-lint-3557",
+      "reason": "事前认知审查未达到中等层；保留标题暂分层，仅排除，不进入已入库难度统计"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-10141",
+      "reason": "repository-limit"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "jupyterlab__jupyter-ai-962",
+      "difficulty": "medium",
+      "qualification_sha256": "d556f0e3248ca141ec2a25a0eb06c0f6e7fef322aaa7667739edd7704b767217",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-962",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "aws-cloudformation__cfn-lint-3596",
+      "reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+    },
+    {
+      "instance_id": "python-babel__babel-1120",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "reflex-dev__reflex-4230",
+      "difficulty": "medium",
+      "qualification_sha256": "af926057146b0e42d0d39505e2d8d9fb9cbbe8df739f2e87d666d9662cb17424",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-4230",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "patroni__patroni-3310",
+      "difficulty": "medium",
+      "qualification_sha256": "2fbae462c80d2d39f27901e49e3fd102b098354963509aabbb8a7484c5096def",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/patroni__patroni-3310",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "pdm-project__pdm-3420",
+      "difficulty": "medium",
+      "qualification_sha256": "75af84c030e2c09cf6ee00af4f60d79c3cea63a1de0933106e5dc34315e1cd24",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/pdm-project__pdm-3420",
+      "preparation_retries": []
+    },
+    {
+      "instance_id": "conan-io__conan-17863",
+      "reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-10250",
+      "reason": "repository-limit"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-10246",
+      "reason": "repository-limit"
+    },
+    {
+      "instance_id": "patroni__patroni-3152",
+      "reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "falconry__falcon-2450",
+      "difficulty": "medium",
+      "qualification_sha256": "2e6139af8a3213ecb7bf23d6d68a42c4d4085a9a5cd5dcbb5946585550f50479",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/falconry__falcon-2450",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3663",
+      "difficulty": "medium",
+      "qualification_sha256": "6530de4edf5ad229de1ddf4bb5f2fc7c88cd4d963c64d62fda67dddea31a93b9",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 官方镜像不可用",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3663-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/aws-cloudformation__cfn-lint-3663",
+          "qualification_sha256": "6530de4edf5ad229de1ddf4bb5f2fc7c88cd4d963c64d62fda67dddea31a93b9"
+        },
+        {
+          "path": "final-qualification/aws-cloudformation__cfn-lint-3663-image-retry-2",
+          "qualification_sha256": "6530de4edf5ad229de1ddf4bb5f2fc7c88cd4d963c64d62fda67dddea31a93b9"
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "python-babel__babel-1163",
+      "difficulty": "medium",
+      "qualification_sha256": "2146c21a18b44ac7f2bfdc973056f62e35397d8d8efa55550258b21dfb9792b9",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/python-babel__babel-1163",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "conan-io__conan-16986",
+      "difficulty": "medium",
+      "qualification_sha256": "1dee9370e2582963975f2c907cc6e50044aec255f6394c05dc0b2b41ff8973e2",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 官方判题超时",
+      "qualification_relative_path": "final-qualification/conan-io__conan-16986-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/conan-io__conan-16986",
+          "qualification_sha256": "a50d724bbd8afb77a9427e63e3b66a2a3384db5e2e92f6851605cdcf66706000"
+        },
+        {
+          "path": "final-qualification/conan-io__conan-16986-image-retry-2",
+          "qualification_sha256": "a50d724bbd8afb77a9427e63e3b66a2a3384db5e2e92f6851605cdcf66706000"
+        }
+      ]
+    },
+    {
+      "instance_id": "pvlib__pvlib-python-2190",
+      "reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+    },
+    {
+      "instance_id": "conan-io__conan-17051",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "aws-cloudformation__cfn-lint-3593",
+      "difficulty": "medium",
+      "qualification_sha256": "a8f392b515f6583ebba21e30e4526d5673206b037d37a6355de7db12d10ebc81",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 原有回归失败",
+      "qualification_relative_path": "final-qualification/aws-cloudformation__cfn-lint-3593",
+      "preparation_retries": []
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "joke2k__faker-2099",
+      "difficulty": "medium",
+      "qualification_sha256": "ae4b8b818cbabfca205af1304b3a9b2fc9b4595767fafbc1bbafaa4003615590",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/joke2k__faker-2099-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/joke2k__faker-2099",
+          "qualification_sha256": "ec7c5e7d401808241ac9f1eb93b0a10bebe4c972d783f6f3ed3caa2d5462e924"
+        },
+        {
+          "path": "final-qualification/joke2k__faker-2099-image-retry-2",
+          "qualification_sha256": "ec7c5e7d401808241ac9f1eb93b0a10bebe4c972d783f6f3ed3caa2d5462e924"
+        }
+      ]
+    },
+    {
+      "instance_id": "aws-cloudformation__cfn-lint-3767",
+      "reason": "事前认知审查未达到中等层；保留暂分层并排除，不按配额提升难度"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "joke2k__faker-2155",
+      "difficulty": "medium",
+      "qualification_sha256": "35e7470e52342465a857fc168452f26396fea500d1e33934031a3da1cacb9b1b",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 镜像初始工作树不干净",
+      "qualification_relative_path": "final-qualification/joke2k__faker-2155-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/joke2k__faker-2155",
+          "qualification_sha256": "20806dfda694f8aebf60d42578dcd6fb50d726308263781ee94b112a98f07828"
+        },
+        {
+          "path": "final-qualification/joke2k__faker-2155-image-retry-2",
+          "qualification_sha256": "20806dfda694f8aebf60d42578dcd6fb50d726308263781ee94b112a98f07828"
+        }
+      ]
+    },
+    {
+      "instance_id": "aws-cloudformation__cfn-lint-3900",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "instance_id": "conan-io__conan-17346",
+      "reason": "development-or-prior-ineligible"
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "reflex-dev__reflex-4620",
+      "difficulty": "medium",
+      "qualification_sha256": "c800f6d54e3ae2382a717afa5a6a29d347681a0e769d6dac176923c964a8fe42",
+      "action": "EXCLUDED",
+      "reason": "AssertionError: 官方镜像不可用",
+      "qualification_relative_path": "final-qualification/reflex-dev__reflex-4620-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/reflex-dev__reflex-4620",
+          "qualification_sha256": "c800f6d54e3ae2382a717afa5a6a29d347681a0e769d6dac176923c964a8fe42"
+        },
+        {
+          "path": "final-qualification/reflex-dev__reflex-4620-image-retry-2",
+          "qualification_sha256": "c800f6d54e3ae2382a717afa5a6a29d347681a0e769d6dac176923c964a8fe42"
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "instance_id": "jupyterlab__jupyter-ai-943",
+      "difficulty": "medium",
+      "qualification_sha256": "035ba0a96fcdf543ec29aa2d090e3b0485cfdcdf839033a21c505e7b6913ed5a",
+      "action": "QUALIFIED",
+      "reason": "original-failure-and-three-reference-passes",
+      "qualification_relative_path": "final-qualification/jupyterlab__jupyter-ai-943-image-retry-3",
+      "preparation_retries": [
+        {
+          "path": "final-qualification/jupyterlab__jupyter-ai-943",
+          "qualification_sha256": "3839904c3b7cd85af56bdaa2a35da13817dd05749785ad3bf0fa190b5276103d"
+        },
+        {
+          "path": "final-qualification/jupyterlab__jupyter-ai-943-image-retry-2",
+          "qualification_sha256": "3839904c3b7cd85af56bdaa2a35da13817dd05749785ad3bf0fa190b5276103d"
+        }
+      ]
+    }
+  ]
+}

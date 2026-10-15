@@ -1,0 +1,44 @@
+{
+  "allowed_paths": [],
+  "answers": [
+    {
+      "commit": "d19",
+      "failed_count": 2,
+      "failed_jobs": [
+        "lint-linux",
+        "type-linux"
+      ],
+      "source": "ci"
+    }
+  ],
+  "base_commit": "e6c21c17190a43db75d02c2cc423ffca3ec030a0",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets/external/FS19/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "facts"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "81a8aea39ecec780e2b951cbc7c6f8dcd15cdda3da92648b65ccb0091328b01b",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "records.json": "{\n  \"ci_commit\": {\n    \"d19\": {\n      \"commit\": \"d19\",\n      \"jobs\": [\n        {\n          \"job\": \"lint-linux\",\n          \"state\": \"failed\"\n        },\n        {\n          \"job\": \"unit-linux\",\n          \"state\": \"passed\"\n        },\n        {\n          \"job\": \"type-linux\",\n          \"state\": \"failed\"\n        }\n      ],\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "mutants": {},
+  "reference": {},
+  "schema_version": 1,
+  "task_id": "FS19",
+  "test_target": "",
+  "timeout_seconds": 180
+}

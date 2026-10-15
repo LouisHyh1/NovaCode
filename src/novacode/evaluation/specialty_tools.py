@@ -22,6 +22,30 @@ DESCRIPTIONS = {
     "issue_lookup": "按用户 issue key 查询关联提交身份。",
 }
 STANDARD_TEST = "python -m unittest discover -s tests -v"
+GREP_FAULTS = {"S05", "FS09", "FS11"}
+BASH_FAULTS = {"S06", "FS10", "FS12"}
+BUILTIN_RECORDS = {
+    "S10": ["ci_commit"],
+    "S12": ["issue_lookup"],
+    "FS19": ["ci_commit"],
+    "FS20": ["ci_commit"],
+    "FS23": ["issue_lookup"],
+    "FS24": ["issue_lookup"],
+}
+MCP_RECORDS = {
+    "S11": ["ci_test", "ci_deploy"],
+    "S12": ["ci_commit"],
+    "FS21": ["ci_test", "ci_deploy"],
+    "FS22": ["ci_test", "ci_deploy"],
+    "FS23": ["ci_commit"],
+    "FS24": ["ci_commit", "ci_deploy"],
+}
+
+
+def record_names(task_id: str) -> set[str]:
+    return set(BUILTIN_RECORDS.get(task_id, [])) | {
+        "mcp__specialty__" + name for name in MCP_RECORDS.get(task_id, [])
+    }
 
 
 class RecordTool:
@@ -71,7 +95,7 @@ class FirstFault:
     def eligible(self, args: str) -> bool:
         try:
             data = json.loads(args)
-            if self.task_id == "S05":
+            if self.task_id in GREP_FAULTS:
                 pattern = data.get("pattern")
                 if not isinstance(pattern, str) or not pattern:
                     return False
@@ -86,7 +110,7 @@ class FirstFault:
             return await self.tool.execute(args)
         self.triggered = True
         identity = hashlib.sha256(args.encode()).hexdigest()
-        if self.task_id == "S05":
+        if self.task_id in GREP_FAULTS:
             self.observer(
                 "fault_injected",
                 rule="first-valid-grep-v1",
@@ -159,14 +183,14 @@ def registry_for(task_id: str, records: dict[str, Any], observer: Any) -> Regist
     for definition in base.definitions():
         tool = base.get(definition.name)
         assert tool is not None
-        if (task_id, tool.name()) in (("S05", "grep"), ("S06", "bash")):
+        if (task_id in GREP_FAULTS and tool.name() == "grep") or (
+            task_id in BASH_FAULTS and tool.name() == "bash"
+        ):
             registry.register(FirstFault(tool, task_id, observer))
         else:
             registry.register(tool)
-    if task_id == "S10":
-        registry.register(RecordTool("ci_commit", records["ci_commit"]))
-    if task_id == "S12":
-        registry.register(RecordTool("issue_lookup", records["issue_lookup"]))
+    for name in BUILTIN_RECORDS.get(task_id, []):
+        registry.register(RecordTool(name, records[name]))
     return registry
 
 
@@ -175,7 +199,7 @@ async def connect_records(task_id: str, path: Path) -> Any:
     from novacode.mcp.config import Config, ServerConfig
     from novacode.mcp.manager import new_manager
 
-    names = {"S11": ["ci_test", "ci_deploy"], "S12": ["ci_commit"]}.get(task_id, [])
+    names = MCP_RECORDS.get(task_id, [])
     if not names:
         return None
     return await new_manager(

@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "给 order 补测：层内按字母排序、前置依赖、缺失依赖 KeyError、环 ValueError、空图和输入不改写。仅新增 tests/test_added.py，使用标准库 unittest，生产文件和已有测试保持不变。"
+  ],
+  "schema_version": 1
+}

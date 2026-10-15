@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/2b42dd2bc85658bfbc874560c3978d22349e038e174c5501b7998e56e3e627e5.tar",
+  "preserved": "/mnt/f/NovaCode-evaluation-cache/cfn3856-transport-preservation-20261015/2b42dd2bc85658bfbc874560c3978d22349e038e174c5501b7998e56e3e627e5.tar",
+  "sha256": "76cc31016b788df5d52c921ac4a2998211c70ed0a6b5c18d22292f2382e93349",
+  "bytes": 759121920,
+  "original_path_readable": true,
+  "model_calls": 0
+}

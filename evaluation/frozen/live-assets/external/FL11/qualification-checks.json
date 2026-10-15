@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "qualification": {
+    "schema_version": 1,
+    "instance_id": "jupyterlab__jupyter-ai-1294",
+    "qualified": true,
+    "runs": [
+      {
+        "label": "original",
+        "official": {
+          "patch_is_None": false,
+          "patch_exists": true,
+          "patch_successfully_applied": true,
+          "resolved": false,
+          "tests_status": {
+            "FAIL_TO_PASS": {
+              "success": [],
+              "failure": [
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_updates_schema"
+              ]
+            },
+            "PASS_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message_stream",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_stream_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_error",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_property_access_on_default_config",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_indentation_depth",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_update_fails_with_invalid_req",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_handle_bad_provider_ids",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_does_not_write_to_defaults",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_find_instances",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_replace_prompt",
+                "packages/jupyter-ai/jupyter_ai/tests/test_directory.py::test_collect_filepaths",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_learn_index_permissions",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_success",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_error",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_base_provider.py::test_provider_classvars",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_aliases_config",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_non_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_error_line",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_reset",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions0]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions1]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions2]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions3]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions4]"
+              ],
+              "failure": []
+            },
+            "FAIL_TO_FAIL": {
+              "success": [],
+              "failure": []
+            },
+            "PASS_TO_FAIL": {
+              "success": [],
+              "failure": []
+            }
+          }
+        },
+        "seconds": 19.085322380065918,
+        "log_sha256": "42634f89030aa43517a558efee764cef4b3215950163c2b1da51a29bedff7dcc"
+      },
+      {
+        "label": "reference-1",
+        "official": {
+          "patch_is_None": false,
+          "patch_exists": true,
+          "patch_successfully_applied": true,
+          "resolved": true,
+          "tests_status": {
+            "FAIL_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_updates_schema"
+              ],
+              "failure": []
+            },
+            "PASS_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message_stream",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_stream_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_error",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_property_access_on_default_config",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_indentation_depth",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_update_fails_with_invalid_req",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_handle_bad_provider_ids",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_does_not_write_to_defaults",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_find_instances",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_replace_prompt",
+                "packages/jupyter-ai/jupyter_ai/tests/test_directory.py::test_collect_filepaths",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_learn_index_permissions",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_success",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_error",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_base_provider.py::test_provider_classvars",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_aliases_config",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_non_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_error_line",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_reset",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions0]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions1]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions2]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions3]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions4]"
+              ],
+              "failure": []
+            },
+            "FAIL_TO_FAIL": {
+              "success": [],
+              "failure": []
+            },
+            "PASS_TO_FAIL": {
+              "success": [],
+              "failure": []
+            }
+          }
+        },
+        "seconds": 19.240760326385498,
+        "log_sha256": "6f4dd4b92c51beef7ecc9d0464e4d6f8e62d63c75134951a0ebb123e4f3d85d2"
+      },
+      {
+        "label": "reference-2",
+        "official": {
+          "patch_is_None": false,
+          "patch_exists": true,
+          "patch_successfully_applied": true,
+          "resolved": true,
+          "tests_status": {
+            "FAIL_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_updates_schema"
+              ],
+              "failure": []
+            },
+            "PASS_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message_stream",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_stream_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_error",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_property_access_on_default_config",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_indentation_depth",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_update_fails_with_invalid_req",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_handle_bad_provider_ids",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_does_not_write_to_defaults",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_find_instances",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_replace_prompt",
+                "packages/jupyter-ai/jupyter_ai/tests/test_directory.py::test_collect_filepaths",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_learn_index_permissions",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_success",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_error",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_base_provider.py::test_provider_classvars",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_aliases_config",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_non_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_error_line",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_reset",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions0]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions1]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions2]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions3]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions4]"
+              ],
+              "failure": []
+            },
+            "FAIL_TO_FAIL": {
+              "success": [],
+              "failure": []
+            },
+            "PASS_TO_FAIL": {
+              "success": [],
+              "failure": []
+            }
+          }
+        },
+        "seconds": 18.29874062538147,
+        "log_sha256": "295f23bd14f243835f1a6fef795fd0c3528904ad69cd7661e3841b4cb1c35631"
+      },
+      {
+        "label": "reference-3",
+        "official": {
+          "patch_is_None": false,
+          "patch_exists": true,
+          "patch_successfully_applied": true,
+          "resolved": true,
+          "tests_status": {
+            "FAIL_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_updates_schema"
+              ],
+              "failure": []
+            },
+            "PASS_TO_PASS": {
+              "success": [
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_on_message_stream",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```python\\nTest",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```\\ntest\\n```\\n",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```hello```world```-hello```world]",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_spurious_fragments_stream[```",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_stream_request",
+                "packages/jupyter-ai/jupyter_ai/tests/completions/test_handlers.py::test_handle_request_with_error",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_property_access_on_default_config",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_indentation_depth",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_update_fails_with_invalid_req",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_handle_bad_provider_ids",
+                "packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_does_not_write_to_defaults",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_find_instances",
+                "packages/jupyter-ai/jupyter_ai/tests/test_context_providers.py::test_replace_prompt",
+                "packages/jupyter-ai/jupyter_ai/tests/test_directory.py::test_collect_filepaths",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_learn_index_permissions",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_success",
+                "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py::test_default_stops_writing_on_error",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_base_provider.py::test_provider_classvars",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_aliases_config",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_non_default_model_cell",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_default_model_error_line",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py::test_reset",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions0]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions1]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions2]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions3]",
+                "packages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py::test_get_lm_providers_restricted[restrictions4]"
+              ],
+              "failure": []
+            },
+            "FAIL_TO_FAIL": {
+              "success": [],
+              "failure": []
+            },
+            "PASS_TO_FAIL": {
+              "success": [],
+              "failure": []
+            }
+          }
+        },
+        "seconds": 18.827367067337036,
+        "log_sha256": "fc3fb097f2840d12ea51fb98fa356d3bbf5847be8187b63306fa0d2041bc13e3"
+      }
+    ],
+    "model_calls": 0,
+    "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+    "image_transport": "verified-oci",
+    "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-1294@sha256:9fae49f245cad7d4ab640c2ceae9550eb2a65143a091cb78ca934f09d105f2ad",
+    "image_id": "sha256:9fae49f245cad7d4ab640c2ceae9550eb2a65143a091cb78ca934f09d105f2ad",
+    "base_commit": "0e2c4e41ffdc4c35132840d97135664843c9fe2a",
+    "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+    "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be"
+  },
+  "complexity_review": {
+    "difficulty": "medium",
+    "reason": "用户schema与新版schema合并同时保留扩展字段和新增必需键"
+  },
+  "raw_evidence": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v16/final-qualification/jupyterlab__jupyter-ai-1294-image-retry-2",
+  "raw_fingerprints": {
+    "qualification.json": "ced57cb101190a2435675e20fa6447d12b9025b902d09792608115321829f8f0",
+    "row.json": "4ef40b28ad128db1a9a76618c18f154d6c11f2fdacec77a2759bc4ee48bcea76",
+    "image-pull.txt": "4e76ddfaa53e1960e6d9a1624427494a231739d62dc19cee4437ddbe68006548",
+    "reference-3/agent-install.txt": "c2a931f2178a6d3a9a2d8b6b54bfcf33c47fc0470f46a068ef0cbde2e8f2b3fa",
+    "reference-3/candidate.diff": "555984f0c1850dec9900cc04b853ef9db9c6e20bb2f853b08dd841fafd7abfb6",
+    "reference-3/resources.txt": "4fdfb8b7f19cb4690db0be07e1667cb1483a86b1aee4af322d4f92adf739c3fa",
+    "reference-3/container.json": "c0fc4b7a7ae4c49eaba14c53ea0171ce273e89ed8a1242a9c859a7bf794c2472",
+    "reference-3/test-output.txt": "fc3fb097f2840d12ea51fb98fa356d3bbf5847be8187b63306fa0d2041bc13e3",
+    "reference-3/execution.json": "02f869e61a1d5995f966fc1e4611f45cfb5c91c6224af70dfd9cb703f5665549",
+    "reference-3/target-before.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+    "reference-3/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "reference-3/official-report.json": "71871d7670fa6d06fa80ae099991bba75d1f8dcf3ce9f4ac0b1e13b3f69c05e0",
+    "reference-3/initial-image-state.json": "314e2fbb7b819161e2b0d1a025db14c2539cc77ad55ae0b1fb983fa7bfeb5205",
+    "reference-3/agent-smoke.txt": "a344d1fbb2a832708a95d5c7244cd6e66e5cf8ed923e7e4347538958973fee4c",
+    "reference-3/target-after.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+    "reference-1/candidate.diff": "555984f0c1850dec9900cc04b853ef9db9c6e20bb2f853b08dd841fafd7abfb6",
+    "reference-1/resources.txt": "e48764afa512cfe08c7bd83c886a29be9a1f704d9f5c61db127015673a1ec1dd",
+    "reference-1/container.json": "e26f92d67e5a6120f84145e70ff30a1493ce9622476bdec98003b0d9f41bac32",
+    "reference-1/test-output.txt": "6f4dd4b92c51beef7ecc9d0464e4d6f8e62d63c75134951a0ebb123e4f3d85d2",
+    "reference-1/execution.json": "370b93d76e762d48d0e63bdc26eef5ca684046b7673015dc199722861fd052b3",
+    "reference-1/target-before.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+    "reference-1/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "reference-1/official-report.json": "71871d7670fa6d06fa80ae099991bba75d1f8dcf3ce9f4ac0b1e13b3f69c05e0",
+    "reference-1/initial-image-state.json": "314e2fbb7b819161e2b0d1a025db14c2539cc77ad55ae0b1fb983fa7bfeb5205",
+    "reference-2/candidate.diff": "555984f0c1850dec9900cc04b853ef9db9c6e20bb2f853b08dd841fafd7abfb6",
+    "reference-2/resources.txt": "22bfe45b9d9dcdb92309ab1c7488d36bbfb44d8447a1451b3d1ed45b7bcacf7c",
+    "reference-2/container.json": "afaaa01466fca396c43d04a595d32bc80fd032971c6aea133068c87518bd8e91",
+    "reference-2/test-output.txt": "295f23bd14f243835f1a6fef795fd0c3528904ad69cd7661e3841b4cb1c35631",
+    "reference-2/execution.json": "fdb302d715eb0dcc2fc1c52f430afd44f6f9655fe2bf4cac83339ab3f9c968ea",
+    "reference-2/target-before.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+    "reference-2/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "reference-2/official-report.json": "71871d7670fa6d06fa80ae099991bba75d1f8dcf3ce9f4ac0b1e13b3f69c05e0",
+    "reference-2/initial-image-state.json": "314e2fbb7b819161e2b0d1a025db14c2539cc77ad55ae0b1fb983fa7bfeb5205",
+    "original/candidate.diff": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original/resources.txt": "a3d4c16e826b98debeff460c000c20d6d6d38fa540f65138609e5dbf6dde1dd6",
+    "original/container.json": "ed0c77aafef87d95652cff16c0305323023cf7f921247de14cb89b66fb22eadc",
+    "original/test-output.txt": "42634f89030aa43517a558efee764cef4b3215950163c2b1da51a29bedff7dcc",
+    "original/execution.json": "bddfbad87a1b4e54eb6f465bd4eee77c84bfd4313ee07c92bf3b552feed7368b",
+    "original/target-before.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+    "original/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "original/official-report.json": "1d14e088812f6595f0f693943d300d3ba5c685ebeb12d6c099758ce803f9526e",
+    "original/initial-image-state.json": "314e2fbb7b819161e2b0d1a025db14c2539cc77ad55ae0b1fb983fa7bfeb5205"
+  }
+}

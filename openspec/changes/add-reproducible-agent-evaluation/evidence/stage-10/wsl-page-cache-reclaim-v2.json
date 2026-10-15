@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "reason": "宿主Windows提交接近90%，资格准备期间回收可重建的干净页缓存",
+  "before": {
+    "MemTotal": 6215155712,
+    "MemFree": 332685312,
+    "MemAvailable": 5032787968,
+    "Buffers": 191016960,
+    "Cached": 4211384320,
+    "SwapTotal": 2147483648,
+    "SwapFree": 2080624640,
+    "Dirty": 24825856,
+    "AnonPages": 643809280
+  },
+  "after": {
+    "MemTotal": 6215155712,
+    "MemFree": 4674347008,
+    "MemAvailable": 5056770048,
+    "Buffers": 11919360,
+    "Cached": 149831680,
+    "SwapTotal": 2147483648,
+    "SwapFree": 2080624640,
+    "Dirty": 1359872,
+    "AnonPages": 643923968
+  },
+  "processes_terminated": false,
+  "windows_pagefile_changed": false,
+  "model_calls": 0
+}

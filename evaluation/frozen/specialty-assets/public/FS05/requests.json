@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "给半开区间 overlaps 补测：相交、相接不相交、空区间不相交、包含和负数端点。仅新增 tests/test_added.py，使用标准库 unittest，生产文件和已有测试保持不变。"
+  ],
+  "schema_version": 1
+}

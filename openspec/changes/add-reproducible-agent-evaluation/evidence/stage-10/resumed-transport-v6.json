@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "primary_transport": "verified-oci",
+  "reused_test_attempts": [
+    "aws-cloudformation__cfn-lint-3861",
+    "aws-cloudformation__cfn-lint-3940-image-retry-2",
+    "bridgecrewio__checkov-7124",
+    "conan-io__conan-17877",
+    "conan-io__conan-17923",
+    "conan-io__conan-18101",
+    "encode__starlette-2697",
+    "joke2k__faker-2101",
+    "pdm-project__pdm-3374",
+    "pylint-dev__pylint-10275",
+    "pylint-dev__pylint-9785",
+    "python-attrs__attrs-1417-image-retry-2",
+    "reflex-dev__reflex-3842-image-retry-2"
+  ],
+  "previous_root": "/home/louishyh/.cache/novacode-evaluation/stage10-frozen-v5",
+  "authorization": "用户授权扩充资格池；不重跑已开始的原始/参考验收",
+  "registry_transport": "windows-curl-direct",
+  "temporary_root": "/mnt/c/Users/LouisHyh/AppData/Local/Temp",
+  "resume_reason": "用户报告后台被中断；宿主重启后恢复测试前准备，保留全部已开始验收",
+  "curl_binary": {
+    "path": "/mnt/e/Program Files/Git/mingw64/bin/curl.exe",
+    "sha256": "c2fec96c8a1bf1e52f45397c2a43f5f522bc5a0c6dcf019635fc37c9a261394b",
+    "version": "curl 8.18.0 (x86_64-w64-mingw32) libcurl/8.18.0 Schannel zlib/1.3.1 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 WinLDAP\nRelease-Date: 2026-01-07\nProtocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt pop3 pop3s rtsp scp sftp smb smbs smtp smtps telnet tftp ws wss\nFeatures: alt-svc AsynchDNS brotli HSTS HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM PSL SPNEGO SSL SSPI threadsafe UnixSockets zstd\n"
+  }
+}

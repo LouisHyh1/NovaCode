@@ -1,0 +1,12 @@
+{
+  "requests": [
+    "在 dag.py 实现 descendants(edges,key) 的传递后继闭包：排除起点、循环图必须终止、未知 key 返回空集、不改输入。",
+    "阅读 notes/audit-1.txt 并简述内容；这一轮不修改代码。",
+    "阅读 notes/audit-2.txt 并简述内容；这一轮不修改代码。",
+    "新增 invalidate(edges,changed) 返回改动节点本身及所有传递后继的集合，沿用之前闭包实现。",
+    "阅读 notes/audit-3.txt 并简述内容；这一轮不修改代码。",
+    "阅读 notes/audit-4.txt 并简述内容；这一轮不修改代码。",
+    "新增 retained(edges,changed,cached)，返回未失效缓存的新字典，复用中间的 invalidate，保持先前闭包和输入不变性。仅修改合同允许的生产文件。"
+  ],
+  "schema_version": 1
+}

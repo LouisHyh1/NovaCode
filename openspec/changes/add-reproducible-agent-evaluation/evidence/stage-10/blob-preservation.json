@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "source_cache": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs",
+  "excluded_active_and_recent_blobs": [
+    "01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32",
+    "07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905",
+    "1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7",
+    "23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849",
+    "521fc6498f279737156c8a63af5d15d08b167bb791ae2ca6c92270306fad1bb5",
+    "5893f2eb5418ad35eb72d79548d6a2689599e97b3ea3ab0efa6babc3c261d537",
+    "5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a",
+    "5b7408e03a501e7797beb76d95d407c68e63a679ccecf685d80b5a594d0f96c2",
+    "5d79eccc4e3bf80f8e72d257827d7d504dbfd782760bc17b57a636feaf4d9241",
+    "7accf78dcf02bddf6f0dae97a54c2367b799168b9b35133fae1dc05e3a0abced",
+    "90301d410f102e26840fb6a03d1f24957728e58ed3f99c66c00ae838489bf2a7",
+    "971817d4a967e69d1372029c1ae86e7e95ffa5953d51359c9a34e1f3da3dbee6",
+    "a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5",
+    "a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343",
+    "b25c426204f45b8436d684dea65578794f4f7b8f1148dd89aaa85ef1393212ea",
+    "b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621",
+    "cc381eaa3a998eda575c9d732b81eece7d103a1c7114a4a21bca12086db769f0",
+    "cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac",
+    "cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e",
+    "cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09",
+    "db1569e824b440c420a407e1a6abedc22ab31db294b74878dff8a14912dafed0",
+    "efa6ccbefc9d763935b1959cf84df7a7e24b05a11499a1efb51c3c45c934feca",
+    "fcefb63036088b0db4acbee97e25a5c0a8e70ca5ad3a77ffb1572ef20e6aad35"
+  ],
+  "files": [
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b8297335852500f887b4bb13da41db02fb8eec54d4e13a6ffaccaadab4b90d2a",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/b8297335852500f887b4bb13da41db02fb8eec54d4e13a6ffaccaadab4b90d2a",
+      "sha256": "b8297335852500f887b4bb13da41db02fb8eec54d4e13a6ffaccaadab4b90d2a",
+      "bytes": 960038361
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/965a341444952401124104ba8fcf4f0b80fb5b4b5cdfd07e4246eae6f3c86cf7",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/965a341444952401124104ba8fcf4f0b80fb5b4b5cdfd07e4246eae6f3c86cf7",
+      "sha256": "965a341444952401124104ba8fcf4f0b80fb5b4b5cdfd07e4246eae6f3c86cf7",
+      "bytes": 414904644
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0da1916eed030e375d62489b0c6a65a000aea6537052d1c61517b045affb0874",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/0da1916eed030e375d62489b0c6a65a000aea6537052d1c61517b045affb0874",
+      "sha256": "0da1916eed030e375d62489b0c6a65a000aea6537052d1c61517b045affb0874",
+      "bytes": 382792434
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/f46efdce797782a29059992005011a99befef87faed91b94e0366a80e7caf133",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/f46efdce797782a29059992005011a99befef87faed91b94e0366a80e7caf133",
+      "sha256": "f46efdce797782a29059992005011a99befef87faed91b94e0366a80e7caf133",
+      "bytes": 382139619
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/72e77e01a4754526db5ec787c15bca551e5533b4d63b64c8510b91745e487d44",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/72e77e01a4754526db5ec787c15bca551e5533b4d63b64c8510b91745e487d44",
+      "sha256": "72e77e01a4754526db5ec787c15bca551e5533b4d63b64c8510b91745e487d44",
+      "bytes": 380094671
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/7073b06c7b549fb09d589caef08140a10198a8c6e1578ea41b02b40475095314",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/7073b06c7b549fb09d589caef08140a10198a8c6e1578ea41b02b40475095314",
+      "sha256": "7073b06c7b549fb09d589caef08140a10198a8c6e1578ea41b02b40475095314",
+      "bytes": 379963134
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/85d938ba5ed28f0bbc242bd5f2679fe4fae6330bef0c80d4c2b7f330872c1739",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/85d938ba5ed28f0bbc242bd5f2679fe4fae6330bef0c80d4c2b7f330872c1739",
+      "sha256": "85d938ba5ed28f0bbc242bd5f2679fe4fae6330bef0c80d4c2b7f330872c1739",
+      "bytes": 377416486
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/f127bc66be16b42f48b36f932fbafaddbbacbf243f851fa85cb9d518e2631758",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/f127bc66be16b42f48b36f932fbafaddbbacbf243f851fa85cb9d518e2631758",
+      "sha256": "f127bc66be16b42f48b36f932fbafaddbbacbf243f851fa85cb9d518e2631758",
+      "bytes": 363505176
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/049822f7265737c0975a313272df905441bae599487d1687389fa0e139d04362",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/049822f7265737c0975a313272df905441bae599487d1687389fa0e139d04362",
+      "sha256": "049822f7265737c0975a313272df905441bae599487d1687389fa0e139d04362",
+      "bytes": 361421227
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/e1b6ad1eaf5a779402081f04ccbefdc3cc2f59115394d6832e248d6a9f026468",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/e1b6ad1eaf5a779402081f04ccbefdc3cc2f59115394d6832e248d6a9f026468",
+      "sha256": "e1b6ad1eaf5a779402081f04ccbefdc3cc2f59115394d6832e248d6a9f026468",
+      "bytes": 358234495
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/52167f0b157de57f13201cd1a33112d112bef31dc70368d9deaec39b6ba08583",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/52167f0b157de57f13201cd1a33112d112bef31dc70368d9deaec39b6ba08583",
+      "sha256": "52167f0b157de57f13201cd1a33112d112bef31dc70368d9deaec39b6ba08583",
+      "bytes": 353388221
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a00d15e62741460b8cfeef86f1ae1e9eefdc512f1babf840f2c921d0961ce1e0",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/a00d15e62741460b8cfeef86f1ae1e9eefdc512f1babf840f2c921d0961ce1e0",
+      "sha256": "a00d15e62741460b8cfeef86f1ae1e9eefdc512f1babf840f2c921d0961ce1e0",
+      "bytes": 352058741
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/fa57fad52c4607c7331ebe0d588d828f9d11ada5da542762f24a165331f7690b",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/fa57fad52c4607c7331ebe0d588d828f9d11ada5da542762f24a165331f7690b",
+      "sha256": "fa57fad52c4607c7331ebe0d588d828f9d11ada5da542762f24a165331f7690b",
+      "bytes": 340828606
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/6f0f8ab2c662795c7950dcfa763c5d97ea2477ca0ab9c341ec6eedd85361d95a",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/6f0f8ab2c662795c7950dcfa763c5d97ea2477ca0ab9c341ec6eedd85361d95a",
+      "sha256": "6f0f8ab2c662795c7950dcfa763c5d97ea2477ca0ab9c341ec6eedd85361d95a",
+      "bytes": 310578907
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/915b0a582ebb647210c5730bc3413e9924fb41c9e58f9b6ce90b54097952dae2",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/915b0a582ebb647210c5730bc3413e9924fb41c9e58f9b6ce90b54097952dae2",
+      "sha256": "915b0a582ebb647210c5730bc3413e9924fb41c9e58f9b6ce90b54097952dae2",
+      "bytes": 294677245
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/4916a2c2014632af9e20c55e0e687ce649c9c8ae84257d71e7125c05f2e653d5",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/4916a2c2014632af9e20c55e0e687ce649c9c8ae84257d71e7125c05f2e653d5",
+      "sha256": "4916a2c2014632af9e20c55e0e687ce649c9c8ae84257d71e7125c05f2e653d5",
+      "bytes": 223159101
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d",
+      "sha256": "48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d",
+      "bytes": 211370316
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/6f9f74896dfa93fe0172f594faba85e0b4e8a0481a0fefd9112efc7e4d3c78f7",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/6f9f74896dfa93fe0172f594faba85e0b4e8a0481a0fefd9112efc7e4d3c78f7",
+      "sha256": "6f9f74896dfa93fe0172f594faba85e0b4e8a0481a0fefd9112efc7e4d3c78f7",
+      "bytes": 196510974
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/1640d61357d1cae6174b8b890e95fe04f640844bd95561ede46285cd9164527a",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/1640d61357d1cae6174b8b890e95fe04f640844bd95561ede46285cd9164527a",
+      "sha256": "1640d61357d1cae6174b8b890e95fe04f640844bd95561ede46285cd9164527a",
+      "bytes": 177094048
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/3d8e23c14bc2fb0f9b70e3e36032f27cc56317b48d8db86f019bfbda1fd95c91",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/3d8e23c14bc2fb0f9b70e3e36032f27cc56317b48d8db86f019bfbda1fd95c91",
+      "sha256": "3d8e23c14bc2fb0f9b70e3e36032f27cc56317b48d8db86f019bfbda1fd95c91",
+      "bytes": 160729191
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/198429e02decf62c1b7179410f03283a57e5398ba88d30aafafa15cbcc02798a",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/198429e02decf62c1b7179410f03283a57e5398ba88d30aafafa15cbcc02798a",
+      "sha256": "198429e02decf62c1b7179410f03283a57e5398ba88d30aafafa15cbcc02798a",
+      "bytes": 157641908
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/c90059646f6585e9b8c6ce9380061567db395f2bb8619f3b4b330b2dd3838606",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/c90059646f6585e9b8c6ce9380061567db395f2bb8619f3b4b330b2dd3838606",
+      "sha256": "c90059646f6585e9b8c6ce9380061567db395f2bb8619f3b4b330b2dd3838606",
+      "bytes": 143182406
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a8334a5c1bf015eb9c6026255a8a90786d68fc43f696152238b2db28e3c2bf13",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/a8334a5c1bf015eb9c6026255a8a90786d68fc43f696152238b2db28e3c2bf13",
+      "sha256": "a8334a5c1bf015eb9c6026255a8a90786d68fc43f696152238b2db28e3c2bf13",
+      "bytes": 135534261
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/3d33cee06e0484eab1798711fed5bad1eb71e540d152e8a107a556d1ac18d907",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/3d33cee06e0484eab1798711fed5bad1eb71e540d152e8a107a556d1ac18d907",
+      "sha256": "3d33cee06e0484eab1798711fed5bad1eb71e540d152e8a107a556d1ac18d907",
+      "bytes": 132568778
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/7578082eb5efefe65b76cee27dd0da2d0be7aed07556274e8cb22083b2c48777",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/7578082eb5efefe65b76cee27dd0da2d0be7aed07556274e8cb22083b2c48777",
+      "sha256": "7578082eb5efefe65b76cee27dd0da2d0be7aed07556274e8cb22083b2c48777",
+      "bytes": 127300973
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5e1161dc3ad971368c12014b33de012121361976019b8494c78d25c2bf04ba8e",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/5e1161dc3ad971368c12014b33de012121361976019b8494c78d25c2bf04ba8e",
+      "sha256": "5e1161dc3ad971368c12014b33de012121361976019b8494c78d25c2bf04ba8e",
+      "bytes": 126150625
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/f646e0add422f345526c7a135226c57eae872f1a28617fd052d563392ae364aa",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/f646e0add422f345526c7a135226c57eae872f1a28617fd052d563392ae364aa",
+      "sha256": "f646e0add422f345526c7a135226c57eae872f1a28617fd052d563392ae364aa",
+      "bytes": 114719929
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/32ac04eaf4b0d15c74e22653def0d392b773de84d8d234f88c67c1b0ba99b803",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/32ac04eaf4b0d15c74e22653def0d392b773de84d8d234f88c67c1b0ba99b803",
+      "sha256": "32ac04eaf4b0d15c74e22653def0d392b773de84d8d234f88c67c1b0ba99b803",
+      "bytes": 108639211
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/7f302cc8395419ceba006db086c1cc7a3d16b3e6c11dafefd8fbc71c30cf5418",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/7f302cc8395419ceba006db086c1cc7a3d16b3e6c11dafefd8fbc71c30cf5418",
+      "sha256": "7f302cc8395419ceba006db086c1cc7a3d16b3e6c11dafefd8fbc71c30cf5418",
+      "bytes": 108603840
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/4a93cb215ce81290f70560d05e92034ae3deed04184a462b19229be453453c16",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/4a93cb215ce81290f70560d05e92034ae3deed04184a462b19229be453453c16",
+      "sha256": "4a93cb215ce81290f70560d05e92034ae3deed04184a462b19229be453453c16",
+      "bytes": 93668841
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0e6211e6557f743a0134483d26b220ae6e724c635b98f9172e12f1db6e618247",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/0e6211e6557f743a0134483d26b220ae6e724c635b98f9172e12f1db6e618247",
+      "sha256": "0e6211e6557f743a0134483d26b220ae6e724c635b98f9172e12f1db6e618247",
+      "bytes": 90464731
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/3a479ae00cb155d1ecfe1710f8e16d89ea547df0f617a671f02c20c5c3d4f763",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/3a479ae00cb155d1ecfe1710f8e16d89ea547df0f617a671f02c20c5c3d4f763",
+      "sha256": "3a479ae00cb155d1ecfe1710f8e16d89ea547df0f617a671f02c20c5c3d4f763",
+      "bytes": 68274350
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a",
+      "sha256": "b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a",
+      "bytes": 64399794
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0e29546d541cdbd309281d21a73a9d1db78665c1b95b74f32b009e0b77a6e1e3",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/0e29546d541cdbd309281d21a73a9d1db78665c1b95b74f32b009e0b77a6e1e3",
+      "sha256": "0e29546d541cdbd309281d21a73a9d1db78665c1b95b74f32b009e0b77a6e1e3",
+      "bytes": 54919034
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/6494e4811622b31c027ccac322ca463937fd805f569a93e6f15c01aade718793",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/6494e4811622b31c027ccac322ca463937fd805f569a93e6f15c01aade718793",
+      "sha256": "6494e4811622b31c027ccac322ca463937fd805f569a93e6f15c01aade718793",
+      "bytes": 54566215
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226",
+      "sha256": "0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226",
+      "bytes": 48494272
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4",
+      "sha256": "ffbbf2b1133fcb08ac3cd847745d940c4cf1577b8b56f0b2b5427517cb698bd4",
+      "bytes": 24312012
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f",
+      "sha256": "3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f",
+      "bytes": 24015708
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9271fbd7747b6c75e9c9042e353ca5f9fb017ec8c23aa42166333b4372e23946",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/9271fbd7747b6c75e9c9042e353ca5f9fb017ec8c23aa42166333b4372e23946",
+      "sha256": "9271fbd7747b6c75e9c9042e353ca5f9fb017ec8c23aa42166333b4372e23946",
+      "bytes": 21395173
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/af8e3845afdcf84d8f7c373c732dfcb9261fdd63a13bbb3f430d253034e9c29e",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/af8e3845afdcf84d8f7c373c732dfcb9261fdd63a13bbb3f430d253034e9c29e",
+      "sha256": "af8e3845afdcf84d8f7c373c732dfcb9261fdd63a13bbb3f430d253034e9c29e",
+      "bytes": 21387092
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b6754ffd126059cf8be2be19089f13392b63ecd646f6dfb411c015fce35a15d2",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/b6754ffd126059cf8be2be19089f13392b63ecd646f6dfb411c015fce35a15d2",
+      "sha256": "b6754ffd126059cf8be2be19089f13392b63ecd646f6dfb411c015fce35a15d2",
+      "bytes": 19854208
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9fddfdc56334f2e6efad7e241bf5e7459c40ed105c5478676f41c1244bd96752",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/9fddfdc56334f2e6efad7e241bf5e7459c40ed105c5478676f41c1244bd96752",
+      "sha256": "9fddfdc56334f2e6efad7e241bf5e7459c40ed105c5478676f41c1244bd96752",
+      "bytes": 14213148
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cb5b7ae361722f070eca53f35823ed21baa85d61d5d95cd5a95ab53d740cdd56",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/cb5b7ae361722f070eca53f35823ed21baa85d61d5d95cd5a95ab53d740cdd56",
+      "sha256": "cb5b7ae361722f070eca53f35823ed21baa85d61d5d95cd5a95ab53d740cdd56",
+      "bytes": 10871868
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5e3b1213efc56598e78bd602983945c164de2a37205e06a62dada823124dc743",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/5e3b1213efc56598e78bd602983945c164de2a37205e06a62dada823124dc743",
+      "sha256": "5e3b1213efc56598e78bd602983945c164de2a37205e06a62dada823124dc743",
+      "bytes": 6290708
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a7d2ea3f33a8c566c6e27c0e123d043ab74d29b26c2b22f01fc65131ccb90bf8",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/a7d2ea3f33a8c566c6e27c0e123d043ab74d29b26c2b22f01fc65131ccb90bf8",
+      "sha256": "a7d2ea3f33a8c566c6e27c0e123d043ab74d29b26c2b22f01fc65131ccb90bf8",
+      "bytes": 6161716
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c",
+      "sha256": "e288ddb3febb45a5c9fb525d1e9203949f4f2d8929d2552311c72a1e25eb647c",
+      "bytes": 6161713
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/f7829880651cb49768f5dd8262a02172e311ccbd96b594978af431fcc73843e1",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/f7829880651cb49768f5dd8262a02172e311ccbd96b594978af431fcc73843e1",
+      "sha256": "f7829880651cb49768f5dd8262a02172e311ccbd96b594978af431fcc73843e1",
+      "bytes": 6161710
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/35a6ae16d0f03d1e758190b50a7b0495277bbe894fe2fbf7f91083d2aad3ef98",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/35a6ae16d0f03d1e758190b50a7b0495277bbe894fe2fbf7f91083d2aad3ef98",
+      "sha256": "35a6ae16d0f03d1e758190b50a7b0495277bbe894fe2fbf7f91083d2aad3ef98",
+      "bytes": 6161681
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9b829c73b52b92b97d5c07a54fb0f3e921995a296c714b53a32ae67d19231fcd",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/9b829c73b52b92b97d5c07a54fb0f3e921995a296c714b53a32ae67d19231fcd",
+      "sha256": "9b829c73b52b92b97d5c07a54fb0f3e921995a296c714b53a32ae67d19231fcd",
+      "bytes": 5152816
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/c4f42be2be53b900ebffc040c1df13de538434ccc5f5d954a56848a6169a3a3f",
+      "preserved": "/mnt/d/NovaCode-evaluation-cache/stage10-blob-preservation-20261012/c4f42be2be53b900ebffc040c1df13de538434ccc5f5d954a56848a6169a3a3f",
+      "sha256": "c4f42be2be53b900ebffc040c1df13de538434ccc5f5d954a56848a6169a3a3f",
+      "bytes": 2208583
+    }
+  ],
+  "reason": "保持WSL验收磁盘余量；复制并核对完整SHA后保持原读取路径，OCI包解引用到实际字节，不改变镜像或资格记录"
+}

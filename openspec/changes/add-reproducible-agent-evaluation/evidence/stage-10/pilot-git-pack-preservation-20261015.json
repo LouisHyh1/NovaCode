@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L01-eager-schema/workspace/.git/objects/pack/pack-8428a3f1ab3568c68521652a801f2cda974ff9aa.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6.pack",
+      "sha256": "85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6",
+      "bytes": 43426894,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L01-full/workspace/.git/objects/pack/pack-8428a3f1ab3568c68521652a801f2cda974ff9aa.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6.pack",
+      "sha256": "85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6",
+      "bytes": 43426894,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L01-no-compression/workspace/.git/objects/pack/pack-8428a3f1ab3568c68521652a801f2cda974ff9aa.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6.pack",
+      "sha256": "85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6",
+      "bytes": 43426894,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L06-eager-schema/workspace/.git/objects/pack/pack-20f6dee89b3058eda664afe12fca468088f65369.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/a048eaeb813194051329bbb764068a7564ed2408d8c935a9b16fb0a692941273.pack",
+      "sha256": "a048eaeb813194051329bbb764068a7564ed2408d8c935a9b16fb0a692941273",
+      "bytes": 259713396,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L06-full/workspace/.git/objects/pack/pack-20f6dee89b3058eda664afe12fca468088f65369.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/a048eaeb813194051329bbb764068a7564ed2408d8c935a9b16fb0a692941273.pack",
+      "sha256": "a048eaeb813194051329bbb764068a7564ed2408d8c935a9b16fb0a692941273",
+      "bytes": 259713396,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L06-no-compression/workspace/.git/objects/pack/pack-20f6dee89b3058eda664afe12fca468088f65369.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/a048eaeb813194051329bbb764068a7564ed2408d8c935a9b16fb0a692941273.pack",
+      "sha256": "a048eaeb813194051329bbb764068a7564ed2408d8c935a9b16fb0a692941273",
+      "bytes": 259713396,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L07-eager-schema/workspace/.git/objects/pack/pack-d3515fb424d1031c298af590cdab332df9e87d65.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/4d96fd4b85ccd538b25f938ccafc383bd0d5823a901356cc1489bddc4ddcd28e.pack",
+      "sha256": "4d96fd4b85ccd538b25f938ccafc383bd0d5823a901356cc1489bddc4ddcd28e",
+      "bytes": 119587875,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L07-full/workspace/.git/objects/pack/pack-d3515fb424d1031c298af590cdab332df9e87d65.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/4d96fd4b85ccd538b25f938ccafc383bd0d5823a901356cc1489bddc4ddcd28e.pack",
+      "sha256": "4d96fd4b85ccd538b25f938ccafc383bd0d5823a901356cc1489bddc4ddcd28e",
+      "bytes": 119587875,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L07-no-compression/workspace/.git/objects/pack/pack-d3515fb424d1031c298af590cdab332df9e87d65.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/4d96fd4b85ccd538b25f938ccafc383bd0d5823a901356cc1489bddc4ddcd28e.pack",
+      "sha256": "4d96fd4b85ccd538b25f938ccafc383bd0d5823a901356cc1489bddc4ddcd28e",
+      "bytes": 119587875,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L12-eager-schema/workspace/.git/objects/pack/pack-8428a3f1ab3568c68521652a801f2cda974ff9aa.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6.pack",
+      "sha256": "85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6",
+      "bytes": 43426894,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L12-full/workspace/.git/objects/pack/pack-8428a3f1ab3568c68521652a801f2cda974ff9aa.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6.pack",
+      "sha256": "85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6",
+      "bytes": 43426894,
+      "git_commit_object_readable": true
+    },
+    {
+      "original": "/home/louishyh/.cache/novacode-evaluation/stage9-pilot-v1/runs/L12-no-compression/workspace/.git/objects/pack/pack-8428a3f1ab3568c68521652a801f2cda974ff9aa.pack",
+      "preserved": "/mnt/f/NovaCode-evaluation-cache/pilot-git-pack-preservation-20261015/85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6.pack",
+      "sha256": "85a722abb800e39066dcfc84211cce44fae1625dcafd3c2c4e37ef6049f1d6b6",
+      "bytes": 43426894,
+      "git_commit_object_readable": true
+    }
+  ],
+  "model_calls": 0,
+  "workspace_bytes_unchanged": true
+}

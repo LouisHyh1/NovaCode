@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "candidate": "joke2k__faker-2155",
+      "image_id": "sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2155@sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+      "size": 1807903567,
+      "manifest_sha256": "9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "joke2k__faker-2155",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2155@sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+        "image_id": "sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+        "base_commit": "da39d8262b1b4a3d88c3bf934c047deca354b01e",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 镜像初始工作树不干净"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c": "9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/ae4deb96456b616affbd055ff04d26b9ae7939a95892f1de54d9c43cf69b3da9": "ae4deb96456b616affbd055ff04d26b9ae7939a95892f1de54d9c43cf69b3da9",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e": "cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343": "a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5": "a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32": "01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09": "cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac": "cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a": "5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/6c2534349493d6c8a4f52c2a34142210197482e2ee10381f21613372802dac2b": "6c2534349493d6c8a4f52c2a34142210197482e2ee10381f21613372802dac2b",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/258b7582db56525ac237c7c7bb773a82d5c69bd0d604a746e42c8c1222ca8070": "258b7582db56525ac237c7c7bb773a82d5c69bd0d604a746e42c8c1222ca8070"
+      },
+      "image_before": {
+        "Id": "sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2155:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2155@sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c"
+        ],
+        "Created": "2025-04-30T22:33:12.46871907Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=E3FF2839C048B25C084DEBE9B26995E310250568",
+            "PYTHON_VERSION=3.8.20"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1807903567,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+            "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+            "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+            "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+            "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+            "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+            "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+            "sha256:8d0180fe0ddb8ec9e58de0def6fc3354b4b04fe1fdf959d661215aa43656e790",
+            "sha256:e2983ba80572ee12c9c68122906bac0e2de276472fb1a1a046ad2e71266f5f99"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-15T06:47:24.857658498Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:9120bba201c9b120f75f2f44eb844cd835fd14b2c162350ab930272a2919c18c",
+          "size": 2216,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2155",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2155:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    }
+  ],
+  "first_qualification_records_unchanged": true,
+  "model_calls": 0
+}

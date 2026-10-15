@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "state": "FROZEN_VALID",
+  "manifest_sha256": "67a35add8b42f90b2d8dc0fb842444a5b410f576f17a7e75889e2ebb70d1b32c",
+  "versions": {
+    "pyproject": "0.1.35",
+    "runtime": "0.1.35",
+    "lock": "0.1.35",
+    "installed": "0.1.35"
+  },
+  "tasks": 48,
+  "planned": 432,
+  "pair_blocks": 144,
+  "source_configuration_counts": {
+    "full/specialty": 72,
+    "eager-schema/specialty": 72,
+    "no-compression/specialty": 72,
+    "full/live": 72,
+    "eager-schema/live": 72,
+    "no-compression/live": 72
+  },
+  "unique_qualification_candidates": 61,
+  "all_states": "PLANNED",
+  "model_calls": 0,
+  "owned_containers_remaining": 0,
+  "wsl_free_bytes": 23258484736
+}

@@ -78,12 +78,19 @@ def validate_execution(payload: dict[str, Any], task: EvaluationTask, hidden: Pa
 def allowed_names(task: EvaluationTask) -> set[str]:
     names = {"read_file", "write_file", "edit_file", "bash", "glob", "grep"}
     if task.source == "specialty":
-        names |= {
-            "S10": {"ci_commit"},
-            "S11": {"mcp__specialty__ci_test", "mcp__specialty__ci_deploy"},
-            "S12": {"issue_lookup", "mcp__specialty__ci_commit"},
-        }.get(task.task_id, set())
+        from novacode.evaluation.specialty_tools import record_names
+
+        names |= record_names(task.task_id)
     return names
+
+
+def validate_suite_execution(
+    payload: dict[str, Any], task: EvaluationTask, runtime: Path, public: Path, hidden: Path
+) -> None:
+    if task.suite == "frozen":
+        from novacode.evaluation.frozen import validate_execution as validate_frozen
+
+        validate_frozen(payload, task, runtime, public, hidden)
 
 
 async def prepare_specialty(container: str, initial: dict[str, Any], task: EvaluationTask) -> str:
@@ -197,7 +204,7 @@ async def run_task(
             requests = validate_task_assets(
                 task, public_root, acceptance_root, frozenset({task.budget_category})
             )
-            require(task.suite == "development", "冻结执行尚未开放")
+            validate_suite_execution(payload, task, runtime_archive, public_root, acceptance_root)
             limits = BudgetLimits(**payload["limits"])
             BudgetLimits(**payload["total_limits"])
             validate_execution(payload, task, acceptance_root)

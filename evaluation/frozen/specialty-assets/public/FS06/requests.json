@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "给 group 补测：重复 key 保留所有值及顺序、不同 key、空生成器和输入不改写。仅新增 tests/test_added.py，使用标准库 unittest，生产文件和已有测试保持不变。"
+  ],
+  "schema_version": 1
+}

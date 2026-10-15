@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "candidate": "conan-io__conan-17591",
+      "image_id": "sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+      "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17591@sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+      "size": 2430480582,
+      "manifest_sha256": "144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "conan-io__conan-17591",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17591@sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+        "image_id": "sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+        "base_commit": "eb95f5b9472f8d75888d0ffcecba32e17a882423",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 镜像初始工作树不干净"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2": "144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/4ef10a937183422090d15d0885b395a89a0dab8491acefcbe85afe2e75476196": "4ef10a937183422090d15d0885b395a89a0dab8491acefcbe85afe2e75476196",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/0e29546d541cdbd309281d21a73a9d1db78665c1b95b74f32b009e0b77a6e1e3": "0e29546d541cdbd309281d21a73a9d1db78665c1b95b74f32b009e0b77a6e1e3",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9b829c73b52b92b97d5c07a54fb0f3e921995a296c714b53a32ae67d19231fcd": "9b829c73b52b92b97d5c07a54fb0f3e921995a296c714b53a32ae67d19231fcd",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cb5b7ae361722f070eca53f35823ed21baa85d61d5d95cd5a95ab53d740cdd56": "cb5b7ae361722f070eca53f35823ed21baa85d61d5d95cd5a95ab53d740cdd56",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/6494e4811622b31c027ccac322ca463937fd805f569a93e6f15c01aade718793": "6494e4811622b31c027ccac322ca463937fd805f569a93e6f15c01aade718793",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/6f9f74896dfa93fe0172f594faba85e0b4e8a0481a0fefd9112efc7e4d3c78f7": "6f9f74896dfa93fe0172f594faba85e0b4e8a0481a0fefd9112efc7e4d3c78f7",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5e3b1213efc56598e78bd602983945c164de2a37205e06a62dada823124dc743": "5e3b1213efc56598e78bd602983945c164de2a37205e06a62dada823124dc743",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/9fddfdc56334f2e6efad7e241bf5e7459c40ed105c5478676f41c1244bd96752": "9fddfdc56334f2e6efad7e241bf5e7459c40ed105c5478676f41c1244bd96752",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/404f02044bac0432ca522cbb9f254b1c91fcea6806bfeef0be0b243b2f31bab7": "404f02044bac0432ca522cbb9f254b1c91fcea6806bfeef0be0b243b2f31bab7",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/c4f42be2be53b900ebffc040c1df13de538434ccc5f5d954a56848a6169a3a3f": "c4f42be2be53b900ebffc040c1df13de538434ccc5f5d954a56848a6169a3a3f",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/3452f4bbc98e573eb0fc2b7842acc1d3679fe3530432cad23fa3673c793be789": "3452f4bbc98e573eb0fc2b7842acc1d3679fe3530432cad23fa3673c793be789",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/4f306a348ee077f6fdd455d00b5886ca1c0e58a6180eeb9e474194baab6e8ff9": "4f306a348ee077f6fdd455d00b5886ca1c0e58a6180eeb9e474194baab6e8ff9"
+      },
+      "image_before": {
+        "Id": "sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17591:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17591@sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2"
+        ],
+        "Created": "2025-04-27T11:50:57.429713794Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D",
+            "PYTHON_VERSION=3.6.15",
+            "PYTHON_PIP_VERSION=21.2.4",
+            "PYTHON_SETUPTOOLS_VERSION=57.5.0",
+            "PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/3cb8888cc2869620f57d5d2da64da38f516078c7/public/get-pip.py",
+            "PYTHON_GET_PIP_SHA256=c518250e91a70d7b20cceb15272209a4ded2a0c263ae5776f129e0d9b5674309"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 2430480582,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:11936051f93baf5a4fb090a8fa0999309b8173556f7826598e235e8a82127bce",
+            "sha256:31892cc314cb1993ba1b8eb5f3002c4e9f099a9237af0d03d1893c6fcc559aab",
+            "sha256:8bf42db0de72f74f4ef0c1d1743f5d54efc3491ee38f4af6d914a6032148b78e",
+            "sha256:26a504e63be4c63395f216d70b1b8af52263a5289908df8e96a0e7c840813adc",
+            "sha256:c3a0d593ed24e738aec3b1e61662f696311ae99941c45c78d281ebc3732bdcb0",
+            "sha256:1e18e7e1fcc24ce3ca682c184fa27c1c240d18d1c456d593acc95758b92c404f",
+            "sha256:3e607d59ef9f20681f8b995bffdf17269bac7d057fe76f20c9ff6ce70dc0604e",
+            "sha256:8ba9f690e8ba0f49322cce69e0daa2a92993c24f26d3d1816ba621e47352be62",
+            "sha256:aa4c808c19f68799c8171deec506a25717fe1e9c460c3747b6fa978679867655",
+            "sha256:3771461e22d03d02981d004b6126dd5851902b74ee008f36afe3ba352bafc0e2",
+            "sha256:ec9bc9df31702f63c9c11a1e4b51ac6c212564a53b1b5d18c80230b4aa019a91"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-15T06:08:55.614664628Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:144c32a0cc5289766a46cdf7c232981b36768188500be2260f6ddae36ea11fd2",
+          "size": 2638,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17591",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17591:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    },
+    {
+      "candidate": "aws-cloudformation__cfn-lint-4016",
+      "image_id": "sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+      "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4016@sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+      "size": 2347306263,
+      "manifest_sha256": "3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "aws-cloudformation__cfn-lint-4016",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4016@sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+        "image_id": "sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+        "base_commit": "651367020b0ad6243677e8c280758208889b74db",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 原有回归失败"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625": "3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/e9953c182b7b03f9a826e1df99c9bcfcffaf14ddab68ca47066b10d3d045884c": "e9953c182b7b03f9a826e1df99c9bcfcffaf14ddab68ca47066b10d3d045884c",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849": "23b7d26ef1d294256da0d70ce374277b9aab5ca683015073316005cb63d33849",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905": "07d1b5af933d2dfc3d0dd509d6e20534825e4a537f7b006a6cb5b8e5a1f20905",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7": "1eb98adba0eb44a2e4facf9ca3626a4a66feedd0dd56d159cca90a35205744e7",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621": "b617a119f8a27982374d94ec6eb3738ae3d38d6fc2c34c865813926cf596a621",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5893f2eb5418ad35eb72d79548d6a2689599e97b3ea3ab0efa6babc3c261d537": "5893f2eb5418ad35eb72d79548d6a2689599e97b3ea3ab0efa6babc3c261d537",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b25c426204f45b8436d684dea65578794f4f7b8f1148dd89aaa85ef1393212ea": "b25c426204f45b8436d684dea65578794f4f7b8f1148dd89aaa85ef1393212ea",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cc381eaa3a998eda575c9d732b81eece7d103a1c7114a4a21bca12086db769f0": "cc381eaa3a998eda575c9d732b81eece7d103a1c7114a4a21bca12086db769f0",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/70178a6a2a6b288cd4485e0d80adc0122484d3bd137d64ff8034cc751a46ce1d": "70178a6a2a6b288cd4485e0d80adc0122484d3bd137d64ff8034cc751a46ce1d",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/91272407dcb1a8b52fb9938aeb8c1cb7ee8bb4be377fcedc9ec7492b3a2c721b": "91272407dcb1a8b52fb9938aeb8c1cb7ee8bb4be377fcedc9ec7492b3a2c721b"
+      },
+      "image_before": {
+        "Id": "sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4016:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4016@sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625"
+        ],
+        "Created": "2025-04-30T20:08:18.344815701Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=E3FF2839C048B25C084DEBE9B26995E310250568",
+            "PYTHON_VERSION=3.9.22",
+            "PYTHON_SHA256=8c136d199d3637a1fce98a16adc809c1d83c922d02d41f3614b34f8b6e7d38ec"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 2347306263,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:f7f2b929d8a55112a2db1bc16fb8731045c9572b84d6dfbbdbd5dc6dd2bd9fe4",
+            "sha256:7f0053786e6e2411ce577e795ef6c278601de3faa0817c071801b11a3f83fd0d",
+            "sha256:b2bcbd8ebb2be9869ca3198b4c521f18b612b4287ee4b705678d7b85383b71af",
+            "sha256:6c7c1b88da61a2ad4efd3cb93b6e31b0937d3f4121050a9d1c4ddd00485c7c68",
+            "sha256:7220c0ff562faf6ff6d75a5bd1e3b481fd412bdd7fb46988852d06d6919a241f",
+            "sha256:8d924c9d1e8dc9faa33b9f4fb85ae4342a70dd4e553b481b2562a5a33838d2bd",
+            "sha256:23443a55ecbb6f1225030dda831cc2f62d148a0600eb5d28619d1b0ed161a80c",
+            "sha256:0ef4636d24ba64eb75a4d72a5bce2886ddee7579f1a1e75f467b12ebfabd1fca",
+            "sha256:e70821d8e7b5dd5190cf0d4c2d5f4cf21dde512dce835180f6fc682fc94ae2c0"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-15T06:05:29.422151408Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:3263aab03ea032aab446f86c7c345215aae057435fe0e2f088f8ffe45ea3e625",
+          "size": 2216,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4016",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-4016:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    },
+    {
+      "candidate": "aws-cloudformation__cfn-lint-3920",
+      "image_id": "sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+      "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3920@sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+      "size": 2410345773,
+      "manifest_sha256": "effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+      "cache_proof": "/home/louishyh/.cache/novacode-evaluation/stage8/oci/effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982.json",
+      "qualification_result": {
+        "schema_version": 1,
+        "instance_id": "aws-cloudformation__cfn-lint-3920",
+        "qualified": false,
+        "runs": [],
+        "model_calls": 0,
+        "runtime_sha256": "d459a89f99c744b372144f88577f667469bfb91115170f64b22fd958babe33ac",
+        "image_transport": "verified-oci",
+        "image": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3920@sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+        "image_id": "sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+        "base_commit": "5d9282d0ef73a24976e4977f6d6dfe143bdf779a",
+        "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+        "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+        "error": "AssertionError: 原有回归失败"
+      },
+      "verified_complete_oci_files": {
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982": "effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/65ca223720d0e8a32040a0c8eb0aadbbf84cf9653ed5b61607d9b6522f915cab": "65ca223720d0e8a32040a0c8eb0aadbbf84cf9653ed5b61607d9b6522f915cab",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e": "cdd62bf39133c498a16f7a7b1b6555ba43d02b2511c508fa4c0a9b1975ffe20e",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343": "a47cff7f31e941e78bf63ca19f0811b675283e2c00ddea10c57f78d93b2bc343",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5": "a173f2aee8e962ea19db1e418ae84a0c9f71480b51f768a19332dfa83d7722a5",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32": "01272fe8adbacc44afd2b92994b31c40a151f4324ca392050d9e8d580927dd32",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09": "cddc73e4e6c704bfa2325e53c32ddb3553c8fc3a91dab6c092bb353f82098b09",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac": "cc48f13b5f0f44b2e298de83a94a99fe7abdfb3335fe9b7811b8f764abb1a4ac",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a": "5a98c896c047f960c5fd29d44fa778899a68e7ebfb6a6a4f2a3fbf7baa902f6a",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/52eabfe0ed67285e1dd4007003c613353debf7faf896489dab6036bd652cf8ef": "52eabfe0ed67285e1dd4007003c613353debf7faf896489dab6036bd652cf8ef",
+        "/home/louishyh/.cache/novacode-evaluation/stage8/oci/blobs/b9d34aca4972306ecc316c9c52f86742e5a39cf7fe2693ac451fa44890135985": "b9d34aca4972306ecc316c9c52f86742e5a39cf7fe2693ac451fa44890135985"
+      },
+      "image_before": {
+        "Id": "sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+        "RepoTags": [
+          "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3920:latest"
+        ],
+        "RepoDigests": [
+          "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3920@sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982"
+        ],
+        "Created": "2025-04-30T21:40:42.842717061Z",
+        "Config": {
+          "Env": [
+            "TERM=xterm-mono",
+            "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "LANG=C.UTF-8",
+            "GPG_KEY=E3FF2839C048B25C084DEBE9B26995E310250568",
+            "PYTHON_VERSION=3.8.20"
+          ],
+          "Cmd": [
+            "/bin/bash"
+          ],
+          "WorkingDir": "/testbed"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 2410345773,
+        "RootFS": {
+          "Type": "layers",
+          "Layers": [
+            "sha256:d50132f2fe78aaa8e67f229e53305d0c4a7a86c9deda4bf3160be0a678926458",
+            "sha256:3e14a6961052c6ebe30f972947bf9d7ffec586a2bf081738fd9acd74fdceb343",
+            "sha256:f91dc7a486d99ec2e605b4417fe39b503aa3045d6f91f92810b82fae54ae9293",
+            "sha256:2bce433c3a290e09105af7c14ea063b125babdcc74544fa5773a2ce88e54f78e",
+            "sha256:45b98afd69b39564c1e78ea0d209dd7cb4058cea8351d30e375045457cdb018b",
+            "sha256:1767e4d52b5aaec319cb2edb7cd8185f7245953d03312b6173b21d26431b178b",
+            "sha256:32ee710ca3c753c1faccefcdb18d5b48c2e6b7d2abd660f165954d7acf9dbcc6",
+            "sha256:0ebbcd43ccb1ec31774d78828658da381cf9467810fb4d89e000ee44dda00624",
+            "sha256:b0ed42d94309f0ab3110d844b8e7ae28890d8b81769db11ed74f4daeaf93f66f"
+          ]
+        },
+        "Metadata": {
+          "LastTagTime": "2026-10-15T06:10:01.609988182Z"
+        },
+        "Descriptor": {
+          "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+          "digest": "sha256:effbc7b0807d1cb71f20466a48d054524223fe80cb7744e91af20516410d2982",
+          "size": 2216,
+          "annotations": {
+            "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3920",
+            "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.aws-cloudformation_1776_cfn-lint-3920:latest",
+            "org.opencontainers.image.ref.name": "latest"
+          }
+        }
+      },
+      "restore_script": "F:/NovaCode-evaluation-cache/restore-invalid-image.py",
+      "model_calls": 0,
+      "docker_expanded_copy_released": true
+    }
+  ],
+  "first_qualification_records_unchanged": true,
+  "model_calls": 0
+}

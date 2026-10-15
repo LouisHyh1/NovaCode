@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读追踪事件 publish 到 UTF-8 字节写入的调用路径。最终 JSON 含 files、symbols（路径:符号）、relations（[源,目标]数组）。"
+  ],
+  "schema_version": 1
+}

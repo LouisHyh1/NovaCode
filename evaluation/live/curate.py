@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
 import subprocess
 from collections import Counter
 from pathlib import Path
@@ -56,6 +57,9 @@ def qualify_candidate(
     for attempt in range(1, 4):
         output = base if attempt == 1 else base.with_name(base.name + f"-image-retry-{attempt}")
         if not output.exists():
+            rule = json.loads((pool / "selection-rule.json").read_text())
+            if shutil.disk_usage(root).free < rule["limits"]["minimum_free_disk_bytes"]:
+                raise RuntimeError("全局准备磁盘余量不足，暂停选择而非排除候选")
             subprocess.run(
                 [
                     str(grader),
@@ -76,6 +80,11 @@ def qualify_candidate(
             )
         result = json.loads((output / "qualification.json").read_text())
         pull_log = output / "image-pull.txt"
+        if not (output / "original").exists() and (
+            "准备磁盘余量不足" in result.get("error", "")
+            or (pull_log.exists() and "准备磁盘余量不足" in pull_log.read_text())
+        ):
+            raise RuntimeError(f"全局准备磁盘余量不足，暂停选择而非排除候选；记录于 {output}")
         if (
             not (output / "original").exists()
             and pull_log.exists()
@@ -99,7 +108,12 @@ def qualify_candidate(
         "difficulty": entry["difficulty"],
         "qualification_sha256": digest(output / "qualification.json"),
         "action": "QUALIFIED" if result["qualified"] else "EXCLUDED",
-        "reason": result.get("error", "original-failure-and-three-reference-passes"),
+        "reason": result.get(
+            "error",
+            "original-failure-and-three-reference-passes"
+            if result["qualified"]
+            else "qualification-incomplete",
+        ),
         "qualification_relative_path": str(output.relative_to(root)),
         "preparation_retries": retries,
     }
@@ -127,6 +141,10 @@ def image_retryable(result: dict[str, Any], output: Path) -> bool:
                 "handshake timeout",
                 "i/o timeout",
                 "http error 401",
+                "准备请求超时",
+                "网络请求失败，exit=35",
+                "网络请求失败，exit=28",
+                "网络请求失败，exit=56",
                 "registry blob 大小不符",
             )
         )
@@ -139,13 +157,21 @@ def select(pool: Path, archive: Path, grader: Path) -> None:
     root = pool.parent
     accepted: list[dict[str, Any]] = []
     counts: Counter[str] = Counter()
-    keys: set[str] = set()
+    keys: set[str] = set(rule.get("excluded_problem_keys", []))
     attempted = 0
     decisions: list[dict[str, Any]] = []
     review_path = root / "additional-complexity-reviews.json"
     additional_reviews = json.loads(review_path.read_text()) if review_path.exists() else {}
     for level in rule["stratum_order"]:
         for entry in candidate_order(entries, level):
+            if entry["instance_id"] in rule.get("excluded_candidate_ids", []):
+                decisions.append(
+                    {
+                        "instance_id": entry["instance_id"],
+                        "reason": "development-or-prior-ineligible",
+                    }
+                )
+                continue
             if counts[entry["repository"]] >= rule["repository_limit"]:
                 decisions.append(
                     {"instance_id": entry["instance_id"], "reason": "repository-limit"}
@@ -182,7 +208,7 @@ def select(pool: Path, archive: Path, grader: Path) -> None:
         ), "资格池缺额"
     save(root / "selected.json", {"schema_version": 1, "entries": accepted})
     save(root / "selection-decisions.json", {"schema_version": 1, "decisions": decisions})
-    print("12 QUALIFIED", flush=True)
+    print(f"{len(accepted)} QUALIFIED", flush=True)
 
 
 def build(pool: Path, output: Path, grader: Path) -> None:
@@ -197,7 +223,7 @@ def build(pool: Path, output: Path, grader: Path) -> None:
     task_list: list[EvaluationTask] = []
     proofs = {}
     for index, entry in enumerate(entries, 1):
-        task_id = f"L{index:02}"
+        task_id = f"{rule.get('task_prefix', 'L')}{index:02}"
         qualification_root = root / entry["qualification_relative_path"]
         assert qualification_root.resolve().is_relative_to((root / "final-qualification").resolve())
         row = json.loads((qualification_root / "row.json").read_text())
@@ -245,7 +271,7 @@ def build(pool: Path, output: Path, grader: Path) -> None:
             task_id=task_id,
             candidate_id=entry["instance_id"],
             source="live",
-            suite="development",
+            suite=rule.get("suite", "development"),
             family_id="live:" + entry["problem_keys"][0],
             problem_keys=tuple(entry["problem_keys"]),
             repository=row["repo"],
@@ -316,6 +342,22 @@ def build(pool: Path, output: Path, grader: Path) -> None:
             evidence=proofs[task.task_id],
         )
     states, _ = ledger.replay()
+    if rule.get("suite") == "frozen":
+        quota = quota_report(tasks, states)
+        live = next(r for r in quota["rows"] if r["suite"] == "frozen" and r["source"] == "live")
+        assert live["gap"] == 0 and not any(live["difficulty_gaps"].values())
+        save(
+            output / "admitted.json",
+            {
+                "schema_version": 1,
+                "state": "ADMITTED",
+                "quota": quota,
+                "live_ids": {t.task_id: t.candidate_id for t in tasks},
+                "model_calls": 0,
+            },
+        )
+        print("24 frozen Live ADMITTED", flush=True)
+        return
     specialties = tuple(
         EvaluationTask.from_json(p.read_text())
         for p in sorted(Path("evaluation/specialty/assets/contracts").glob("*.json"))

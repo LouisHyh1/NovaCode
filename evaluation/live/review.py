@@ -33,9 +33,12 @@ def review(assets: Path, root: Path, output: Path) -> None:
         frozenset(t.budget_category for t in tasks),
     )
     states, _ = ledger.replay()
-    assert len(tasks) == 12 and set(states.values()) == {"ADMITTED"}
-    assert Counter(t.difficulty for t in tasks) == {"easy": 4, "medium": 6, "hard": 2}
-    assert max(Counter(t.repository for t in tasks).values()) <= 2
+    rule = json.loads((root / "pool-final/selection-rule.json").read_text())
+    assert len(tasks) == sum(rule["difficulty_targets"].values()) and set(states.values()) == {
+        "ADMITTED"
+    }
+    assert Counter(t.difficulty for t in tasks) == rule["difficulty_targets"]
+    assert max(Counter(t.repository for t in tasks).values()) <= rule["repository_limit"]
     output.mkdir(parents=True, exist_ok=True)
     for task in tasks:
         (request,) = validate_task_assets(task, public, hidden, ledger.budget_categories)
@@ -90,7 +93,7 @@ def review(assets: Path, root: Path, output: Path) -> None:
             shutil.copy2(root / name, output / name)
     shutil.copy2(assets / "selection.jsonl", output / "selection.jsonl")
     shutil.copy2(assets / "admitted.json", output / "admitted.json")
-    print("12 Live admissions and raw fingerprints verified")
+    print(f"{len(tasks)} Live admissions and raw fingerprints verified")
 
 
 if __name__ == "__main__":

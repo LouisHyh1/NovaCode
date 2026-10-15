@@ -14,6 +14,12 @@ import tarfile
 import urllib.request
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
+
+try:
+    from registry_http import open_registry
+except ImportError:
+    from evaluation.live.registry_http import open_registry
 
 
 def sha(path: Path) -> str:
@@ -32,7 +38,7 @@ def authorization(repo: str) -> dict[str, str]:
         + ":pull",
         headers={"Authorization": "Basic " + auth} if auth else {},
     )
-    with urllib.request.urlopen(request, timeout=60) as response:
+    with open_registry(request, timeout=60) as response:
         return {"Authorization": "Bearer " + str(json.load(response)["token"])}
 
 
@@ -42,28 +48,35 @@ def blob(base: str, descriptor: dict[str, Any], headers: dict[str, str], cache: 
     path = cache / digest.split(":")[1]
     if path.exists() and sha(path) == path.name:
         return path
-    assert shutil.disk_usage(cache).free > descriptor["size"] + 20 * 1024**3
+    assert shutil.disk_usage(cache).free > descriptor["size"] + 20 * 1024**3, "准备磁盘余量不足"
     partial = path.with_suffix(".part")
-    for _ in range(3):
+    for attempt in range(3):
         offset = partial.stat().st_size if partial.exists() else 0
         if offset == descriptor["size"]:
             break
-        request_headers = {
-            **headers,
-            **authorization(base.split("/v2/")[1].rstrip("/")),
-            "Range": f"bytes={offset}-",
-        }
-        with urllib.request.urlopen(
-            urllib.request.Request(base + "blobs/" + digest, headers=request_headers), timeout=60
-        ) as response:
-            resumed = response.status == 206
-            if resumed:
-                assert re.fullmatch(
-                    rf"bytes {offset}-[0-9]+/{descriptor['size']}",
-                    response.headers["Content-Range"],
-                ), "Registry Range 响应不符"
-            with partial.open("ab" if resumed else "wb") as stream:
-                shutil.copyfileobj(response, stream, length=1024 * 1024)
+        try:
+            request_headers = {
+                **headers,
+                **authorization(base.split("/v2/")[1].rstrip("/")),
+                "Range": f"bytes={offset}-",
+            }
+            with open_registry(
+                urllib.request.Request(base + "blobs/" + digest, headers=request_headers),
+                timeout=60,
+            ) as response:
+                resumed = response.status == 206
+                if resumed:
+                    assert re.fullmatch(
+                        rf"bytes {offset}-[0-9]+/{descriptor['size']}",
+                        response.headers["Content-Range"],
+                    ), "Registry Range 响应不符"
+                with partial.open("ab" if resumed else "wb") as stream:
+                    shutil.copyfileobj(response, stream, length=1024 * 1024)
+        except RuntimeError as error:
+            if not str(error).startswith("Registry 网络请求失败，exit=35:") or attempt == 2:
+                raise
+            # 握手失败未交付响应体；保留原断点，消耗已有三次分段额度。
+            print("Registry TLS 握手失败，保留断点重试", flush=True)
     assert partial.stat().st_size == descriptor["size"], "Registry blob 大小不符"
     assert sha(partial) == path.name, "Registry blob SHA-256 不符"
     partial.replace(path)
@@ -80,7 +93,7 @@ def fetch(image: str, cache_root: Path) -> dict[str, Any]:
         "Accept": "application/vnd.docker.distribution.manifest.v2+json",
     }
     base = "https://registry-1.docker.io/v2/" + repo + "/"
-    with urllib.request.urlopen(
+    with open_registry(
         urllib.request.Request(base + "manifests/" + tag, headers=headers), timeout=60
     ) as response:
         raw = response.read()
@@ -114,8 +127,8 @@ def fetch(image: str, cache_root: Path) -> dict[str, Any]:
             }
         ],
     }
-    archive = cache_root / (actual.split(":")[1] + ".tar")
-    with tarfile.open(archive, "w") as package:
+    archive = cache_root / (actual.split(":")[1] + "-import-" + uuid4().hex + ".tar")
+    with tarfile.open(archive, "x", dereference=True) as package:
         for name, data in (("oci-layout", {"imageLayoutVersion": "1.0.0"}), ("index.json", index)):
             content = json.dumps(data).encode()
             info = tarfile.TarInfo(name)
@@ -141,6 +154,8 @@ def fetch(image: str, cache_root: Path) -> dict[str, Any]:
         "transport": "verified-oci-import",
     }
     (cache_root / (actual.split(":")[1] + ".json")).write_text(json.dumps(result, indent=2) + "\n")
+    # 新生成的传输tar可由已核对blob重建；导入及rootfs核对后释放重复占用。
+    archive.unlink()
     return result
 
 
