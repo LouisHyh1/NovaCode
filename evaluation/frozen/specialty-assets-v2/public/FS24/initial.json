@@ -1,0 +1,9 @@
+{
+  "base_commit": "ba470d3f733d4ffd1b1e9336c48ec9cf4612e24c",
+  "files": {
+    "gateway.py": "def forward(url, routes, fallback):\n    return {'target': fallback, 'path': url, 'query': ''}\n",
+    "records.json": "{\n  \"issue_lookup\": {\n    \"ROUTE-24\": {\n      \"issue\": \"ROUTE-24\",\n      \"commit\": \"d24\",\n      \"source\": \"issues\"\n    }\n  },\n  \"ci_commit\": {\n    \"d24\": {\n      \"commit\": \"d24\",\n      \"job\": \"route-contract\",\n      \"reason\": \"FALLBACK_SHADOWED\",\n      \"source\": \"ci\"\n    }\n  },\n  \"ci_deploy\": {\n    \"d24\": {\n      \"commit\": \"d24\",\n      \"job\": \"canary\",\n      \"reason\": \"UNRELATED\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n",
+    "routes.py": "def choose(path, routes, fallback):\n    return fallback\n"
+  },
+  "schema_version": 1
+}

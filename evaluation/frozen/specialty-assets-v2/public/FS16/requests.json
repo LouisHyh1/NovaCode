@@ -1,0 +1,11 @@
+{
+  "requests": [
+    "阅读 data/events.csv，后续按 csv 规则还原事件；字段可有逗号和内嵌换行，按 seq 数字排序，禁止改写原始数据。",
+    "阅读 notes/audit-1.txt 并简述内容；这一轮不修改代码。",
+    "阅读 notes/audit-2.txt 并简述内容；这一轮不修改代码。",
+    "阅读 notes/audit-3.txt 并简述内容；这一轮不修改代码。",
+    "阅读 notes/audit-4.txt 并简述内容；这一轮不修改代码。",
+    "在 ledger.py 实现 events(text) 还原之前数据的字典列表，沿用之前读取与排序约束，可重读原数据。仅修改合同允许的生产文件。"
+  ],
+  "schema_version": 1
+}

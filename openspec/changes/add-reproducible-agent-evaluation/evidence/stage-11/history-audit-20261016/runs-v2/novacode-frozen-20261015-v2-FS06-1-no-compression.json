@@ -1,0 +1,171 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FS06-1-no-compression",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "12bbdccc36244537bae38a9bfa1a14b6"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "no-compression",
+      "initial_sha256": "98acee0e6d5126829c03f6842dd69829f0db2150af4aab36a64638d51485b81a",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS06-1-no-compression",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS06",
+      "task_sha256": "4c670c5a0620ac7e1cf4d0f2f45abd448c19f88e6078265265ad81cf2bf13ee5",
+      "termination": "completed"
+    },
+    "strict_success": true,
+    "result_sha256": "a0812430643e8d4201e01367a828cc17446cf6a5603e354b3da9b7231b7e7fda",
+    "judge": {
+      "conditions": {
+        "scope": true,
+        "correct-tests": true,
+        "all-mutants": true
+      },
+      "details": {
+        "correct": {
+          "run": 5,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 0,
+          "successful": true,
+          "failure_ids": [],
+          "error_ids": [],
+          "called": [
+            "grouping.py"
+          ],
+          "executed": [
+            "grouping.py:group"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "mutants": {
+          "overwrite": {
+            "run": 5,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 1,
+            "successful": false,
+            "failure_ids": [
+              "test_added.GroupContract.test_duplicate_key_keeps_all_values_in_order"
+            ],
+            "error_ids": [],
+            "called": [
+              "<string>",
+              "grouping.py"
+            ],
+            "executed": [
+              "<string>:__new__",
+              "grouping.py:group"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "reverse": {
+            "run": 5,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 1,
+            "successful": false,
+            "failure_ids": [
+              "test_added.GroupContract.test_duplicate_key_keeps_all_values_in_order"
+            ],
+            "error_ids": [],
+            "called": [
+              "<string>",
+              "grouping.py"
+            ],
+            "executed": [
+              "<string>:__new__",
+              "grouping.py:group"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      }
+    }
+  },
+  "archive": {
+    "sha256": "3a3ebc5655e24c4d6d35b8147e472ca6a606a263fbe337110747c8789575fec7",
+    "members_verified": 25
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "d3a290eab0b142b648b1cdb344b4e1c20818075e14656f3d43ebe0154ac13594",
+      "records": 14,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "4295a62c6726b62d07ffa75a40e6f752e78d13a0cbadc177e56cab87de8fe0ed",
+      "records": 46,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 5,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 15014,
+    "measured_tokens": 15014,
+    "tool_calls": 6,
+    "tool_retries": 0,
+    "tool_executed": 6,
+    "tool_succeeded": 6,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": 0.5324839000004431,
+      "initialization": 0.023041583999656723,
+      "agent": 7.1259353249988635,
+      "cleanup": 0.014381569999386556,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 7.177298955000879,
+    "total_wall_seconds": 7.750619758000539,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "original-specialty-artifact-verified",
+  "derived": {
+    "kind": "original-specialty-judge-artifact-verification",
+    "target_tests_rerun": false,
+    "result": "artifact-verified",
+    "patch_sha256": "38dbb742d99e09c3176cf86fda3f3580753f96bd45da2bc7f1e39ca61307c1a0"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

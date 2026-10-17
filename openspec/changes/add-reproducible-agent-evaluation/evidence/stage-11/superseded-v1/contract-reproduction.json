@@ -1,0 +1,185 @@
+[
+  {
+    "task_id": "FS01",
+    "public_requests": {
+      "requests": [
+        "只读追踪事件 publish 到 UTF-8 字节写入的调用路径。最终 JSON 含 files、symbols（路径:符号）、relations（[源,目标]数组）。"
+      ],
+      "schema_version": 1
+    },
+    "gold_encoding_passes": true,
+    "same_facts_object_encoding_passes": false,
+    "object_encoding": {
+      "files": [
+        {
+          "path": "entry.py"
+        },
+        {
+          "path": "transport.py"
+        },
+        {
+          "path": "codec.py"
+        }
+      ],
+      "symbols": [
+        {
+          "file": "entry.py",
+          "name": "publish"
+        },
+        {
+          "file": "transport.py",
+          "name": "send"
+        },
+        {
+          "file": "codec.py",
+          "name": "pack"
+        }
+      ],
+      "relations": [
+        {
+          "from": "entry.py:publish",
+          "to": "transport.py:send"
+        },
+        {
+          "from": "transport.py:send",
+          "to": "codec.py:pack"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "FS02",
+    "public_requests": {
+      "requests": [
+        "只读定位未知路由如何选取 fallback 并执行。最终 JSON 用 files、symbols、relations 给出 dispatcher、选择器和回退函数的关系。"
+      ],
+      "schema_version": 1
+    },
+    "gold_encoding_passes": true,
+    "same_facts_object_encoding_passes": false,
+    "object_encoding": {
+      "files": [
+        {
+          "path": "routes.py"
+        },
+        {
+          "path": "dispatch.py"
+        }
+      ],
+      "symbols": [
+        {
+          "file": "dispatch.py",
+          "name": "dispatch"
+        },
+        {
+          "file": "routes.py",
+          "name": "choose"
+        },
+        {
+          "file": "routes.py",
+          "name": "fallback"
+        }
+      ],
+      "relations": [
+        {
+          "from": "dispatch.py:dispatch",
+          "to": "routes.py:choose"
+        },
+        {
+          "from": "routes.py:choose",
+          "to": "routes.py:fallback"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "FS03",
+    "public_requests": {
+      "requests": [
+        "只读追踪过期缓存 read→判断→驱逐后重新装载的路径；loader 为外部参数，不列作文件符号。最终 JSON 含 files、symbols、relations。"
+      ],
+      "schema_version": 1
+    },
+    "gold_encoding_passes": true,
+    "same_facts_object_encoding_passes": false,
+    "object_encoding": {
+      "files": [
+        {
+          "path": "cache.py"
+        },
+        {
+          "path": "reader.py"
+        }
+      ],
+      "symbols": [
+        {
+          "file": "reader.py",
+          "name": "read"
+        },
+        {
+          "file": "cache.py",
+          "name": "stale"
+        },
+        {
+          "file": "cache.py",
+          "name": "evict"
+        }
+      ],
+      "relations": [
+        {
+          "from": "reader.py:read",
+          "to": "cache.py:stale"
+        },
+        {
+          "from": "reader.py:read",
+          "to": "cache.py:evict"
+        }
+      ]
+    }
+  },
+  {
+    "task_id": "FS04",
+    "public_requests": {
+      "requests": [
+        "只读追踪批处理 action 抛错时快照和回滚调用关系。最终 JSON 含 files、symbols、relations；不把正常完成当作回滚。"
+      ],
+      "schema_version": 1
+    },
+    "gold_encoding_passes": true,
+    "same_facts_object_encoding_passes": false,
+    "object_encoding": {
+      "files": [
+        {
+          "path": "journal.py"
+        },
+        {
+          "path": "batch.py"
+        }
+      ],
+      "symbols": [
+        {
+          "file": "batch.py",
+          "name": "apply"
+        },
+        {
+          "file": "journal.py",
+          "name": "snapshot"
+        },
+        {
+          "file": "journal.py",
+          "name": "restore"
+        }
+      ],
+      "relations": [
+        {
+          "from": "batch.py:apply",
+          "to": "journal.py:snapshot"
+        },
+        {
+          "from": "batch.py:apply",
+          "to": "journal.py:restore"
+        }
+      ]
+    }
+  }
+]

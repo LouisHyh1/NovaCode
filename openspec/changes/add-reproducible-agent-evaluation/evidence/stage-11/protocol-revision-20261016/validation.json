@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "state": "DOCUMENTS_READY",
+  "scope": "documentation-only",
+  "changed_existing_documents": 11,
+  "document_sha256": {
+    "openspec/changes/add-reproducible-agent-evaluation/proposal.md": "98409483c0a4f73f0167ebbe02cf27ec79aa01a84fd9f6cb80ecc224a8230ada",
+    "openspec/changes/add-reproducible-agent-evaluation/design.md": "f1edfa4372c0a3643776e36de8857dffe011a7d55440607a1d3ddadf93932c83",
+    "openspec/changes/add-reproducible-agent-evaluation/tasks.md": "ede17fec4a0823e4fb81a977c5d1c51bf57f62e3c19a32bc3107f867bbbf9c43",
+    "openspec/changes/add-reproducible-agent-evaluation/evaluation-protocol.md": "492cd2780bfe3846c58b30d522d898ebc51323a6f6e8766724ee5ac3978c3435",
+    "openspec/changes/add-reproducible-agent-evaluation/task-catalog.md": "000d4884b0546232c4645a8408cdc8006c4623b8e58effd382ff0eb622f7bb65",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-corpus/spec.md": "4687536eb28a27d83593ea68dd59486196865a013e344d42319c6e83211fcb0c",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-experiments/spec.md": "30862780b55077d8378ab750a422d9edb811429371016429e212f4bca699dfbc",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-runner/spec.md": "250cebd364e101edd8a9a5e47c571fb8df5d2c11992d41a8b1053c041527ca77",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-observability/spec.md": "915d05f66815fdd835d957be803b8982718353d1aed8653a1e21fb14a11bc2b1",
+    "evaluation/formal/README.md": "f011771f82c7d8179def4b3e763f68b32b14c570f2be27f5c29d7a36bd27dd45",
+    "evaluation/frozen/README.md": "6c448464a7495bdf4011fe70bda0d83f0dd1efc0cd397dffff1ef4f07fa1f1e2"
+  },
+  "checks_passed": [
+    "openspec validate add-reproducible-agent-evaluation --strict",
+    "git diff --check",
+    "current document local links",
+    "Markdown table columns and UTF-8",
+    "category budget arithmetic",
+    "unique task labels",
+    "completed task descriptions unchanged",
+    "protected original and Python source SHA-256 unchanged"
+  ],
+  "protected_files_checked": 6116,
+  "retained_business_workspace_hashed": false,
+  "history_reliability_audit_performed": false,
+  "recorded_runs": 147,
+  "archives": 147,
+  "task_progress": {
+    "total": 78,
+    "complete": 61,
+    "remaining": 17,
+    "new_unchecked": 9
+  },
+  "new_model_calls": 0,
+  "offline_replay_performed": false,
+  "independent_grading_performed": false,
+  "new_selection_generated": false,
+  "refreeze_performed": false,
+  "formal_start_authorized": false,
+  "git_commit_or_push_performed": false,
+  "v2_protocol_snapshot_sha256": "a8862a4b5455d0e74392876c25d0082ad709ecb1410b7e8fc397774a372ad3fa",
+  "v2_manifest_sha256": "cf7191aeef652b2658456572fb737c17791649e65870ebba48812d1dd35de658"
+}

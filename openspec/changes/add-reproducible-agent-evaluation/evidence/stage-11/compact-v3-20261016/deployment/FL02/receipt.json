@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17923@sha256:5e05d6152356948e22f1c937427b4d4a443b01811494abd56d5e7c78cc3fb479",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL02",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL02/baseline/manifest.json",
+    "sha256": "fb5b31635b08ffa208e6c54b2814a530c9d668cae22641028dd890dcdf624738",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL02/baseline.tar.gz",
+    "archive_sha256": "209603b7ddcd7381ec2c473a546b4d60568143bf62193b62968a485b39021d38",
+    "tree": "b2c392863e7c8eaa368c5660bb7ceb8d4965d58c",
+    "entries": 1091
+  }
+}

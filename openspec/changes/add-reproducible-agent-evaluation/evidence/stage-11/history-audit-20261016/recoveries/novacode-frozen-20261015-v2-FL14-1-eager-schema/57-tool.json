@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "# @jupyter-ai/magics\n\nThis is a Python library `jupyter_ai_magics` that exposes the model providers\nand defines the IPython magics.\n",
+  "stderr": ""
+}

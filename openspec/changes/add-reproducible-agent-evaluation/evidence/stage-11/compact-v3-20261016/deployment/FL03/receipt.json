@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1132@sha256:9349f20a472ce5b06101bbdb1f180106f84e4601d4ec64d7046111e08f5abb7e",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL03",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL03/baseline/manifest.json",
+    "sha256": "ec10122b10da79d61707fd4b036309a1103ecd8c5b1df3d3017e67f21d4c55a8",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL03/baseline.tar.gz",
+    "archive_sha256": "77dfa1b26355ed592c2001cb6d9fd6ad6342974febc631998edb22c227462b1d",
+    "tree": "b7b6b721c2e2d64810b2311aacca802fcf2f52b5",
+    "entries": 4034
+  }
+}

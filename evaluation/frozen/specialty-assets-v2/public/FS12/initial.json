@@ -1,0 +1,8 @@
+{
+  "base_commit": "2ffb1f2c550b6c92dd133004302e0269c99ed36c",
+  "files": {
+    "jsonlines.py": "import json\ndef read(lines):\n    result = []\n    for number, line in enumerate(lines, 1):\n        if not line.strip():\n            continue\n        try:\n            result.append(json.loads(line))\n        except ValueError as exc:\n            continue\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import jsonlines as m\n        self.assertEqual(m.read(iter(['', '{\"x\": 1}', '   '])), [{'x': 1}])\n        with self.assertRaisesRegex(ValueError, 'line 3') as caught: m.read(['', '{}', '{bad'])\n        self.assertIsNotNone(caught.exception.__cause__)\n"
+  },
+  "schema_version": 1
+}

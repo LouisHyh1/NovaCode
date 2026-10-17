@@ -1,0 +1,8 @@
+{
+  "state": "VERIFIED_FINAL_TREE",
+  "entries": 76097,
+  "original_final_state_sha256": "741da138919b1f0ef5c31f2c657c35d25af2215c58fd6d79d47fad5812561111",
+  "reconstructed_state_sha256": "741da138919b1f0ef5c31f2c657c35d25af2215c58fd6d79d47fad5812561111",
+  "original_workspace_unchanged": true,
+  "model_calls": 0
+}

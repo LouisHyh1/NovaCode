@@ -1,0 +1,19 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL11-1-no-compression",
+  "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL11-1-no-compression",
+  "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-no-compression/candidate.diff",
+  "source_sha256": "db2a977846297730b484ac838bbb08435b8cd2bcfdf0f78f55bbb10b9365b0f5",
+  "classification": "candidate",
+  "new_judgment": {
+    "conditions": {
+      "official-tests": true
+    },
+    "live_resolved": true,
+    "grading_seconds": 20.16877055168152
+  },
+  "exit_code": 0,
+  "diagnostic_stderr": "",
+  "original_unchanged": true,
+  "model_calls": 0,
+  "not_v3_result": true
+}

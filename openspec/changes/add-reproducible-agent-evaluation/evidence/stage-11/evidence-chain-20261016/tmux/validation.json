@@ -1,0 +1,14 @@
+{
+  "state": "SCRIPTED_TMUX_VALID",
+  "real_model_calls": 0,
+  "product_path": "NovaCodeApp -> Agent -> read_file -> reply -> Session -> /exit",
+  "provider_close_count": 1,
+  "stage12_real_model_acceptance": false,
+  "files": {
+    "terminal.txt": "1cfe3d89dcabac62b13a55668fa1a33ada2cb87cd435f42123049da76c76928c",
+    "events.jsonl": "b03c8735dcf672b96c972fb6957af78459be08cdbc69058979c8f891cd4a7d7b",
+    "exited.ok": "284a3f15d30431446048d388a394e510f48270db86569f27657ed5e12e848355",
+    "session.jsonl": "9b54a312a0296c8d8c7fbb01f05a6ac5564aae3e0833d30b9ab3f44c1f9a51f3",
+    "evidence-summary.json": "6805ff3f3707a9e13b9ae9e9c7cdfee689a6327d4eef738e081f4b1b8074dcde"
+  }
+}

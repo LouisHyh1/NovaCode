@@ -1,0 +1,18 @@
+{
+  "case": "FL07-negative",
+  "new_identity": "offline-chain-20261016-FL07-negative",
+  "expected_pass": false,
+  "actual_pass": false,
+  "conditions": {
+    "official-tests": false
+  },
+  "patch_sha256": "ae20d797fb2746bfe823c5c2148b11563cc4ea20c51b757d9b225fdb46db75e9",
+  "archive_sha256": "6a5abc6dc5eec078f0feebfd1dd683ab31e25796c2daede8f7fa5b0bd37d7363",
+  "restored_state_equal": true,
+  "baseline_entries": 122,
+  "changed_paths": [
+    "coverage.xml"
+  ],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FL07-negative"
+}

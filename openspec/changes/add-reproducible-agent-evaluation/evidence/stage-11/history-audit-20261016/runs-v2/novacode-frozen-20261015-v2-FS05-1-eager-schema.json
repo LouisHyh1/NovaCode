@@ -1,0 +1,171 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FS05-1-eager-schema",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "eae3c5d78d03427aade4ffd4efee05da"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "eager-schema",
+      "initial_sha256": "a2fd87dc52f7c95f7200cccb4657ebabca1588fc22cf5b115744d1dbd5f91a10",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS05-1-eager-schema",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS05",
+      "task_sha256": "4865e00a2582ede75b770b0650005a569e867820e2ab0cb74bc677d1d3194ec2",
+      "termination": "completed"
+    },
+    "strict_success": true,
+    "result_sha256": "bfc1b7bba02a196b9ba6b3c958d90f64165e28015cf45d93e764b77b905d79dc",
+    "judge": {
+      "conditions": {
+        "scope": true,
+        "correct-tests": true,
+        "all-mutants": true
+      },
+      "details": {
+        "correct": {
+          "run": 6,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 0,
+          "successful": true,
+          "failure_ids": [],
+          "error_ids": [],
+          "called": [
+            "intervals.py"
+          ],
+          "executed": [
+            "intervals.py:overlaps"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "mutants": {
+          "closed-end": {
+            "run": 6,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 3,
+            "successful": false,
+            "failure_ids": [
+              "test_added.OverlapsHalfOpen.test_empty_intervals_do_not_overlap",
+              "test_added.OverlapsHalfOpen.test_negative_endpoints",
+              "test_added.OverlapsHalfOpen.test_touching_intervals_do_not_overlap"
+            ],
+            "error_ids": [],
+            "called": [
+              "intervals.py"
+            ],
+            "executed": [
+              "intervals.py:overlaps"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "inverted": {
+            "run": 6,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 3,
+            "successful": false,
+            "failure_ids": [
+              "test_added.OverlapsHalfOpen.test_containment",
+              "test_added.OverlapsHalfOpen.test_negative_endpoints",
+              "test_added.OverlapsHalfOpen.test_overlapping_intervals"
+            ],
+            "error_ids": [],
+            "called": [
+              "intervals.py"
+            ],
+            "executed": [
+              "intervals.py:overlaps"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      }
+    }
+  },
+  "archive": {
+    "sha256": "f76c647a9ed45b76f2969e57c35a9e0795835751e34a3d0b3c9720adda2219d7",
+    "members_verified": 27
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "c71c8e830447241110a7879873c485cfbf7d49e4a1d1f077373181398bd45f96",
+      "records": 14,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "eb739dc7a7bd70f2a212574e520a9d7a0a578496cd686219570d5944028fd811",
+      "records": 52,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 6,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 20141,
+    "measured_tokens": 20141,
+    "tool_calls": 7,
+    "tool_retries": 0,
+    "tool_executed": 7,
+    "tool_succeeded": 7,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": 0.40631796599882364,
+      "initialization": 0.017980222999540274,
+      "agent": 9.536472933001278,
+      "cleanup": 0.011341684999933932,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 9.575805444001162,
+    "total_wall_seconds": 10.024229953000031,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "original-specialty-artifact-verified",
+  "derived": {
+    "kind": "original-specialty-judge-artifact-verification",
+    "target_tests_rerun": false,
+    "result": "artifact-verified",
+    "patch_sha256": "9f6c88b46b130d764e803a56e4d789967884969062b7eb467f767db33d5b7318"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

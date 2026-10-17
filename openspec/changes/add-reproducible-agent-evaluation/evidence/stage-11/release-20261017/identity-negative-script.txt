@@ -1,0 +1,131 @@
+import asyncio
+import copy
+import json
+from collections import Counter, defaultdict
+from pathlib import Path
+
+from evaluation.formal import run
+from novacode.evaluation import frozen
+from novacode.evaluation.compact_manifest import check_disk, validate_authorization
+
+repo = Path(__file__).resolve().parents[1]
+manifest = repo / 'evaluation/frozen/campaign-v3-release-20261017/manifest.json'
+out = repo / 'openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/release-20261017'
+scratch = repo / '.tmp/compact-v3-release-identity-verification-20261017'
+scratch.mkdir(exist_ok=False)
+anchor = manifest.with_suffix('.sha256').read_text().strip()
+
+# 真实文件按当前 stat 缓存，重复的清单负例不会反复读取同一数 GB 的固定资产。
+original_digest = frozen.digest
+cache = {}
+def cached_digest(path):
+    path = Path(path)
+    info = path.stat()
+    key = (str(path.resolve()), info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+    if key not in cache:
+        cache[key] = original_digest(path)
+    return cache[key]
+frozen.digest = cached_digest
+data = frozen.verify_manifest(manifest, anchor)
+plan = data['plan']
+assert len(plan) == len({r['run_id'] for r in plan}) == 216
+assert set(Counter(r['config_id'] for r in plan).values()) == {72}
+assert len({r['task_id'] for r in plan}) == 24
+assert len({r['pair_key'] for r in plan}) == 72
+assert all(r['state'] == 'PLANNED' for r in plan)
+source_by_task = {row['metadata']['task_id']: row['metadata']['source'] for row in data['selection']['candidates']}
+denominators = Counter((source_by_task[r['task_id']], r['config_id']) for r in plan)
+assert set(denominators.values()) == {36} and len(denominators) == 6
+blocks = defaultdict(list)
+for row in plan:
+    blocks[row['pair_key']].append(row)
+assert all(len(rows) == 3 and len({frozen.identity(r['limits']) for r in rows}) == 1 for rows in blocks.values())
+orders = {}
+for source in ('live', 'specialty'):
+    count = Counter(tuple(r['config_id'] for r in rows) for rows in blocks.values() if source_by_task[rows[0]['task_id']] == source)
+    assert len(count) == 6 and set(count.values()) == {6}
+    orders[source] = {'/'.join(k): v for k, v in count.items()}
+assert data['policy']['max_iterations'] == 25
+assert data['disk_admission']['minimum_free_bytes'] == 6883147776
+check_disk(repo, data)
+
+first_task = next(iter(data['baselines']))
+source_file = next(iter(data['source_files']))
+coordinator = next(iter(data['coordinator_files']))
+category = next(iter(data['budgets']['categories']))
+mutations = [
+    ('source', lambda d: d['source_files'].__setitem__(source_file, '0'*64)),
+    ('protocol', lambda d: d.__setitem__('protocol_sha256', '0'*64)),
+    ('coordinator', lambda d: d['coordinator_files'].__setitem__(coordinator, '0'*64)),
+    ('selection_seed', lambda d: d['selection'].__setitem__('seed', 1)),
+    ('category_budget', lambda d: d['budgets']['categories'][category]['limits'].__setitem__('tokens', 1)),
+    ('total_budget', lambda d: d['budgets']['total'].__setitem__('tokens', 1)),
+    ('initial_tree', lambda d: d['baselines'][first_task].__setitem__('tree', '0'*40)),
+    ('initial_manifest', lambda d: d['baselines'][first_task].__setitem__('sha256', '0'*64)),
+    ('initial_archive', lambda d: d['baselines'][first_task].__setitem__('archive_sha256', '0'*64)),
+    ('iterations', lambda d: d['policy'].__setitem__('max_iterations', 24)),
+    ('iteration_scope', lambda d: d['policy'].__setitem__('iteration_scope', 'session')),
+    ('planned_state', lambda d: d['plan'][0].__setitem__('state', 'RECORDED')),
+    ('row_budget', lambda d: d['plan'][0]['limits'].__setitem__('tokens', 1)),
+    ('tools', lambda d: d['tools'][first_task]['allowed'].pop()),
+    ('runtime', lambda d: d['external_files'].__setitem__(d['runtime_path'], '0'*64)),
+    ('history_gate', lambda d: d['history_gate'].__setitem__('sha256', '0'*64)),
+    ('chain_gate', lambda d: d['chain_gate'].__setitem__('sha256', '0'*64)),
+    ('storage_gate', lambda d: d['storage_gate'].__setitem__('sha256', '0'*64)),
+    ('deployment_gate', lambda d: d['deployment_gate'].__setitem__('sha256', '0'*64)),
+    ('storage_peak', lambda d: d['disk_admission'].__setitem__('measured_peak_bytes', 1)),
+    ('disk_threshold', lambda d: d['disk_admission'].__setitem__('minimum_free_bytes', 0)),
+]
+rejected = []
+for name, change in mutations:
+    altered = copy.deepcopy(data)
+    change(altered)
+    path = scratch / (name + '.json')
+    path.write_text(json.dumps(altered))
+    try:
+        frozen.verify_manifest(path, original_digest(path))
+    except ValueError as error:
+        rejected.append({'case': name, 'message': str(error)})
+    else:
+        raise AssertionError('错误身份被接受: ' + name)
+    print('REJECTED', name, flush=True)
+
+for name, auth in (
+    ('missing_authorization', None),
+    ('not_approved', {'approved': False}),
+    ('wrong_campaign', {'approved': True, 'campaign_id': 'historical-v2'}),
+    ('wrong_manifest', {'approved': True, 'campaign_id': data['campaign_id'], 'manifest_sha256': '0'*64}),
+    ('wrong_budget', {'approved': True, 'campaign_id': data['campaign_id'], 'manifest_sha256': anchor, 'budget_sha256': '0'*64}),
+):
+    try:
+        validate_authorization(data, auth, anchor)
+    except ValueError as error:
+        rejected.append({'case': name, 'message': str(error)})
+    else:
+        raise AssertionError(name)
+
+async def unauthorized():
+    def forbidden(*args, **kwargs):
+        raise AssertionError('未授权路径触及用户配置或模型')
+    run.load = forbidden
+    target = scratch / 'unauthorized-queue'
+    try:
+        await run.execute(target, 3, manifest_path=manifest)
+    except ValueError as error:
+        assert '用户明确确认' in str(error)
+    else:
+        raise AssertionError('未授权调度被接受')
+    assert not target.exists()
+asyncio.run(unauthorized())
+receipt = {
+    'state': 'FROZEN_VALIDATED_OFFLINE', 'campaign_id': data['campaign_id'],
+    'manifest_sha256': anchor, 'tasks': 24, 'planned': 216,
+    'per_configuration': 72, 'per_source_configuration': 36,
+    'pair_blocks': 72, 'orders_by_source': orders,
+    'budget_total': data['budgets']['total'], 'disk_admission': data['disk_admission'],
+    'identity_rejections': rejected, 'unauthorized_scheduler_rejected_before_user_config': True,
+    'formal_model_calls': 0, 'approval_created': False,
+    'hash_cache': 'path,size,mtime_ns,ctime_ns; unchanged files only; full initial verification',
+}
+(out / 'freeze-validation.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n')
+print('FROZEN_VALIDATED_OFFLINE', len(rejected), 'rejections; model calls = 0')

@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "e45eff5 Allow configuring a default model for cell magics (and line error magic) (#962)\n---error_subparser---\ne45eff5 Allow configuring a default model for cell magics (and line error magic) (#962)\nb142127 Adds %ai error magic command to explain the most recent error (#170)\n",
+  "stderr": ""
+}

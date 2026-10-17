@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "3:    def _init_config_schema(self):\n4:        if not os.path.exists(self.schema_path):\n5:            os.makedirs(os.path.dirname(self.schema_path), exist_ok=True)\n6:            shutil.copy(OUR_SCHEMA_PATH, self.schema_path)\n8:    def _init_validator(self) -> None:\n9:        with open(OUR_SCHEMA_PATH, encoding=\"utf-8\") as f:\n10:            schema = json.loads(f.read())\n11:            Validator.check_schema(schema)\n12:            self.validator = Validator(schema)\n15:        default_config = self._init_defaults()\n78:    def _init_defaults(self):\n80:        schema_properties = self.validator.schema.get(\"properties\", {})\n82:            field: schema_properties.get(field).get(\"default\") for field in config_keys\n117:        self.validator.validate(config.model_dump())\n",
+  "stderr": ""
+}

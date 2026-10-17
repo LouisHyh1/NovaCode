@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "rows": [
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-eager-schema",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-full",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-no-compression",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-eager-schema",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-full",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-no-compression",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-eager-schema",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-full",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-no-compression",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-eager-schema",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-full",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": false,
+      "business_workspace_retained": false,
+      "not_manually_regraded": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-no-compression",
+      "original_acceptance": "ungradable",
+      "original_patch_missing": true,
+      "supplemental_recovery_patch": true,
+      "business_workspace_retained": true,
+      "not_manually_regraded": true
+    }
+  ],
+  "irrecoverable_from_existing_archives": 11,
+  "reason": "old archive_run released business workspace even when extraction had produced no patch; do not claim replayable business deltas for these runs"
+}

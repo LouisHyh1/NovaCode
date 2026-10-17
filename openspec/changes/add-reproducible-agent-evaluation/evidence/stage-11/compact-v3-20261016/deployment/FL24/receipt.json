@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842@sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL24",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL24/baseline/manifest.json",
+    "sha256": "d74026f26da75f57f57cd7b03c949bfd2810293663e97e353fbf3d8afee3e77e",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL24/baseline.tar.gz",
+    "archive_sha256": "e386ec47a5060ab5010b43c2fffdef0a03c4c36278c896288a9aa02970ae4beb",
+    "tree": "14ed4539b1be9e7abf85eaf51ccbc86848540f65",
+    "entries": 650
+  }
+}

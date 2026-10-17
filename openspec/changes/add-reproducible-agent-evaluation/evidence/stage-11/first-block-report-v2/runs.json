@@ -1,0 +1,961 @@
+[
+  {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "492eba9f6d6a404bb69ff9b50b3425ff"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "full",
+      "initial_sha256": "6e92d38aa6d035431ccc4c54aa3d47b89549b6a871a1203bbd0c2e2930c1b1c9",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS03-1-full",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS03",
+      "task_sha256": "207c80831fbaecfad12e6511e67b9c4652d83110851037002e44869dc4cd0c35",
+      "termination": "completed"
+    },
+    "outer": {
+      "provider_calls": 0,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 0,
+      "measured_tokens": 0,
+      "tool_calls": 0,
+      "tool_retries": 0,
+      "tool_executed": 0,
+      "tool_succeeded": 0,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "fault_injections": 0,
+      "fault_cleanup_failed": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": 4.836563147999186,
+        "initialization": 0.014031812999746762,
+        "agent": 8.668572982000114,
+        "cleanup": 2.4667747129997224,
+        "grading": 0.0902547739997317
+      },
+      "main_end_to_end_seconds": 11.16323482000007,
+      "total_wall_seconds": 16.15210021100029,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "metrics": {
+      "provider_calls": 4,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 12313,
+      "measured_tokens": 12313,
+      "tool_calls": 5,
+      "tool_retries": 0,
+      "tool_executed": 5,
+      "tool_succeeded": 5,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "fault_injections": 0,
+      "fault_cleanup_failed": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": 0.3713408209996487,
+        "initialization": 0.01649911099957535,
+        "agent": 6.547395920999406,
+        "cleanup": 0.0048419679997095955,
+        "grading": null
+      },
+      "main_end_to_end_seconds": 6.575629311999364,
+      "total_wall_seconds": 6.9634542940002575,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "initial_state": {
+      "allowed_tools": [
+        "bash",
+        "edit_file",
+        "glob",
+        "grep",
+        "read_file",
+        "write_file"
+      ],
+      "auxiliary_agents": false,
+      "context_compression": true,
+      "hooks": "frozen-empty",
+      "instructions": "只操作当前任务目录，不修改运行时安装，不提交 Git。使用任务项目 Python 和已有测试。遵守每条请求的修改范围与回答格式；优先定向搜索，避免读取无关大文件。",
+      "memory": "empty",
+      "mode": "default",
+      "permissions": {
+        "allow": [
+          "Write",
+          "Edit",
+          "Bash"
+        ],
+        "deny": []
+      },
+      "progressive_tool_schema": true,
+      "registered_tools": [
+        {
+          "description": "读取指定路径的文件内容，返回带行号的文本。文件不存在或不可读时返回结构化错误。",
+          "input_schema": {
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "name": "read_file"
+        },
+        {
+          "description": "将内容写入指定路径的文件（覆盖写）。父目录不存在时自动创建。返回成功或结构化错误。",
+          "input_schema": {
+            "properties": {
+              "content": {
+                "description": "要写入的文件内容",
+                "type": "string"
+              },
+              "path": {
+                "description": "要写入的文件路径",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "content"
+            ],
+            "type": "object"
+          },
+          "name": "write_file"
+        },
+        {
+          "description": "对文件中的唯一匹配文本做精确替换。old_string 必须在文件中恰好出现一次，否则返回可区分错误。编辑前请先用 read_file 读取目标文件，确认 old_string 唯一。",
+          "input_schema": {
+            "properties": {
+              "new_string": {
+                "description": "替换后的新文本片段",
+                "type": "string"
+              },
+              "old_string": {
+                "description": "文件中待替换的原文片段（需唯一匹配）",
+                "type": "string"
+              },
+              "path": {
+                "description": "要编辑的文件路径",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "old_string",
+              "new_string"
+            ],
+            "type": "object"
+          },
+          "name": "edit_file"
+        },
+        {
+          "description": "在当前工作目录下执行 shell 命令，返回 stdout、stderr 和退出码。命令受超时约束（30s）。Windows 下使用 cmd /C，Linux/Mac 下使用 /bin/sh -c。读文件、找文件、搜内容请优先用 read_file/glob/grep，不要用 bash 拼凑。",
+          "input_schema": {
+            "properties": {
+              "command": {
+                "description": "要执行的 shell 命令",
+                "type": "string"
+              }
+            },
+            "required": [
+              "command"
+            ],
+            "type": "object"
+          },
+          "name": "bash"
+        },
+        {
+          "description": "按 glob 模式查找匹配的文件（不包含目录）。非递归：`*.py` 只匹配根目录下的 .py 文件。递归：`**/*.py` 匹配所有子目录中的 .py 文件。返回排序后的相对路径列表，最多 100 条。",
+          "input_schema": {
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "type": "object"
+          },
+          "name": "glob"
+        },
+        {
+          "description": "在文件内容中按正则表达式搜索，返回匹配位置（文件名:行号:内容）。最多返回 100 条命中。",
+          "input_schema": {
+            "properties": {
+              "glob": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "type": "object"
+          },
+          "name": "grep"
+        }
+      ],
+      "session_id": "20261015-073607-582e",
+      "strategy": "compression-on-schema-progressive",
+      "version": "0.1.36"
+    },
+    "request_parameters": [
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": 2048,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": true,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      }
+    ],
+    "response_models": [
+      "deepseek-v4-flash"
+    ],
+    "cost_complete": true,
+    "raw_token_lower_bounds": {
+      "input_tokens": 1967,
+      "output_tokens": 874,
+      "cache_read_input_tokens": 9472,
+      "cache_creation_input_tokens": 0
+    },
+    "raw_field_unknown_requests": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "offloads": 0,
+    "summary_requests": 0,
+    "summaries_accepted": 0,
+    "compactions": [],
+    "schema_sets": [
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ]
+    ],
+    "budget_stops": [],
+    "errors": [],
+    "sequence": 1,
+    "evidence": "novacode-frozen-20261015-v2-FS03-1-full"
+  },
+  {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "ae165194919242f7af4698b5cedc28b0"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "eager-schema",
+      "initial_sha256": "6e92d38aa6d035431ccc4c54aa3d47b89549b6a871a1203bbd0c2e2930c1b1c9",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS03-1-eager-schema",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS03",
+      "task_sha256": "207c80831fbaecfad12e6511e67b9c4652d83110851037002e44869dc4cd0c35",
+      "termination": "completed"
+    },
+    "outer": {
+      "provider_calls": 0,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 0,
+      "measured_tokens": 0,
+      "tool_calls": 0,
+      "tool_retries": 0,
+      "tool_executed": 0,
+      "tool_succeeded": 0,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "fault_injections": 0,
+      "fault_cleanup_failed": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": 4.8035336809998626,
+        "initialization": 0.003828965000138851,
+        "agent": 7.174003995999556,
+        "cleanup": 2.5131521969997266,
+        "grading": 0.09107597599995643
+      },
+      "main_end_to_end_seconds": 9.698791326999526,
+      "total_wall_seconds": 14.667271290999452,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "metrics": {
+      "provider_calls": 3,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 8533,
+      "measured_tokens": 8533,
+      "tool_calls": 4,
+      "tool_retries": 0,
+      "tool_executed": 4,
+      "tool_succeeded": 4,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "fault_injections": 0,
+      "fault_cleanup_failed": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": 0.39554590999978245,
+        "initialization": 0.010880784000619315,
+        "agent": 4.892637070000092,
+        "cleanup": 0.004903594000097655,
+        "grading": null
+      },
+      "main_end_to_end_seconds": 4.912324018000618,
+      "total_wall_seconds": 5.327468764000514,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "initial_state": {
+      "allowed_tools": [
+        "bash",
+        "edit_file",
+        "glob",
+        "grep",
+        "read_file",
+        "write_file"
+      ],
+      "auxiliary_agents": false,
+      "context_compression": true,
+      "hooks": "frozen-empty",
+      "instructions": "只操作当前任务目录，不修改运行时安装，不提交 Git。使用任务项目 Python 和已有测试。遵守每条请求的修改范围与回答格式；优先定向搜索，避免读取无关大文件。",
+      "memory": "empty",
+      "mode": "default",
+      "permissions": {
+        "allow": [
+          "Write",
+          "Edit",
+          "Bash"
+        ],
+        "deny": []
+      },
+      "progressive_tool_schema": false,
+      "registered_tools": [
+        {
+          "description": "读取指定路径的文件内容，返回带行号的文本。文件不存在或不可读时返回结构化错误。",
+          "input_schema": {
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "name": "read_file"
+        },
+        {
+          "description": "将内容写入指定路径的文件（覆盖写）。父目录不存在时自动创建。返回成功或结构化错误。",
+          "input_schema": {
+            "properties": {
+              "content": {
+                "description": "要写入的文件内容",
+                "type": "string"
+              },
+              "path": {
+                "description": "要写入的文件路径",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "content"
+            ],
+            "type": "object"
+          },
+          "name": "write_file"
+        },
+        {
+          "description": "对文件中的唯一匹配文本做精确替换。old_string 必须在文件中恰好出现一次，否则返回可区分错误。编辑前请先用 read_file 读取目标文件，确认 old_string 唯一。",
+          "input_schema": {
+            "properties": {
+              "new_string": {
+                "description": "替换后的新文本片段",
+                "type": "string"
+              },
+              "old_string": {
+                "description": "文件中待替换的原文片段（需唯一匹配）",
+                "type": "string"
+              },
+              "path": {
+                "description": "要编辑的文件路径",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "old_string",
+              "new_string"
+            ],
+            "type": "object"
+          },
+          "name": "edit_file"
+        },
+        {
+          "description": "在当前工作目录下执行 shell 命令，返回 stdout、stderr 和退出码。命令受超时约束（30s）。Windows 下使用 cmd /C，Linux/Mac 下使用 /bin/sh -c。读文件、找文件、搜内容请优先用 read_file/glob/grep，不要用 bash 拼凑。",
+          "input_schema": {
+            "properties": {
+              "command": {
+                "description": "要执行的 shell 命令",
+                "type": "string"
+              }
+            },
+            "required": [
+              "command"
+            ],
+            "type": "object"
+          },
+          "name": "bash"
+        },
+        {
+          "description": "按 glob 模式查找匹配的文件（不包含目录）。非递归：`*.py` 只匹配根目录下的 .py 文件。递归：`**/*.py` 匹配所有子目录中的 .py 文件。返回排序后的相对路径列表，最多 100 条。",
+          "input_schema": {
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "type": "object"
+          },
+          "name": "glob"
+        },
+        {
+          "description": "在文件内容中按正则表达式搜索，返回匹配位置（文件名:行号:内容）。最多返回 100 条命中。",
+          "input_schema": {
+            "properties": {
+              "glob": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "type": "object"
+          },
+          "name": "grep"
+        }
+      ],
+      "session_id": "20261015-073626-975b",
+      "strategy": "compression-on-schema-eager",
+      "version": "0.1.36"
+    },
+    "request_parameters": [
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": 2048,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": true,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      }
+    ],
+    "response_models": [
+      "deepseek-v4-flash"
+    ],
+    "cost_complete": true,
+    "raw_token_lower_bounds": {
+      "input_tokens": 1756,
+      "output_tokens": 633,
+      "cache_read_input_tokens": 6144,
+      "cache_creation_input_tokens": 0
+    },
+    "raw_field_unknown_requests": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "offloads": 0,
+    "summary_requests": 0,
+    "summaries_accepted": 0,
+    "compactions": [],
+    "schema_sets": [
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ]
+    ],
+    "budget_stops": [],
+    "errors": [],
+    "sequence": 2,
+    "evidence": "novacode-frozen-20261015-v2-FS03-1-eager-schema"
+  },
+  {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "c97b90940e024bff9d5361d602ac4ea4"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "no-compression",
+      "initial_sha256": "6e92d38aa6d035431ccc4c54aa3d47b89549b6a871a1203bbd0c2e2930c1b1c9",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS03-1-no-compression",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS03",
+      "task_sha256": "207c80831fbaecfad12e6511e67b9c4652d83110851037002e44869dc4cd0c35",
+      "termination": "completed"
+    },
+    "outer": {
+      "provider_calls": 0,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 0,
+      "measured_tokens": 0,
+      "tool_calls": 0,
+      "tool_retries": 0,
+      "tool_executed": 0,
+      "tool_succeeded": 0,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "fault_injections": 0,
+      "fault_cleanup_failed": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": 4.919856195000648,
+        "initialization": 0.01151057400056743,
+        "agent": 6.549917526999707,
+        "cleanup": 2.550746947999869,
+        "grading": 0.09563854800035188
+      },
+      "main_end_to_end_seconds": 9.130245424999885,
+      "total_wall_seconds": 14.220067494000432,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "metrics": {
+      "provider_calls": 3,
+      "unknown_usage_requests": 0,
+      "known_token_lower_bound": 8445,
+      "measured_tokens": 8445,
+      "tool_calls": 4,
+      "tool_retries": 0,
+      "tool_executed": 4,
+      "tool_succeeded": 4,
+      "tool_denied": 0,
+      "tool_errors": 0,
+      "discovery_calls": 0,
+      "fault_injections": 0,
+      "fault_cleanup_failed": 0,
+      "incomplete_tools": 0,
+      "phase_seconds": {
+        "preparation": 0.5133803509997961,
+        "initialization": 0.02375536599993211,
+        "agent": 4.133091569000499,
+        "cleanup": 0.014894003000335942,
+        "grading": null
+      },
+      "main_end_to_end_seconds": 4.188168189999487,
+      "total_wall_seconds": 4.740695450999738,
+      "truncated_tail": false,
+      "incomplete_phases": 0
+    },
+    "initial_state": {
+      "allowed_tools": [
+        "bash",
+        "edit_file",
+        "glob",
+        "grep",
+        "read_file",
+        "write_file"
+      ],
+      "auxiliary_agents": false,
+      "context_compression": false,
+      "hooks": "frozen-empty",
+      "instructions": "只操作当前任务目录，不修改运行时安装，不提交 Git。使用任务项目 Python 和已有测试。遵守每条请求的修改范围与回答格式；优先定向搜索，避免读取无关大文件。",
+      "memory": "empty",
+      "mode": "default",
+      "permissions": {
+        "allow": [
+          "Write",
+          "Edit",
+          "Bash"
+        ],
+        "deny": []
+      },
+      "progressive_tool_schema": true,
+      "registered_tools": [
+        {
+          "description": "读取指定路径的文件内容，返回带行号的文本。文件不存在或不可读时返回结构化错误。",
+          "input_schema": {
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "name": "read_file"
+        },
+        {
+          "description": "将内容写入指定路径的文件（覆盖写）。父目录不存在时自动创建。返回成功或结构化错误。",
+          "input_schema": {
+            "properties": {
+              "content": {
+                "description": "要写入的文件内容",
+                "type": "string"
+              },
+              "path": {
+                "description": "要写入的文件路径",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "content"
+            ],
+            "type": "object"
+          },
+          "name": "write_file"
+        },
+        {
+          "description": "对文件中的唯一匹配文本做精确替换。old_string 必须在文件中恰好出现一次，否则返回可区分错误。编辑前请先用 read_file 读取目标文件，确认 old_string 唯一。",
+          "input_schema": {
+            "properties": {
+              "new_string": {
+                "description": "替换后的新文本片段",
+                "type": "string"
+              },
+              "old_string": {
+                "description": "文件中待替换的原文片段（需唯一匹配）",
+                "type": "string"
+              },
+              "path": {
+                "description": "要编辑的文件路径",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "old_string",
+              "new_string"
+            ],
+            "type": "object"
+          },
+          "name": "edit_file"
+        },
+        {
+          "description": "在当前工作目录下执行 shell 命令，返回 stdout、stderr 和退出码。命令受超时约束（30s）。Windows 下使用 cmd /C，Linux/Mac 下使用 /bin/sh -c。读文件、找文件、搜内容请优先用 read_file/glob/grep，不要用 bash 拼凑。",
+          "input_schema": {
+            "properties": {
+              "command": {
+                "description": "要执行的 shell 命令",
+                "type": "string"
+              }
+            },
+            "required": [
+              "command"
+            ],
+            "type": "object"
+          },
+          "name": "bash"
+        },
+        {
+          "description": "按 glob 模式查找匹配的文件（不包含目录）。非递归：`*.py` 只匹配根目录下的 .py 文件。递归：`**/*.py` 匹配所有子目录中的 .py 文件。返回排序后的相对路径列表，最多 100 条。",
+          "input_schema": {
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "type": "object"
+          },
+          "name": "glob"
+        },
+        {
+          "description": "在文件内容中按正则表达式搜索，返回匹配位置（文件名:行号:内容）。最多返回 100 条命中。",
+          "input_schema": {
+            "properties": {
+              "glob": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "type": "object"
+          },
+          "name": "grep"
+        }
+      ],
+      "session_id": "20261015-073641-6c5b",
+      "strategy": "compression-off-schema-progressive",
+      "version": "0.1.36"
+    },
+    "request_parameters": [
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": 2048,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": true,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      },
+      {
+        "max_output_tokens": 4096,
+        "protocol": "anthropic",
+        "sdk_max_retries": 0,
+        "sdk_retry_rule": "explicit",
+        "sdk_version": "0.112.0",
+        "thinking_budget_tokens": null,
+        "thinking_rule": "enabled-without-tool-history",
+        "thinking_sent": false,
+        "timeout_seconds": 90
+      }
+    ],
+    "response_models": [
+      "deepseek-v4-flash"
+    ],
+    "cost_complete": true,
+    "raw_token_lower_bounds": {
+      "input_tokens": 606,
+      "output_tokens": 543,
+      "cache_read_input_tokens": 7296,
+      "cache_creation_input_tokens": 0
+    },
+    "raw_field_unknown_requests": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "offloads": 0,
+    "summary_requests": 0,
+    "summaries_accepted": 0,
+    "compactions": [],
+    "schema_sets": [
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ],
+      [
+        "read_file",
+        "write_file",
+        "edit_file",
+        "bash",
+        "glob",
+        "grep",
+        "discover_tools"
+      ]
+    ],
+    "budget_stops": [],
+    "errors": [],
+    "sequence": 3,
+    "evidence": "novacode-frozen-20261015-v2-FS03-1-no-compression"
+  }
+]

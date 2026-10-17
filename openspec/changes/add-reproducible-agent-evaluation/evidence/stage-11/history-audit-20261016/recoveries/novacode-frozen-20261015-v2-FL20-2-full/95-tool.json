@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "__init__.py\n__pycache__\n__snapshots__\ncompletions\nstatic\ntest_config_manager.py\ntest_directory.py\ntest_extension.py\ntest_handlers.py\n---upstream tests dir at 41ccd10---\npackages/jupyter-ai/jupyter_ai/tests/__init__.py\npackages/jupyter-ai/jupyter_ai/tests/__snapshots__\npackages/jupyter-ai/jupyter_ai/tests/completions\npackages/jupyter-ai/jupyter_ai/tests/static\npackages/jupyter-ai/jupyter_ai/tests/test_config_manager.py\npackages/jupyter-ai/jupyter_ai/tests/test_directory.py\npackages/jupyter-ai/jupyter_ai/tests/test_extension.py\npackages/jupyter-ai/jupyter_ai/tests/test_handlers.py\n---later commits touching history.py---\n26593dc [2.x] Upgrade to LangChain v0.3 and Pydantic v2 (#1199)\n7b4a708 Run mypy on CI, fix or ignore typing issues (#987)\n83cbd8e Allow unlimited LLM memory through traitlets configuration (#986)\ndf67eb8 Add ability to delete messages + start new chat session (#951)\n",
+  "stderr": ""
+}

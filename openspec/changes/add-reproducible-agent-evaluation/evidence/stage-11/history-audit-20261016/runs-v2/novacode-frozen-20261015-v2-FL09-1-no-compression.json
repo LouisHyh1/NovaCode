@@ -1,0 +1,89 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL09-1-no-compression",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "ungradable",
+      "agent_run_ids": [
+        "2731bac330f643cd9b276d836bbc4f5c"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 0,
+      "config_id": "no-compression",
+      "initial_sha256": "a099f1704e679707b4be02959dc132d4157b9ad7481607adef0d296d2ca5ccb5",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FL09-1-no-compression",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FL09",
+      "task_sha256": "570092a500dbc777d1f221ade992bfdae9e28e7513721ed3d465a2c711852dfd",
+      "termination": "provider-error"
+    },
+    "strict_success": false,
+    "result_sha256": "264cd805b06cfbfc1557a1c1bed58c6c9223ca6ad3e7a2dabc564e3a6f9b7a73",
+    "judge": null
+  },
+  "archive": {
+    "sha256": "bc8f89eaf260c1fa260dbe1348f9660a86123b820c1de86d25444f8a0e4126c3",
+    "members_verified": 14
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "608f4055699ba23ae46aecc143849d77a933f12efbb5939fe699a95daed7640f",
+      "records": 15,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "754ea066a78d5785d7a4d5b43f19e18f873b009dad549ee9d56d9c0701acbd4f",
+      "records": 17,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 1,
+    "unknown_usage_requests": 1,
+    "known_token_lower_bound": 0,
+    "measured_tokens": null,
+    "tool_calls": 0,
+    "tool_retries": 0,
+    "tool_executed": 0,
+    "tool_succeeded": 0,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.029790997999953106,
+      "agent": 0.5474048670002958,
+      "cleanup": 0.02060771099968406,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 0.6188060760014196,
+    "total_wall_seconds": 0.6471563750001224,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "initial-baseline-conflict",
+  "derived": {
+    "kind": "independent-patch-application-check",
+    "target_tests_rerun": false,
+    "result": "failed",
+    "exit_code": 1,
+    "stderr": "error: assets/external/test_assets/custom_script.js: already exists in working directory\n",
+    "patch_sha256": "9ea976c6cb39112c3dd9bffddc178d9573f2c662c84a37d5b12143460a3c77c7"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

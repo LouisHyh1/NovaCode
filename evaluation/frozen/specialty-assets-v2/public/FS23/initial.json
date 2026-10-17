@@ -1,0 +1,9 @@
+{
+  "base_commit": "e235d2905023d5b1048c302232f8f4fa2b1a5094",
+  "files": {
+    "handlers.py": "def select(header, handlers, fallback):\n    return fallback\ndef decode(value, header, handlers, fallback):\n    return fallback(value)\n",
+    "mime.py": "def media_type(value):\n    return value.lower()\n",
+    "records.json": "{\n  \"issue_lookup\": {\n    \"MIME-23\": {\n      \"issue\": \"MIME-23\",\n      \"commit\": \"d23\",\n      \"source\": \"issues\"\n    }\n  },\n  \"ci_commit\": {\n    \"d23\": {\n      \"commit\": \"d23\",\n      \"job\": \"mime-contract\",\n      \"reason\": \"PARAMETER_CASE\",\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

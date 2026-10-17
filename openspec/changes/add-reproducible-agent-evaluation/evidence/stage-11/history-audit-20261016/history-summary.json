@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "state": "HISTORICAL_ARTIFACTS_AUDITED",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "rows": 147,
+  "classifications": {
+    "original-patch-applies": 31,
+    "initial-baseline-conflict": 32,
+    "missing-original-patch": 12,
+    "original-specialty-artifact-verified": 72
+  },
+  "original_strict_successes": 63,
+  "known_token_lower_bound": 31065237,
+  "unknown_usage_requests": 35,
+  "model_calls": 0,
+  "v3_results": 0,
+  "missing_primary_time": [
+    "novacode-frozen-20261015-v2-FL20-2-no-compression"
+  ],
+  "all_original_scores_unchanged": true
+}

@@ -1,0 +1,560 @@
+{
+  "schema_version": 1,
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "state": "PARTIAL",
+  "planned": 432,
+  "recorded": 3,
+  "unstarted": 429,
+  "sources": {
+    "live": {
+      "full": {
+        "planned": 72,
+        "started": 0,
+        "recorded": 0,
+        "completed": 0,
+        "strict_successes": 0,
+        "strict_failures": 0,
+        "unstarted": 72,
+        "strict_rate_started": null,
+        "planned_rate_bounds": [
+          0.0,
+          1.0
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 0,
+        "termination": {},
+        "acceptance": {},
+        "scope": {},
+        "cleanup": {},
+        "cost_complete_runs": 0,
+        "cost_complete_ratio": null,
+        "token_lower_bound": 0,
+        "unknown_usage_requests": 0,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "provider_calls": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "tool_calls": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "main_end_to_end_seconds": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 0,
+          "tool_executed": 0,
+          "tool_succeeded": 0,
+          "tool_denied": 0,
+          "tool_errors": 0,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": []
+      },
+      "no-compression": {
+        "planned": 72,
+        "started": 0,
+        "recorded": 0,
+        "completed": 0,
+        "strict_successes": 0,
+        "strict_failures": 0,
+        "unstarted": 72,
+        "strict_rate_started": null,
+        "planned_rate_bounds": [
+          0.0,
+          1.0
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 0,
+        "termination": {},
+        "acceptance": {},
+        "scope": {},
+        "cleanup": {},
+        "cost_complete_runs": 0,
+        "cost_complete_ratio": null,
+        "token_lower_bound": 0,
+        "unknown_usage_requests": 0,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "provider_calls": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "tool_calls": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "main_end_to_end_seconds": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 0,
+          "tool_executed": 0,
+          "tool_succeeded": 0,
+          "tool_denied": 0,
+          "tool_errors": 0,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": []
+      },
+      "eager-schema": {
+        "planned": 72,
+        "started": 0,
+        "recorded": 0,
+        "completed": 0,
+        "strict_successes": 0,
+        "strict_failures": 0,
+        "unstarted": 72,
+        "strict_rate_started": null,
+        "planned_rate_bounds": [
+          0.0,
+          1.0
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 0,
+        "termination": {},
+        "acceptance": {},
+        "scope": {},
+        "cleanup": {},
+        "cost_complete_runs": 0,
+        "cost_complete_ratio": null,
+        "token_lower_bound": 0,
+        "unknown_usage_requests": 0,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "provider_calls": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "tool_calls": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          },
+          "main_end_to_end_seconds": {
+            "n": 0,
+            "mean": null,
+            "median": null,
+            "p90": null
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 0,
+          "tool_executed": 0,
+          "tool_succeeded": 0,
+          "tool_denied": 0,
+          "tool_errors": 0,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": []
+      }
+    },
+    "specialty": {
+      "full": {
+        "planned": 72,
+        "started": 1,
+        "recorded": 1,
+        "completed": 1,
+        "strict_successes": 1,
+        "strict_failures": 0,
+        "unstarted": 71,
+        "strict_rate_started": 1.0,
+        "planned_rate_bounds": [
+          0.013888888888888888,
+          1.0
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 1,
+        "termination": {
+          "completed": 1
+        },
+        "acceptance": {
+          "passed": 1
+        },
+        "scope": {
+          "passed": 1
+        },
+        "cleanup": {
+          "passed": 1
+        },
+        "cost_complete_runs": 1,
+        "cost_complete_ratio": 1.0,
+        "token_lower_bound": 12313,
+        "unknown_usage_requests": 0,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 1,
+            "mean": 12313.0,
+            "median": 12313.0,
+            "p90": 12313.0
+          },
+          "provider_calls": {
+            "n": 1,
+            "mean": 4.0,
+            "median": 4.0,
+            "p90": 4.0
+          },
+          "tool_calls": {
+            "n": 1,
+            "mean": 5.0,
+            "median": 5.0,
+            "p90": 5.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 1,
+            "mean": 6.575629311999364,
+            "median": 6.575629311999364,
+            "p90": 6.575629311999364
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 5,
+          "tool_executed": 5,
+          "tool_succeeded": 5,
+          "tool_denied": 0,
+          "tool_errors": 0,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash"
+        ]
+      },
+      "no-compression": {
+        "planned": 72,
+        "started": 1,
+        "recorded": 1,
+        "completed": 1,
+        "strict_successes": 1,
+        "strict_failures": 0,
+        "unstarted": 71,
+        "strict_rate_started": 1.0,
+        "planned_rate_bounds": [
+          0.013888888888888888,
+          1.0
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 1,
+        "termination": {
+          "completed": 1
+        },
+        "acceptance": {
+          "passed": 1
+        },
+        "scope": {
+          "passed": 1
+        },
+        "cleanup": {
+          "passed": 1
+        },
+        "cost_complete_runs": 1,
+        "cost_complete_ratio": 1.0,
+        "token_lower_bound": 8445,
+        "unknown_usage_requests": 0,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 1,
+            "mean": 8445.0,
+            "median": 8445.0,
+            "p90": 8445.0
+          },
+          "provider_calls": {
+            "n": 1,
+            "mean": 3.0,
+            "median": 3.0,
+            "p90": 3.0
+          },
+          "tool_calls": {
+            "n": 1,
+            "mean": 4.0,
+            "median": 4.0,
+            "p90": 4.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 1,
+            "mean": 4.188168189999487,
+            "median": 4.188168189999487,
+            "p90": 4.188168189999487
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 4,
+          "tool_executed": 4,
+          "tool_succeeded": 4,
+          "tool_denied": 0,
+          "tool_errors": 0,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash"
+        ]
+      },
+      "eager-schema": {
+        "planned": 72,
+        "started": 1,
+        "recorded": 1,
+        "completed": 1,
+        "strict_successes": 1,
+        "strict_failures": 0,
+        "unstarted": 71,
+        "strict_rate_started": 1.0,
+        "planned_rate_bounds": [
+          0.013888888888888888,
+          1.0
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 1,
+        "termination": {
+          "completed": 1
+        },
+        "acceptance": {
+          "passed": 1
+        },
+        "scope": {
+          "passed": 1
+        },
+        "cleanup": {
+          "passed": 1
+        },
+        "cost_complete_runs": 1,
+        "cost_complete_ratio": 1.0,
+        "token_lower_bound": 8533,
+        "unknown_usage_requests": 0,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 1,
+            "mean": 8533.0,
+            "median": 8533.0,
+            "p90": 8533.0
+          },
+          "provider_calls": {
+            "n": 1,
+            "mean": 3.0,
+            "median": 3.0,
+            "p90": 3.0
+          },
+          "tool_calls": {
+            "n": 1,
+            "mean": 4.0,
+            "median": 4.0,
+            "p90": 4.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 1,
+            "mean": 4.912324018000618,
+            "median": 4.912324018000618,
+            "p90": 4.912324018000618
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 4,
+          "tool_executed": 4,
+          "tool_succeeded": 4,
+          "tool_denied": 0,
+          "tool_errors": 0,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash"
+        ]
+      }
+    }
+  },
+  "selection": {
+    "live": {
+      "tasks": 24,
+      "repositories": [
+        "conan-io/conan",
+        "encode/starlette",
+        "falconry/falcon",
+        "jazzband/tablib",
+        "joke2k/faker",
+        "jupyterlab/jupyter-ai",
+        "patroni/patroni",
+        "pvlib/pvlib-python",
+        "pylint-dev/pylint",
+        "python-attrs/attrs",
+        "python-babel/babel",
+        "reflex-dev/reflex",
+        "wireservice/csvkit"
+      ],
+      "families": [
+        "live:issue:conan-io/conan#17884",
+        "live:issue:encode/starlette#950",
+        "live:issue:falconry/falcon#2243",
+        "live:issue:jazzband/tablib#612",
+        "live:issue:joke2k/faker#2097",
+        "live:issue:jupyterlab/jupyter-ai#1291",
+        "live:issue:jupyterlab/jupyter-ai#372",
+        "live:issue:jupyterlab/jupyter-ai#616",
+        "live:issue:patroni/patroni#3111",
+        "live:issue:patroni/patroni#3307",
+        "live:issue:patroni/patroni#3335",
+        "live:issue:pvlib/pvlib-python#1171",
+        "live:issue:pvlib/pvlib-python#1342",
+        "live:issue:pylint-dev/pylint#10081",
+        "live:issue:pylint-dev/pylint#9391",
+        "live:issue:pylint-dev/pylint#9672",
+        "live:issue:pylint-dev/pylint#9765",
+        "live:issue:python-attrs/attrs#1416",
+        "live:issue:python-babel/babel#1124",
+        "live:issue:python-babel/babel#1162",
+        "live:issue:reflex-dev/reflex#3595",
+        "live:issue:reflex-dev/reflex#4227",
+        "live:issue:reflex-dev/reflex#4471",
+        "live:issue:wireservice/csvkit#1280"
+      ]
+    },
+    "specialty": {
+      "tasks": 24,
+      "repositories": [
+        "specialty-frozen/archive-member-path-validation",
+        "specialty-frozen/artifact-digest-deployment-provenance",
+        "specialty-frozen/batch-journal-rollback-flow",
+        "specialty-frozen/ci-attempt-state-transitions",
+        "specialty-frozen/ci-matrix-failure-aggregation",
+        "specialty-frozen/csv-event-ledger-order",
+        "specialty-frozen/csv-one-shot-escaping",
+        "specialty-frozen/dag-transitive-invalidation",
+        "specialty-frozen/decimal-stream-total",
+        "specialty-frozen/dispatch-fallback-selection",
+        "specialty-frozen/event-wire-encoding",
+        "specialty-frozen/half-open-overlap",
+        "specialty-frozen/http-header-multiplicity",
+        "specialty-frozen/mime-negotiation-handler-dispatch",
+        "specialty-frozen/mounted-route-forwarding",
+        "specialty-frozen/ndjson-error-line-accounting",
+        "specialty-frozen/query-percent-and-multivalue",
+        "specialty-frozen/required-shard-release-eligibility",
+        "specialty-frozen/revision-bound-pagination",
+        "specialty-frozen/role-action-matrix",
+        "specialty-frozen/stable-multimap-aggregation",
+        "specialty-frozen/topological-order-and-cycle",
+        "specialty-frozen/ttl-cache-expiry-flow",
+        "specialty-frozen/utf8-bom-file-reading"
+      ],
+      "families": [
+        "specialty-frozen-v1/archive-member-path-validation",
+        "specialty-frozen-v1/artifact-digest-deployment-provenance",
+        "specialty-frozen-v1/batch-journal-rollback-flow",
+        "specialty-frozen-v1/ci-attempt-state-transitions",
+        "specialty-frozen-v1/ci-matrix-failure-aggregation",
+        "specialty-frozen-v1/csv-event-ledger-order",
+        "specialty-frozen-v1/csv-one-shot-escaping",
+        "specialty-frozen-v1/dag-transitive-invalidation",
+        "specialty-frozen-v1/decimal-stream-total",
+        "specialty-frozen-v1/dispatch-fallback-selection",
+        "specialty-frozen-v1/event-wire-encoding",
+        "specialty-frozen-v1/half-open-overlap",
+        "specialty-frozen-v1/http-header-multiplicity",
+        "specialty-frozen-v1/mime-negotiation-handler-dispatch",
+        "specialty-frozen-v1/mounted-route-forwarding",
+        "specialty-frozen-v1/ndjson-error-line-accounting",
+        "specialty-frozen-v1/query-percent-and-multivalue",
+        "specialty-frozen-v1/required-shard-release-eligibility",
+        "specialty-frozen-v1/revision-bound-pagination",
+        "specialty-frozen-v1/role-action-matrix",
+        "specialty-frozen-v1/stable-multimap-aggregation",
+        "specialty-frozen-v1/topological-order-and-cycle",
+        "specialty-frozen-v1/ttl-cache-expiry-flow",
+        "specialty-frozen-v1/utf8-bom-file-reading"
+      ]
+    }
+  },
+  "interpretation": "所选题库条件分析；重复不是独立任务，非官方完整榜单，无交互估计"
+}

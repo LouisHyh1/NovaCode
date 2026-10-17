@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "  /usr/local/lib/python3.9/site-packages/jupyter_server/services/contents/filemanager.py:24: DeprecationWarning: Jupyter is migrating its paths to use standard platformdirs\n  given by the platformdirs library.  To remove this warning and\n  see the appropriate new directories, set the environment variable\n  `JUPYTER_PLATFORM_DIRS=1` and then run `jupyter --paths`.\n  The use of platformdirs will be the default in `jupyter_core` v6\n    from jupyter_core.paths import exists, is_file_hidden, is_hidden\n\npackages/jupyter-ai/jupyter_ai/tests/test_config_manager.py::test_config_manager_updates_schema\n  /usr/local/lib/python3.9/site-packages/traitlets/traitlets.py:1385: DeprecationWarning: Passing unrecognized arguments to super(ConfigManager).__init__(restrictions={'allowed_providers': None, 'blocked_providers': None}).\n  object.__init__() takes exactly one argument (the instance to initialize)\n  This is deprecated in traitlets 4.2.This error will be raised in a future release of traitlets.\n    warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 2 warnings in 1.33s\n",
+  "stderr": ""
+}

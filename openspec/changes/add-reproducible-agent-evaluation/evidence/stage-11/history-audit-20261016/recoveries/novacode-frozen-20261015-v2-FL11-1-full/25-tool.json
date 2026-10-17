@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "24:    fields: List[Field]\n43:class DescribeConfigResponse(BaseModel):\n47:    fields: Dict[str, Dict[str, Any]]\n55:    completions_fields: Dict[str, Dict[str, Any]]\n56:    embeddings_fields: Dict[str, Dict[str, Any]]\n59:class UpdateConfigRequest(BaseModel):\n68:    fields: Optional[Dict[str, Dict[str, Any]]] = None\n69:    completions_fields: Optional[Dict[str, Dict[str, Any]]] = None\n70:    embeddings_fields: Optional[Dict[str, Dict[str, Any]]] = None\n72:    @field_validator(\"send_with_shift_enter\", \"api_keys\", \"fields\", mode=\"before\")\n76:        Field validator ensuring that certain fields are never `None` if set.\n82:class GlobalConfig(BaseModel):\n89:    fields: Dict[str, Dict[str, Any]]\n92:    completions_fields: Dict[str, Dict[str, Any]]\n93:    embeddings_fields: Dict[str, Dict[str, Any]]\n",
+  "stderr": ""
+}

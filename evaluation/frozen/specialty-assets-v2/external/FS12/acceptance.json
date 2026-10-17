@@ -1,0 +1,39 @@
+{
+  "allowed_paths": [
+    "jsonlines.py"
+  ],
+  "answers": [],
+  "base_commit": "2ffb1f2c550b6c92dd133004302e0269c99ed36c",
+  "checks": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import jsonlines as m\n        self.assertEqual(m.read(iter(['', '{\"x\": 1}', '   '])), [{'x': 1}])\n        with self.assertRaisesRegex(ValueError, 'line 3') as caught: m.read(['', '{}', '{bad'])\n        self.assertIsNotNone(caught.exception.__cause__)\n",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS12/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "behavior"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "jsonlines.py": "import json\ndef read(lines):\n    result = []\n    for number, line in enumerate(lines, 1):\n        if not line.strip():\n            continue\n        try:\n            result.append(json.loads(line))\n        except ValueError as exc:\n            continue\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import jsonlines as m\n        self.assertEqual(m.read(iter(['', '{\"x\": 1}', '   '])), [{'x': 1}])\n        with self.assertRaisesRegex(ValueError, 'line 3') as caught: m.read(['', '{}', '{bad'])\n        self.assertIsNotNone(caught.exception.__cause__)\n"
+  },
+  "mutants": {},
+  "reference": {
+    "jsonlines.py": "import json\ndef read(lines):\n    result = []\n    for number, line in enumerate(lines, 1):\n        if not line.strip():\n            continue\n        try:\n            result.append(json.loads(line))\n        except ValueError as exc:\n            raise ValueError('line %s' % number) from exc\n    return result\n"
+  },
+  "schema_version": 1,
+  "task_id": "FS12",
+  "test_target": "",
+  "timeout_seconds": 180
+}

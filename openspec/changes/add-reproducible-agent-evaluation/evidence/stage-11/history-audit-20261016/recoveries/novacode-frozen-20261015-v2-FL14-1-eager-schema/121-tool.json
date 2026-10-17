@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": " docs/source/users/index.md                         | 23 ++++++++++++\n .../jupyter_ai_magics/exception.py                 |  1 -\n .../jupyter-ai-magics/jupyter_ai_magics/magics.py  | 39 ++++++++++++++------\n .../jupyter-ai-magics/jupyter_ai_magics/parsers.py | 14 +++++---\n .../jupyter_ai_magics/tests/test_magics.py         | 41 +++++++++++++++++++++-\n 5 files changed, 102 insertions(+), 16 deletions(-)\n",
+  "stderr": ""
+}

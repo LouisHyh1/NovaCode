@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "import time\nfrom typing import Dict, Type\nfrom uuid import uuid4\n\nfrom jupyter_ai.models import (\n    AgentStreamChunkMessage,\n    AgentStreamMessage,\n    HumanChatMessage,\n)\nfrom jupyter_ai_magics.providers import BaseProvider\nfrom langchain_core.messages import AIMessageChunk\nfrom langchain_core.runnables import ConfigurableFieldSpec, RunnableWithMessageHistory\n\nfrom ..models import HumanChatMessage\nfrom .base import BaseChatHandler, SlashCommandRoutingType\n\n\nclass DefaultChatHandler(BaseChatHandler):\n    id = \"default\"\n    name = \"Default\"\n",
+  "stderr": ""
+}

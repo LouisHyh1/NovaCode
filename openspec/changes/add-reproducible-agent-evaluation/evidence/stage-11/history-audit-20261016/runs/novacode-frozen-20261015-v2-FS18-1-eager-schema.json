@@ -1,0 +1,177 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FS18-1-eager-schema",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "ecfed6308f5f4b5b83a9a938d114383b",
+        "28b9122b274e414b9cbd2efbb3d502a7",
+        "38c285aaa3b947c99f8a630998bc564b",
+        "c41472c603bb43a483c22f62fc4a80dd",
+        "9aaa5f6e863645f9bfcd9745bfec6964",
+        "dbf19fdd40694aefa674d0d9979e2de3"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 6,
+      "config_id": "eager-schema",
+      "initial_sha256": "f2d0a9b747640bede55dba2cf026c5187d90135940e6868d5f9b1058cca419d7",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS18-1-eager-schema",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS18",
+      "task_sha256": "8e187a8d455a998590dc7533631e0f28ede32c4f125f5275a70637da7eb3505c",
+      "termination": "completed"
+    },
+    "strict_success": true,
+    "result_sha256": "89b62b5c201f9fc4d4902736d19a7d5b4d0abd2280101cd38d691740ea42c7e5",
+    "judge": {
+      "conditions": {
+        "scope": true,
+        "behavior": true
+      },
+      "details": {
+        "behavior": {
+          "run": 1,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 0,
+          "successful": true,
+          "failure_ids": [],
+          "error_ids": [],
+          "called": [
+            "<frozen importlib._bootstrap>",
+            "<frozen importlib._bootstrap_external>",
+            "paging.py"
+          ],
+          "executed": [
+            "<frozen importlib._bootstrap>:__enter__",
+            "<frozen importlib._bootstrap>:__exit__",
+            "<frozen importlib._bootstrap>:__init__",
+            "<frozen importlib._bootstrap>:_call_with_frames_removed",
+            "<frozen importlib._bootstrap>:_find_and_load",
+            "<frozen importlib._bootstrap>:_find_and_load_unlocked",
+            "<frozen importlib._bootstrap>:_find_spec",
+            "<frozen importlib._bootstrap>:_get_module_lock",
+            "<frozen importlib._bootstrap>:_init_module_attrs",
+            "<frozen importlib._bootstrap>:_load_unlocked",
+            "<frozen importlib._bootstrap>:_new_module",
+            "<frozen importlib._bootstrap>:_verbose_message",
+            "<frozen importlib._bootstrap>:acquire",
+            "<frozen importlib._bootstrap>:cached",
+            "<frozen importlib._bootstrap>:cb",
+            "<frozen importlib._bootstrap>:find_spec",
+            "<frozen importlib._bootstrap>:has_location",
+            "<frozen importlib._bootstrap>:module_from_spec",
+            "<frozen importlib._bootstrap>:parent",
+            "<frozen importlib._bootstrap>:release",
+            "<frozen importlib._bootstrap_external>:<genexpr>",
+            "<frozen importlib._bootstrap_external>:<listcomp>",
+            "<frozen importlib._bootstrap_external>:__init__",
+            "<frozen importlib._bootstrap_external>:_cache_bytecode",
+            "<frozen importlib._bootstrap_external>:_calc_mode",
+            "<frozen importlib._bootstrap_external>:_check_name_wrapper",
+            "<frozen importlib._bootstrap_external>:_code_to_timestamp_pyc",
+            "<frozen importlib._bootstrap_external>:_fill_cache",
+            "<frozen importlib._bootstrap_external>:_get_cached",
+            "<frozen importlib._bootstrap_external>:_get_spec",
+            "<frozen importlib._bootstrap_external>:_pack_uint32",
+            "<frozen importlib._bootstrap_external>:_path_importer_cache",
+            "<frozen importlib._bootstrap_external>:_path_is_mode_type",
+            "<frozen importlib._bootstrap_external>:_path_isdir",
+            "<frozen importlib._bootstrap_external>:_path_isfile",
+            "<frozen importlib._bootstrap_external>:_path_join",
+            "<frozen importlib._bootstrap_external>:_path_split",
+            "<frozen importlib._bootstrap_external>:_path_stat",
+            "<frozen importlib._bootstrap_external>:_relax_case",
+            "<frozen importlib._bootstrap_external>:_write_atomic",
+            "<frozen importlib._bootstrap_external>:cache_from_source",
+            "<frozen importlib._bootstrap_external>:create_module",
+            "<frozen importlib._bootstrap_external>:exec_module",
+            "<frozen importlib._bootstrap_external>:find_spec",
+            "<frozen importlib._bootstrap_external>:get_code",
+            "<frozen importlib._bootstrap_external>:get_data",
+            "<frozen importlib._bootstrap_external>:get_filename",
+            "<frozen importlib._bootstrap_external>:path_stats",
+            "<frozen importlib._bootstrap_external>:set_data",
+            "<frozen importlib._bootstrap_external>:source_to_code",
+            "<frozen importlib._bootstrap_external>:spec_from_file_location",
+            "paging.py:<module>",
+            "paging.py:decode",
+            "paging.py:encode",
+            "paging.py:page"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        }
+      }
+    }
+  },
+  "archive": {
+    "sha256": "af9d57b8ddecf4d9921579bc05f146c9f9edc90b4be8672fd819868a3a591210",
+    "members_verified": 45
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "2f3f740202001a6c3b4669731ec36b954b9a9ac41f128f1d6ed27e90f7860334",
+      "records": 14,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "71d77b623a210432a4fc05cb8b279dce4f09efc4d3b4bcbe44a899c492a8744b",
+      "records": 124,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 18,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 271583,
+    "measured_tokens": 271583,
+    "tool_calls": 14,
+    "tool_retries": 0,
+    "tool_executed": 14,
+    "tool_succeeded": 14,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": 0.4053669179993449,
+      "initialization": 0.02435886099920026,
+      "agent": 32.295551851999335,
+      "cleanup": 0.010810777001097449,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 32.33896522699979,
+    "total_wall_seconds": 32.81456082400109,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "original-specialty-artifact-verified",
+  "derived": {
+    "kind": "original-specialty-judge-artifact-verification",
+    "target_tests_rerun": false,
+    "result": "artifact-verified",
+    "patch_sha256": "8119b1fc13dd5b374089a94952dffcd3b5476f6609472b4570de0276369300a8"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

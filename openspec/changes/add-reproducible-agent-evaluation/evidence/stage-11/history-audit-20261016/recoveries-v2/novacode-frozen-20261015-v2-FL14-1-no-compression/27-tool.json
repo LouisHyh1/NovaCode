@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "LICENSE\nREADME.md\njupyter_ai_magics\npackage.json\npyproject.toml\nsetup.py\n---tests---\npackages/jupyter-ai-magics/jupyter_ai_magics/tests\npackages/jupyter-ai-magics/jupyter_ai_magics/tests/test_magics.py\npackages/jupyter-ai-magics/jupyter_ai_magics/tests/test_utils.py\npackages/jupyter-ai-magics/jupyter_ai_magics/tests/test_provider_metaclass.py\npackages/jupyter-ai-magics/jupyter_ai_magics/tests/__pycache__/test_utils.cpython-311-pytest-7.4.4.pyc\npackages/jupyter-ai-magics/jupyter_ai_magics/tests/__pycache__/test_provider_metaclass.cpython-311-pytest-7.4.4.pyc\npackages/jupyter-ai-magics/jupyter_ai_magics/tests/__pycache__/test_magics.cpython-311-pytest-7.4.4.pyc\n",
+  "stderr": ""
+}

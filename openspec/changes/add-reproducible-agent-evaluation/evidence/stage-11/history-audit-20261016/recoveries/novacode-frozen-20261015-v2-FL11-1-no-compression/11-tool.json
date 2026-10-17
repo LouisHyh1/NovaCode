@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "/testbed\nCHANGELOG.md\nLICENSE\nREADME.md\n__pycache__\nconftest.py\ndocs\nexamples\nlerna.json\nnode_modules\nnx.json\npackage.json\npackages\nplayground\npyproject.toml\nscripts\nyarn.lock\n0e2c4e4 Added help text fields for embedding providers in the AI Setting page (#1288)\nb4f4369 Remove error log emitted when FAISS file is absent (#1287)\n8ce4fb5 Ensure magics package version is consistent in future releases (#1280)\nd4dcef9 Allow embedding model fields, fix coupled model fields, add custom OpenAI provider (#1264)\n110311b Correct minimum versions in dependency version ranges (#1272)\n",
+  "stderr": ""
+}

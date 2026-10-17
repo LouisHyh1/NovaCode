@@ -1,0 +1,28 @@
+{
+  "original_run_id": "novacode-frozen-20261015-v2-FL20-2-no-compression",
+  "original_result_sha256": "0d859c2e2c960de6e6e1302c3ec949b092d23b97f62d6e12db7930244b2982b4",
+  "original_supplemental_sha256": "879f11ff436a41e5b24b27405b5cb7a00d0c992d3f333091dd3c0e1e611c44f4",
+  "new_patch_sha256": "4842d0b1d159ccc2b78d6c97ed3aa723f7ae99e253f9e1752c9bd01dd991b1aa",
+  "new_judgment": {
+    "conditions": {
+      "official-tests": true
+    },
+    "live_resolved": true,
+    "grading_seconds": 7.192584276199341
+  },
+  "changed_paths": [
+    "docs/source/users/index.md",
+    "packages/jupyter-ai/jupyter_ai/chat_handlers/base.py",
+    "packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py",
+    "packages/jupyter-ai/jupyter_ai/chat_handlers/default.py",
+    "packages/jupyter-ai/jupyter_ai/extension.py",
+    "packages/jupyter-ai/jupyter_ai/handlers.py",
+    "packages/jupyter-ai/jupyter_ai/history.py",
+    "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py",
+    "packages/jupyter-ai/src/chat_handler.ts"
+  ],
+  "new_identity": "historical-final-tree-recheck-20261016",
+  "source": "retained-original-workspace plus trusted-fixed-image baseline",
+  "original_score_unchanged": true,
+  "not_v3_result": true
+}

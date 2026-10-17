@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "457e093 Migrate old config schemas, fix v2.31.0 regression (#1294)\nb0e3cb9 [3.x] Expand edge case handling in ConfigManager (#1322)\nd6038af Handle missing field in config.json on version upgrade (#1330)\n",
+  "stderr": ""
+}

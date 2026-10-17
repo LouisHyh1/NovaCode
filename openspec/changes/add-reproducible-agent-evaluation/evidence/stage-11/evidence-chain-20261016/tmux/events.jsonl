@@ -1,0 +1,4 @@
+{"event": "request", "user": "读取 evidence-summary.json，说明历史审计和链路验证状态。", "provider_kind": "scripted", "real_model_calls": 0}
+{"event": "tool_result", "call_id": "chain-read", "content": "     1\t{\n     2\t  \"history_runs\": 147,\n     3\t  \"chain_cases\": 10,\n     4\t  \"selected_tasks\": 24,\n     5\t  \"real_model_calls\": 0\n     6\t}"}
+{"event": "reply", "text": "历史审计 147 次，离线链路 10 例验证通过，选中 24 题；真实模型调用为零。", "provider_kind": "scripted"}
+{"event": "close", "stream_requests": 2, "real_model_calls": 0}

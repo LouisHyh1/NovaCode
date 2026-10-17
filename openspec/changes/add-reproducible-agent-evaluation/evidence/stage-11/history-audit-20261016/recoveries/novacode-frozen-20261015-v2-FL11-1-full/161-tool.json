@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "False False False\n---\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2 passed, 2 warnings in 1.33s\n",
+  "stderr": ""
+}

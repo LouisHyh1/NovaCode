@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/ask.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/learn.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/__init__.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/default.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/help.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/base.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/generate.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/fix.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py\n/testbed/packages/jupyter-ai/jupyter_ai/chat_handlers/export.py\n",
+  "stderr": ""
+}

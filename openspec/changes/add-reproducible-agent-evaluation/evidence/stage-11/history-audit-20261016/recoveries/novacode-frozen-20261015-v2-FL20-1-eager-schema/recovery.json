@@ -1,0 +1,38 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL20-1-eager-schema",
+  "new_identity": "novacode-history-dbe6938da32544a8b6a955fd128e3c24",
+  "sources": {
+    "sample.json": "a86725f0975e07108d557b7d1c55b47f212bf6e21e063115b763161488a1515d",
+    "archive.json": "257d8d32159bd84b15428f805090fb9f53c30d5ca6ae8c02b163e6c4809b984c",
+    "result.json": "ab02e3f913f4ac28a6fc64358a156c0dcc1a8e575b36079faefe894d05919500",
+    "orchestration.jsonl": "8b9e60ce69d4f1eec7b0e4dccb604ad08e54e94da7faf2c4a51e088bdd2d14fb",
+    "reconstruction.json": "0531e25b4c09d06fe06951e6b5a3eceb5b2e9ef276c51898dc05c8edc901753d",
+    "execution-identity.json": "e3ca24b91294a34d409fb66e092d7ee222d01c1a8e28606fffaaaf205d863672",
+    "worker/ledger.jsonl": "41ad0e2d5d03a875a7e527de0cb09cb21ba15112890b86d2c00a31ce32b50b01",
+    "worker/worker-result.json": "b36c6e42410f3b27e84c8635d1a0cd29ebc6f3265ff0a212086a4ee5ce23aaae",
+    "worker/artifacts/538717a24684cfadfb8a53ea09cbdfff7ff131087fbffc1e1ceb653ec109d9f3.txt": "538717a24684cfadfb8a53ea09cbdfff7ff131087fbffc1e1ceb653ec109d9f3",
+    "worker/artifacts/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker/artifacts/c9c71832629332f038a7001f75284da867456b9cd8aa829f7f45339cf86ad311.txt": "c9c71832629332f038a7001f75284da867456b9cd8aa829f7f45339cf86ad311"
+  },
+  "method": "isolated-original-tool-arguments-v1; exact-unique-edits; shell-inside-container-only",
+  "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-943@sha256:634b1de696f8a3f6c0ea76d354a09db408c107b7853f66080856f10a718ccc1b",
+  "base_commit": "a55db38c061522a2b6397516df1eeedf2e8b4dc5",
+  "network": "none",
+  "credentials": "not-provided",
+  "model_calls": 0,
+  "original_scores_unchanged": true,
+  "tool_events": [],
+  "gaps": [
+    "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+    "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+  ],
+  "classification": "candidate",
+  "initial_snapshot": {
+    "path": "FL20-initial.tar.gz",
+    "sha256": "ba6a8701f3011d6c109217cbffb491a487e2b4309f6b133694ce7b2580583fab"
+  },
+  "outputs": {
+    "candidate.diff": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-workspace.tar.gz": "a57b447beb7cf80a71e87e9e8468dd6a05eacf9b51682558d3b30bae8bff7ca1"
+  }
+}

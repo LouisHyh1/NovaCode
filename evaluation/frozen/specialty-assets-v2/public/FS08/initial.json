@@ -1,0 +1,8 @@
+{
+  "base_commit": "52cf66dc60844840764981abe472ec44b162ee83",
+  "files": {
+    "csvwire.py": "import csv, io\ndef encode(rows):\n    stream = io.StringIO(newline='')\n    writer = csv.writer(stream)\n    writer.writerows(rows)\n    return stream.getvalue()\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import csvwire\n        self.assertTrue(callable(csvwire.encode))\n"
+  },
+  "schema_version": 1
+}

@@ -102,15 +102,26 @@ def policy() -> dict[str, Any]:
     return data
 
 
-def build(output: Path, runtime: Path, wheel: Path) -> None:
+def build(
+    output: Path,
+    runtime: Path,
+    wheel: Path,
+    *,
+    campaign_id: str = "novacode-frozen-20261012-v1",
+    roots: dict[str, str] | None = None,
+    ledgers: dict[str, str] | None = None,
+    deployment: Path | None = None,
+    reuse_frozen: bool = False,
+) -> None:
+    roots = roots or ROOTS
+    ledgers = ledgers or LEDGERS
     output.mkdir(parents=True, exist_ok=False)
-    tasks, _ = corpus_identity(REPO, ROOTS, LEDGERS)
+    tasks, _ = corpus_identity(REPO, roots, ledgers)
     p = policy()
     budget_path = CHANGE + "/evidence/stage-9/calibrated-budgets.json"
     budgets = json.loads((REPO / budget_path).read_text())
     validate_policy(p, budgets, tasks)
-    campaign_id = "novacode-frozen-20261012-v1"
-    tasks, corpus = corpus_identity(REPO, ROOTS, LEDGERS)
+    tasks, corpus = corpus_identity(REPO, roots, ledgers)
     code = source_files(REPO)
     with zipfile.ZipFile(wheel) as package:
         require(
@@ -125,7 +136,7 @@ def build(output: Path, runtime: Path, wheel: Path) -> None:
                     hashlib.sha256(package.read(name.removeprefix("src/"))).hexdigest() == sha,
                     "wheel与冻结源码不一致",
                 )
-    tools = {t.task_id: tool_identity(t, REPO / ROOTS[t.source]) for t in tasks}
+    tools = {t.task_id: tool_identity(t, REPO / roots[t.source]) for t in tasks}
     cache = Path.home() / ".cache/novacode-evaluation/stage1"
     grader = cache / "SWE-bench-Live"
     require(
@@ -148,7 +159,9 @@ def build(output: Path, runtime: Path, wheel: Path) -> None:
             *sorted((grader / "swebench").rglob("*.py")),
         ]
     }
-    deployed = json.loads((REPO / CHANGE / "evidence/stage-10/runtime-deployment.json").read_text())
+    deployed = json.loads(
+        (deployment or REPO / CHANGE / "evidence/stage-10/runtime-deployment.json").read_text()
+    )
     require(
         deployed["runtime_sha256"] == digest(runtime)
         and set(deployed["tasks"]) == {t.task_id for t in tasks},
@@ -166,8 +179,8 @@ def build(output: Path, runtime: Path, wheel: Path) -> None:
             ["git", "rev-parse", "HEAD"], cwd=REPO, text=True
         ).strip(),
         "source_files": code,
-        "asset_roots": ROOTS,
-        "selection_ledgers": LEDGERS,
+        "asset_roots": roots,
+        "selection_ledgers": ledgers,
         "policy": p,
         "budgets": budgets,
         "budget_evidence_path": budget_path,
@@ -177,7 +190,7 @@ def build(output: Path, runtime: Path, wheel: Path) -> None:
         "corpus": corpus,
         "tools": tools,
         "input_guards": {
-            t.task_id: input_guard(t, REPO / ROOTS[t.source], tools[t.task_id], p) for t in tasks
+            t.task_id: input_guard(t, REPO / roots[t.source], tools[t.task_id], p) for t in tasks
         },
         "plan": plan_runs(tasks, budgets, campaign_id, p["seed"]),
         "runtime_path": str(runtime.resolve()),
@@ -199,18 +212,21 @@ def build(output: Path, runtime: Path, wheel: Path) -> None:
         "selection_by_agent_success": False,
     }
     for source in ("live", "specialty"):
-        root = REPO / ROOTS[source]
+        root = REPO / roots[source]
         members = load_tasks(root)
         ledger = SelectionLedger(
-            REPO / LEDGERS[source],
+            REPO / ledgers[source],
             members,
             root / "public",
             root / "external",
             frozenset(t.budget_category for t in members),
         )
         states, _ = ledger.replay()
-        require(set(states.values()) == {"ADMITTED"}, "禁止覆盖已有冻结")
+        require(set(states.values()) <= {"ADMITTED", "FROZEN"}, "题库未就绪")
         for task in members:
+            if states[task.task_id] == "FROZEN":
+                require(reuse_frozen, "禁止覆盖已有冻结")
+                continue
             marker = root / "external" / task.task_id / "freeze.json"
             save(
                 marker,
@@ -228,7 +244,7 @@ def build(output: Path, runtime: Path, wheel: Path) -> None:
                 "完整身份、预算与原计划固定",
                 evidence=Asset(marker.relative_to(root / "external").as_posix(), digest(marker)),
             )
-    tasks, corpus = corpus_identity(REPO, ROOTS, LEDGERS)
+    tasks, corpus = corpus_identity(REPO, roots, ledgers)
     manifest["corpus"] = corpus
     path = output / "manifest.json"
     manifest["campaign"] = asdict(campaign_contract(manifest, tasks))

@@ -1,0 +1,25 @@
+{
+  "state": "PRECOMMIT_REVIEW_VALID",
+  "openspec_strict": "passed",
+  "links_checked": 71,
+  "negative_identity_checks": 26,
+  "model_calls_before_push": 0,
+  "documents": {
+    "HANDOFF.md": "c5372c47b0b248e265cf894bbb4595607df75ddc245c22744c155f7cc15e0871",
+    "evaluation/formal/README.md": "b23a8dd52c684aa23fc63954d4af982cc2db548800200ac3ee35f326b37b5dbd",
+    "evaluation/frozen/README.md": "f3d68ddc6221384db35516ec9e2408caf4f160241effe509cd45e2bdc6215163",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/release-20261017/release-validation.md": "1c5f57baab12545dd344249358634a915f4070a5ffab0c0c6506ec634437a80c",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/release-20261017/provider-preflight.md": "7989b7d4c7e1221ed5c86b77c1eb290d8babe3c50e5a706046eae4dfdd3558c5",
+    "openspec/changes/add-reproducible-agent-evaluation/tasks.md": "02d152bae914a15d7d9789cdbb401a3f61cf84cd1843e3f4b4976267b2b8bdde",
+    "openspec/changes/add-reproducible-agent-evaluation/proposal.md": "77f282f3ba8d070e5951433ffa6667d297dfbcc560cdd8dcebc52e7624be4160",
+    "openspec/changes/add-reproducible-agent-evaluation/design.md": "017cc01bb1867d1a3935d6874cc8f759999d5e9af8c9bcb818d4125ec9fefacb",
+    "openspec/changes/add-reproducible-agent-evaluation/task-catalog.md": "f1fbb8ab9a51aa8d6fb8f88a11475b96b0fcdb054cb0a70d2b6016e9c3515d9a",
+    "openspec/changes/add-reproducible-agent-evaluation/evaluation-protocol.md": "19d11ef113277738fe96becd94d9381f6811b889eaba87eebef2ad6cd48be0fc",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-corpus/spec.md": "4687536eb28a27d83593ea68dd59486196865a013e344d42319c6e83211fcb0c",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-experiments/spec.md": "30862780b55077d8378ab750a422d9edb811429371016429e212f4bca699dfbc",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-observability/spec.md": "915d05f66815fdd835d957be803b8982718353d1aed8653a1e21fb14a11bc2b1",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-runner/spec.md": "250cebd364e101edd8a9a5e47c571fb8df5d2c11992d41a8b1053c041527ca77",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/context-compression-policy/spec.md": "5a5ad91a916d0274d764085a1b254d08448170e51923588812ce15d2ab1a163d",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/progressive-tool-schema/spec.md": "fa95699919345678897bb250cf6ea1cac8eb2e552b3a48b650784447be1885f3"
+  }
+}

@@ -1,0 +1,418 @@
+{
+  "schema_version": 2,
+  "state": "DEPLOYMENT_VALID",
+  "runtime_sha256": "1a08eefdd625e23e5c61efb3fc1bae66643afe18dfcdc7bb54d3d45f79d9f031",
+  "baselines": {
+    "FL02": {
+      "schema_version": 2,
+      "task_id": "FL02",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL02/baseline/manifest.json",
+      "sha256": "fb5b31635b08ffa208e6c54b2814a530c9d668cae22641028dd890dcdf624738",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL02/baseline.tar.gz",
+      "archive_sha256": "209603b7ddcd7381ec2c473a546b4d60568143bf62193b62968a485b39021d38",
+      "tree": "b2c392863e7c8eaa368c5660bb7ceb8d4965d58c",
+      "entries": 1091
+    },
+    "FL03": {
+      "schema_version": 2,
+      "task_id": "FL03",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL03/baseline/manifest.json",
+      "sha256": "ec10122b10da79d61707fd4b036309a1103ecd8c5b1df3d3017e67f21d4c55a8",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL03/baseline.tar.gz",
+      "archive_sha256": "77dfa1b26355ed592c2001cb6d9fd6ad6342974febc631998edb22c227462b1d",
+      "tree": "b7b6b721c2e2d64810b2311aacca802fcf2f52b5",
+      "entries": 4034
+    },
+    "FL07": {
+      "schema_version": 2,
+      "task_id": "FL07",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL07/baseline/manifest.json",
+      "sha256": "75bf311341a035aa2fdda5ae67c6391cc3044b09f6532092f8f08f5339655d4f",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL07/baseline.tar.gz",
+      "archive_sha256": "0aebd0f5db5afab4e827fb6860946659cf4487d069311969ba9bedd49fcd2488",
+      "tree": "7a3f3921f72d396718dc6491db5ec5ddefa7ce29",
+      "entries": 122
+    },
+    "FL08": {
+      "schema_version": 2,
+      "task_id": "FL08",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL08/baseline/manifest.json",
+      "sha256": "ff8d59c3f1bf609c4b6a12875be7c562ab4d7d8e6576b08e457cf094ceda1ecf",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL08/baseline.tar.gz",
+      "archive_sha256": "061181b165a3c75b027a5e5ce1ca8b3a9790308d1542a0ff7d4a1c74de9a4ed7",
+      "tree": "0aba3bb52ae1c279de7b937e96a5e816a81c46fd",
+      "entries": 125
+    },
+    "FL09": {
+      "schema_version": 2,
+      "task_id": "FL09",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL09/baseline/manifest.json",
+      "sha256": "38786787c7d202e1e01010409923cdc435501dbb660e8980be14e6d91dcb984c",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL09/baseline.tar.gz",
+      "archive_sha256": "d6e4e09292ec05251753a543c725b5c9505b506fa015fb0b7c9dfec379d6ef46",
+      "tree": "9dfeae0d90d53d9295c3e52f841741b35a8ae544",
+      "entries": 632
+    },
+    "FL10": {
+      "schema_version": 2,
+      "task_id": "FL10",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL10/baseline/manifest.json",
+      "sha256": "27367d0f7edcc6b71c3d25fd10b4eb1b99a212b3a75400049cf648883004a93a",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL10/baseline.tar.gz",
+      "archive_sha256": "1ee1b7b1621d493dac6de13845828e6b72b03a561dea939644078e21f54296bb",
+      "tree": "fea510aa03eef6bedbca3a9d51a56ef5e5182d49",
+      "entries": 275
+    },
+    "FL11": {
+      "schema_version": 2,
+      "task_id": "FL11",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL11/baseline/manifest.json",
+      "sha256": "ba694ca72414a36150e45ead531cd9d8dd086d4c6ab54efa97d7f988f8bb906b",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL11/baseline.tar.gz",
+      "archive_sha256": "c03e3a95968739198a8b80c893c002a8da5c95fb88264410a047dd84c7d450d5",
+      "tree": "c1f200455def15037c6b7728aa6e6527ee46819b",
+      "entries": 76088
+    },
+    "FL13": {
+      "schema_version": 2,
+      "task_id": "FL13",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL13/baseline/manifest.json",
+      "sha256": "3480a333f9acb894394dd1b662272382e4b06236cdf103ffffe74d7f7b5eb308",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL13/baseline.tar.gz",
+      "archive_sha256": "e28f6b8d3f7a9ec211730c9933cb6742290418431c2d7462d6dabb395e3e5055",
+      "tree": "7b9b6f81d846944191e6eb04b0f43f4411514af6",
+      "entries": 432
+    },
+    "FL14": {
+      "schema_version": 2,
+      "task_id": "FL14",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL14/baseline/manifest.json",
+      "sha256": "1215f4fc5d24d2adc1c450b90611a7821be84743cbae8784409bf66534eebf1c",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL14/baseline.tar.gz",
+      "archive_sha256": "4cc52457f156b8d42b338ef9720749e9c61c1b5d8a31d3d4394b7b7b71776c32",
+      "tree": "0563bdc589f9f3c23e53d74da24fd461a1e1de35",
+      "entries": 76102
+    },
+    "FL16": {
+      "schema_version": 2,
+      "task_id": "FL16",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL16/baseline/manifest.json",
+      "sha256": "a30cae17b2616dcc4949feed627ee4fba881aad8798a2deeec41f91c82a5b9cb",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL16/baseline.tar.gz",
+      "archive_sha256": "94574d54eed96849ce76930bd2e19b477d5cf8a754dbc4e0117170606900a5ad",
+      "tree": "9a72e547ad943cfc5558ed60b4faf2416b05760e",
+      "entries": 275
+    },
+    "FL23": {
+      "schema_version": 2,
+      "task_id": "FL23",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL23/baseline/manifest.json",
+      "sha256": "34fad00b24b15dc5e8786ce90e470ceec4134c1f885646b1cfab5da6c7f6eb02",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL23/baseline.tar.gz",
+      "archive_sha256": "28763a337cea6ddacfeaa2abd42af5d9c1182a9970fc1a6065993a95959ab57f",
+      "tree": "66ead66fdee98d90d5de52327bfeffdf2665d81b",
+      "entries": 1629
+    },
+    "FL24": {
+      "schema_version": 2,
+      "task_id": "FL24",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL24/baseline/manifest.json",
+      "sha256": "d74026f26da75f57f57cd7b03c949bfd2810293663e97e353fbf3d8afee3e77e",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL24/baseline.tar.gz",
+      "archive_sha256": "e386ec47a5060ab5010b43c2fffdef0a03c4c36278c896288a9aa02970ae4beb",
+      "tree": "14ed4539b1be9e7abf85eaf51ccbc86848540f65",
+      "entries": 650
+    },
+    "FS03": {
+      "schema_version": 2,
+      "task_id": "FS03",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS03/baseline/manifest.json",
+      "sha256": "894b0ce7ba23929c9b6df913b8959287eaccbd4487c962e855deeeeab787f2e8",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS03/baseline.tar.gz",
+      "archive_sha256": "da374214a12c7b432412e16c7b4e356343157793a0c249d42e75a956c4bdba93",
+      "tree": "d6cc56442bcc7db5232eac111f8bd3c5d922ade7",
+      "entries": 2
+    },
+    "FS04": {
+      "schema_version": 2,
+      "task_id": "FS04",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS04/baseline/manifest.json",
+      "sha256": "d36b3592dc743af44c4f4bdf9492c9c6d39d9697846f8183fe92d5984dd2d035",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS04/baseline.tar.gz",
+      "archive_sha256": "3ac5d74d10d8a2e21e79f106c58a6d6a29d3a559a85c12c50acd0b8eba8c629c",
+      "tree": "dc63e0c0ed18e17ba4d829e559008b6716697556",
+      "entries": 2
+    },
+    "FS06": {
+      "schema_version": 2,
+      "task_id": "FS06",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS06/baseline/manifest.json",
+      "sha256": "6312c2e9910ed0db8960e29b7e27b314df6c44386928da563a7f6050601fca8f",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS06/baseline.tar.gz",
+      "archive_sha256": "9650245b74287e27efce8a9491669bc6ea2dcbd7d90aa7ff70f9a53ce02d3baa",
+      "tree": "47534695c625711beeaa65f996b2803eb8e03671",
+      "entries": 2
+    },
+    "FS07": {
+      "schema_version": 2,
+      "task_id": "FS07",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS07/baseline/manifest.json",
+      "sha256": "efb166f27baa503bb6c31d755c5ba70a25696a11f9e376529a0043e92e73dc00",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS07/baseline.tar.gz",
+      "archive_sha256": "aef06cb98b2e1aa1331caeddf9d6a31c1a873227bbda4661cc512292894b0675",
+      "tree": "70af69d7527c82e61ad74c0a51f3ded1e9d87bc4",
+      "entries": 2
+    },
+    "FS10": {
+      "schema_version": 2,
+      "task_id": "FS10",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS10/baseline/manifest.json",
+      "sha256": "6194416cd56f1115b552fcb2cfa4ea1821f7d86891f67837e4d985673df84136",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS10/baseline.tar.gz",
+      "archive_sha256": "25e08b969cbed4a9feef4a2b4eb33d1d82dc90c4b8510b74c71eae816e716d47",
+      "tree": "20cfd4580dd0dc57beea916de8e3a3aad97293fe",
+      "entries": 2
+    },
+    "FS11": {
+      "schema_version": 2,
+      "task_id": "FS11",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS11/baseline/manifest.json",
+      "sha256": "9a32e691e4a7e67e3041c61f1dacef04c437e10f45e69ef51688adcf11c0257b",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS11/baseline.tar.gz",
+      "archive_sha256": "62f9cd4ebc88f29af772a50d83415b63e2b396457486838e8e6de2ee4767474d",
+      "tree": "32f408186b8d715af92ff6ef2773cb8b8c34ac20",
+      "entries": 2
+    },
+    "FS13": {
+      "schema_version": 2,
+      "task_id": "FS13",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS13/baseline/manifest.json",
+      "sha256": "34895ebb609ef41adbab56ea62df9149a622ad77ff394117451125368f784830",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS13/baseline.tar.gz",
+      "archive_sha256": "1ac0a78aaccd25cc3ff3ee20fe22bb16fbb523688385eed943601af95635ad1c",
+      "tree": "805bf0f01112e590c410a5ffcab243a376ca0713",
+      "entries": 5
+    },
+    "FS16": {
+      "schema_version": 2,
+      "task_id": "FS16",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS16/baseline/manifest.json",
+      "sha256": "8a3c1b28a45d7f392fa44711a12f52645dd83bd3b0768df996c2a15253ac64a2",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS16/baseline.tar.gz",
+      "archive_sha256": "e7c81dbfeed7613ed7b1b6ab9a3e22866261c661e8ff3253f0ccd46d5538bdab",
+      "tree": "66df92630423d55211bafefefcae3f9e68df306f",
+      "entries": 6
+    },
+    "FS17": {
+      "schema_version": 2,
+      "task_id": "FS17",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS17/baseline/manifest.json",
+      "sha256": "ce6febba48f8340d7c7536d87890853b8fb7ba025490f175c93fe285e19b04af",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS17/baseline.tar.gz",
+      "archive_sha256": "0361005404714134fdab325908e9e802f5715823f4b2270c5a94bc2e49009f3a",
+      "tree": "87cc55b234b80d6252d866852500de5ed525b725",
+      "entries": 5
+    },
+    "FS19": {
+      "schema_version": 2,
+      "task_id": "FS19",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS19/baseline/manifest.json",
+      "sha256": "a610211bcaffc5162bb407ed26c9f0dc2bd39f690cdb8111c7e4a60543a178e9",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS19/baseline.tar.gz",
+      "archive_sha256": "e48b479d09c1075eb5245d4e2e495357a06fbce38f84d5d2afb6b0e2d36515ed",
+      "tree": "7f6b6fde8b15a63f95c4d16a501fafc353ea3857",
+      "entries": 1
+    },
+    "FS22": {
+      "schema_version": 2,
+      "task_id": "FS22",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS22/baseline/manifest.json",
+      "sha256": "fbaa4938330b22387cac87b11ab056369f75a8c79e3498a9d516d92ad2d34aa8",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS22/baseline.tar.gz",
+      "archive_sha256": "3cd449e7ceb74fd8e66cb253bcfad7b1554ca8106fc927f718b262b4c7584c93",
+      "tree": "51d46f0704f9eafff09dd9bbefe761dd848c93a1",
+      "entries": 1
+    },
+    "FS24": {
+      "schema_version": 2,
+      "task_id": "FS24",
+      "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS24/baseline/manifest.json",
+      "sha256": "c0e030a1947555257b5de6989b79a89e48a1029d80f8e8911203da34184455d3",
+      "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS24/baseline.tar.gz",
+      "archive_sha256": "4dcd2c0de854f3abb3282574d603361c38c0e66d4e55de3d279f10b8557067c8",
+      "tree": "a2b0341b8160ea73507e9656e63edb0cfcf61775",
+      "entries": 3
+    }
+  },
+  "tasks": {
+    "FL02": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17923@sha256:5e05d6152356948e22f1c937427b4d4a443b01811494abd56d5e7c78cc3fb479",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL03": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1132@sha256:9349f20a472ce5b06101bbdb1f180106f84e4601d4ec64d7046111e08f5abb7e",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL07": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jazzband_1776_tablib-613@sha256:b79693f36e1876a87aa343ea47e7a143e6f5097ef1413725c405908ebea44b7b",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL08": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.python-attrs_1776_attrs-1417@sha256:6552c02572e24d8e10319aa0d1f4291289dca0e0386fef49ec1a9d4b8a867f26",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL09": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4510@sha256:0e8fbaad82867ec7680079835c2e4dc8c80a8a2c968243b90eaf3ce86f682a98",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL10": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3338@sha256:1b34ad3fd273d21acaca402a7ba853b040f14b11bf9a816fb951c8b5e3b33a73",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL11": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-1294@sha256:9fae49f245cad7d4ab640c2ceae9550eb2a65143a091cb78ca934f09d105f2ad",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL13": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2292@sha256:e54959a97e4181518266fa3c6e2cae3b9d97ff4331a47696e34c1b1b61fb254e",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL14": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-962@sha256:60c00c1ef2b68947e051d733cb4d6d03fd0ca8d5db51cce878116487bbb9a637",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL16": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3310@sha256:bb188f93897c233027a7a4e0a890025135036edeedc3a841dd325831efc142c6",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL23": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.encode_1776_starlette-2697@sha256:912ccb25f41e2588cd7d76af7fc16b9903483b4808789ca0d503be1bbf81a549",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FL24": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842@sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS03": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS04": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS06": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS07": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS10": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS11": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS13": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS16": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS17": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS19": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS22": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    },
+    "FS24": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+      "target_unchanged": true,
+      "max_iterations": 25,
+      "model_calls": 0
+    }
+  },
+  "model_calls": 0
+}

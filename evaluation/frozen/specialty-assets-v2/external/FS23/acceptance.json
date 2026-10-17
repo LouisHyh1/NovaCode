@@ -1,0 +1,51 @@
+{
+  "allowed_paths": [
+    "mime.py",
+    "handlers.py"
+  ],
+  "answers": [
+    {
+      "commit": "d23",
+      "issue": "MIME-23",
+      "job": "mime-contract",
+      "reason": "PARAMETER_CASE",
+      "source": "ci"
+    }
+  ],
+  "base_commit": "e235d2905023d5b1048c302232f8f4fa2b1a5094",
+  "checks": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import mime as m\n        self.assertEqual(m.media_type(' Text/Plain; charset=UTF-8 '), 'text/plain')\n        self.assertEqual(m.media_type('application/json'), 'application/json')\n        self.assertEqual(m.media_type(''), '')\n    def test_dispatch(self):\n        from handlers import select, decode\n        exact = lambda value: None\n        major = lambda value: ''\n        any_type = lambda value: 'any:' + value\n        fallback = lambda value: 'fallback:' + value\n        rules = {'text/plain': exact, 'text/*': major, '*/*': any_type}\n        self.assertIs(select(' Text/Plain; charset=UTF-8', rules, fallback), exact)\n        self.assertIsNone(decode('x', 'text/plain', rules, fallback))\n        self.assertEqual(decode('x', 'TEXT/HTML', rules, fallback), '')\n        self.assertEqual(decode('x', 'application/json', rules, fallback), 'any:x')\n        self.assertEqual(decode('x', 'application/json', {}, fallback), 'fallback:x')\n        self.assertEqual(set(rules), {'text/plain', 'text/*', '*/*'})\n",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS23/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "facts",
+    "behavior"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "handlers.py": "def select(header, handlers, fallback):\n    return fallback\ndef decode(value, header, handlers, fallback):\n    return fallback(value)\n",
+    "mime.py": "def media_type(value):\n    return value.lower()\n",
+    "records.json": "{\n  \"issue_lookup\": {\n    \"MIME-23\": {\n      \"issue\": \"MIME-23\",\n      \"commit\": \"d23\",\n      \"source\": \"issues\"\n    }\n  },\n  \"ci_commit\": {\n    \"d23\": {\n      \"commit\": \"d23\",\n      \"job\": \"mime-contract\",\n      \"reason\": \"PARAMETER_CASE\",\n      \"source\": \"ci\"\n    }\n  }\n}\n"
+  },
+  "mutants": {},
+  "reference": {
+    "handlers.py": "from mime import media_type\ndef select(header, handlers, fallback):\n    kind = media_type(header)\n    major = kind.split('/', 1)[0] + '/*'\n    return handlers.get(kind, handlers.get(major, handlers.get('*/*', fallback)))\ndef decode(value, header, handlers, fallback):\n    return select(header, handlers, fallback)(value)\n",
+    "mime.py": "def media_type(value):\n    return value.split(';', 1)[0].strip().lower()\n"
+  },
+  "schema_version": 1,
+  "task_id": "FS23",
+  "test_target": "",
+  "timeout_seconds": 180
+}

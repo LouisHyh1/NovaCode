@@ -1,0 +1,51 @@
+{
+  "allowed_paths": [
+    "routes.py",
+    "gateway.py"
+  ],
+  "answers": [
+    {
+      "commit": "d24",
+      "issue": "ROUTE-24",
+      "job": "route-contract",
+      "reason": "FALLBACK_SHADOWED",
+      "source": "ci"
+    }
+  ],
+  "base_commit": "ba470d3f733d4ffd1b1e9336c48ec9cf4612e24c",
+  "checks": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import routes as m\n        data = {'/api': 'base', '/api/v1': 'v1', '/api/v1/users': 'users'}\n        self.assertEqual(m.choose('/api/v1/users', data, 'none'), 'users')\n        self.assertEqual(m.choose('/api/v1/items', data, 'none'), 'v1')\n        self.assertEqual(m.choose('/api/other', data, 'none'), 'base')\n        self.assertEqual(m.choose('/apix', data, 'none'), 'none')\n        self.assertEqual(m.choose('/x', {}, 'none'), 'none')\n    def test_forwarding(self):\n        from gateway import forward\n        rules = {'/api': 'shared', '/api/v1': 'shared'}\n        before = dict(rules)\n        self.assertEqual(forward('/api/v1/items/1?x=%2F&x=2', rules, 'none'),\n                         {'target': 'shared', 'path': '/items/1', 'query': 'x=%2F&x=2'})\n        self.assertEqual(forward('/api', rules, 'none'),\n                         {'target': 'shared', 'path': '/', 'query': ''})\n        self.assertEqual(forward('/apix?q=1', rules, 'none'),\n                         {'target': 'none', 'path': '/apix', 'query': 'q=1'})\n        self.assertEqual(forward('/api%2Fhidden', rules, 'none')['target'], 'none')\n        self.assertEqual(rules, before)\n",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS24/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "facts",
+    "behavior"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "gateway.py": "def forward(url, routes, fallback):\n    return {'target': fallback, 'path': url, 'query': ''}\n",
+    "records.json": "{\n  \"issue_lookup\": {\n    \"ROUTE-24\": {\n      \"issue\": \"ROUTE-24\",\n      \"commit\": \"d24\",\n      \"source\": \"issues\"\n    }\n  },\n  \"ci_commit\": {\n    \"d24\": {\n      \"commit\": \"d24\",\n      \"job\": \"route-contract\",\n      \"reason\": \"FALLBACK_SHADOWED\",\n      \"source\": \"ci\"\n    }\n  },\n  \"ci_deploy\": {\n    \"d24\": {\n      \"commit\": \"d24\",\n      \"job\": \"canary\",\n      \"reason\": \"UNRELATED\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n",
+    "routes.py": "def choose(path, routes, fallback):\n    return fallback\n"
+  },
+  "mutants": {},
+  "reference": {
+    "gateway.py": "from urllib.parse import urlsplit\nfrom routes import mount, choose\ndef forward(url, routes, fallback):\n    parsed = urlsplit(url)\n    prefix = mount(parsed.path, routes)\n    target = choose(parsed.path, routes, fallback)\n    path = parsed.path if prefix is None else parsed.path[len(prefix.rstrip('/')):]\n    return {'target': target, 'path': path or '/', 'query': parsed.query}\n",
+    "routes.py": "def choose(path, routes, fallback):\n    if path in routes:\n        return routes[path]\n    matches = [key for key in routes if path.startswith(key.rstrip('/') + '/')]\n    return routes[max(matches, key=len)] if matches else fallback\n\ndef mount(path, routes):\n    if path in routes: return path\n    found = [key for key in routes if path.startswith(key.rstrip('/') + '/')]\n    return max(found, key=len) if found else None\n"
+  },
+  "schema_version": 1,
+  "task_id": "FS24",
+  "test_target": "",
+  "timeout_seconds": 180
+}

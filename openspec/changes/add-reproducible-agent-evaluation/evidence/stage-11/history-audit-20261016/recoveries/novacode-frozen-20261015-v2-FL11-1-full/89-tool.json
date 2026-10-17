@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "/usr/local/lib/python3.9/site-packages/jupyter_ai/__init__.py\n/usr/local/bin/pytest\nName: jupyter_ai\nVersion: 3.0.0a0\nSummary: A generative AI extension for JupyterLab\n",
+  "stderr": ""
+}

@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "APPLIED\n M docs/source/users/index.md\n M packages/jupyter-ai/jupyter_ai/chat_handlers/base.py\n M packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py\n M packages/jupyter-ai/jupyter_ai/chat_handlers/default.py\n M packages/jupyter-ai/jupyter_ai/extension.py\n M packages/jupyter-ai/jupyter_ai/handlers.py\n M packages/jupyter-ai/jupyter_ai/history.py\n M packages/jupyter-ai/src/chat_handler.ts\n",
+  "stderr": ""
+}

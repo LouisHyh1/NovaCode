@@ -25,9 +25,10 @@ class _Observation:
     ambiguous_usage: bool = False
     status: str = "incomplete"
     error_type: str = ""
+    error: dict[str, Any] = field(default_factory=dict)
     response: dict[str, Any] = field(default_factory=dict)
 
-    def update(self, event: StreamEvent) -> None:
+    def update(self, event: StreamEvent, secrets: tuple[str, ...] = ()) -> None:
         if event.response_metadata:
             self.response = event.response_metadata
         if event.usage is not None:
@@ -36,6 +37,9 @@ class _Observation:
             self.usage = event.usage
         if event.err is not None:
             self.status, self.error_type = "error", type(event.err).__name__
+            from novacode.evaluation.diagnostics import error_details
+
+            self.error = error_details(event.err, secrets)
         elif event.done and self.status != "error":
             self.status = "completed"
 
@@ -144,7 +148,7 @@ class ObservedProvider:
                     )
                 except StopAsyncIteration:
                     break
-                observation.update(event)
+                observation.update(event, self.ledger.secrets)
                 if event.usage is not None:
                     self.ledger.append(
                         "request_usage",
@@ -161,6 +165,9 @@ class ObservedProvider:
             raise
         except BaseException as exc:
             observation.status, observation.error_type = "error", type(exc).__name__
+            from novacode.evaluation.diagnostics import error_details
+
+            observation.error = error_details(exc, self.ledger.secrets)
             raise
         finally:
             try:
@@ -173,6 +180,7 @@ class ObservedProvider:
                     request_id=request_id,
                     status=observation.status,
                     error_type=observation.error_type,
+                    error=observation.error,
                     seconds=time.monotonic() - start,
                     usage=normalized,
                     response=observation.response,

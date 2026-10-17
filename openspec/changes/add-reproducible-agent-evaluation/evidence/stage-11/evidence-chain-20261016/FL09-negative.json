@@ -1,0 +1,16 @@
+{
+  "case": "FL09-negative",
+  "new_identity": "offline-chain-20261016-FL09-negative",
+  "expected_pass": false,
+  "actual_pass": false,
+  "conditions": {
+    "official-tests": false
+  },
+  "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "archive_sha256": "4c0b81148b45807584a32e0116b2c2b936373681099ffa10a7a66b43fa44bb80",
+  "restored_state_equal": true,
+  "baseline_entries": 632,
+  "changed_paths": [],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FL09-negative"
+}

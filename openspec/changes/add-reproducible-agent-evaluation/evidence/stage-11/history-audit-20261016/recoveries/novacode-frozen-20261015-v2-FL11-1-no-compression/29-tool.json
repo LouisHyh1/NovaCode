@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "d4dcef9 Allow embedding model fields, fix coupled model fields, add custom OpenAI provider (#1264)\n479a480 Upgrade to LangChain v0.3 and Pydantic v2 (#1201)\n3f11712 Fix specifying empty list in provider and model allow/denylists (#1185)\n899af0a V3: The Beginning (#1169)\n1cbd853 Add base API URL field for Ollama and OpenAI embedding models (#1136)\n37558cd Update completion model fields immediately on save (#1137)\n3a8016a Fix JSON serialization error in Ollama models (#1129)\n342bb7b Update model fields immediately on save (#1125)\nb3a5f8c Unify message clearing & broadcast logic (#1038)\n1eb3b55 Allow users to stop message streaming (#1022)\n0884211 Add `metadata` field to agent messages (#1013)\n6e426ab Framework for adding context to LLM prompt (#993)\n7b4a708 Run mypy on CI, fix or ignore typing issues (#987)\ndf67eb8 Add ability to delete messages + start new chat session (#951)\n79d66da Rework selection inclusion; new Send button UX (#905)\n",
+  "stderr": ""
+}

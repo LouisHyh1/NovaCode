@@ -1,0 +1,19 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL14-1-eager-schema",
+  "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL14-1-eager-schema",
+  "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL14-1-eager-schema/candidate.diff",
+  "source_sha256": "df6afdd6bfb8c0067dbb290558b4d2b6f8c37b98c61d33013717d9f82cd50cc8",
+  "classification": "candidate",
+  "new_judgment": {
+    "conditions": {
+      "official-tests": true
+    },
+    "live_resolved": true,
+    "grading_seconds": 6.728654384613037
+  },
+  "exit_code": 0,
+  "diagnostic_stderr": "",
+  "original_unchanged": true,
+  "model_calls": 0,
+  "not_v3_result": true
+}

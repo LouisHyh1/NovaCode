@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "init OK\non-disk now: dict_keys(['model_provider_id', 'embeddings_provider_id', 'send_with_shift_enter', 'fields', 'api_keys', 'completions_model_provider_id', 'completions_fields', 'embeddings_fields'])\nmodel_provider_id=None embeddings_provider_id=None send_with_shift_enter=False fields={} api_keys=[] last_read=1792138141755805371 completions_model_provider_id=None completions_fields={} embeddings_fields={}\n",
+  "stderr": ""
+}

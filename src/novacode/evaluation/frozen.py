@@ -58,9 +58,17 @@ def load_tasks(root: Path) -> tuple[EvaluationTask, ...]:
 
 
 def plan_runs(
-    tasks: tuple[EvaluationTask, ...], budgets: dict[str, Any], campaign_id: str, seed: int
+    tasks: tuple[EvaluationTask, ...],
+    budgets: dict[str, Any],
+    campaign_id: str,
+    seed: int,
+    *,
+    expected_tasks: int = 48,
 ) -> list[dict[str, Any]]:
-    require(len(tasks) == len({t.task_id for t in tasks}) == 48, "冻结计划需要48道独立任务")
+    require(expected_tasks in (24, 48), "未知的 campaign 规模")
+    require(
+        len(tasks) == len({t.task_id for t in tasks}) == expected_tasks, "冻结计划独立任务数不符"
+    )
     require(all(t.suite == "frozen" for t in tasks), "计划只能使用冻结题")
     orders = list(itertools.permutations(CONFIGS))
     rng = random.Random(seed)
@@ -341,7 +349,7 @@ def verify_manifest(path: Path, expected_sha256: str) -> dict[str, Any]:
     require(digest(path) == expected_sha256, "冻结清单指纹变化")
     data: dict[str, Any] = json.loads(path.read_text())
     require(
-        data["schema_version"] == 1
+        data["schema_version"] in (1, 2)
         and data["state"] == "FROZEN_VALID"
         and data["formal_model_calls"] == 0,
         "无可执行冻结身份",
@@ -375,6 +383,10 @@ def verify_manifest(path: Path, expected_sha256: str) -> dict[str, Any]:
     )
     require(digest(repo / data["protocol_path"]) == data["protocol_sha256"], "协议变化")
     tasks, corpus = corpus_identity(repo, data["asset_roots"], data["selection_ledgers"])
+    if data["schema_version"] == 2:
+        from novacode.evaluation.compact_manifest import verify_compact
+
+        tasks, corpus = verify_compact(data, repo, tasks, corpus)
     require(corpus == data["corpus"], "冻结任务/验收/家族或证据变化")
     require(
         all(r["frozen"] == 24 for r in corpus["quota"]["rows"] if r["suite"] == "frozen"),
@@ -392,7 +404,14 @@ def verify_manifest(path: Path, expected_sha256: str) -> dict[str, Any]:
     for name, sha in data["external_files"].items():
         require(digest(Path(name)) == sha, "运行时/官方数据/判题身份变化")
     require(
-        plan_runs(tasks, budgets, data["campaign_id"], policy["seed"]) == data["plan"],
+        plan_runs(
+            tasks,
+            budgets,
+            data["campaign_id"],
+            policy["seed"],
+            expected_tasks=24 if data["schema_version"] == 2 else 48,
+        )
+        == data["plan"],
         "计划或配对顺序变化",
     )
     campaign = EvaluationCampaign.from_json(json.dumps(data["campaign"]))
@@ -416,6 +435,15 @@ def validate_execution(
     payload: dict[str, Any], task: EvaluationTask, runtime: Path, public: Path, hidden: Path
 ) -> None:
     data = verify_manifest(Path(payload["frozen_manifest"]), payload["freeze_sha256"])
+    if data["schema_version"] == 2:
+        from novacode.evaluation.compact_manifest import validate_authorization
+
+        validate_authorization(data, payload.get("authorization"), payload["freeze_sha256"])
+        require(payload.get("max_iterations") == 25, "25 次迭代装配值变化")
+        require(
+            payload.get("initial_baseline_sha256") == data["baselines"][task.task_id]["sha256"],
+            "初始基线未绑定冻结身份",
+        )
     require(
         task.suite == "frozen" and data["corpus"]["tasks"][task.task_id] == fingerprint(task),
         "合同不属于冻结集",

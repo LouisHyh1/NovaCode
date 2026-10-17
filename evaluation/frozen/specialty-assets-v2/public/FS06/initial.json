@@ -1,0 +1,8 @@
+{
+  "base_commit": "88beb6798981de4a840784c9ee08b1624894b608",
+  "files": {
+    "grouping.py": "def group(pairs):\n    result = {}\n    for key, value in pairs:\n        result.setdefault(key, []).append(value)\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import grouping\n        self.assertTrue(callable(grouping.group))\n"
+  },
+  "schema_version": 1
+}

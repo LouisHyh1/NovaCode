@@ -1,0 +1,40 @@
+{
+  "fault_rule": null,
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "pressure_dimensions": {
+    "public_bytes": 619,
+    "script_requests": 1
+  },
+  "resources": {
+    "cpus": 1,
+    "memory_bytes": 536870912,
+    "pids": 64
+  },
+  "schema_version": 1,
+  "target_python": "python",
+  "task_id": "FS21",
+  "test_command": "python -m unittest discover -s tests -v",
+  "tool_records": {
+    "ci_deploy": {
+      "release-21": {
+        "artifact_sha256": "abababababababababababababababababababababababababababababababab",
+        "deployment_id": "release-21",
+        "region": "sg",
+        "source": "deployment"
+      },
+      "test-21": {
+        "artifact_sha256": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+        "case_id": "test-21",
+        "region": "hk",
+        "source": "deployment"
+      }
+    },
+    "ci_test": {
+      "test-21": {
+        "artifact_sha256": "abababababababababababababababababababababababababababababababab",
+        "case_id": "test-21",
+        "source": "ci-tests"
+      }
+    }
+  }
+}

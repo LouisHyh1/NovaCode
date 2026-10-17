@@ -14,6 +14,9 @@ def main() -> None:
     frozen_cli = [
         p.relative_to(ROOT).as_posix() for p in sorted((ROOT / "evaluation/frozen").glob("*.py"))
     ]
+    frozen_cli += [
+        p.relative_to(ROOT).as_posix() for p in sorted((ROOT / "evaluation/formal").glob("*.py"))
+    ]
     evaluation_cli = frozen_cli + [
         p.relative_to(ROOT).as_posix() for p in sorted((ROOT / "evaluation/live").glob("*.py"))
     ]

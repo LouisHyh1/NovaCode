@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "/testbed/packages/jupyter-ai-magics:\nLICENSE\nREADME.md\njupyter_ai_magics\npackage.json\npyproject.toml\nsetup.py\n\n/testbed/packages/jupyter-ai/src:\nchat_handler.ts\ncompletions\ncomponents\ncontexts\nhandler.ts\nhooks\nicons.ts\nindex.ts\nselection-watcher.ts\nstatus.ts\ntheme-provider.ts\ntokens.ts\ntypes\nutils.ts\nwidgets\n---\njupyter-ai\njupyter-ai-magics\njupyter-ai-module-cookiecutter\njupyter-ai-test\n",
+  "stderr": ""
+}

@@ -1,0 +1,39 @@
+{
+  "allowed_paths": [
+    "archivepath.py"
+  ],
+  "answers": [],
+  "base_commit": "8e9fee0a8098cd793f0a99723a4133663f11089e",
+  "checks": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import archivepath as m\n        for value in ('file', 'dir/file', './a', 'a..b'): self.assertTrue(m.safe(value))\n        for value in ('', '/x', '../x', 'a/../x', 'a\\\\b'): self.assertFalse(m.safe(value))\n",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS11/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "behavior"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "archivepath.py": "def safe(name):\n    return not name.startswith('/')\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import archivepath as m\n        for value in ('file', 'dir/file', './a', 'a..b'): self.assertTrue(m.safe(value))\n        for value in ('', '/x', '../x', 'a/../x', 'a\\\\b'): self.assertFalse(m.safe(value))\n"
+  },
+  "mutants": {},
+  "reference": {
+    "archivepath.py": "from pathlib import PurePosixPath\ndef safe(name):\n    p = PurePosixPath(name)\n    return bool(name) and not p.is_absolute() and '..' not in p.parts and '\\\\' not in name\n"
+  },
+  "schema_version": 1,
+  "task_id": "FS11",
+  "test_target": "",
+  "timeout_seconds": 180
+}

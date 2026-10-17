@@ -1,0 +1,8 @@
+{
+  "base_commit": "2fd2a80710f557e0a2f3fdd919f0ccfec9fe17a3",
+  "files": {
+    "dispatch.py": "from routes import choose\ndef dispatch(key, event, handlers):\n    return choose(key, handlers)(event)\n",
+    "routes.py": "def fallback(event):\n    return 'unknown'\ndef choose(key, handlers):\n    return handlers.get(key, fallback)\n"
+  },
+  "schema_version": 1
+}

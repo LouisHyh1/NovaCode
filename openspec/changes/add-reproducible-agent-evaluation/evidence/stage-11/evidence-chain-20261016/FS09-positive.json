@@ -1,0 +1,19 @@
+{
+  "case": "FS09-positive",
+  "new_identity": "offline-chain-20261016-FS09-positive",
+  "expected_pass": true,
+  "actual_pass": true,
+  "conditions": {
+    "scope": true,
+    "behavior": true
+  },
+  "patch_sha256": "2c9e2aef14588dd67941cdde94e1f88b70a8224fcb7e10739e1c2d1deb9f0aee",
+  "archive_sha256": "6b4c07d8e3d1e65a1c9660c64d7a8e6e342630062ef6430720e43727ca24ad9d",
+  "restored_state_equal": true,
+  "baseline_entries": 2,
+  "changed_paths": [
+    "query.py"
+  ],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FS09-positive-attempt2"
+}

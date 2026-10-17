@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FS04",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS04/baseline/manifest.json",
+    "sha256": "d36b3592dc743af44c4f4bdf9492c9c6d39d9697846f8183fe92d5984dd2d035",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS04/baseline.tar.gz",
+    "archive_sha256": "3ac5d74d10d8a2e21e79f106c58a6d6a29d3a559a85c12c50acd0b8eba8c629c",
+    "tree": "dc63e0c0ed18e17ba4d829e559008b6716697556",
+    "entries": 2
+  }
+}

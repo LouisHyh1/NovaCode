@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "---describe---\nv3.0.0alpha0-28-g0e2c4e4\n---tags near---\n@jupyter-ai/core@2.3.0\n@jupyter-ai/core@2.30.0\n@jupyter-ai/core@2.31.0\n@jupyter-ai/core@2.31.1\n@jupyter-ai/core@2.31.2\n@jupyter-ai/core@2.31.3\n@jupyter-ai/core@2.31.4\n@jupyter-ai/magics@2.3.0\n@jupyter-ai/monorepo@2.3.0\nv2.3.0\nv2.30.0\nv2.31.0\nv2.31.1\nv2.31.2\nv2.31.3\nv2.31.4\n",
+  "stderr": ""
+}

@@ -20,7 +20,7 @@ def assertions(module: str, body: str) -> str:
 
 
 def localization() -> list[FrozenCase]:
-    return [
+    rows = [
         FrozenCase(
             "FS01",
             "easy",
@@ -172,6 +172,17 @@ def localization() -> list[FrozenCase]:
             family="batch-journal-rollback-flow",
         ),
     ]
+    # 公开编码契约，不携带任何逐题文件名、符号或答案。
+    shape = (
+        " 输出格式：files 为仓库根相对路径的字符串数组；symbols 为"
+        "路径:符号字符串数组；relations 为 [源符号,目标符号] 二元字符串数组，"
+        "符号均使用同一编码。只列题目路径涉及的仓库内文件和函数；关系只列"
+        "函数调用或返回函数的后续动态执行，不列 import 边、库方法或外部参数。"
+        "数组顺序不限；解释文字放在 JSON 外。"
+    )
+    for case in rows:
+        case.requests = [request + shape for request in case.requests]
+    return rows
 
 
 def test_addition() -> list[FrozenCase]:

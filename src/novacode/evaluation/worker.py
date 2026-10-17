@@ -18,6 +18,7 @@ from novacode.assembly import assemble_agent
 from novacode.config import ProviderConfig
 from novacode.evaluation.budget import BudgetExceededError, BudgetLimits, BudgetPolicy
 from novacode.evaluation.contracts import require
+from novacode.evaluation.diagnostics import error_details
 from novacode.evaluation.ledger import Ledger, rebuild
 from novacode.evaluation.observation import ObservedProvider
 from novacode.evaluation.usage import UsageRule
@@ -160,6 +161,7 @@ async def execute(
                     tools,
                     cfg,
                     s,
+                    max_turns=payload.get("max_iterations", 25),
                     version=__version__,
                     engine=engine,
                     instructions=payload.get("instructions", ""),
@@ -187,6 +189,8 @@ async def execute(
                 hooks="frozen-empty",
                 memory="empty",
                 auxiliary_agents=False,
+                max_iterations=agent.max_turns,
+                iteration_scope="per-agent-run",
                 instructions=payload.get("instructions", ""),
                 strategy=f"compression-{'on' if compression else 'off'}-schema-"
                 + ("progressive" if progressive else "eager"),
@@ -224,7 +228,10 @@ async def execute(
     except BaseException as exc:
         tracker.termination = termination(exc)
         ledger.append(
-            "worker_error", error_type=type(exc).__name__, termination=tracker.termination
+            "worker_error",
+            error_type=type(exc).__name__,
+            termination=tracker.termination,
+            error=error_details(exc, ledger.secrets),
         )
     finally:
         cleanup = await close_resources(

@@ -1,0 +1,1442 @@
+[
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL22-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "e5ccc199aa845446698738f6784d59d91d42642ce3414c73738cd1df09c13b84",
+      "orchestration.jsonl": "513219c3c88412a9bfb77f0e0e53b820c6ba7853cedefff2fa917da97a6ddedb",
+      "worker/ledger.jsonl": "0ff6c4b4d375728c3d2e7c267c1b7023835c17f29c4d041186c00e4a7f602d63",
+      "judge.json": "6c6032693a94f1115daf5bdf0d383060f3f6075bc2f42e9cb6ec47c47fa4d5eb"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL22-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "f76844c81009f9e3de317e35d1514ca30f9f29786889225cffdc2e0d7dbacbfc",
+      "orchestration.jsonl": "e49b588048667df2e03ff3a306192e72969aa9142e67aaebeaf46e2138b1fdf4",
+      "worker/ledger.jsonl": "d050e4dff8f6be6441339030c313399a73a7d5a21e4feae3a4dbbcb618aedccb",
+      "judge.json": "098c63ad9ef01fa39e3ed48c73bd73c9fdcbc8d7d9da18abc58b1d2d5ad4b6be"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL22-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "de5186b434cef1ebf918c66ca7bb7ae7809fa4a71bf91fb7387406965c76da9e",
+      "orchestration.jsonl": "d07b8b886cd3bf31e3f76bdc0082dd0f7af78ee5f9fe670672d704b5341e148d",
+      "worker/ledger.jsonl": "a02a58acd418b01fd25e7b69cce6abf068b8de63491e1364bea581168f0b8898",
+      "judge.json": "9f211fcdf12cb3032cdc8c0c78a61a201add79e89f8dabd267b37ac3aec00dcf"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL12-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "8d746a2d38d52b9db44a35a542726a294d92c8ae0246f7b82ead17d9a81bb484",
+      "orchestration.jsonl": "c0cd177483f1bf7b2abfe178278e0d7bac1036a1e7590282b7c828d9de02832d",
+      "worker/ledger.jsonl": "20fef84bf69c25adba6164b0314041cfaa281e33a6ab81b0fde9575116688ed2",
+      "judge.json": "330577f2a0cd740fb89c4acd46049d775f1497167f459b839e4d8e11fc66d0fb"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL17-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "dba83616750ae6989e0418a54dcff98cf2c2a5b1766a142c107b071d25b073b4",
+      "orchestration.jsonl": "5995041016ae57660bd380b51193591860def331102d30bc5b2d1c91551f75d5",
+      "worker/ledger.jsonl": "446bb48ec261ca1b8605896ceebdf05ae6495ee5a9782aee46b379d0aea6ae6b",
+      "judge.json": "3eee258833043a5b30aab518919b7e6487dbfa78e008434ab6f09c7280cde22b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL17-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "119c94bdbc649d11aece7ff6d28f7eefc7bc3008e4c832c9ad77bb4c7d09e404",
+      "orchestration.jsonl": "3648e735160335f0f1d459c53f0f131957c82d1482fd608074125bbec24e40a1",
+      "worker/ledger.jsonl": "9488ad84f5a962427a31d32c7bbe7d4520f86ceab18f2100bd40859e0b7b95d0",
+      "judge.json": "253f7a1d131c13c9488a5d8f50d1b19ab644c618f0e2d9e249e0e6fca1268c2e"
+    },
+    "tool_errors_recovered_or_secondary": 2
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL16-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "42c03c3929f0cc02c3660cd43576406140b5e9aa9fd3c943d893dfdf136ac8cb",
+      "orchestration.jsonl": "97b211e2d1d6a5ad97d175f41a5757c74b3342292978043c59ded7625bc67ee8",
+      "worker/ledger.jsonl": "4fc3774e3c4312b9b7a01846f6bceb391e364d613fe37f5f3f27a272d9b38b61",
+      "judge.json": "ddd9ab89ffdd33d92a452c094495105c2d5378315974ebbb130f3b56b40c1358"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL16-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "reason": "single-request-reserve",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "e03d52bdd50f8ba763f5b8cbe3e99e51936b53222f964cd127bf6bf632d4f2d2",
+      "orchestration.jsonl": "57b1d4c1dd5ee90cf8c116102f5d3f4576f1c16d141f01bf50b76a60ea0d8147",
+      "worker/ledger.jsonl": "aa7dfda8e90e425c2b2b1fa798a2fece4f87f7750ac6537d3baf9d11c901bc64",
+      "judge.json": "780f2817c5a4009cda5709691558013937e42d86fd4a28cf76fc668b7e595bb6"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL02-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "4d6d5cac6c8af063937740a6590376bd9f38c75bd95a878c80b3442a3548840b",
+      "orchestration.jsonl": "d9d9bc01590c9fc07be40ec6a415a434fde875b588587401150512ed4d0ba1ca",
+      "worker/ledger.jsonl": "ced08e81b9e7945e75cfa0631eb1b847c8908b6cb7c1bcbd4d1990c217e49133",
+      "judge.json": "bf3449dae1f8f55e8a16b2ea0121d412c8113065fd0158de633d3d89399ff114"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL02-1-no-compression",
+    "automatic_causes": [
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "9e9a8f320b28f356062a8970df2b6abc44be11dd7a217711e61d85ec4126bd4f",
+      "orchestration.jsonl": "18330e64f4c94bc5ba4f2e03c8029ea59db159312f5994b1efaaa0788a23e9b1",
+      "worker/ledger.jsonl": "8accf091dd972ad8114fa73deaa0d06d062ed4428870ba1e57e25480c33fe15e",
+      "judge.json": "1570e2c8c6c7079a9ab0cb27f8a69517cd78402cb4d64f95f0bfcd1f7d1783cb"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL06-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "bbe1b3f248abc9abd07f3d03513cd5c31a2f39211b0f323267c9e715b51ac0e5",
+      "orchestration.jsonl": "f8c5141c5e233a951870faa17a6643b00de8495178eb73bc510c17ed315bb893",
+      "worker/ledger.jsonl": "b5f59f2b41b21199d6d5c887ca0eb6ac9ff422dfdb2d7d65b7481fa38b0b59f0",
+      "judge.json": "9482d3d66d80d6ef68d1a198480dc35b9406746cd61aa5a51b7ed44fd07e24fc"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS22-1-eager-schema",
+    "automatic_causes": [
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "fa405d09a8d77ec6ff4840ac1acb9446041c0a8c42314437e3460de2d22d3fbd",
+      "orchestration.jsonl": "ebbb75beec3cf9935973aa3f7026fe47399eb0d05bea1abea8f433506367e906",
+      "worker/ledger.jsonl": "58d6c4993eedafb6ffac7f47d105a1d490d96afafb35cc50730756a8e198e11f",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS22-1-full",
+    "automatic_causes": [
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "1f957d38ec190a407530cd301dcf80b67546cd9f822ed8c098436c22993b0be0",
+      "orchestration.jsonl": "3feb490451b5e710d8978b0585bac4ada469e0f33d2da023f0891d7214579c1c",
+      "worker/ledger.jsonl": "88d8a6bc18ac35c35dd36a4e8946558f18945eef33eba72dc48d0a02628c6b21",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL14-1-eager-schema",
+    "automatic_causes": [
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "1dc79f87e5bfccfebbb137ca24aca25260170e31bb67c83939552ea38fac2326",
+      "orchestration.jsonl": "0969e7d3a38af9a0c8e57606af456b9886bb9cfe61289fe8fd7eb7fbb693f54c",
+      "worker/ledger.jsonl": "90d3986218408bc3052f232d1fd531fb713934e22a37c6b3e04a795160e621ac"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL14-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "92df7e2e32a2b293218dfa07daaefce4eefd8877f120d62122a4877fb7c3287c",
+      "orchestration.jsonl": "325a99694dc16123d5f0950d67fdb7a8e2ec1117879c39dc5ba5f89d5057de1d",
+      "worker/ledger.jsonl": "6ed14bd4a27a5f8887e47f487b3458408267d5958947d6e4c9acb188579993b0"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL14-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "e7596a78e41ca916d49d4ef36c8996ba22691ddb913a2bba986580a2b4f719a5",
+      "orchestration.jsonl": "bf02f27967ac294f930838b50d43b05bfe5d3292c04d5eee069bcdce13c2f14d",
+      "worker/ledger.jsonl": "9dec922fe79d72e76d6713ff3f8b80306517f9b7e6266ee11073de96e933caac"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL07-1-eager-schema",
+    "automatic_causes": [
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "28c97c129a3b6f60ce1e8b98c7629b8ae3b9aae7fa6ba099b722d5048f11d11f",
+      "orchestration.jsonl": "ba44e8c3eeaa3b7c9e7e28417cf8c16b6abcbfe9b3a9bee64999f606112c89e2",
+      "worker/ledger.jsonl": "ef60454457e8920c61339961e27845cf5d01d432a433608a294a0ddba6afc818"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL07-1-full",
+    "automatic_causes": [
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "2e333034ce44509934a84ac6af12308c157cd7ccf83427bce04e0cf515ba0428",
+      "orchestration.jsonl": "a02f5f92fc939f628383a329fbcdbb7e91d3c9371c0f4689c510e4becf95b5a3",
+      "worker/ledger.jsonl": "f12e86890d1b1b7fb644a5098a57beea1c28ff4cacd0a63254b2509b6eba2d98"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL07-1-no-compression",
+    "automatic_causes": [
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "c48dfbdd3287b51ae1f215fc0831118d3bf1f7ef4e73865cf13c39ed948e69e3",
+      "orchestration.jsonl": "ad26137de41d786950bf0dd84c6b4cefef6d811dcfb02651590fca3ff30f9bc8",
+      "worker/ledger.jsonl": "23b965007281ced3a137dc8f1116049fd9244970df622f66ecde3d79312f088a"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS07-1-no-compression",
+    "automatic_causes": [
+      "acceptance/all-mutants"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "2b3a3673e520c727bfa521183f546d9cd723e556e8b330f02933545f7b35ecad",
+      "orchestration.jsonl": "d4fb218714e717ec108b3233c490ee14b4d17454143c5437ca0699818dfe2234",
+      "worker/ledger.jsonl": "3710d5556eff71971ee969e065e7a7b65ef252b34eabffd28b6d67b7e4e235e9",
+      "judge.json": "498cc265329463e07cf6433d67540961071566b97327df47baeac22447da18a4"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS07-1-eager-schema",
+    "automatic_causes": [
+      "acceptance/all-mutants"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "abedc73b5e3cc4ad35bcc99606cb5bced192ddefb046cc5ec491477ec44d8720",
+      "orchestration.jsonl": "06d4caf81b60fbb619c6d5943b173a594c17c71d0a013e42914846757e854ea9",
+      "worker/ledger.jsonl": "6c14f1b239888330ff04642cfcf9f844f3c5a5bdeb981de3e00963ae8ac53d16",
+      "judge.json": "41309074935e8015905c4c64e81b462fe596e89903bd315c7ab47dafc4abd0b5"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS07-1-full",
+    "automatic_causes": [
+      "acceptance/all-mutants"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "89fd097ca5289f2ee11eae3e92bd2a5730f952c985a19e631617a0b90f6487f0",
+      "orchestration.jsonl": "ee070fbcf18379855175aca9f1ee3d90a55c868826f41aa3b984bed734e213c0",
+      "worker/ledger.jsonl": "454548b530bfb18a7c4fd15b155e3589035ae4969828d6dc59e220944b97d5d1",
+      "judge.json": "9f5ae9eb7b91e3ed7f24a43eaee8f115348be830f9e296990c3b7a11065f6756"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL10-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "2aa1ff8be163bf70459040dbc43d93b854d2ffc7daa01c8e130ee02cd452ca68",
+      "orchestration.jsonl": "dcfe8e14be650c6c97381e943940229fd9c634c1aba8a7e79886f7b863d5e7a8",
+      "worker/ledger.jsonl": "c0c5607b7e244f3f4e7af13103d4c8d2ae98f8c5c497c40e927abf3a615f5dd7",
+      "judge.json": "994b620a6df938c116ed0311d85c432e51e8933ab3e232da1b7af26674f24c8b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL10-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "d089152395037e611c28bc75de82820551c234e36efcb2bd511d59cc26332e28",
+      "orchestration.jsonl": "c60cf27ce95c4595687427346f6752201392589dc587be611812f5d05d42a44f",
+      "worker/ledger.jsonl": "c2d4605a0b955ac83443478b475b78c92907a67d348f1d9d2245114d7fec17e8",
+      "judge.json": "cf5649849ae3beaf721b224de7e26ff33b42c07648da8cdf6b0b6865c5215051"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS13-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "27899634a5f718e04fa0f5b5f7ffe25e888d9596cfc86226206b306fce60c268",
+      "orchestration.jsonl": "4eef70f6e8b3ca12e5dbb2113fae5f335fa9e67366f1acf71ae0e40f64b18202",
+      "worker/ledger.jsonl": "62347135992cbaf415d1c33ad85cdd450efc5ccec22fe4d2d79ce9cfba40a528",
+      "judge.json": "7f88ec4adfea72aaf5ea7d3a63503f697ad8b27d78859323fe7e1447c4efd3bb"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS23-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/facts",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "0e640512a42e7c1a38e626ec32c2cdfac2f2072d1a7dc067504575a12edbcd08",
+      "orchestration.jsonl": "05a248cbfeb70d40877816684d26b1b5af214d782931d2ad0aec341fc5f5bca8",
+      "worker/ledger.jsonl": "a3491b5cf480f38c1f3bb2e83b571117f702da6bf1ec4fe5c17ba0f341b914bc",
+      "judge.json": "1c18cf684bb8552603e96114471026a30c6434883e012111d49ac857f0302223"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS23-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/facts",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "e864c317858f603bda4d4012282aefe0f33412a13c147c3dc7e43953feca5cab",
+      "orchestration.jsonl": "b14adef71adb0f312c67b2524a0005e0d375036443782afd7536930752a3cef8",
+      "worker/ledger.jsonl": "442605cedfa7ec1e4ede1beb28a7d1d2fcd73ca41079a211fcbff9870f3459d9",
+      "judge.json": "1c18cf684bb8552603e96114471026a30c6434883e012111d49ac857f0302223"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL23-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "3ae390d4ff1b44bd807ed6d2f5aa75aeb44e9e50e2a0dd34a6f195d11a63fe25",
+      "orchestration.jsonl": "07a34be04ad303f6dadd70435a2055738251eec27cff6df9fcd7ebcac62e87de",
+      "worker/ledger.jsonl": "b30eec66e3c890de7b8033d49f21415512cc71c13055674427accf165c3e8bc7",
+      "judge.json": "19dcb0a35f768e898c8639992e12e64eef946dd550d2a5ffdc8ad2dacd0dec26"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL23-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "f1669802c3f6949c17f848321461c1c5f54151a0fee1c67c1fc51de72eb40f15",
+      "orchestration.jsonl": "ebc8968d86366067434289234e37494854df89274d546b1eb0c8e4ddfddc116f",
+      "worker/ledger.jsonl": "d056cbb29de5a0b2f58dc395d7e8ac2d32a51dbbdf3f770954c515fac175b314",
+      "judge.json": "8a19f23195f20dbee1430ab85538b5d15fe18fec0bac902ebc707e6e0c195608"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL23-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "abce63e295c7ee00c03d2e04ef68c28a3372cf0ad214cafda5c37e8d5ccb2a88",
+      "orchestration.jsonl": "840390b1f245a1b18cd4344dc8a5a553e4af84e89dff9104d51786e21fd1bc4b",
+      "worker/ledger.jsonl": "dad646bf9a842bfeff32d56b6266e1840dbe966488142a8832a0807de460f6da",
+      "judge.json": "7da1f0291d95c5cdaf463db64f290827794fcffb97be5efecb2a26cf1422f041"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL19-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "13bb837bf111a4ee72966364528520559bc7b45edd7a1f9ef489042eba9c4477",
+      "orchestration.jsonl": "e1647b0becef2e1edc205674996046657b512a712eaadd7af986dcc28e17d088",
+      "worker/ledger.jsonl": "1d1b32b9654af81b59ee2f95e6cc8c514ce4f3d5bf42ef1f1a5fcd118bbb39e9",
+      "judge.json": "f8efa33e9066ab5cf728d3cc312602594a0a3f0c8efa132dff5e7035d7f4b467"
+    },
+    "tool_errors_recovered_or_secondary": 2
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL19-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "d2659f9fafbdbc383493ef1c66de0394061d6fbd154a12257fb0c189380a60aa",
+      "orchestration.jsonl": "36db9c9402e0ca72f540a81e1b00ccd1e88246bd17fc5b944265a817133de931",
+      "worker/ledger.jsonl": "2592bb3ef8bbbc59bb749dabcf76767fc8dbc2896c3ee73363f1d3f26effc9d9",
+      "judge.json": "f8ce32881520adc477c353a7aa88cebd0ed63a06edddf982b25b03564d5552e8"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL19-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "97d3c6c8f41ae31a892006dc0fff56147f3a41af22865466d0e5bf7deb97f405",
+      "orchestration.jsonl": "f90f593488558dc64a9d953513c7e0c8fbcf0388e987c30751fee644b7f71618",
+      "worker/ledger.jsonl": "522d61cd7463b6dfefa8d0bdd52c3d0987e8e8ec8d4a2ddec096270649f19816",
+      "judge.json": "8eb0afe7555bda7a196882b4fb1ca2cb5223a72fb1cbf8e16c60f832ec57bc2b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL20-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "63143f23a10a0338a8c343c2f913bb451d38ca3a89dd6dfb4ae6b9ff29993e46",
+      "orchestration.jsonl": "3a6b91810436025f028e20efa7014e5c8a41173640d14dbc6d361a30e7a36a96",
+      "worker/ledger.jsonl": "a859436e02ec230e169196f8e1de72d4ccabec26a0d04cff435fc8d42496f352"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL20-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "cd033d7de3100f31e32a70aeae86319a2c27995072595009d7d54e4f5e1c81dd",
+      "orchestration.jsonl": "f3921e2d68a7a705f9e607c8cc2f19b93bad866d330e3b941d0a23e51c8baa73",
+      "worker/ledger.jsonl": "46e34440f9f5c18ce6a4025e781cfd6143395a13e50be4bb5fcd0cfeec60169f"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL20-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "ab02e3f913f4ac28a6fc64358a156c0dcc1a8e575b36079faefe894d05919500",
+      "orchestration.jsonl": "8b9e60ce69d4f1eec7b0e4dccb604ad08e54e94da7faf2c4a51e088bdd2d14fb",
+      "worker/ledger.jsonl": "41ad0e2d5d03a875a7e527de0cb09cb21ba15112890b86d2c00a31ce32b50b01"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL09-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "68859ba6f4890e31b257440c7faa6d61994a3c7e2c34724b10dce43e068c4fcf",
+      "orchestration.jsonl": "315a5193d7d5846b0ed6b613fd6f7ae6c17a8a10b03316d2702cb0a6bf41d20a",
+      "worker/ledger.jsonl": "937f47adc68cc34d2ad4e567d86240c26a0a3478ddef56da1575a1e98528173d"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL09-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "264cd805b06cfbfc1557a1c1bed58c6c9223ca6ad3e7a2dabc564e3a6f9b7a73",
+      "orchestration.jsonl": "608f4055699ba23ae46aecc143849d77a933f12efbb5939fe699a95daed7640f",
+      "worker/ledger.jsonl": "754ea066a78d5785d7a4d5b43f19e18f873b009dad549ee9d56d9c0701acbd4f"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL09-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "acb4cd676a5a0033aed3c5da7a1d3342ca6db60195881716e53de8d6b59c93e5",
+      "orchestration.jsonl": "c317e5949faab2e13f02eb96f35ca76f4690ede17368d7893f1acb929058f801",
+      "worker/ledger.jsonl": "9d6d6bdf08460da7c0e611408a698ed3b114c8180d5744c65dd0e6b13aac599e"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS17-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "0fea3f44ac97307e58298edc3e2d06a848a10a62e499a9dfd2857acc19376ca6",
+      "orchestration.jsonl": "9c3894cc3b968dd3bf4fdd6dab353d046b4af8ce432dff57db276fe7ffa5e971",
+      "worker/ledger.jsonl": "e05028e1b48fc5ba187ad923784130a9572233e3b1c7605ca7231bcfceaf6931",
+      "judge.json": "4debe99e61b4f92784f656403b7445861fb493e2c147ea61c8697c7ee347abdd"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS17-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "ffcfabdf6f1617a7c355ff237389367a6036bfa2d2821c307a185f10d80686fb",
+      "orchestration.jsonl": "959dd74eba80d54f8fd9848cfd52a928938f73f304afb9e8394d8e6285922f7f",
+      "worker/ledger.jsonl": "4ee76d680c6f205b9330095fc0b9ccdd46624961d023b1136efd24dc7eab35d9",
+      "judge.json": "4debe99e61b4f92784f656403b7445861fb493e2c147ea61c8697c7ee347abdd"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS17-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "b452bfa0e64497dabeb5bf3e9e0c6752fd6a2eeb6b8e7ca458de24521342487f",
+      "orchestration.jsonl": "e64699722f41547b16a4a10afe48791584c9db5ba5de56b1c545c647cef04a95",
+      "worker/ledger.jsonl": "18c8afbee5b355a257d904bf08fdb0954c4078a88a39cd1558f6ac8fbb93e456",
+      "judge.json": "4debe99e61b4f92784f656403b7445861fb493e2c147ea61c8697c7ee347abdd"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL03-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "6398a91c753f267f32a246adfa6c9fd8d0bb3354aa5f9af30be9b0c324463bf9",
+      "orchestration.jsonl": "be71bdecf9d71141a2c3b19d360c56430bb5095644ec22078b233d5f6a23b964",
+      "worker/ledger.jsonl": "06298f6c8fc890156bda41861d28bc8265f3117a1d5e19c745701e3ff24314be",
+      "judge.json": "f9c87786bfee6a929543b6962119c5ee150ec43d742c2d570d003fcd68e0d9a9"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL03-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "6edc43c77ae563a66f2ee37aa22608d448c86f4e4a961778a692690383bef63a",
+      "orchestration.jsonl": "b3e4f3d6581eddb43ea60190b5ac900312b076c4c4bbb073cc0458c28a9b38cd",
+      "worker/ledger.jsonl": "39eaf35a0c67386ddfb99091f62576a37ca68cc1333f6ee8171b1fe14a1feaa7",
+      "judge.json": "78bff76a4e00d0bb066298c2372587d9a5e38a482d46bcd66d125ff29bba8c5d"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL03-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "974d048e39f43a72fb7e94c4a678bdef058750ee91c0bcc1ea355627b29dc4b2",
+      "orchestration.jsonl": "c1b56bbf2a5d2b77611f9042a65e0ff8186089e11c46c534c04cb4a5a0ed0882",
+      "worker/ledger.jsonl": "3b3fc14233915cc63b3b9184447cad4e9227ff0beffbf779f8979c19fe672ac8",
+      "judge.json": "70a92c3b023d77c01a913d84fed787be5ff214655dd1e74b59ddd119907bff6c"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS14-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "ef0ef36ba9e18daa5b59de4f2f7992c2e19caf0bbdc204876018e80d4889ef1d",
+      "orchestration.jsonl": "d7d20ea36e3e0892c28f7b9fd3f76995be208e4b67d57aa5080a50b939917fb2",
+      "worker/ledger.jsonl": "2de0b3bfa5c5f2169e2d743fcdb906cb7a610951c9eb5526cf47f88cfd950a41",
+      "judge.json": "cd4f937b250c21a99c1f4e33a985c846b13da3ad0086ddf79ac897603b813f16"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS14-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "f935be994471776654892b6470239683232d7842936ce3248f44bc140143ce0d",
+      "orchestration.jsonl": "75fdc198c8d58b436fa999e45106daddac546be92ff4430086671b1c5272e984",
+      "worker/ledger.jsonl": "268ea7fa5d1672967067504b917adaf56ab004ddd2ed6c0dbfd17f81148b4a08",
+      "judge.json": "cd4f937b250c21a99c1f4e33a985c846b13da3ad0086ddf79ac897603b813f16"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS14-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "11be53dd9468467785b90cb58d28767ddc940801f4705d25125b276cbe77a0d9",
+      "orchestration.jsonl": "11defbfb47a7be87800eab251191e4e15c4359b3a51ab68b9b1a311f15bf55b4",
+      "worker/ledger.jsonl": "ee6f5b01ca8999f3ed3322925e3226d14e09ec4a4e6791c27eadaf661e7a660f",
+      "judge.json": "cd4f937b250c21a99c1f4e33a985c846b13da3ad0086ddf79ac897603b813f16"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL18-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "0bb37750d092a08a35ff2942cb6a28a0686e288d576d7a969be44ad9c1a9385d",
+      "orchestration.jsonl": "e293275bd55c3d490c9b1354688c70dee3a5a22e3d4c4024088b7ff4d46531e8",
+      "worker/ledger.jsonl": "6f3852e0c56a3e475e641e8e9bac0727db0dd8f76d250474c392c52973c41ec5",
+      "judge.json": "0bc6ba509020b1cc4a183270676bc8a7bccda2546f04efae3bf701bf9a31ce59"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL18-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "3c7e31e8304fa2e29ffe1696880b57af661302e3872f9248cdf1d6fcc33b4a87",
+      "orchestration.jsonl": "1ec8d946379b8b1d90f6d356bd58bee1ed17b9f66840045e5c574adb5cc9932f",
+      "worker/ledger.jsonl": "19d8d283e97698b9b5eca77ced9c577258b4015465a225fbc6c14a83bba8399d",
+      "judge.json": "779b507a12f5d0414574047f15964f304963eb101c0cf090c9f757385ed5f6d2"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL18-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "fadcc85fc36da3a44de6f46e74f29bcb6aa07e0dd2a3555c72f87b919a85ff5c",
+      "orchestration.jsonl": "b4c296a6e34339ede40e2f1cf06d8730aca78785ff0aec74f90f0a6453109e51",
+      "worker/ledger.jsonl": "450bd1faf3df3648d3eb2fc1505e3ef43342020c78248540e6110082b63dac82",
+      "judge.json": "a4da4cf1c95eb3b80df37e7cf6ecd56c27ad5c9fb14225a85b8fdedb0c1ecb42"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL24-1-no-compression",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "2c4dfbe7435046309f1f1fa7d2211887abc18768718280a431606c134a1e8d1c",
+      "orchestration.jsonl": "24dbd8e91e588c4d2daf2a671f5a721bd1230546b40ceb6664d879040cdd5fa1",
+      "worker/ledger.jsonl": "03fe329b6572da4bdef3324600bbc99f98b318433ee10a9e98fb99d4b587af99",
+      "judge.json": "c9e65a63ed249b406046d6d0cb28112f2aaff664dc983eb1dcc4c94483900bcf"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL24-1-eager-schema",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "caf66142a6a45d5b280c191560f2f50d8839d661fd22530f6d803304b0362e3a",
+      "orchestration.jsonl": "21053ba4b7f9a7341aebc588dec10f5da943ed9091a7481b352f6efbd71a982f",
+      "worker/ledger.jsonl": "e37270d7e7c5309c879d0fb7ed59213f52675e6126071f14e81580a309a58ff5",
+      "judge.json": "9db9e3e9ec8058854b24d740efae5b47baf325c1c802f06b512fdb49cb38846d"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL24-1-full",
+    "automatic_causes": [
+      "termination/provider-error",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "9fd4c5255501182f5dfb227a78a8374ee7fc30ab6539efd79504378eba6c24ce",
+      "orchestration.jsonl": "b390814760495e2e5af3459122e27bd10a5035db223b68b93877df4fb5acef0c",
+      "worker/ledger.jsonl": "13051142f643a9af197e20eea429081c8d9dd90b1ff9aeac724685991ddd43fa",
+      "judge.json": "4468abd98f5b094699269c9cf0aee76b41fdbe4777f947b0cea666b8185a9961"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL08-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "5df9cd916e1e96ebe107343dacbc1bece6df0860524c2d13263a053a07cfe8c6",
+      "orchestration.jsonl": "c9147f7a7d35c00d8365cf3bf2997861f7a43382440238c37082fa8658b15860",
+      "worker/ledger.jsonl": "00a47eedfb833478b05238ec941aa736b85113c35650c01eeeceb3893292b246"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL08-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "f7db1f4c73462a2975f6c227bf4155e7a7e7ef6917b10301c3a5b6d3dee866f5",
+      "orchestration.jsonl": "7b07faefcb12572d70b40c10b2a7a6ccde85962f15cfa2e9b2b35e91208fdf5e",
+      "worker/ledger.jsonl": "9c5453727ed910fa474b6c1f0ce915fae820c4aa8f98f5e95a05e4a16542623f"
+    },
+    "tool_errors_recovered_or_secondary": 2
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL08-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "31515230ac616e896c635ee7740349255c78a4dbd76077135c739bc97fb626c5",
+      "orchestration.jsonl": "2841fa2c038ab69de0812f1ccab2eb02718ff26a8f65779a8fd7ea7cae7d09f1",
+      "worker/ledger.jsonl": "c9b43e636b65303a4308e4b048bbab6f0a12b9c5e186c232b5dca70c6da0a85e",
+      "judge.json": "7212553e62860771be277dd0fe296eabc8567ab4d0832f28277353554be5cf07"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL21-1-no-compression",
+    "automatic_causes": [
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "ded10148d0bbcadf28bb2495064623c0672b2fa53d23dfceb8e8b9fbf51abbd2",
+      "orchestration.jsonl": "edb909a62c6b8e69bdbefb069bf71b3094bb086ea02c18b8203e9eb0e86141af",
+      "worker/ledger.jsonl": "9c689da5f8df921145921b741df6870b4f7af0ecd8f6924536f78548344d5a7d",
+      "judge.json": "37a3298b1b15648cafe10d3a65e38d29b3e5ab05e86359ae360c49da0331f939"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL21-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "266354d772a7706951b22c422b84a0d2259708e70f9c53e0f994406747991fce",
+      "orchestration.jsonl": "6edb267e045b98433afc004b8bc8bbd57cc66d260b0ad6cfdeaa7f2cdc2498b3",
+      "worker/ledger.jsonl": "2f02f8b6d591e47da2ae986b2bf9e32c56973f22066bd94018fab668cbec9565",
+      "judge.json": "d347f4a21ded7dacbbe0f681b6c84aae86c7f1f92a9369a5118989a7ef1cc780"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL21-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "9c73ca8c0f388ebb0938e95f34484fa2ddf3183adf3cff36f908ffcdb52700f9",
+      "orchestration.jsonl": "c4547a628a2c400b366fdbaf974e79c9783ec3d4685db2df0e92a52447b4351a",
+      "worker/ledger.jsonl": "d5b78234411982d3a38441ecca05058e7acd5b273723f728bb5f2d97abb88999",
+      "judge.json": "20c4f5029e9120f11807c16519cadf1e0fb1de874c8f48d9c0c636a5eef39da9"
+    },
+    "tool_errors_recovered_or_secondary": 2
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS21-1-eager-schema",
+    "automatic_causes": [
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "4486d03bc3fd4fb0955dedb8f62de7092b5c01aa2b39d09c308f4f7cb05c26f9",
+      "orchestration.jsonl": "ed2d0b20cc0a3cbadfab4bed1751d2215e6ff94e3f3c72acd33dfbec12c6ef24",
+      "worker/ledger.jsonl": "57049e9734faa0520976c91c85daf7a5f57584ef5142b4023abb346019aa9ea2",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS21-1-full",
+    "automatic_causes": [
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "42502da00852ac183550261b395048ae39bedada141f8a385cef89538965fa18",
+      "orchestration.jsonl": "b0028d5c1e41de6213913b739a6cab2db87f96b45397fd9d1e4cf2d3e6ea170e",
+      "worker/ledger.jsonl": "26aaeef10f4541b86ab67e33526ac561edda2f9c254d95c90f905bfcf6fb1cb1",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS16-1-eager-schema",
+    "automatic_causes": [
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "c3665058fc27521faf55e74e67a872374bf8dd3745815b57e25039860e3b54e5",
+      "orchestration.jsonl": "35668e9629687856b97b58592776c96a4ede14d91dedb0db01bc10940b903f1a",
+      "worker/ledger.jsonl": "1bf6ee2726c849f80b71918ef584703e7befc0eeeaf5f06384bc3c6d7833b6fe",
+      "judge.json": "6158820f770bb2eedf7f93c3a88215850d193a90fbaf5db77e8b220170fa0ec7"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS24-1-full",
+    "automatic_causes": [
+      "termination/timeout",
+      "acceptance/facts",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "ae71c4f3a31b3e9362b86a526242ec4a2cfc97d5ff8fdd539ae091877aaea67f",
+      "orchestration.jsonl": "b1bf44e80c643f4e673d52b61fa64531891c2e263f91a02cf65b24dd0a6228fe",
+      "worker/ledger.jsonl": "f85332821d58173dc019dafa18570b02663f95557d8783d37c8d6cf80b4090bd",
+      "judge.json": "b4d31bb4ec2f87e55ea295fe6147a9c7ab8d3569ca13320d69a59ac2af25c7ce"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS24-1-eager-schema",
+    "automatic_causes": [
+      "termination/timeout",
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "19a56d39f5fbe967550a507c93171dca421cbb126b851ade05d0d4fe62f6cf8c",
+      "orchestration.jsonl": "1b8d1c084d90d26c3b77136b266640f01485e4858571b669608189a06e395393",
+      "worker/ledger.jsonl": "8a821b27f7e9880310f924364a304d92cbe6bcc4132fbc8cab49a55a2875a288",
+      "judge.json": "1cdb80fa49741d9e646ddc7da9c5c61e7c2718f3b7a9b69b688c8365cb933265"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS24-1-no-compression",
+    "automatic_causes": [
+      "termination/timeout",
+      "acceptance/facts",
+      "acceptance/behavior"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "836137493ac447e0fee940cee0a54f830925800930d358071444611ab416eaf5",
+      "orchestration.jsonl": "e59d5415661f6f2e2709e698a584d769c5e3b9c967fc2468ece927ae71bb9b5a",
+      "worker/ledger.jsonl": "e0a5a62f47e05cda44c37fce54a285a53425270782774750d8adf3f493455543",
+      "judge.json": "b4d31bb4ec2f87e55ea295fe6147a9c7ab8d3569ca13320d69a59ac2af25c7ce"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL11-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "618d298e880ab8d5cf14c3071bf9f6585680317e074e42ee88af5ecbcf7c9532",
+      "orchestration.jsonl": "5545c01d56f2fdc69143455ecce07b6d44103a367083005b51362f526e32efd9",
+      "worker/ledger.jsonl": "dc716e0446383c143a9e7edc241bd27793cd806d01388e7b34312ecc472e954b"
+    },
+    "tool_errors_recovered_or_secondary": 2
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL11-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "af9405da16cba3600fd85e795d6227686de4bd921e709a10cad0e65920cdf473",
+      "orchestration.jsonl": "0bbda98320ed83e210d3ce596f401a483a1ea0e7ce9aa7d2a96fa1539ac6f76a",
+      "worker/ledger.jsonl": "04741eb49d61b3766ec8b253bd1bf94d708dba1ac7270a8d5861752dfb330474"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL11-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "9583f3841a0c68472de6a91bc602c020dbfd681eaeefc88bea4eeae7e3f72ad7",
+      "orchestration.jsonl": "6085a595e1a9d741f53b9a025a8e20f52e8672e307744e1cf151b9d651d57a7e",
+      "worker/ledger.jsonl": "37a41cae992cddc5c05595825ee79634594d78e622be28637da2e17293bc5e3b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL04-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "e9b7cc55892e972ae35da3fc9d598cc5079fe9cb04c88caedf279a4c34b2bceb",
+      "orchestration.jsonl": "d0f5dc7d2695e057374fddcbc5e03ab71ad1e200592fdbfe07efb7e885d943ce",
+      "worker/ledger.jsonl": "53f517d8a89a46af9df5d19d6323c488368bf950fc1c10200776526127cb4d4f",
+      "judge.json": "ef01e7654ca08803d675131f0a5a5e7795c83afbf63a263dd823562984bc0ef8"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL04-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "c0b813af0981d95f6f024432342e54ee78eb4c5279bf0e3242882cb7c671c794",
+      "orchestration.jsonl": "d14f7029f57e842828c8585a1cce0d68dd0abdbc7fb9239f94c74bc94f3a3ba4",
+      "worker/ledger.jsonl": "55122d35884d7b3ba89b9960ff1f6c22f5ce0194bd65495bb2f8464317dc20d4",
+      "judge.json": "8ae59c6382391c18b512e1c43336effcaa878ac118f6f77c31370ef00d8990dc"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL04-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "reason": "single-request-reserve",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "87182388575fbd4fe2e7b23c95de77a758236d1334b99fdf7176ae2f30bfb554",
+      "orchestration.jsonl": "e6d1ebcd1709e7774513941eb7f4c606ef2eb4731227a0667fbad0fcbc6f09a6",
+      "worker/ledger.jsonl": "d751d1897adb6210efcbc744be68a1cfe6c6d871c4b457a632f35c0aaca5e76e",
+      "judge.json": "e5799041028f30885848ecb6d453c028232a6fd81c259bc70462940cdbae6359"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS02-1-eager-schema",
+    "automatic_causes": [
+      "termination/timeout",
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "394cf44040feb7df4384932ecf87b8914317745aaf13c44436c34d2ce9377ea3",
+      "orchestration.jsonl": "02c74063d0dff70203bfd7cff964aae7c27c6fb396415a912912467e8862beb3",
+      "worker/ledger.jsonl": "fb437dd014fd7e81324508e14cc87a29945f350a73e4a911f222ff62616646bf",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS02-1-no-compression",
+    "automatic_causes": [
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "4d9ee722da3e21d02adfaf8b766aa64a7660e3155bddfb163768f63a3549a7fb",
+      "orchestration.jsonl": "53aa1e6c4a595dc227a6337be3c0750187144cfea82b0d4f45894d2def85addc",
+      "worker/ledger.jsonl": "95785ee575db28567a4145c48e1b468953bf3bc562a8b36119449a45a40a5f6f",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FS02-1-full",
+    "automatic_causes": [
+      "acceptance/facts"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "0cbfb849c64f09e44d5ef0c22ed0af2e415e11a0d56b1463d6f662aeb0086633",
+      "orchestration.jsonl": "6bf89bb982ea258bfdd1a3264577fc6e92a871019a1c23d397c3fa69e33bdc32",
+      "worker/ledger.jsonl": "e890eb7c9ec03dbd766028f1858b44f5fb7a046401c4830dc914f945e58f0547",
+      "judge.json": "9414f8b2e6a390f9a0feea69c667b49217f6c3e52b01f926d97b253c01c4393b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL15-1-full",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "7b285bef1d12a63cfed505eeb804e6399a3c0ec251e19ee17e5154bcc8e3967f",
+      "orchestration.jsonl": "680dca20c49517e69ec030b21951447e03a178b14e56ecea9530e0be8f4c6814",
+      "worker/ledger.jsonl": "951973f1bd83515cb6c3a616832ac0157603187a92fe54b6b92e5913ef69b4be",
+      "judge.json": "2d672063d69881bc9117997ba4a25ab4d33ba128aa992faa9aa94d105331640e"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL15-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "reason": "token-budget",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "41d29ce4393e1a61d2aace18f515699079394c97a8acbaa5e19095e8c998df6b",
+      "orchestration.jsonl": "ea9c21107026d0ee94ea101d09b667191e59d699eafe5df30262bf709141367c",
+      "worker/ledger.jsonl": "eca812ab022314834428796fa3cab60f7fbbe762b6cbf63221b50970a955ba46",
+      "judge.json": "207fd15e2d62e9699af6dfc7f819ee906169afa32c3adc2adc0c13ba85c1ddf2"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL15-1-eager-schema",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "0ecca36f8b65759cb543379a0349f7fd6d40b02dd2882feb0104b7616d5bdf44",
+      "orchestration.jsonl": "5d51f75bf74269b4fd6d436f9609b06e07e6ff530c663b538fab27d198ea1eda",
+      "worker/ledger.jsonl": "3614ee3444c2575d70caf588ab2659d0d0771629959b69a6030c5872042184cf",
+      "judge.json": "22590adcbd2afc464de36deeb998d87b3912db2217694a853993ede5be4b0dc2"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL05-1-no-compression",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [
+      {
+        "reason": "single-request-reserve",
+        "role": "main"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "758c073dad5c63403d9059ead52dbf13769a047ffe034f3fc254a5c77460512d",
+      "orchestration.jsonl": "5770c5905654f8b2461646f650336eb825644fc3fc7f09e5eaaac89c0b926153",
+      "worker/ledger.jsonl": "2f532a38cc1eb7ba1042d56aad99c94d59bd542432f842e8dedb37091170025f",
+      "judge.json": "11fc50106a850015543b6eff4f312f2d4693f44e42449af69d67f7a7b6ca7701"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL05-1-eager-schema",
+    "automatic_causes": [
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "17dfd55da5c5f505c69ea105dde303b71492f47fc91f97e366983f2514aa5ccd",
+      "orchestration.jsonl": "cf96f0bf53860b106073336bc1ddcbe08ccf333d63ac123563ad6e3a3357a24a",
+      "worker/ledger.jsonl": "2762cd4672465f437a3f4f44500acd391ad268c26bfed0cfcd4785c90e5bfa79",
+      "judge.json": "edae123199f656d4ef503593ac6da2f56e047916628e391be5cd85bb70a9f95b"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL05-1-full",
+    "automatic_causes": [
+      "acceptance/official-tests"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "709c3de79fb6153b6b42b07715c5eefd447b2048ea936eb2332bb3bd8f41a3e5",
+      "orchestration.jsonl": "c31b11867298ce54cba0d082ff69f219025c6728b87b76d02363b6e022809789",
+      "worker/ledger.jsonl": "f2ead0c8f35a8e74d1a2690bd85200187aaca1d8e300ec806adcd0c05e63bc8e",
+      "judge.json": "b6496c16b90325d3c3918d507c0edaf5323fed159e2f3dd5d8bd55f5cf982f99"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL20-2-full",
+    "automatic_causes": [
+      "termination/budget-exhausted",
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [
+      {
+        "notice": "（已达最大迭代轮数 25，自动停止；可继续发消息推进。）"
+      }
+    ],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "ad907ead482e5f195dd2e1e149cec77acc60ad1d1a75eaa0729c961aafabfc4b",
+      "orchestration.jsonl": "16a38a69b3f6e2734914c8244e83b86d305c65714893691e2104b84aacb9bc5d",
+      "worker/ledger.jsonl": "f5527bdc825a2c81c0bd2dfeee49809bf4fc4ddb741f5e22aba1a890c1496d77"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL20-2-eager-schema",
+    "automatic_causes": [
+      "scope/unknown",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "36140a1ded843604008f09c33add70e758a7c082a6128a216f79384c7ffca878",
+      "orchestration.jsonl": "8b22b6dfdbbc11f34ffb9d1cf6d29277b4a0b058d7f48bc7f70f16f71ea944c2",
+      "worker/ledger.jsonl": "a66e7c2867f8edbe0656286f95462d1312b2852655d4b09a8373462ca98e7846"
+    },
+    "tool_errors_recovered_or_secondary": 0
+  },
+  {
+    "run_id": "novacode-frozen-20261015-v2-FL20-2-no-compression",
+    "automatic_causes": [
+      "termination/runner-error",
+      "scope/unknown",
+      "cleanup/failed",
+      "acceptance/ungradable"
+    ],
+    "stop_notices": [],
+    "not_manually_regraded": true,
+    "evidence": {
+      "result.json": "0d859c2e2c960de6e6e1302c3ec949b092d23b97f62d6e12db7930244b2982b4",
+      "orchestration.jsonl": "88611c2a87678fe4ce2864cfa91dfc4f42124bd8f9ae2eb8997bbff21e67e9bb",
+      "worker/ledger.jsonl": "1f5ab41ca15c1b0774d23175c25dc48e2044668ac1057155fa71eb2ebe02a3e5"
+    },
+    "tool_errors_recovered_or_secondary": 1
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "83e368b Make help message template configurable (#938)\n83c0cf8 Fix python<3.10 compatibility (#899)\n8ca4854 Fix removal of pending messages on error (#888)\nbc082b5 Ensure all slash commands support `-h/--help` (#878)\n0d86ee8 Make preferred-dir the default read/write directory for slash commands (#881)\n---\nc28a8b4 Backport PR #1235: Add information about ollama - document it as an available provider and provide clearer troubleshooting help. (#1239)\n85f0cc7 Add information about ollama - document it as an available provider and provide clearer troubleshooting help. (#1235)\n899af0a V3: The Beginning (#1169)\n",
+  "stderr": ""
+}

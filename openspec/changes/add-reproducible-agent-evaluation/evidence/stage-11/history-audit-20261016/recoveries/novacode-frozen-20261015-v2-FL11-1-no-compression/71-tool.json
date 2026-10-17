@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "0e2c4e4 Added help text fields for embedding providers in the AI Setting page (#1288)\nd4dcef9 Allow embedding model fields, fix coupled model fields, add custom OpenAI provider (#1264)\n479a480 Upgrade to LangChain v0.3 and Pydantic v2 (#1201)\n3f11712 Fix specifying empty list in provider and model allow/denylists (#1185)\n899af0a V3: The Beginning (#1169)\n",
+  "stderr": ""
+}

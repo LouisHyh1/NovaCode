@@ -1,0 +1,9 @@
+{
+  "date_local": "2026-10-17",
+  "user_instruction": "先进行提交并推送，然后启动评测",
+  "scope": "发布后使用 0.1.37 新独立身份，24 题/216 行，原已说明的总预算不变；先验收三配置首块，通过后继续，异常保留暂停",
+  "inherited_manifest": "9e2024690cb6c71c65516eaefe5eeb419a9af639762fa35ad989d62899ba6794",
+  "new_frozen_confirmation_required_again": false,
+  "reason": "用户明确确认提交推送并启动；版本递增是根 AGENTS.md 的发布要求，抽样、业务与预算不变。批准收据将在新清单验证和推送成功后绑定最终身份。",
+  "model_calls_before_push": 0
+}

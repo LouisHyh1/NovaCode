@@ -1,0 +1,17 @@
+{
+  "seconds": 6.728654384613037,
+  "timed_out": false,
+  "State": {
+    "Status": "running",
+    "Running": true,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 63458,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-16T08:22:12.874033329Z",
+    "FinishedAt": "0001-01-01T00:00:00Z"
+  }
+}

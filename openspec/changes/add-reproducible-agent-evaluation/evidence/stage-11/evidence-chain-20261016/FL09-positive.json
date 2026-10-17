@@ -1,0 +1,18 @@
+{
+  "case": "FL09-positive",
+  "new_identity": "offline-chain-20261016-FL09-positive",
+  "expected_pass": true,
+  "actual_pass": true,
+  "conditions": {
+    "official-tests": true
+  },
+  "patch_sha256": "a0d641141f622e7bb7f22e93919a52de79c3385d551a9cb2fb350962a7ae23d3",
+  "archive_sha256": "c8154b60437db259418f26c06a5ae2f45975bcdbaecc58f1945bcfc73d9a99d1",
+  "restored_state_equal": true,
+  "baseline_entries": 632,
+  "changed_paths": [
+    "reflex/state.py"
+  ],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FL09-positive-attempt2"
+}

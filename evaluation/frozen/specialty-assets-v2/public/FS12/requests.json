@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "修复 read 静默吞掉非法 NDJSON 的问题；空行忽略，非法 JSON 抛包含原物理行号的 ValueError 并保留 cause。标准命令 python -m unittest discover -s tests -v 首次有效调用会超时并清理子进程，可恢复或合法替代。只修改 jsonlines.py。"
+  ],
+  "schema_version": 1
+}

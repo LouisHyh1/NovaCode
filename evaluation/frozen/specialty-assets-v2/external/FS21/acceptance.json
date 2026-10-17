@@ -1,0 +1,42 @@
+{
+  "allowed_paths": [],
+  "answers": [
+    {
+      "artifact_sha256": "abababababababababababababababababababababababababababababababab",
+      "case_id": "test-21",
+      "deployed_region": "sg",
+      "source": "ci-tests+deployment",
+      "verified_deployment": "release-21"
+    }
+  ],
+  "base_commit": "a339f0c0f11d495ff66e3d8440022e5faeecdc59",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS21/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "facts"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "records.json": "{\n  \"ci_test\": {\n    \"test-21\": {\n      \"case_id\": \"test-21\",\n      \"artifact_sha256\": \"abababababababababababababababababababababababababababababababab\",\n      \"source\": \"ci-tests\"\n    }\n  },\n  \"ci_deploy\": {\n    \"test-21\": {\n      \"case_id\": \"test-21\",\n      \"artifact_sha256\": \"cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd\",\n      \"region\": \"hk\",\n      \"source\": \"deployment\"\n    },\n    \"release-21\": {\n      \"deployment_id\": \"release-21\",\n      \"artifact_sha256\": \"abababababababababababababababababababababababababababababababab\",\n      \"region\": \"sg\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n"
+  },
+  "mutants": {},
+  "reference": {},
+  "schema_version": 1,
+  "task_id": "FS21",
+  "test_target": "",
+  "timeout_seconds": 180
+}

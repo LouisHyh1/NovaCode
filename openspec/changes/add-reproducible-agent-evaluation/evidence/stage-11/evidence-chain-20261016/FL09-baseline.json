@@ -1,0 +1,9 @@
+{
+  "task_id": "FL09",
+  "base_commit": "2520c51aaf4c0a4af965026ae3a3fd5b03930288",
+  "manifest_sha256": "38786787c7d202e1e01010409923cdc435501dbb660e8980be14e6d91dcb984c",
+  "tree": "9dfeae0d90d53d9295c3e52f841741b35a8ae544",
+  "entries": 632,
+  "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4510@sha256:0e8fbaad82867ec7680079835c2e4dc8c80a8a2c968243b90eaf3ce86f682a98",
+  "state": "captured-before-preplaced-edits"
+}

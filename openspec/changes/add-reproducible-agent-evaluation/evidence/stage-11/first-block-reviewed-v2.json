@@ -1,0 +1,14 @@
+{
+  "freeze_sha256": "cf7191aeef652b2658456572fb737c17791649e65870ebba48812d1dd35de658",
+  "rows": [
+    "novacode-frozen-20261015-v2-FS03-1-full",
+    "novacode-frozen-20261015-v2-FS03-1-eager-schema",
+    "novacode-frozen-20261015-v2-FS03-1-no-compression"
+  ],
+  "strategies_verified": true,
+  "usage_complete": true,
+  "sdk_zero_retry": true,
+  "cleanup_verified": true,
+  "not_used_for_tuning": true,
+  "host_noise": "Quality checks overlapped the first block; raw timestamps retained. Container resource caps unchanged; timing is conditional, not noise-free."
+}

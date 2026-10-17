@@ -1,0 +1,477 @@
+{
+  "schema_version": 1,
+  "runtime_sha256": "3a856ff49192fe83dc9f2a4fde377bda3f9031e2913ce3165160d082f7d62b71",
+  "model_calls": 0,
+  "images": {
+    "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17923@sha256:5e05d6152356948e22f1c937427b4d4a443b01811494abd56d5e7c78cc3fb479": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/0",
+      "evidence_files": {
+        "container.json": "8c9edb40d28fbae0859b654e0e1af50daa5600714ffcc74e08dd479a455d5981",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "d50364a9e9f8dc5cd80cdbc8ddf0b6166c76a77e1bab8fcb6c8b84e944a08b38",
+        "target-before.txt": "d50364a9e9f8dc5cd80cdbc8ddf0b6166c76a77e1bab8fcb6c8b84e944a08b38",
+        "tool-smoke.txt": "c5015aa760e90bb68020facd0eb6923476915883b825b35340103db63feaf5eb"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.encode_1776_starlette-2697@sha256:912ccb25f41e2588cd7d76af7fc16b9903483b4808789ca0d503be1bbf81a549": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/1",
+      "evidence_files": {
+        "container.json": "6528a5e713206d23b6eca6f766b800087ffeddc7f74d5407595f54882349a8fa",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "daa5a21e5598fb58d16b073ac89bdaf59e8af875154d6cd3138008b504a22543",
+        "target-before.txt": "daa5a21e5598fb58d16b073ac89bdaf59e8af875154d6cd3138008b504a22543",
+        "tool-smoke.txt": "9c85d7619d6e0dd140980e49305a6f31119b3ea372368a9e8925474c3af7f19f"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.falconry_1776_falcon-2450@sha256:70a8ea24ce568a57c4bfd50899997d8df90a5c38e27b1107e669526f339a32e1": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/2",
+      "evidence_files": {
+        "container.json": "8d67409137bd6bdaf84e2414f9530f788a5af3b67e2614d8825db95438dac729",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "d4458524a43416806761bdb39fe2d068fd32cfc44e9a6234bdf790b819d2df0a",
+        "target-before.txt": "d4458524a43416806761bdb39fe2d068fd32cfc44e9a6234bdf790b819d2df0a",
+        "tool-smoke.txt": "9c0d5a47568e214ec4230b7365c1260a0024afa0b8f851e4d3c4ede07ec4b485"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.jazzband_1776_tablib-613@sha256:b79693f36e1876a87aa343ea47e7a143e6f5097ef1413725c405908ebea44b7b": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/3",
+      "evidence_files": {
+        "container.json": "6d1b89f5d9bbc170b0366736747fe44face4825ce51a9c99d10eef7898bd6a79",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "09df4fbe79a5d4d07c383ab7b120e052f55e8ff2c94d83b937bdae5cbb91159b",
+        "target-before.txt": "09df4fbe79a5d4d07c383ab7b120e052f55e8ff2c94d83b937bdae5cbb91159b",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/4",
+      "evidence_files": {
+        "container.json": "aa6fe2b7497e12c09c833ea87685dffe5eadcc20712f484aafa07fb9b9f2cf70",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "821639c0bd64a7ac8e316d8257c2490db106f5e5ca846f740c7235342c941863",
+        "target-before.txt": "821639c0bd64a7ac8e316d8257c2490db106f5e5ca846f740c7235342c941863",
+        "tool-smoke.txt": "9c85d7619d6e0dd140980e49305a6f31119b3ea372368a9e8925474c3af7f19f"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2099@sha256:c00ff488c9f71dac266ad515c27ecae92483fe60f4a3da81531a7d940686523e": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/5",
+      "evidence_files": {
+        "container.json": "3a5e33e4a88a4b5cd287056ded162e780ac8ea2b1fc075d99f7c2a8934d48060",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "7014d271a6a24775855093b24c55843a551e723db1e788ecb240a76ae3e76fe2",
+        "target-before.txt": "7014d271a6a24775855093b24c55843a551e723db1e788ecb240a76ae3e76fe2",
+        "tool-smoke.txt": "cc227ef2c03315a2582103ded5259c3dd3cc4e05e9d4bca4055dde0701439425"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-1294@sha256:9fae49f245cad7d4ab640c2ceae9550eb2a65143a091cb78ca934f09d105f2ad": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/6",
+      "evidence_files": {
+        "container.json": "744bda255b126bb3761a5ff9e6c1d6b84704a580b383d8f0fb570c16d3da9ba7",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+        "target-before.txt": "dd373c8384af9f5d7567dd099c3bb4a37d6c6a48b523afc35be711fdd86ce0e2",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-943@sha256:634b1de696f8a3f6c0ea76d354a09db408c107b7853f66080856f10a718ccc1b": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/7",
+      "evidence_files": {
+        "container.json": "19962968cb5935e207f97b23b23781700a6eea2e9418cf7cb4fe9eff29386b15",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "eedf4a5eca9f26682d5cf47e9712c12b68599fc626f51b4ffccc3a0a61e5df76",
+        "target-before.txt": "eedf4a5eca9f26682d5cf47e9712c12b68599fc626f51b4ffccc3a0a61e5df76",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-962@sha256:60c00c1ef2b68947e051d733cb4d6d03fd0ca8d5db51cce878116487bbb9a637": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/8",
+      "evidence_files": {
+        "container.json": "06e2b4dce1566b2ca68064d85a9a775cd1ad1bb11e21b72099580a6550842649",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "0750f3a09a5084fbdc2f20181b3e1be06057388a47ffcee60b91321c02989555",
+        "target-before.txt": "0750f3a09a5084fbdc2f20181b3e1be06057388a47ffcee60b91321c02989555",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3112@sha256:72745b6b44b7e0d2139c68f1b9a8b86af3813c23ab6eeeaa36b3244942afbd1c": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/9",
+      "evidence_files": {
+        "container.json": "8a5d3c001a154bf956511785bad61c3a918c3db60820ea42f6d4d235478c9f8a",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "84956dae0be4859d75201a4b99600752d8a598d4b51ede7daf14816790849cc5",
+        "target-before.txt": "84956dae0be4859d75201a4b99600752d8a598d4b51ede7daf14816790849cc5",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3310@sha256:bb188f93897c233027a7a4e0a890025135036edeedc3a841dd325831efc142c6": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/10",
+      "evidence_files": {
+        "container.json": "b8aa411df780b8ab6d56c22d5f9ca68dcb0cc37e1b42acdca3b6f3f5d4669cfd",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "40f4cc4588b59c65baa4198803cd3e4c7a1e1feaa85f0fe0bc34c6514c0b4145",
+        "target-before.txt": "40f4cc4588b59c65baa4198803cd3e4c7a1e1feaa85f0fe0bc34c6514c0b4145",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3338@sha256:1b34ad3fd273d21acaca402a7ba853b040f14b11bf9a816fb951c8b5e3b33a73": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/11",
+      "evidence_files": {
+        "container.json": "1e8e3de1abfcc0ade968f0f652ce03d3113ea2d247d6af70a4e5841277b7f90a",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "dc76302d98e936d9d53ff2245ede5b16d67d7683fa66167b204c4a1626b0d481",
+        "target-before.txt": "dc76302d98e936d9d53ff2245ede5b16d67d7683fa66167b204c4a1626b0d481",
+        "tool-smoke.txt": "9c0d5a47568e214ec4230b7365c1260a0024afa0b8f851e4d3c4ede07ec4b485"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2292@sha256:e54959a97e4181518266fa3c6e2cae3b9d97ff4331a47696e34c1b1b61fb254e": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/12",
+      "evidence_files": {
+        "container.json": "9f8ef758883cc42a387f635e30b581c158b3c1ca391f1e0b479ccf64d9771e8d",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "6c2308815320c43e6a7e6e682c99c076a75e8b7f843ef3522ce53ad59a70aa5f",
+        "target-before.txt": "6c2308815320c43e6a7e6e682c99c076a75e8b7f843ef3522ce53ad59a70aa5f",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2347@sha256:20c15b35325faf09de93633cfe289a6386cf4068fb8340d1de893d54858fea4e": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/13",
+      "evidence_files": {
+        "container.json": "f7e81d591a426c66923b0cd2d40ff892365dffbd61577f2f57143c20d58052b8",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "80a78fef2408db61ac151c158a26dd0069a60bc3f46b5b4dc0d1e68053cf1bf7",
+        "target-before.txt": "80a78fef2408db61ac151c158a26dd0069a60bc3f46b5b4dc0d1e68053cf1bf7",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-10240@sha256:3f5669fac8204918c4ef221e3b2d00417cb0f711501996d2f9ffeeccac8f7537": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/14",
+      "evidence_files": {
+        "container.json": "67f83d476225e606cc959ffc1a63be1bb48a9b9d71339fae25f550f5fd224829",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "86717b62e2cb457da7a54db54b1e57386fd89952a0efbf131edc420118a5d322",
+        "target-before.txt": "86717b62e2cb457da7a54db54b1e57386fd89952a0efbf131edc420118a5d322",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-10275@sha256:d0034100201ca0a20060d4457c3273823c33e624febef8d12f3ef796a40975ef": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/15",
+      "evidence_files": {
+        "container.json": "b804323a18311bbad67a29cc5d890288d0bfce422ace3786b961a783ca543863",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "ef6b6ed3c3894a6cadd20c998e272632fe8960b4d22d0f3c23b6c434b7bcfd75",
+        "target-before.txt": "ef6b6ed3c3894a6cadd20c998e272632fe8960b4d22d0f3c23b6c434b7bcfd75",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-9772@sha256:0e425ffb55b87b1ddaa2cb3d8c1aa7f844082e36918980e1092c73b6da55bbea": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/16",
+      "evidence_files": {
+        "container.json": "e0df67db2f34253c431c0486f367d6b9578e779602a873e4a81f669b60f6f1d8",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "67b8ad6aa39071be846d3d038058665188cf3714a5c5a72a4b8dedf064ec76b0",
+        "target-before.txt": "67b8ad6aa39071be846d3d038058665188cf3714a5c5a72a4b8dedf064ec76b0",
+        "tool-smoke.txt": "9c85d7619d6e0dd140980e49305a6f31119b3ea372368a9e8925474c3af7f19f"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-9785@sha256:11b5eb0a340db2f1b51be66fe98dbb292cd31108c32fbc95cd6335725fbc475f": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/17",
+      "evidence_files": {
+        "container.json": "0b003d992709c4820f49ad96d52c26449ab8a076bdef1112a88d91947d33ba45",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "2d427602ffb20672b7688be289da96744034c9f1305db3e736898d5a76ee1567",
+        "target-before.txt": "2d427602ffb20672b7688be289da96744034c9f1305db3e736898d5a76ee1567",
+        "tool-smoke.txt": "6ccbfc25d4b6e9794f17277239a3073a0939938bb2078b71adecb940a209b967"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.python-attrs_1776_attrs-1417@sha256:6552c02572e24d8e10319aa0d1f4291289dca0e0386fef49ec1a9d4b8a867f26": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/18",
+      "evidence_files": {
+        "container.json": "57bbd368aa5190c22bce58a09df9c103d58dda558480c611146219c00c4751b3",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "170a17e53972956885b386437ef55175b368bdc400fd635dbd0555061e67238f",
+        "target-before.txt": "170a17e53972956885b386437ef55175b368bdc400fd635dbd0555061e67238f",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1132@sha256:9349f20a472ce5b06101bbdb1f180106f84e4601d4ec64d7046111e08f5abb7e": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/19",
+      "evidence_files": {
+        "container.json": "5b2b6dd8aaad09355f18e653ec9b4bb85c98398641fc6ccd118e56902cff85ac",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "0b39ac246e4a473377849feeb73bb05c7923847de0ae55ed69c7127ffe74c9df",
+        "target-before.txt": "0b39ac246e4a473377849feeb73bb05c7923847de0ae55ed69c7127ffe74c9df",
+        "tool-smoke.txt": "9c85d7619d6e0dd140980e49305a6f31119b3ea372368a9e8925474c3af7f19f"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1163@sha256:dce69d0446d536735f96ca6c0f3a01257c2777a5de3e1ccc4ee031a7d9ec6860": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/20",
+      "evidence_files": {
+        "container.json": "9831cee85d923708edb53a621c068498d12850b5b733afd006f45cc49df3aaa6",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "0aacab6189647381254965896912d4330763e7db9d6957e112102e201f98bbd6",
+        "target-before.txt": "0aacab6189647381254965896912d4330763e7db9d6957e112102e201f98bbd6",
+        "tool-smoke.txt": "9c85d7619d6e0dd140980e49305a6f31119b3ea372368a9e8925474c3af7f19f"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842@sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/21",
+      "evidence_files": {
+        "container.json": "41963fcddaf377c2423303828fa03c9f98fc2862d3ec1587b3f60cdcbc75a200",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "f43fec8136824e8a15d9d448a221a033045441550813d72adc6aa004d14fdbe5",
+        "target-before.txt": "f43fec8136824e8a15d9d448a221a033045441550813d72adc6aa004d14fdbe5",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4230@sha256:d3c3efc9caf0b118652ea28b2b33f14eebddc675e0d3081d62eeebf2e845ac29": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/22",
+      "evidence_files": {
+        "container.json": "e7476d4240f477427879c9f32dfdb31234dcc53339c2f32b453d0b1d9042f915",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "2b535ec523df628d7f69fee0f0b69f09709819ae2590a3654e8644f7ed4959be",
+        "target-before.txt": "2b535ec523df628d7f69fee0f0b69f09709819ae2590a3654e8644f7ed4959be",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4510@sha256:0e8fbaad82867ec7680079835c2e4dc8c80a8a2c968243b90eaf3ce86f682a98": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/23",
+      "evidence_files": {
+        "container.json": "485c2631743eea60f798be0f7cc1f5628bd65592531f619dbbceb4f3354f4d52",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "8ae8bdf566e36b72080b0b151f4eca2f8880ad7cb289d415d29092df389accda",
+        "target-before.txt": "8ae8bdf566e36b72080b0b151f4eca2f8880ad7cb289d415d29092df389accda",
+        "tool-smoke.txt": "902592611980a640991484df478ef212041acefec7fcea6255e342093f201c8a"
+      }
+    },
+    "starryzhang/sweb.eval.x86_64.wireservice_1776_csvkit-1281@sha256:c5b41589106db06ceaaa98b4a0d10aa185bc2d32d9a002ce7559662f4aab64bd": {
+      "passed": true,
+      "evidence": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/runtime-deployment-v2/24",
+      "evidence_files": {
+        "container.json": "41ac14dfb8fa1422fd51bfc9a2c266ae653b8a7e9726d08761d1f8d56d1345ec",
+        "installed.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "target-after.txt": "fdd87b697d2657b19acdefaceb2430f656ceed8454b84cf1a9e946bd5578be3c",
+        "target-before.txt": "fdd87b697d2657b19acdefaceb2430f656ceed8454b84cf1a9e946bd5578be3c",
+        "tool-smoke.txt": "cc227ef2c03315a2582103ded5259c3dd3cc4e05e9d4bca4055dde0701439425"
+      }
+    }
+  },
+  "tasks": {
+    "FL01": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.wireservice_1776_csvkit-1281@sha256:c5b41589106db06ceaaa98b4a0d10aa185bc2d32d9a002ce7559662f4aab64bd"
+    },
+    "FL02": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-17923@sha256:5e05d6152356948e22f1c937427b4d4a443b01811494abd56d5e7c78cc3fb479"
+    },
+    "FL03": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1132@sha256:9349f20a472ce5b06101bbdb1f180106f84e4601d4ec64d7046111e08f5abb7e"
+    },
+    "FL04": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-10240@sha256:3f5669fac8204918c4ef221e3b2d00417cb0f711501996d2f9ffeeccac8f7537"
+    },
+    "FL05": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2347@sha256:20c15b35325faf09de93633cfe289a6386cf4068fb8340d1de893d54858fea4e"
+    },
+    "FL06": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-9772@sha256:0e425ffb55b87b1ddaa2cb3d8c1aa7f844082e36918980e1092c73b6da55bbea"
+    },
+    "FL07": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jazzband_1776_tablib-613@sha256:b79693f36e1876a87aa343ea47e7a143e6f5097ef1413725c405908ebea44b7b"
+    },
+    "FL08": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.python-attrs_1776_attrs-1417@sha256:6552c02572e24d8e10319aa0d1f4291289dca0e0386fef49ec1a9d4b8a867f26"
+    },
+    "FL09": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4510@sha256:0e8fbaad82867ec7680079835c2e4dc8c80a8a2c968243b90eaf3ce86f682a98"
+    },
+    "FL10": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3338@sha256:1b34ad3fd273d21acaca402a7ba853b040f14b11bf9a816fb951c8b5e3b33a73"
+    },
+    "FL11": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-1294@sha256:9fae49f245cad7d4ab640c2ceae9550eb2a65143a091cb78ca934f09d105f2ad"
+    },
+    "FL12": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3112@sha256:72745b6b44b7e0d2139c68f1b9a8b86af3813c23ab6eeeaa36b3244942afbd1c"
+    },
+    "FL13": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pvlib_1776_pvlib-python-2292@sha256:e54959a97e4181518266fa3c6e2cae3b9d97ff4331a47696e34c1b1b61fb254e"
+    },
+    "FL14": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-962@sha256:60c00c1ef2b68947e051d733cb4d6d03fd0ca8d5db51cce878116487bbb9a637"
+    },
+    "FL15": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-4230@sha256:d3c3efc9caf0b118652ea28b2b33f14eebddc675e0d3081d62eeebf2e845ac29"
+    },
+    "FL16": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3310@sha256:bb188f93897c233027a7a4e0a890025135036edeedc3a841dd325831efc142c6"
+    },
+    "FL17": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.falconry_1776_falcon-2450@sha256:70a8ea24ce568a57c4bfd50899997d8df90a5c38e27b1107e669526f339a32e1"
+    },
+    "FL18": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.python-babel_1776_babel-1163@sha256:dce69d0446d536735f96ca6c0f3a01257c2777a5de3e1ccc4ee031a7d9ec6860"
+    },
+    "FL19": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2099@sha256:c00ff488c9f71dac266ad515c27ecae92483fe60f4a3da81531a7d940686523e"
+    },
+    "FL20": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-943@sha256:634b1de696f8a3f6c0ea76d354a09db408c107b7853f66080856f10a718ccc1b"
+    },
+    "FL21": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-10275@sha256:d0034100201ca0a20060d4457c3273823c33e624febef8d12f3ef796a40975ef"
+    },
+    "FL22": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.pylint-dev_1776_pylint-9785@sha256:11b5eb0a340db2f1b51be66fe98dbb292cd31108c32fbc95cd6335725fbc475f"
+    },
+    "FL23": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.encode_1776_starlette-2697@sha256:912ccb25f41e2588cd7d76af7fc16b9903483b4808789ca0d503be1bbf81a549"
+    },
+    "FL24": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842@sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617"
+    },
+    "FS01": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS02": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS03": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS04": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS05": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS06": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS07": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS08": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS09": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS10": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS11": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS12": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS13": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS14": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS15": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS16": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS17": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS18": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS19": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS20": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS21": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS22": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS23": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    },
+    "FS24": {
+      "passed": true,
+      "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8"
+    }
+  },
+  "coverage": "最终wheel逐镜像独立安装/目标依赖和源码不变/六个正式工具；逐题base与正确负例另见入库证据"
+}

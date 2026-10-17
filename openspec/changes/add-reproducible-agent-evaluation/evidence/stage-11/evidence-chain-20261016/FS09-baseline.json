@@ -1,0 +1,9 @@
+{
+  "task_id": "FS09",
+  "base_commit": "93175e26f8b8346fff098896c00567534b9bc295",
+  "manifest_sha256": "a4c8bbd36e03d7662336339f1de4dced5f20c20b8572e26d3492c8990db51167",
+  "tree": "4ceabb0ba1b6cd91cf2507e030550f31bd17f319",
+  "entries": 2,
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "state": "captured-before-preplaced-edits"
+}

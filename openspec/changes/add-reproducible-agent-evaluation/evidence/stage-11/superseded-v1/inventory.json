@@ -1,0 +1,11 @@
+{
+  "budget-reservations.jsonl": "ea777495a2b71f3d0416e4ee42fcbc93931dd9dd3fc4a7781bd012eca18d79d0",
+  "contract-reproduction.json": "ddd6978ed70dc301b31cd0d6f9118233bb42c3f48f3906368d6ea5d9aa06f9b4",
+  "coordinator-v1.py": "4b440dfd5954a6d714523d5ce9a58ca4f0405b41a190345ebbe4c6a5fe635c9b",
+  "frozen-source-v1.tar.gz": "537e56a5e868a59cca6a5184ac7c8e0831c2c526d9d50d644243e66d9c103d64",
+  "identity.json": "710102cb875e826fe590e727a39cd0b4d88e7cf8fff4643cb5141ec1b9eeb1f5",
+  "novacode-frozen-20261012-v1-FS03-1-eager-schema.tar.gz": "b4e932f3adfd0ee35fd35412ab872f4c20eb403bc57135375e1f88633ca85d0b",
+  "novacode-frozen-20261012-v1-FS03-1-full.tar.gz": "15cdb9a05f6de0d95d87a05177630ce735c62483cfd2f36a6a4949ca2e280410",
+  "novacode-frozen-20261012-v1-FS03-1-no-compression.tar.gz": "f0a2559b18a21fe3f0f13ad6579f6e7362e4b28b24015dabc61f13e1d195bd27",
+  "partial-report.json": "61e7f4c8be4ca2a70eeb048fb76c0fdf5c98dfa46d6f7e3ffc0c6b8487bbafe3"
+}

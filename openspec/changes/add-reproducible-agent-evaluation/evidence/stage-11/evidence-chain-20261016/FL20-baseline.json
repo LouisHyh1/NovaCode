@@ -1,0 +1,9 @@
+{
+  "task_id": "FL20",
+  "base_commit": "a55db38c061522a2b6397516df1eeedf2e8b4dc5",
+  "manifest_sha256": "e51c9869c7a870117b74bf7cd4c2850729d5d3f591e2590c7ac97156daf47fb8",
+  "tree": "f84e096fad83b5e6d4e68c724cd509efece22ab5",
+  "entries": 76097,
+  "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-943@sha256:634b1de696f8a3f6c0ea76d354a09db408c107b7853f66080856f10a718ccc1b",
+  "state": "captured-before-preplaced-edits"
+}

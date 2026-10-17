@@ -1,0 +1,25 @@
+{
+  "case": "FL20-positive",
+  "new_identity": "offline-chain-20261016-FL20-positive",
+  "expected_pass": true,
+  "actual_pass": true,
+  "conditions": {
+    "official-tests": true
+  },
+  "patch_sha256": "12365f62c1768881ed7e156e8e103b993ad45333b7eb33b9d9022aced0d11e69",
+  "archive_sha256": "a8268edbc855dff8fc9cae4f24cd0490714280991038058d32c59fb29680d506",
+  "restored_state_equal": true,
+  "baseline_entries": 76097,
+  "changed_paths": [
+    "docs/source/users/index.md",
+    "packages/jupyter-ai/jupyter_ai/chat_handlers/base.py",
+    "packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py",
+    "packages/jupyter-ai/jupyter_ai/chat_handlers/default.py",
+    "packages/jupyter-ai/jupyter_ai/extension.py",
+    "packages/jupyter-ai/jupyter_ai/handlers.py",
+    "packages/jupyter-ai/jupyter_ai/history.py",
+    "packages/jupyter-ai/src/chat_handler.ts"
+  ],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FL20-positive"
+}

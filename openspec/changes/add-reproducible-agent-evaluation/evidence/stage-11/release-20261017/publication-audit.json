@@ -1,0 +1,10 @@
+{
+  "state": "PUBLICATION_AUDITED",
+  "selected_files": 1311,
+  "bytes": 20967100,
+  "known_provider_keys_scanned": 2,
+  "matching_provider_keys": 0,
+  "archive_members_scanned": 294,
+  "dependency_lock_delta": "only novacode version 0.1.35 -> 0.1.37",
+  "forbidden_roots_included": false
+}

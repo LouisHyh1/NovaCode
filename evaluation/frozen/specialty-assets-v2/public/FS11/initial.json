@@ -1,0 +1,8 @@
+{
+  "base_commit": "8e9fee0a8098cd793f0a99723a4133663f11089e",
+  "files": {
+    "archivepath.py": "def safe(name):\n    return not name.startswith('/')\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import archivepath as m\n        for value in ('file', 'dir/file', './a', 'a..b'): self.assertTrue(m.safe(value))\n        for value in ('', '/x', '../x', 'a/../x', 'a\\\\b'): self.assertFalse(m.safe(value))\n"
+  },
+  "schema_version": 1
+}

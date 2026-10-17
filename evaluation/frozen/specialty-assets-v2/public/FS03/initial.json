@@ -1,0 +1,8 @@
+{
+  "base_commit": "456703eda6393adc49d4919b6d7499c36ffcf3c7",
+  "files": {
+    "cache.py": "def stale(entry, now):\n    return entry['expires'] <= now\ndef evict(cache, key):\n    return cache.pop(key, None)\n",
+    "reader.py": "from cache import stale, evict\ndef read(cache, key, now, loader):\n    entry = cache.get(key)\n    if entry is not None and stale(entry, now):\n        evict(cache, key)\n        entry = None\n    return loader(key) if entry is None else entry['value']\n"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,17 @@
+{
+  "case": "FS09-negative",
+  "new_identity": "offline-chain-20261016-FS09-negative",
+  "expected_pass": false,
+  "actual_pass": false,
+  "conditions": {
+    "scope": true,
+    "behavior": false
+  },
+  "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "archive_sha256": "62e3529754d3b6d8b154c7114dcffc242ffa49e87f19d30468929c24a5cdd2f1",
+  "restored_state_equal": true,
+  "baseline_entries": 2,
+  "changed_paths": [],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FS09-negative"
+}

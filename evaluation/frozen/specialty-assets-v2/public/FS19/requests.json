@@ -1,0 +1,6 @@
+{
+  "requests": [
+    "只读汇总 d19 的 CI 矩阵：JSON 含 commit、failed_jobs（按名称排序）、failed_count、source。通过所有 job 状态计算，不能只返回一个失败条目。可发现内置/MCP 查询能力，也接受读取公开记录的合法替代。"
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,231 @@
+{
+  "state": "EVIDENCE_CHAIN_VALID",
+  "cases": 10,
+  "rows": [
+    {
+      "case": "FL20-positive",
+      "new_identity": "offline-chain-20261016-FL20-positive",
+      "expected_pass": true,
+      "actual_pass": true,
+      "conditions": {
+        "official-tests": true
+      },
+      "patch_sha256": "12365f62c1768881ed7e156e8e103b993ad45333b7eb33b9d9022aced0d11e69",
+      "archive_sha256": "a8268edbc855dff8fc9cae4f24cd0490714280991038058d32c59fb29680d506",
+      "restored_state_equal": true,
+      "baseline_entries": 76097,
+      "changed_paths": [
+        "docs/source/users/index.md",
+        "packages/jupyter-ai/jupyter_ai/chat_handlers/base.py",
+        "packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py",
+        "packages/jupyter-ai/jupyter_ai/chat_handlers/default.py",
+        "packages/jupyter-ai/jupyter_ai/extension.py",
+        "packages/jupyter-ai/jupyter_ai/handlers.py",
+        "packages/jupyter-ai/jupyter_ai/history.py",
+        "packages/jupyter-ai/src/chat_handler.ts"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL20-positive"
+    },
+    {
+      "case": "FL20-negative",
+      "new_identity": "offline-chain-20261016-FL20-negative",
+      "expected_pass": false,
+      "actual_pass": false,
+      "conditions": {
+        "official-tests": false
+      },
+      "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_sha256": "676c37c89425e2818d4c4d1839eaed8acc19c736ab7f5af1629f31115223bb98",
+      "restored_state_equal": true,
+      "baseline_entries": 76097,
+      "changed_paths": [],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL20-negative"
+    },
+    {
+      "case": "FL07-positive",
+      "new_identity": "offline-chain-20261016-FL07-positive",
+      "expected_pass": true,
+      "actual_pass": true,
+      "conditions": {
+        "official-tests": true
+      },
+      "patch_sha256": "56d4d90e80632938814db08fba4922bfac7473b70b49ca7be1a92723b33690db",
+      "archive_sha256": "55991410f1b644949b311c31e331c6190a60cd84ad1a3bb2c5b7294dc9e5f186",
+      "restored_state_equal": true,
+      "baseline_entries": 122,
+      "changed_paths": [
+        "coverage.xml",
+        "src/tablib/formats/_ods.py"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL07-positive"
+    },
+    {
+      "case": "FL07-negative",
+      "new_identity": "offline-chain-20261016-FL07-negative",
+      "expected_pass": false,
+      "actual_pass": false,
+      "conditions": {
+        "official-tests": false
+      },
+      "patch_sha256": "ae20d797fb2746bfe823c5c2148b11563cc4ea20c51b757d9b225fdb46db75e9",
+      "archive_sha256": "6a5abc6dc5eec078f0feebfd1dd683ab31e25796c2daede8f7fa5b0bd37d7363",
+      "restored_state_equal": true,
+      "baseline_entries": 122,
+      "changed_paths": [
+        "coverage.xml"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL07-negative"
+    },
+    {
+      "case": "FL08-positive",
+      "new_identity": "offline-chain-20261016-FL08-positive",
+      "expected_pass": true,
+      "actual_pass": true,
+      "conditions": {
+        "official-tests": true
+      },
+      "patch_sha256": "23a4291462e327b804f8c9c924fc739193f793f86d91ebe59a0a3d369aea6008",
+      "archive_sha256": "398ae3864a3cd0a0757d3fb31f190b867cfdc761014ce74921045314af531e4e",
+      "restored_state_equal": true,
+      "baseline_entries": 125,
+      "changed_paths": [
+        ".hypothesis/unicode_data/14.0.0/codec-utf-8.json.gz",
+        "src/attr/_make.py"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL08-positive"
+    },
+    {
+      "case": "FL08-negative",
+      "new_identity": "offline-chain-20261016-FL08-negative",
+      "expected_pass": false,
+      "actual_pass": false,
+      "conditions": {
+        "official-tests": false
+      },
+      "patch_sha256": "b6788167c986eaea889d301ea07a85c74a9f832c9bab99a29621587770ec4cfb",
+      "archive_sha256": "17020d7b22d6d7dc3701dc9e22e0af8df3c952a8490e00229026c70fcd848e15",
+      "restored_state_equal": true,
+      "baseline_entries": 125,
+      "changed_paths": [
+        ".hypothesis/unicode_data/14.0.0/codec-utf-8.json.gz"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL08-negative"
+    },
+    {
+      "case": "FL09-positive",
+      "new_identity": "offline-chain-20261016-FL09-positive",
+      "expected_pass": true,
+      "actual_pass": true,
+      "conditions": {
+        "official-tests": true
+      },
+      "patch_sha256": "a0d641141f622e7bb7f22e93919a52de79c3385d551a9cb2fb350962a7ae23d3",
+      "archive_sha256": "c8154b60437db259418f26c06a5ae2f45975bcdbaecc58f1945bcfc73d9a99d1",
+      "restored_state_equal": true,
+      "baseline_entries": 632,
+      "changed_paths": [
+        "reflex/state.py"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL09-positive-attempt2"
+    },
+    {
+      "case": "FL09-negative",
+      "new_identity": "offline-chain-20261016-FL09-negative",
+      "expected_pass": false,
+      "actual_pass": false,
+      "conditions": {
+        "official-tests": false
+      },
+      "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_sha256": "4c0b81148b45807584a32e0116b2c2b936373681099ffa10a7a66b43fa44bb80",
+      "restored_state_equal": true,
+      "baseline_entries": 632,
+      "changed_paths": [],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FL09-negative"
+    },
+    {
+      "case": "FS09-positive",
+      "new_identity": "offline-chain-20261016-FS09-positive",
+      "expected_pass": true,
+      "actual_pass": true,
+      "conditions": {
+        "scope": true,
+        "behavior": true
+      },
+      "patch_sha256": "2c9e2aef14588dd67941cdde94e1f88b70a8224fcb7e10739e1c2d1deb9f0aee",
+      "archive_sha256": "6b4c07d8e3d1e65a1c9660c64d7a8e6e342630062ef6430720e43727ca24ad9d",
+      "restored_state_equal": true,
+      "baseline_entries": 2,
+      "changed_paths": [
+        "query.py"
+      ],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FS09-positive-attempt2"
+    },
+    {
+      "case": "FS09-negative",
+      "new_identity": "offline-chain-20261016-FS09-negative",
+      "expected_pass": false,
+      "actual_pass": false,
+      "conditions": {
+        "scope": true,
+        "behavior": false
+      },
+      "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_sha256": "62e3529754d3b6d8b154c7114dcffc242ffa49e87f19d30468929c24a5cdd2f1",
+      "restored_state_equal": true,
+      "baseline_entries": 2,
+      "changed_paths": [],
+      "model_calls": 0,
+      "evidence_root": ".tmp/evidence-chain-20261016/restored/FS09-negative"
+    }
+  ],
+  "model_calls": 0,
+  "scripted_or_preplaced_only": true,
+  "peak_observed_disk_growth_bytes": 364544,
+  "free_disk_bytes_after": 13849440256,
+  "interrupted": {
+    "original_run_id": "novacode-frozen-20261015-v2-FL20-2-no-compression",
+    "original_result_sha256": "0d859c2e2c960de6e6e1302c3ec949b092d23b97f62d6e12db7930244b2982b4",
+    "original_supplemental_sha256": "879f11ff436a41e5b24b27405b5cb7a00d0c992d3f333091dd3c0e1e611c44f4",
+    "new_patch_sha256": "4842d0b1d159ccc2b78d6c97ed3aa723f7ae99e253f9e1752c9bd01dd991b1aa",
+    "new_judgment": {
+      "conditions": {
+        "official-tests": true
+      },
+      "live_resolved": true,
+      "grading_seconds": 7.192584276199341
+    },
+    "changed_paths": [
+      "docs/source/users/index.md",
+      "packages/jupyter-ai/jupyter_ai/chat_handlers/base.py",
+      "packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py",
+      "packages/jupyter-ai/jupyter_ai/chat_handlers/default.py",
+      "packages/jupyter-ai/jupyter_ai/extension.py",
+      "packages/jupyter-ai/jupyter_ai/handlers.py",
+      "packages/jupyter-ai/jupyter_ai/history.py",
+      "packages/jupyter-ai/jupyter_ai/tests/test_handlers.py",
+      "packages/jupyter-ai/src/chat_handler.ts"
+    ],
+    "new_identity": "historical-final-tree-recheck-20261016",
+    "source": "retained-original-workspace plus trusted-fixed-image baseline",
+    "original_score_unchanged": true,
+    "not_v3_result": true
+  },
+  "measured_snapshot_and_baseline_bytes": {
+    "FL20": 748916777,
+    "FL07": 8163099,
+    "FL08": 12142478,
+    "FL09": 67269018,
+    "FS09": 26552
+  },
+  "conservative_peak_working_bytes": 2246750331
+}

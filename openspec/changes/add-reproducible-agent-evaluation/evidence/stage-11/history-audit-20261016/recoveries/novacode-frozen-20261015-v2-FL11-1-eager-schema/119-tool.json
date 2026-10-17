@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "packages/jupyter-ai/jupyter_ai/extension.py:369:        self.settings[\"jai_config_manager\"] = ConfigManager(\npackages/jupyter-ai/jupyter_ai/config_manager.py:75:class ConfigManager(Configurable):\n",
+  "stderr": ""
+}

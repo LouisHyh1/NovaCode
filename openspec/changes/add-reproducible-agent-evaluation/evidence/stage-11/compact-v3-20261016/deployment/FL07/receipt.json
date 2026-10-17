@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.jazzband_1776_tablib-613@sha256:b79693f36e1876a87aa343ea47e7a143e6f5097ef1413725c405908ebea44b7b",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL07",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL07/baseline/manifest.json",
+    "sha256": "75bf311341a035aa2fdda5ae67c6391cc3044b09f6532092f8f08f5339655d4f",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL07/baseline.tar.gz",
+    "archive_sha256": "0aebd0f5db5afab4e827fb6860946659cf4487d069311969ba9bedd49fcd2488",
+    "tree": "7a3f3921f72d396718dc6491db5ec5ddefa7ce29",
+    "entries": 122
+  }
+}

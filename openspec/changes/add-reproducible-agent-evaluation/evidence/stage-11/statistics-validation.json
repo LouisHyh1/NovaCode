@@ -1,0 +1,20 @@
+{
+  "commands": [
+    ".venv/bin/pytest -q tests/evaluation/test_formal.py",
+    ".venv/bin/mypy --strict --explicit-package-bases --follow-imports=silent evaluation/formal",
+    ".venv/bin/ruff check --select C901 evaluation/formal"
+  ],
+  "tests_passed": 5,
+  "checks": [
+    "six tasks with three repeats remain six units",
+    "known full minus ablation difference 100/3 percentage points",
+    "paired results independent of input order",
+    "identical differences degenerate and noncertainty",
+    "two tasks with opposite differences retain [-100,100] interval",
+    "one/zero task lack reliable interval",
+    "nearest-rank p90"
+  ],
+  "seed": 20261012,
+  "resamples": 10000,
+  "runtime_model_results_not_used_for_statistics_design": true
+}

@@ -1,0 +1,27 @@
+{
+  "approved": "2026-10-15 user: revise contracts, refreeze, continue",
+  "predecessor": "novacode-frozen-20261012-v1",
+  "campaign": "novacode-frozen-20261015-v2",
+  "source_version": "0.1.36",
+  "changed_public_requests": [
+    "FS01",
+    "FS02",
+    "FS03",
+    "FS04"
+  ],
+  "unchanged": [
+    "initial business files",
+    "expected facts",
+    "correct/mutant behavior",
+    "difficulty/category/pressure",
+    "48 task families",
+    "model configuration",
+    "per-task and campaign budgets",
+    "tool capability and permission sets",
+    "bootstrap identity and frozen order seed"
+  ],
+  "qualification": "24 specialties independently readmitted; 25 images with final runtime deployed; unchanged Live original 3-reference qualification reused",
+  "main_entry": "automated only; TUI separate",
+  "source_currentness": "frozen source hashes bind the release tree; commit id can differ from source_base_commit",
+  "timing_limitation": "host quality checks overlapped v2 first block only; subsequent main runs avoid concurrent heavy validation"
+}

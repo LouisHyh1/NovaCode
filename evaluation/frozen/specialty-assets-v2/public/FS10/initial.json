@@ -1,0 +1,8 @@
+{
+  "base_commit": "893f505c82244e1016fbb38fef1e49525d49e4b5",
+  "files": {
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import textfile as m\n        import tempfile\n        from pathlib import Path\n        with tempfile.TemporaryDirectory() as d:\n            p = Path(d) / 'in.txt'\n            for raw, expected in [(b'\\xef\\xbb\\xbfhello', 'hello'), ('雪'.encode(), '雪'), (b'', '')]:\n                p.write_bytes(raw)\n                self.assertEqual(m.read(p), expected)\n",
+    "textfile.py": "def read(path):\n    with open(path, encoding='utf-8') as stream:\n        return stream.read()\n"
+  },
+  "schema_version": 1
+}

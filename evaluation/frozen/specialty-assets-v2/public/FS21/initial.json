@@ -1,0 +1,7 @@
+{
+  "base_commit": "a339f0c0f11d495ff66e3d8440022e5faeecdc59",
+  "files": {
+    "records.json": "{\n  \"ci_test\": {\n    \"test-21\": {\n      \"case_id\": \"test-21\",\n      \"artifact_sha256\": \"abababababababababababababababababababababababababababababababab\",\n      \"source\": \"ci-tests\"\n    }\n  },\n  \"ci_deploy\": {\n    \"test-21\": {\n      \"case_id\": \"test-21\",\n      \"artifact_sha256\": \"cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd\",\n      \"region\": \"hk\",\n      \"source\": \"deployment\"\n    },\n    \"release-21\": {\n      \"deployment_id\": \"release-21\",\n      \"artifact_sha256\": \"abababababababababababababababababababababababababababababababab\",\n      \"region\": \"sg\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n"
+  },
+  "schema_version": 1
+}

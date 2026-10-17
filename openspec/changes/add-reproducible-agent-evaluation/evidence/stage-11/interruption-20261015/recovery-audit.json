@@ -1,0 +1,19 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL20-2-no-compression",
+  "sequence": 147,
+  "termination": "runner-error",
+  "acceptance": "ungradable",
+  "cleanup": "failed",
+  "known_token_lower_bound": 271457,
+  "unknown_usage_requests": 1,
+  "primary_seconds": null,
+  "original_orchestration_untouched": true,
+  "workspace_retained": true,
+  "not_retried": true,
+  "extractor_reproduction": {
+    "errno": 7,
+    "ignored_entries": 75763,
+    "pathspec_min_bytes": 5654872,
+    "SC_ARG_MAX": 2097152
+  }
+}

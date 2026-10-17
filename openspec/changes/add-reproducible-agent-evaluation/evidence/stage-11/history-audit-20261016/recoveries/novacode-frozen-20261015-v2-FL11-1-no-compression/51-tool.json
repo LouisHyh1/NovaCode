@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "CONFIG READ OK\n{\n  \"model_provider_id\": null,\n  \"embeddings_provider_id\": null,\n  \"send_with_shift_enter\": false,\n  \"fields\": {},\n  \"api_keys\": {},\n  \"completions_model_provider_id\": null,\n  \"completions_fields\": {},\n  \"embeddings_fields\": {}\n}\n",
+  "stderr": ""
+}

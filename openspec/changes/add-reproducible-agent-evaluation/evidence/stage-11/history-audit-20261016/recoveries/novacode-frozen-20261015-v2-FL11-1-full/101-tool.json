@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "-rw-r--r-- 1 root root 21099 Apr 26  2025 /usr/local/lib/python3.9/site-packages/jupyter_ai/config_manager.py\n148:        self._init_config_schema()\n152:    def _init_config_schema(self):\n4:import shutil\n9:from deepmerge import always_merger as Merger\n",
+  "stderr": ""
+}

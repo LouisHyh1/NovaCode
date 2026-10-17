@@ -1,0 +1,89 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL07-1-full",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "ungradable",
+      "agent_run_ids": [
+        "0823ec7079ea49888163ff38968fe409"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "full",
+      "initial_sha256": "c8268245cf35d08074b5a199e371c751bc6a8c212543282687ce859bcf440dbc",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FL07-1-full",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FL07",
+      "task_sha256": "c30ae7b0e2566ebb77481ecae45e8201096e4f0be04b9961d1c2b700de6858c8",
+      "termination": "completed"
+    },
+    "strict_success": false,
+    "result_sha256": "2e333034ce44509934a84ac6af12308c157cd7ccf83427bce04e0cf515ba0428",
+    "judge": null
+  },
+  "archive": {
+    "sha256": "465cc8633f402b5226dc930fe91ae41138d99ac6279612fcb2ba0550186a2383",
+    "members_verified": 65
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "a02f5f92fc939f628383a329fbcdbb7e91d3c9371c0f4689c510e4becf95b5a3",
+      "records": 15,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "f12e86890d1b1b7fb644a5098a57beea1c28ff4cacd0a63254b2509b6eba2d98",
+      "records": 162,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 23,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 357793,
+    "measured_tokens": 357793,
+    "tool_calls": 29,
+    "tool_retries": 0,
+    "tool_executed": 29,
+    "tool_succeeded": 29,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.018877924001571955,
+      "agent": 77.81116229500003,
+      "cleanup": 0.016897985000468907,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 77.85836236700015,
+    "total_wall_seconds": 77.95557607699993,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "initial-baseline-conflict",
+  "derived": {
+    "kind": "independent-patch-application-check",
+    "target_tests_rerun": false,
+    "result": "failed",
+    "exit_code": 1,
+    "stderr": "error: .coverage: already exists in working directory\nerror: coverage.xml: already exists in working directory\nerror: htmlcov/class_index.html: already exists in working directory\nerror: htmlcov/function_index.html: already exists in working directory\nerror: htmlcov/index.html: already exists in working directory\nerror: htmlcov/status.json: already exists in working directory\nerror: htmlcov/z_4d2dd1f34ada8c65_core_py.html: already exists in working directory\nerror: htmlcov/z_4d2dd1f34ada8c65_utils_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944___init___py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_dbf_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_dbfnew_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_fields_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_header_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_record_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_utils_py.html: already exists in working directory\nerror: htmlcov/z_a44f0ac069e85531_test_tablib_dbfpy_packages_fields_py.html: already exists in working directory\nerror: htmlcov/z_a44f0ac069e85531_test_tablib_dbfpy_packages_utils_py.html: already exists in working directory\nerror: htmlcov/z_a44f0ac069e85531_test_tablib_py.html: already exists in working directory\nerror: htmlcov/z_bf25cfc879ac3acf___init___py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170___init___py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__cli_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__csv_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__dbf_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__html_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__jira_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__json_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__latex_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__ods_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__rst_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__xls_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__xlsx_py.html: already exists in working directory\nerror: htmlcov/z_fe3d7bde4fbdd170__yaml_py.html: already exists in working directory\n",
+    "patch_sha256": "6cb4acb124fa5a7c9293648ae858d01f4064108d8ccea26588122ce01f034e35"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

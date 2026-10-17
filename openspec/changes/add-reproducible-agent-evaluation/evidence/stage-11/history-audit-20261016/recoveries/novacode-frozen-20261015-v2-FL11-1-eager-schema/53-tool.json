@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "commit 457e0936f1e1816188b6e4864fb4f2d766857bd6\nAuthor: David L. Qiu <david@qiu.dev>\nDate:   Wed Mar 26 09:01:41 2025 -0700\n\n    Migrate old config schemas, fix v2.31.0 regression (#1294)\n    \n    * add failing test catching #1291\n    \n    * migrate old config schemas on init\n\n packages/jupyter-ai/jupyter_ai/config_manager.py   | 38 +++++++++++++++++++--\n .../jupyter_ai/tests/test_config_manager.py        | 39 ++++++++++++++++++++++\n 2 files changed, 74 insertions(+), 3 deletions(-)\n",
+  "stderr": ""
+}

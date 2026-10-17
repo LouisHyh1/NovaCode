@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FS22",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS22/baseline/manifest.json",
+    "sha256": "fbaa4938330b22387cac87b11ab056369f75a8c79e3498a9d516d92ad2d34aa8",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FS22/baseline.tar.gz",
+    "archive_sha256": "3cd449e7ceb74fd8e66cb253bcfad7b1554ca8106fc927f718b262b4c7584c93",
+    "tree": "51d46f0704f9eafff09dd9bbefe761dd848c93a1",
+    "entries": 1
+  }
+}

@@ -1,0 +1,881 @@
+{
+  "schema_version": 1,
+  "method": "compact-v3-selection-v1",
+  "seed": 20261016,
+  "parent_manifest_sha256": "cf7191aeef652b2658456572fb737c17791649e65870ebba48812d1dd35de658",
+  "input_metadata_sha256": "92b584499cd8c9824f0c72f86027b1520a5f4ce2266bb68acc60d77f8c3d258c",
+  "selected": {
+    "live": [
+      "FL09",
+      "FL10",
+      "FL08",
+      "FL13",
+      "FL11",
+      "FL24",
+      "FL03",
+      "FL14",
+      "FL23",
+      "FL16",
+      "FL07",
+      "FL02"
+    ],
+    "specialty": [
+      "FS11",
+      "FS06",
+      "FS07",
+      "FS24",
+      "FS19",
+      "FS10",
+      "FS16",
+      "FS04",
+      "FS22",
+      "FS13",
+      "FS03",
+      "FS17"
+    ]
+  },
+  "candidates": [
+    {
+      "metadata": {
+        "task_id": "FL09",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "reflex-dev/reflex",
+        "family_id": "live:issue:reflex-dev/reflex#4471",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 0,
+      "hash": "03a7ec9c091cbdf814544a57add2fcbfe9a822554b8b254bf256f94434e966e9",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS11",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "tool-failure",
+        "repository": "specialty-frozen/archive-member-path-validation",
+        "family_id": "specialty-frozen-v1/archive-member-path-validation",
+        "pressure_tags": [
+          "first-grep-error"
+        ],
+        "budget_category": "specialty-tool-failure"
+      },
+      "rank": 1,
+      "hash": "03f2a6c12abcbc1cafe6a300d32d92598813befcae488eb09c39899195b45bc2",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL10",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "patroni/patroni",
+        "family_id": "live:issue:patroni/patroni#3335",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 2,
+      "hash": "07fa4a0d5fc6abcea2e2af4424972df43c52787279adb9e2a4845aa9a81c8edf",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS06",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "test-addition",
+        "repository": "specialty-frozen/stable-multimap-aggregation",
+        "family_id": "specialty-frozen-v1/stable-multimap-aggregation",
+        "pressure_tags": [],
+        "budget_category": "specialty-test-addition"
+      },
+      "rank": 3,
+      "hash": "0d180f21b3cb342cd477c9bfb4bf6ba2c185a7f638454a4b2a7978487696ab21",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL08",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "python-attrs/attrs",
+        "family_id": "live:issue:python-attrs/attrs#1416",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 4,
+      "hash": "0d54c5e88fbe6cd9f4f3068a248c462c840047a2f9953946eb9775dc55afd087",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS07",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "test-addition",
+        "repository": "specialty-frozen/topological-order-and-cycle",
+        "family_id": "specialty-frozen-v1/topological-order-and-cycle",
+        "pressure_tags": [],
+        "budget_category": "specialty-test-addition"
+      },
+      "rank": 5,
+      "hash": "0e142f99fe84576a056e5a04d53421be0b3721815c1b401fb3b995bccb3fcc10",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS24",
+        "source": "specialty",
+        "difficulty": "hard",
+        "category": "tool-discovery",
+        "repository": "specialty-frozen/mounted-route-forwarding",
+        "family_id": "specialty-frozen-v1/mounted-route-forwarding",
+        "pressure_tags": [
+          "mcp-discovery",
+          "cross-record"
+        ],
+        "budget_category": "specialty-tool-discovery"
+      },
+      "rank": 6,
+      "hash": "12fdb00ebd72233e9a85b1ed898759ab6e5f566112b89fa50224a9045234a675",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL13",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "pvlib/pvlib-python",
+        "family_id": "live:issue:pvlib/pvlib-python#1171",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 7,
+      "hash": "16c416460fa0a6dfb2263cfc483e1bfccca47b3590929f0db1daa4e29145f083",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS19",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "tool-discovery",
+        "repository": "specialty-frozen/ci-matrix-failure-aggregation",
+        "family_id": "specialty-frozen-v1/ci-matrix-failure-aggregation",
+        "pressure_tags": [
+          "builtin-discovery",
+          "similar-responsibilities"
+        ],
+        "budget_category": "specialty-tool-discovery"
+      },
+      "rank": 8,
+      "hash": "1b2ee7c4d854fdcaca3748da183e1c5de0fafd46927455dcee0f3d276d459b7a",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL11",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "jupyterlab/jupyter-ai",
+        "family_id": "live:issue:jupyterlab/jupyter-ai#1291",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 9,
+      "hash": "1d8add712d5646c0220fe7790121466686b496851ea50597d54569e95ffacd31",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL24",
+        "source": "live",
+        "difficulty": "hard",
+        "category": "issue-fix",
+        "repository": "reflex-dev/reflex",
+        "family_id": "live:issue:reflex-dev/reflex#3595",
+        "pressure_tags": [],
+        "budget_category": "live-hard"
+      },
+      "rank": 10,
+      "hash": "1ddd914252db476b101867cb19f5ea80efdc5be68f516ba5ba682922878843fc",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS23",
+        "source": "specialty",
+        "difficulty": "hard",
+        "category": "tool-discovery",
+        "repository": "specialty-frozen/mime-negotiation-handler-dispatch",
+        "family_id": "specialty-frozen-v1/mime-negotiation-handler-dispatch",
+        "pressure_tags": [
+          "mcp-discovery",
+          "cross-record"
+        ],
+        "budget_category": "specialty-tool-discovery"
+      },
+      "rank": 11,
+      "hash": "1fe39aecc4c91e37c98d461a0618bb2ed0ebc61a4f5f3388488548beca729cb2",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS10",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "tool-failure",
+        "repository": "specialty-frozen/utf8-bom-file-reading",
+        "family_id": "specialty-frozen-v1/utf8-bom-file-reading",
+        "pressure_tags": [
+          "first-test-timeout"
+        ],
+        "budget_category": "specialty-tool-failure"
+      },
+      "rank": 12,
+      "hash": "20bb462bdf26606729f02827ab024452518b42cfccea1a65c24ecd0aa9ed991b",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS16",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "long-context",
+        "repository": "specialty-frozen/csv-event-ledger-order",
+        "family_id": "specialty-frozen-v1/csv-event-ledger-order",
+        "pressure_tags": [
+          "large-file",
+          "scripted-history"
+        ],
+        "budget_category": "specialty-long-context"
+      },
+      "rank": 13,
+      "hash": "27f923da38688bf1bf0091c24531d8dbd997cc20216e84302bf4668b0e8454ff",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL03",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "python-babel/babel",
+        "family_id": "live:issue:python-babel/babel#1124",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 14,
+      "hash": "294b59515a7cfc78493062cb82868fcd67b8abfba288a795027ce5118402fbba",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL14",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "jupyterlab/jupyter-ai",
+        "family_id": "live:issue:jupyterlab/jupyter-ai#372",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 15,
+      "hash": "3515704670d1390c072fcbd20d0337b31017a3797386e2780ad320d32f31d9ee",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS04",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "localization",
+        "repository": "specialty-frozen/batch-journal-rollback-flow",
+        "family_id": "specialty-frozen-v1/batch-journal-rollback-flow",
+        "pressure_tags": [],
+        "budget_category": "specialty-localization"
+      },
+      "rank": 16,
+      "hash": "39f71497948d542bc9e1085ccc5a2a67cf4bfce2e82f0320cec38170217f01d7",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS05",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "test-addition",
+        "repository": "specialty-frozen/half-open-overlap",
+        "family_id": "specialty-frozen-v1/half-open-overlap",
+        "pressure_tags": [],
+        "budget_category": "specialty-test-addition"
+      },
+      "rank": 17,
+      "hash": "3cf1b643bbba4d22ae05fbc4f19510907135b4db1f8fd5b1199054a4cd62b667",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL23",
+        "source": "live",
+        "difficulty": "hard",
+        "category": "issue-fix",
+        "repository": "encode/starlette",
+        "family_id": "live:issue:encode/starlette#950",
+        "pressure_tags": [],
+        "budget_category": "live-hard"
+      },
+      "rank": 18,
+      "hash": "42ff9a86809087ca973b44431fb1e931066e820e05007437840a89151bb4e172",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS22",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "tool-discovery",
+        "repository": "specialty-frozen/required-shard-release-eligibility",
+        "family_id": "specialty-frozen-v1/required-shard-release-eligibility",
+        "pressure_tags": [
+          "mcp-discovery",
+          "similar-responsibilities"
+        ],
+        "budget_category": "specialty-tool-discovery"
+      },
+      "rank": 19,
+      "hash": "44a6d090f75299b8b748895f46106af3eceff9a267fdfa8fd3f61723f2626b36",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL16",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "patroni/patroni",
+        "family_id": "live:issue:patroni/patroni#3307",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 20,
+      "hash": "4daeb945d21d992f3da4fa7d4644a3d6a8ce230f63dd4adf41066e6933593ce7",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL07",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "jazzband/tablib",
+        "family_id": "live:issue:jazzband/tablib#612",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 21,
+      "hash": "5317b8331240154cd16c252ab7a719ce4077d11c61865d0665f607771b2a4ff4",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL02",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "conan-io/conan",
+        "family_id": "live:issue:conan-io/conan#17884",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 22,
+      "hash": "5396798813582acddc6265c6de93b470f7703203a727ce906e40e794c6253534",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS20",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "tool-discovery",
+        "repository": "specialty-frozen/ci-attempt-state-transitions",
+        "family_id": "specialty-frozen-v1/ci-attempt-state-transitions",
+        "pressure_tags": [
+          "builtin-discovery",
+          "similar-responsibilities"
+        ],
+        "budget_category": "specialty-tool-discovery"
+      },
+      "rank": 23,
+      "hash": "57a37061f0f48275d8ae911289a66f38de83531e0b2fc66488a8f38ee7daeaf3",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS13",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "long-context",
+        "repository": "specialty-frozen/decimal-stream-total",
+        "family_id": "specialty-frozen-v1/decimal-stream-total",
+        "pressure_tags": [
+          "early-constraints",
+          "scripted-history"
+        ],
+        "budget_category": "specialty-long-context"
+      },
+      "rank": 24,
+      "hash": "5f95fa44f32c2dcf3e2671b47efe68fc7327fc833388fdf40724a609d3368213",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL19",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "joke2k/faker",
+        "family_id": "live:issue:joke2k/faker#2097",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 25,
+      "hash": "6a586b52d9054f9c2a9ee0c0b4a73603ec2503ad1d8e2c50c356177276c16f74",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL05",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "pvlib/pvlib-python",
+        "family_id": "live:issue:pvlib/pvlib-python#1342",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 26,
+      "hash": "6a79d8370a31a74f1dc3ac60ae4b4a1c2fe36ca85eadb67374143985bd56b0ce",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL04",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "pylint-dev/pylint",
+        "family_id": "live:issue:pylint-dev/pylint#10081",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 27,
+      "hash": "8199c615f26c425d81c5f0903042535edb13bda623b3dcaf587080e697924542",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS01",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "localization",
+        "repository": "specialty-frozen/event-wire-encoding",
+        "family_id": "specialty-frozen-v1/event-wire-encoding",
+        "pressure_tags": [],
+        "budget_category": "specialty-localization"
+      },
+      "rank": 28,
+      "hash": "86a180a65219024e3b1b1b01cfb78f91bcd35c756c2f7cb4cd5a9bcf31258b58",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL20",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "jupyterlab/jupyter-ai",
+        "family_id": "live:issue:jupyterlab/jupyter-ai#616",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 29,
+      "hash": "96aea349ff45dddd6204a655d90770ff54be3444115d3ee1edbac4a98ad42df7",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS03",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "localization",
+        "repository": "specialty-frozen/ttl-cache-expiry-flow",
+        "family_id": "specialty-frozen-v1/ttl-cache-expiry-flow",
+        "pressure_tags": [],
+        "budget_category": "specialty-localization"
+      },
+      "rank": 30,
+      "hash": "983612034599defda43d4eeb776bbc7456b2f42119cf7bbf99a017645e073373",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL22",
+        "source": "live",
+        "difficulty": "hard",
+        "category": "issue-fix",
+        "repository": "pylint-dev/pylint",
+        "family_id": "live:issue:pylint-dev/pylint#9672",
+        "pressure_tags": [],
+        "budget_category": "live-hard"
+      },
+      "rank": 31,
+      "hash": "98fde2ca4d399915ede8315eeb5fd0b97ebdd05e101cf8d170fb5e5d5551eb66",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS17",
+        "source": "specialty",
+        "difficulty": "hard",
+        "category": "long-context",
+        "repository": "specialty-frozen/dag-transitive-invalidation",
+        "family_id": "specialty-frozen-v1/dag-transitive-invalidation",
+        "pressure_tags": [
+          "multi-stage",
+          "scripted-history"
+        ],
+        "budget_category": "specialty-long-context"
+      },
+      "rank": 32,
+      "hash": "9fee1fd53ff3640f27626c5dc2804a665f38104be0a1d50b666ab924612878cb",
+      "selected": true,
+      "reason": "lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL01",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "wireservice/csvkit",
+        "family_id": "live:issue:wireservice/csvkit#1280",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 33,
+      "hash": "a2154b77667bf2fe7d850be7e69895953b13f5ee4f54efff6770fc39fd4a0abe",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS12",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "tool-failure",
+        "repository": "specialty-frozen/ndjson-error-line-accounting",
+        "family_id": "specialty-frozen-v1/ndjson-error-line-accounting",
+        "pressure_tags": [
+          "first-test-timeout"
+        ],
+        "budget_category": "specialty-tool-failure"
+      },
+      "rank": 34,
+      "hash": "a5c4fbeb90b19a7460a3c08bcc0b873f551570a081aa47aea776fc33144e33a2",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL15",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "reflex-dev/reflex",
+        "family_id": "live:issue:reflex-dev/reflex#4227",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 35,
+      "hash": "a71c03fb2de140c0a6f293e032f4c6a2ceade5dbb6a78ef71adc37176f36ee6b",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL12",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "patroni/patroni",
+        "family_id": "live:issue:patroni/patroni#3111",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 36,
+      "hash": "ab6976e199a379e17eea147c22bf5e4d129918e95f09501f50ebb07498c14f65",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS15",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "long-context",
+        "repository": "specialty-frozen/role-action-matrix",
+        "family_id": "specialty-frozen-v1/role-action-matrix",
+        "pressure_tags": [
+          "large-file",
+          "scripted-history"
+        ],
+        "budget_category": "specialty-long-context"
+      },
+      "rank": 37,
+      "hash": "ac3165eea4a06988b8ed62cb76a9a0bc4e4f24b1a88b5b0b103559bc4238c5ef",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS18",
+        "source": "specialty",
+        "difficulty": "hard",
+        "category": "long-context",
+        "repository": "specialty-frozen/revision-bound-pagination",
+        "family_id": "specialty-frozen-v1/revision-bound-pagination",
+        "pressure_tags": [
+          "multi-stage",
+          "scripted-history"
+        ],
+        "budget_category": "specialty-long-context"
+      },
+      "rank": 38,
+      "hash": "b4aa8dff7044c87e7502dc753eaf8f1d5a8866fda7f2c8de353f5a6d6e33a99e",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS08",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "test-addition",
+        "repository": "specialty-frozen/csv-one-shot-escaping",
+        "family_id": "specialty-frozen-v1/csv-one-shot-escaping",
+        "pressure_tags": [],
+        "budget_category": "specialty-test-addition"
+      },
+      "rank": 39,
+      "hash": "b9c3e67fdb49838c611f9030f65d905b8f4a6bcb6c923d1a6b0dae26d570abfa",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS14",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "long-context",
+        "repository": "specialty-frozen/http-header-multiplicity",
+        "family_id": "specialty-frozen-v1/http-header-multiplicity",
+        "pressure_tags": [
+          "early-constraints",
+          "scripted-history"
+        ],
+        "budget_category": "specialty-long-context"
+      },
+      "rank": 40,
+      "hash": "c984e064c08ee8d911be5bc5db058710ed527b1adb39d611526c29ba1b53f498",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL21",
+        "source": "live",
+        "difficulty": "hard",
+        "category": "issue-fix",
+        "repository": "pylint-dev/pylint",
+        "family_id": "live:issue:pylint-dev/pylint#9391",
+        "pressure_tags": [],
+        "budget_category": "live-hard"
+      },
+      "rank": 41,
+      "hash": "e1470ca4006d7fdafd7935a043362f66fbd2ad2de745a59b9e08cb259de9c711",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL18",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "python-babel/babel",
+        "family_id": "live:issue:python-babel/babel#1162",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 42,
+      "hash": "e7765475512facd43e1ed80d089551181346fef041c0a22d08ed0a17de36ba92",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS09",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "tool-failure",
+        "repository": "specialty-frozen/query-percent-and-multivalue",
+        "family_id": "specialty-frozen-v1/query-percent-and-multivalue",
+        "pressure_tags": [
+          "first-grep-error"
+        ],
+        "budget_category": "specialty-tool-failure"
+      },
+      "rank": 43,
+      "hash": "ede46c5e94c0974ecf1ca485f927c3907f8ae0b55bf11fcda0cf279e8a1c1e3c",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL06",
+        "source": "live",
+        "difficulty": "easy",
+        "category": "issue-fix",
+        "repository": "pylint-dev/pylint",
+        "family_id": "live:issue:pylint-dev/pylint#9765",
+        "pressure_tags": [],
+        "budget_category": "live-easy"
+      },
+      "rank": 44,
+      "hash": "f3967399ec76f0c9a211b5a7d1cc4194268fd76fb96d6ed154ea4d4290903892",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FL17",
+        "source": "live",
+        "difficulty": "medium",
+        "category": "issue-fix",
+        "repository": "falconry/falcon",
+        "family_id": "live:issue:falconry/falcon#2243",
+        "pressure_tags": [],
+        "budget_category": "live-medium"
+      },
+      "rank": 45,
+      "hash": "f88fdc31932c5c70356baba73ab527b2a376b3eeb9d6f5aca7524d562dd2c49c",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS21",
+        "source": "specialty",
+        "difficulty": "medium",
+        "category": "tool-discovery",
+        "repository": "specialty-frozen/artifact-digest-deployment-provenance",
+        "family_id": "specialty-frozen-v1/artifact-digest-deployment-provenance",
+        "pressure_tags": [
+          "mcp-discovery",
+          "similar-responsibilities"
+        ],
+        "budget_category": "specialty-tool-discovery"
+      },
+      "rank": 46,
+      "hash": "fb9b0bae3609b0bb1cf6d174fdab68a92141baf410b2c683177d93d2a88156db",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    },
+    {
+      "metadata": {
+        "task_id": "FS02",
+        "source": "specialty",
+        "difficulty": "easy",
+        "category": "localization",
+        "repository": "specialty-frozen/dispatch-fallback-selection",
+        "family_id": "specialty-frozen-v1/dispatch-fallback-selection",
+        "pressure_tags": [],
+        "budget_category": "specialty-localization"
+      },
+      "rank": 47,
+      "hash": "fe49736293978d4052a08ff713b328fd9b082518267038402946f1b6a53187df",
+      "selected": false,
+      "reason": "not-in-lexicographically-first-feasible-set"
+    }
+  ],
+  "constraints": {
+    "per_source": 12,
+    "difficulty": {
+      "easy": 4,
+      "medium": 6,
+      "hard": 2
+    },
+    "specialty_categories": {
+      "localization": 2,
+      "test-addition": 2,
+      "tool-failure": 2,
+      "long-context": 3,
+      "tool-discovery": 3
+    },
+    "live_repository_max": 2,
+    "live_repository_min": 8,
+    "pressure_union": [
+      "builtin-discovery",
+      "cross-record",
+      "early-constraints",
+      "first-grep-error",
+      "first-test-timeout",
+      "large-file",
+      "mcp-discovery",
+      "multi-stage",
+      "scripted-history",
+      "similar-responsibilities"
+    ]
+  },
+  "results_read": false
+}

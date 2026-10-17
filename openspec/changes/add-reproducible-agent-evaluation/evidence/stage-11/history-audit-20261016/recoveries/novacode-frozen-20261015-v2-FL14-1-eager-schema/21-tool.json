@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "__init__.py\n__pycache__\n_version.py\naliases.py\ncompletion_utils.py\nembedding_providers.py\nexception.py\nmagics.py\nmodels\nparsers.py\npartner_providers\nproviders.py\ntests\nutils.py\nLICENSE\nREADME.md\njupyter_ai_magics\npackage.json\npyproject.toml\nsetup.py\n",
+  "stderr": ""
+}

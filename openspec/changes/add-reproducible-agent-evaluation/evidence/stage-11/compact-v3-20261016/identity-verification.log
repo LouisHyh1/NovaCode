@@ -1,0 +1,22 @@
+REJECTED source
+REJECTED protocol
+REJECTED coordinator
+REJECTED selection_seed
+REJECTED category_budget
+REJECTED total_budget
+REJECTED initial_tree
+REJECTED initial_manifest
+REJECTED initial_archive
+REJECTED iterations
+REJECTED iteration_scope
+REJECTED planned_state
+REJECTED row_budget
+REJECTED tools
+REJECTED runtime
+REJECTED history_gate
+REJECTED chain_gate
+REJECTED storage_gate
+REJECTED deployment_gate
+REJECTED storage_peak
+REJECTED disk_threshold
+FROZEN_VALIDATED_OFFLINE 26 rejections; model calls = 0

@@ -1,0 +1,95 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL01-1-eager-schema",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "passed",
+      "agent_run_ids": [
+        "63691abdf64545728fbb35e7e6fd8950"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "eager-schema",
+      "initial_sha256": "972e993515962eb6bc874122ed3004aa850724dc5dd67b692298aebf8fc4717d",
+      "live_resolved": true,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FL01-1-eager-schema",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FL01",
+      "task_sha256": "fc5f76897c595b46804585e69f352c35a54777ffea9713dc3fa8d397fd399156",
+      "termination": "completed"
+    },
+    "strict_success": true,
+    "result_sha256": "0341fa7b179caeaad5baef21b312216d54f4d279694d82c3f9aee11da3fdf1e7",
+    "judge": {
+      "conditions": {
+        "official-tests": true
+      },
+      "live_resolved": true,
+      "grading_seconds": 8.235417604446411
+    }
+  },
+  "archive": {
+    "sha256": "ef23003e43091cffa62ecfd191e00a49ab4ce3b67b23293a8162c26193a3ba24",
+    "members_verified": 76
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "e6bb70267ee656e6de42d8e057de12c3beabefb161e7a11bf907e769ae1ca733",
+      "records": 14,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "08d323bfaa3e659c48c93b6a501a9008ce9780dbba24b8395ad6aee4e20e7610",
+      "records": 176,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 25,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 624781,
+    "measured_tokens": 624781,
+    "tool_calls": 32,
+    "tool_retries": 0,
+    "tool_executed": 32,
+    "tool_succeeded": 32,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.02928359100042144,
+      "agent": 52.989855236999574,
+      "cleanup": 0.017781462000129977,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 53.05278188800003,
+    "total_wall_seconds": 53.238417770000524,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "original-patch-applies",
+  "derived": {
+    "kind": "independent-patch-application-check",
+    "target_tests_rerun": false,
+    "result": "passed",
+    "exit_code": 0,
+    "stderr": "",
+    "patch_sha256": "b1df6c4d3b246f136be9293d5b57d0900b722edaa46184619401d5beff414626"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

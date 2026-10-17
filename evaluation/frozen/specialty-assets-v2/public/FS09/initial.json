@@ -1,0 +1,8 @@
+{
+  "base_commit": "93175e26f8b8346fff098896c00567534b9bc295",
+  "files": {
+    "query.py": "def encode(pairs):\n    return '&'.join(str(k)+'='+str(v) for k,v in pairs)\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import query as m\n        from urllib.parse import parse_qs\n        self.assertEqual(parse_qs(m.encode([('x', ['a b', 'a&b']), ('q', '雪')])), {'x': ['a b', 'a&b'], 'q': ['雪']})\n        self.assertEqual(m.encode([]), '')\n"
+  },
+  "schema_version": 1
+}

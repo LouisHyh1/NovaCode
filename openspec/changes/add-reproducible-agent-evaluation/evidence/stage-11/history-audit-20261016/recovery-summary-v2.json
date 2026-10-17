@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "model_calls": 0,
+  "rows": [
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-eager-schema",
+      "classification": "candidate",
+      "events_replayed": 20,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "17eec6b14c5d5f8c26fa17a2791ed1aa2ab3d2c8d90a55268143382dcef118ba"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-full",
+      "classification": "candidate",
+      "events_replayed": 22,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "ba3218587ba3ccbea10a480fb5203e90dc0d850d6fbb87dca4a605e0a61bc9b4"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-no-compression",
+      "classification": "candidate",
+      "events_replayed": 24,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "370306f3bd7c40482e5f93860d2cafce20513d586ef57ea3de7935e1f11ff306"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-eager-schema",
+      "classification": "candidate",
+      "events_replayed": 23,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "e3f6a699620e18dc293d12a278771bbabefb2549cb0aeaa63243d46d84569009"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-eager-schema",
+      "classification": "candidate",
+      "events_replayed": 0,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "03cf3ef471acbdc60cdd5ad216613ad32d329a4e150554f6e154afba5f9efc69"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-full",
+      "classification": "candidate",
+      "events_replayed": 0,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "adc02bc5148cf4d2a14e5fc79e236ba1530b46c0f7ab4bbd79f6c94df736b043"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-no-compression",
+      "classification": "candidate",
+      "events_replayed": 0,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "550204b25725a47f3f730bed00397f1b3b4d03d9bb3e54d4fb9c2ad8af44d961"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-eager-schema",
+      "classification": "candidate",
+      "events_replayed": 19,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "ca20faadf6c9bf78ca061da8392b789ab69db15897066eee42f6d1558f1afceb"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-full",
+      "classification": "candidate",
+      "events_replayed": 30,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+      ],
+      "receipt_sha256": "5c4afcc514a61d1928f79e917711d9c1ae49200101bed58a6c9108bf6edeaab6"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-full",
+      "classification": "deterministic-partial",
+      "events_replayed": 20,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核",
+        "RuntimeError: 受控重建命令失败: exec, exit=1: Traceback (most recent call last):\n  File \"<string>\", line 21, in <module>\nValueError: 历史唯一编辑前置不成立\n"
+      ],
+      "receipt_sha256": "6514b2068fafb21ee5636350342f0a30506900ee9cfebbf60663e4bfa5f86280"
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-no-compression",
+      "classification": "deterministic-partial",
+      "events_replayed": 23,
+      "gaps": [
+        "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+        "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核",
+        "RuntimeError: 受控重建命令失败: exec, exit=1: Traceback (most recent call last):\n  File \"<string>\", line 21, in <module>\nValueError: 历史唯一编辑前置不成立\n"
+      ],
+      "receipt_sha256": "c5b0019431b6ea980030f861a368773334803387573cea403140be4eb44fb195"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.patroni_1776_patroni-3310@sha256:bb188f93897c233027a7a4e0a890025135036edeedc3a841dd325831efc142c6",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL16",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL16/baseline/manifest.json",
+    "sha256": "a30cae17b2616dcc4949feed627ee4fba881aad8798a2deeec41f91c82a5b9cb",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL16/baseline.tar.gz",
+    "archive_sha256": "94574d54eed96849ce76930bd2e19b477d5cf8a754dbc4e0117170606900a5ad",
+    "tree": "9a72e547ad943cfc5558ed60b4faf2416b05760e",
+    "entries": 275
+  }
+}

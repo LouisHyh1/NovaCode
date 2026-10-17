@@ -1,0 +1,204 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FS07-1-no-compression",
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "original": {
+    "result": {
+      "acceptance": "failed",
+      "agent_run_ids": [
+        "57d14216cac34c939cf40c4f83f6a930"
+      ],
+      "block_reason": "",
+      "campaign_id": "novacode-frozen-20261015-v2",
+      "cleanup": "passed",
+      "completed_requests": 1,
+      "config_id": "no-compression",
+      "initial_sha256": "44e427cc3b3f3ac01da6dfe32e7ed18e9599144b9507f499245ca4d763f7105e",
+      "live_resolved": null,
+      "repeat_id": 1,
+      "retry_of": null,
+      "run_id": "novacode-frozen-20261015-v2-FS07-1-no-compression",
+      "schema_version": 1,
+      "scope": "passed",
+      "state": "RECORDED",
+      "task_id": "FS07",
+      "task_sha256": "2dc9ad90a1a7126db7a56cca1e8d48edd1c32c3ba43cf9f94d9ddda701735b27",
+      "termination": "completed"
+    },
+    "strict_success": false,
+    "result_sha256": "2b3a3673e520c727bfa521183f546d9cd723e556e8b330f02933545f7b35ecad",
+    "judge": {
+      "conditions": {
+        "scope": true,
+        "correct-tests": true,
+        "all-mutants": false
+      },
+      "details": {
+        "correct": {
+          "run": 11,
+          "errors": 0,
+          "skipped": 0,
+          "failures": 0,
+          "successful": true,
+          "failure_ids": [],
+          "error_ids": [],
+          "called": [
+            "graph.py"
+          ],
+          "executed": [
+            "graph.py:<dictcomp>",
+            "graph.py:<genexpr>",
+            "graph.py:order"
+          ],
+          "resource_limits": {
+            "Memory": 536870912,
+            "MemorySwap": 536870912,
+            "NanoCpus": 1000000000,
+            "PidsLimit": 64,
+            "NetworkMode": "none"
+          }
+        },
+        "mutants": {
+          "cycle-type": {
+            "run": 11,
+            "errors": 2,
+            "skipped": 0,
+            "failures": 0,
+            "successful": false,
+            "failure_ids": [],
+            "error_ids": [
+              "test_added.OrderTests.test_cycle_raises_value_error",
+              "test_added.OrderTests.test_self_cycle_raises_value_error"
+            ],
+            "called": [
+              "graph.py"
+            ],
+            "executed": [
+              "graph.py:<dictcomp>",
+              "graph.py:<genexpr>",
+              "graph.py:order"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "missing-validation": {
+            "run": 11,
+            "errors": 1,
+            "skipped": 0,
+            "failures": 0,
+            "successful": false,
+            "failure_ids": [],
+            "error_ids": [
+              "test_added.OrderTests.test_missing_dependency_raises_key_error"
+            ],
+            "called": [
+              "graph.py"
+            ],
+            "executed": [
+              "graph.py:<dictcomp>",
+              "graph.py:<genexpr>",
+              "graph.py:order"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          },
+          "wrong-order": {
+            "run": 11,
+            "errors": 0,
+            "skipped": 0,
+            "failures": 3,
+            "successful": false,
+            "failure_ids": [
+              "test_added.OrderTests.test_dependency_layer_ordering",
+              "test_added.OrderTests.test_sorted_within_layer",
+              "test_added.OrderTests.test_sorted_within_layer_single_round"
+            ],
+            "error_ids": [],
+            "called": [
+              "<string>",
+              "graph.py"
+            ],
+            "executed": [
+              "<string>:__new__",
+              "graph.py:<dictcomp>",
+              "graph.py:<genexpr>",
+              "graph.py:order"
+            ],
+            "resource_limits": {
+              "Memory": 536870912,
+              "MemorySwap": 536870912,
+              "NanoCpus": 1000000000,
+              "PidsLimit": 64,
+              "NetworkMode": "none"
+            }
+          }
+        }
+      }
+    }
+  },
+  "archive": {
+    "sha256": "4334e0eaf8b7295ae1783bd86476f29b5c69d9b62433046f0e1f0e45110ba8ee",
+    "members_verified": 32
+  },
+  "ledgers": {
+    "orchestration.jsonl": {
+      "sha256": "d4fb218714e717ec108b3233c490ee14b4d17454143c5437ca0699818dfe2234",
+      "records": 14,
+      "truncated": false
+    },
+    "worker/ledger.jsonl": {
+      "sha256": "3710d5556eff71971ee969e065e7a7b65ef252b34eabffd28b6d67b7e4e235e9",
+      "records": 70,
+      "truncated": false
+    }
+  },
+  "cost": {
+    "provider_calls": 9,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 37562,
+    "measured_tokens": 37562,
+    "tool_calls": 10,
+    "tool_retries": 0,
+    "tool_executed": 10,
+    "tool_succeeded": 10,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": 0.39171880399953807,
+      "initialization": 0.016024899001422455,
+      "agent": 14.18577181100045,
+      "cleanup": 0.008182973000657512,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 14.218139159000202,
+    "total_wall_seconds": 14.639371122999364,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "classification": "original-specialty-artifact-verified",
+  "derived": {
+    "kind": "original-specialty-judge-artifact-verification",
+    "target_tests_rerun": false,
+    "result": "artifact-verified",
+    "patch_sha256": "b9571d61825df8de840c1681d7ad385ae097e778f3937b6b7e07b4702d54b6a9"
+  },
+  "historical_final_tree_verifiable": false,
+  "limitations": [
+    "原初始清单没有完整类型/模式，已丢弃的最终业务树无法据现存归档证明无遗漏忽略文件删除",
+    "字节/应用核验不将原评分改判，不混入 v3"
+  ],
+  "supplemental_patch_sha256": null
+}

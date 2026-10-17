@@ -23,6 +23,7 @@ from novacode.evaluation.contracts import (
     json_text,
     require,
 )
+from novacode.evaluation.diagnostics import error_details
 from novacode.evaluation.ledger import Ledger
 
 
@@ -148,9 +149,9 @@ async def command(*args: str, stdin: bytes | None = None, timeout: float = 120) 
         await proc.wait()
         raise
     if proc.returncode:
-        # stderr 可能包含请求秘密；账本仅保存异常类型。
         raise RuntimeError(
-            f"外部命令失败: {args[0]} {args[1] if len(args) > 1 else ''}, exit={proc.returncode}"
+            f"外部命令失败: {args[0]} {args[1] if len(args) > 1 else ''}, exit={proc.returncode}; "
+            + stderr.decode(errors="replace")[-4000:]
         )
     return stdout
 
@@ -198,7 +199,7 @@ async def run_task(
     created = False
     started = False
     stopped = False
-    initial_ignored: dict[str, str] = {}
+    initial_baseline: Path | None = None
     try:
         with ledger.phase("preparation"):
             requests = validate_task_assets(
@@ -305,21 +306,38 @@ async def run_task(
                 "docker", "exec", "-w", workspace, container, "git", "status", "--porcelain"
             )
             require(not dirty, "任务初始源码不干净")
-            ignored = await command(
+            baseline = await command(
                 "docker",
                 "exec",
                 "-w",
                 workspace,
                 container,
-                "python",
+                "/opt/novacode/venv/bin/python",
                 "-c",
-                "import subprocess,hashlib,json; from pathlib import Path; "
-                "names=subprocess.check_output(['git','ls-files','--others','-i',"
-                "'--exclude-standard','-z']).decode().split(chr(0)); "
-                "print(json.dumps({n:hashlib.sha256(Path(n).read_bytes()).hexdigest() "
-                "for n in names if n and Path(n).is_file() and not Path(n).is_symlink()}))",
+                "import json; from pathlib import Path; "
+                "from novacode.evaluation.artifacts import capture_baseline; "
+                f"data=capture_baseline(Path({workspace!r}), {task.base_commit!r}, "
+                "Path('/run/novacode-baseline')); "
+                "print(json.dumps({'schema_version':data['schema_version'],'tree':data['tree'],'entries':len(data['entries'])}))",
             )
-            initial_ignored = json.loads(ignored)
+            initial_baseline = output / "baseline"
+            await command(
+                "docker", "cp", container + ":/run/novacode-baseline", str(initial_baseline)
+            )
+            actual_baseline = hashlib.sha256(
+                (initial_baseline / "manifest.json").read_bytes()
+            ).hexdigest()
+            require(
+                payload.get("initial_baseline_sha256", actual_baseline) == actual_baseline,
+                "实际初始基线与冻结身份不一致",
+            )
+            ledger.append(
+                "initial_baseline",
+                metadata=json.loads(baseline),
+                manifest_sha256=hashlib.sha256(
+                    (initial_baseline / "manifest.json").read_bytes()
+                ).hexdigest(),
+            )
             await command("docker", "exec", container, "mkdir", "-p", "/isolated-user")
             worker_payload = {**payload, "requests": list(requests)}
             if task.source == "specialty":
@@ -343,7 +361,7 @@ async def run_task(
                 task_sha256=fingerprint(task),
                 environment=environment,
                 runtime_exclusions=RUNTIME_EXCLUSIONS,
-                initial_ignored=initial_ignored,
+                initial_baseline=json.loads(baseline),
             )
         reserve_run(
             output.parent,
@@ -396,13 +414,17 @@ async def run_task(
             from novacode.evaluation.worker import termination
 
             run = replace(run, termination=termination(exc))
-            ledger.append("execution_error", error_type=type(exc).__name__)
+            ledger.append(
+                "execution_error",
+                error_type=type(exc).__name__,
+                error=error_details(exc, ledger.secrets),
+            )
     finally:
         if created:
             stopped = await stop_and_extract(container, output, started, payload, ledger)
         if started:
             run = await finalize(
-                run, task, output, acceptance_root, stopped, ledger, initial_ignored
+                run, task, output, acceptance_root, stopped, ledger, initial_baseline
             )
         (output / "result.json").write_text(json_text(run) + "\n")
         ledger.append("run_result", result=asdict(run), strict_success=run.strict_success)
@@ -433,19 +455,33 @@ async def stop_and_extract(
                     container + ":" + payload.get("workspace", "/testbed"),
                     str(output / "workspace"),
                 )
-                try:
-                    await command(
-                        "docker", "cp", container + ":/run/novacode-output", str(output / "worker")
-                    )
-                except RuntimeError:
-                    pass
+                await command(
+                    "docker", "cp", container + ":/run/novacode-output", str(output / "worker")
+                )
         except BaseException as exc:
-            ledger.append("cleanup_error", error_type=type(exc).__name__)
+            stopped = False
+            ledger.append(
+                "cleanup_error",
+                error_type=type(exc).__name__,
+                error=error_details(exc, ledger.secrets),
+            )
         finally:
-            try:
-                await command("docker", "rm", "-f", container)
-            except BaseException:
-                stopped = False
+            if started:
+                # 容器保留至耐久归档和真实恢复核验通过，复制失败也不丢原现场。
+                (output / "retained-container.json").write_text(
+                    json.dumps(
+                        {
+                            "container": container,
+                            "stopped": stopped,
+                            "workspace": payload.get("workspace", "/testbed"),
+                        }
+                    )
+                )
+            else:
+                try:
+                    await command("docker", "rm", "-f", container)
+                except BaseException:
+                    stopped = False
     return stopped
 
 
@@ -456,7 +492,7 @@ async def finalize(
     acceptance_root: Path,
     stopped: bool,
     ledger: Ledger,
-    initial_ignored: dict[str, str] | None = None,
+    initial_ignored: Path | dict[str, str] | None = None,
 ) -> EvaluationRun:
     worker = output / "worker" / "worker-result.json"
     result = json.loads(worker.read_text()) if worker.exists() else {}
@@ -495,6 +531,8 @@ async def finalize(
             (output / "judge.json").write_bytes(report)
             run = grade_result(run, task, json.loads(report))
     except Exception as exc:
-        ledger.append("ungradable", error_type=type(exc).__name__)
+        ledger.append(
+            "ungradable", error_type=type(exc).__name__, error=error_details(exc, ledger.secrets)
+        )
         run = replace(run, state="RECORDED", acceptance="ungradable")
     return run

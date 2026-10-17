@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "* main\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main\n  remotes/origin/pre-commit-ci-update-config\n---\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main\n--- remote branches ---\n* main\n  remotes/origin/0.6.x\n  remotes/origin/0.7.x\n  remotes/origin/1.x\n  remotes/origin/2.x\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main\n  remotes/origin/pre-commit-ci-update-config\n",
+  "stderr": ""
+}

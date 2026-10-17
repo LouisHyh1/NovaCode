@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "HEAD contains 41ccd10?\nNO\n---parent of 41ccd10---\na55db38 [pre-commit.ci] pre-commit autoupdate (#966)\n---show parent base.py chat_handlers---\n114:    chat_handlers: Dict[str, \"BaseChatHandler\"]\n123:        root_chat_handlers: Dict[str, \"RootChatHandler\"],\n130:        chat_handlers: Dict[str, \"BaseChatHandler\"],\n134:        self._root_chat_handlers = root_chat_handlers\n149:        self.chat_handlers = chat_handlers\n257:        for handler in self._root_chat_handlers.values():\n284:        for handler in self._root_chat_handlers.values():\n303:        for handler in self._root_chat_handlers.values():\n391:        chat_handlers = self.chat_handlers\n392:        slash_commands = {k: v for k, v in chat_handlers.items() if k != \"default\"}\n416:        for websocket in self._root_chat_handlers.values():\n---branches containing 41ccd10---\n  remotes/origin/2.x\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main\n  remotes/origin/pre-commit-ci-update-config\n",
+  "stderr": ""
+}

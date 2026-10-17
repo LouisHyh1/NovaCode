@@ -1,0 +1,7 @@
+{
+  "path": "/testbed/packages/jupyter-ai-magics/jupyter_ai_magics/parsers.py",
+  "sha256": "892975fb2164cb28632fbdcc89955f1dbd8d24b65a4ccbcf5f81b498c0e11d08",
+  "resolved_business_redactions": [
+    "bcf8031d543bb9b18cea1327cffbbd5852e6c807af7225b6cb265167347d8261"
+  ]
+}

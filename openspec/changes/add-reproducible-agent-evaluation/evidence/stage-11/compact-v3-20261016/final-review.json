@@ -1,0 +1,34 @@
+{
+  "state": "FINAL_REVIEW_VALID",
+  "tasks_completed": 69,
+  "tasks_total": 78,
+  "versions": {
+    "project": "0.1.36",
+    "runtime": "0.1.36",
+    "lock": "0.1.36",
+    "installed": "0.1.36"
+  },
+  "local_links_checked": 80,
+  "openspec_strict": "passed; Windows PowerShell, 2026-10-16",
+  "git_diff_check": "passed",
+  "old_model_processes": [],
+  "new_formal_queue_exists": false,
+  "formal_model_calls": 0,
+  "documents": {
+    "HANDOFF.md": "cdae3212985624b31b132545b1d2db33043a8460eb50d9d7897640be8e4871f2",
+    "evaluation/formal/README.md": "970f6624d7c89711a85b9944a090046e0615d42926ed68356495319c1dce093e",
+    "evaluation/frozen/README.md": "6179b3cfb4afeb16fe06116ce808d72d24a16951f129945896856ca06369ba4e",
+    "openspec/changes/add-reproducible-agent-evaluation/proposal.md": "94acdf7eff9fd4e6439c07b869ba3bc939aa1b04665ea9a0d8f4e27f795d52f2",
+    "openspec/changes/add-reproducible-agent-evaluation/design.md": "017cc01bb1867d1a3935d6874cc8f759999d5e9af8c9bcb818d4125ec9fefacb",
+    "openspec/changes/add-reproducible-agent-evaluation/tasks.md": "50eb58bd774ad11c8c7fa151a95f2c412a9a0188dd422914bdb68880d98a296e",
+    "openspec/changes/add-reproducible-agent-evaluation/task-catalog.md": "f1fbb8ab9a51aa8d6fb8f88a11475b96b0fcdb054cb0a70d2b6016e9c3515d9a",
+    "openspec/changes/add-reproducible-agent-evaluation/evaluation-protocol.md": "19d11ef113277738fe96becd94d9381f6811b889eaba87eebef2ad6cd48be0fc",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-corpus/spec.md": "4687536eb28a27d83593ea68dd59486196865a013e344d42319c6e83211fcb0c",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-experiments/spec.md": "30862780b55077d8378ab750a422d9edb811429371016429e212f4bca699dfbc",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-observability/spec.md": "915d05f66815fdd835d957be803b8982718353d1aed8653a1e21fb14a11bc2b1",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/agent-evaluation-runner/spec.md": "250cebd364e101edd8a9a5e47c571fb8df5d2c11992d41a8b1053c041527ca77",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/context-compression-policy/spec.md": "5a5ad91a916d0274d764085a1b254d08448170e51923588812ce15d2ab1a163d",
+    "openspec/changes/add-reproducible-agent-evaluation/specs/progressive-tool-schema/spec.md": "fa95699919345678897bb250cf6ea1cac8eb2e552b3a48b650784447be1885f3",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/compact-v3-20261016/offline-validation.md": "34181ad44a124bd158d501ac42cc6320c8dbe986ecd5b304b9a354e9f4c5da58"
+  }
+}

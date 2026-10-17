@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "d6038af Handle missing field in config.json on version upgrade (#1330)\n0bcea31 Added new `gpt-4.1` models (#1325)\nb0e3cb9 [3.x] Expand edge case handling in ConfigManager (#1322)\nacc3fb5 Update OpenRouter documentation (#1318)\n304d9f8 Open the AI settings in a side panel in Notebook application (#1309)\n---search clear_memory in origin/main---\n",
+  "stderr": ""
+}

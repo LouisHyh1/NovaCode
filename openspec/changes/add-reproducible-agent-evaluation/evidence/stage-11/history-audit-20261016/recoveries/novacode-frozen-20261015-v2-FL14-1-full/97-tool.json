@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "commit e45eff503baf967d0dde800b22f8b618669329d7\nAuthor: Michał Krassowski <5832902+krassowski@users.noreply.github.com>\nDate:   Fri Aug 23 01:47:40 2024 +0100\n\n    Allow configuring a default model for cell magics (and line error magic) (#962)\n    \n    * Allow configuring a default model for cell magics (and line error magic)\n    \n    * Add documentation\n\n docs/source/users/index.md                         | 23 ++++++++++++\n .../jupyter_ai_magics/exception.py                 |  1 -\n .../jupyter-ai-magics/jupyter_ai_magics/magics.py  | 39 ++++++++++++++------\n .../jupyter-ai-magics/jupyter_ai_magics/parsers.py | 14 +++++---\n .../jupyter_ai_magics/tests/test_magics.py         | 41 +++++++++++++++++++++-\n 5 files changed, 102 insertions(+), 16 deletions(-)\n",
+  "stderr": ""
+}

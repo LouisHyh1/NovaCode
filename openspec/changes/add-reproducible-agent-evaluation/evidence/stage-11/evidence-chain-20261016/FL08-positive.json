@@ -1,0 +1,19 @@
+{
+  "case": "FL08-positive",
+  "new_identity": "offline-chain-20261016-FL08-positive",
+  "expected_pass": true,
+  "actual_pass": true,
+  "conditions": {
+    "official-tests": true
+  },
+  "patch_sha256": "23a4291462e327b804f8c9c924fc739193f793f86d91ebe59a0a3d369aea6008",
+  "archive_sha256": "398ae3864a3cd0a0757d3fb31f190b867cfdc761014ce74921045314af531e4e",
+  "restored_state_equal": true,
+  "baseline_entries": 125,
+  "changed_paths": [
+    ".hypothesis/unicode_data/14.0.0/codec-utf-8.json.gz",
+    "src/attr/_make.py"
+  ],
+  "model_calls": 0,
+  "evidence_root": ".tmp/evidence-chain-20261016/restored/FL08-positive"
+}

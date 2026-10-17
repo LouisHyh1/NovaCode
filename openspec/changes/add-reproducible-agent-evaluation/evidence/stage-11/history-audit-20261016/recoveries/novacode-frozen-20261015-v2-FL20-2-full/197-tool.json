@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "```\njupyter lab --AiExtension.allowed_providers=openai\n```\n\nTo allow more than one provider in the allowlist, repeat the runtime\nconfiguration.\n\n```\njupyter lab --AiExtension.allowed_providers=openai --AiExtension.allowed_providers=ai21\n```\n\n### Model parameters\n\nThis configuration allows specifying arbitrary parameters that are unpacked and\npassed to the provider class. This is useful for passing parameters such as\nmodel tuning that affect the response generation by the model. This is also an\n",
+  "stderr": ""
+}

@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "d6038af Handle missing field in config.json on version upgrade (#1330)\n0bcea31 Added new `gpt-4.1` models (#1325)\nb0e3cb9 [3.x] Expand edge case handling in ConfigManager (#1322)\nacc3fb5 Update OpenRouter documentation (#1318)\n304d9f8 Open the AI settings in a side panel in Notebook application (#1309)\na82eecc Add `default_completions_model` trait (#1303)\nc657762 Updating embeddings config fields from prespecified custom config file (#1298)\n8167c7a [v3] Upgrade to jupyterlab-chat v0.8, restore context command completions (#1290)\n457e093 Migrate old config schemas, fix v2.31.0 regression (#1294)\n0e2c4e4 Added help text fields for embedding providers in the AI Setting page (#1288)\nb4f4369 Remove error log emitted when FAISS file is absent (#1287)\n8ce4fb5 Ensure magics package version is consistent in future releases (#1280)\nd4dcef9 Allow embedding model fields, fix coupled model fields, add custom OpenAI provider (#1264)\n110311b Correct minimum versions in dependency version ranges (#1272)\n9e5eb87 Make Native Chat Handlers Overridable via Entry Points (#1249)\n=== DIFF models.py ===\n",
+  "stderr": ""
+}

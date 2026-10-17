@@ -1,0 +1,12 @@
+{
+  "old_scheduler_running": false,
+  "recorded_before_recovery": 146,
+  "recorded_after_recovery": 147,
+  "remaining_unstarted": 285,
+  "container_exit_code": 255,
+  "container_oom_killed": false,
+  "frozen_manifest_verified": true,
+  "model_calls_during_recovery": 0,
+  "source_unchanged": true,
+  "production_model_queue_not_restarted_pending_protocol_choice": true
+}

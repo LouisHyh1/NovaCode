@@ -1,7 +1,7 @@
 """运行器行为验收：使用正式执行链，机制结果与真实模型分列。"""
 
 import asyncio
-import hashlib
+import json
 import os
 import subprocess
 from dataclasses import asdict, replace
@@ -121,6 +121,7 @@ async def test_fresh_session_state_and_formal_tool_chain(tmp_path, monkeypatch, 
         state = next(r["data"] for r in records if r["kind"] == "initial_state")
         sessions.append(state["session_id"])
         assert state["memory"] == "empty" and state["auxiliary_agents"] is False
+        assert state["max_iterations"] == 25 and state["iteration_scope"] == "per-agent-run"
         assert "secret-mechanism" not in (output / "ledger.jsonl").read_text()
         assert result["metrics"]["tool_succeeded"] == 1
     assert len(set(sessions)) == repetition
@@ -319,7 +320,8 @@ async def test_stop_before_extract_and_judge_process_order(tmp_path, monkeypatch
     monkeypatch.setattr("novacode.evaluation.runner.command", fake)
     ledger = Ledger(tmp_path / "ledger.jsonl", "order")
     assert await stop_and_extract("owned-container", tmp_path, True, payload(), ledger)
-    assert calls == ["stop", "inspect", "cp", "cp", "rm"]
+    assert calls == ["stop", "inspect", "cp", "cp"]
+    assert json.loads((tmp_path / "retained-container.json").read_text())["stopped"]
     ledger.close()
 
 
@@ -350,11 +352,32 @@ async def test_slow_bash_timeout_kills_owned_process(tmp_path, monkeypatch):
     out.mkdir()
     data = payload()
     data["permissions"] = {"allow": ["Bash"], "deny": []}
-    data["limits"]["seconds"] = 0.2
+    data["limits"]["seconds"] = 60
     provider = Scripted(
         call=ToolCall("slow", "bash", '{"command":"echo $$ > child.pid; sleep 20"}')
     )
-    result = await execute(data, root, out, provider=provider)
+    original_timeout = asyncio.timeout
+    controlled = asyncio.Timeout(None)
+    installed = False
+
+    def runtime_timeout(seconds):
+        nonlocal installed
+        if not installed:
+            installed = True
+            return controlled
+        return original_timeout(seconds)
+
+    monkeypatch.setattr("novacode.evaluation.worker.asyncio.timeout", runtime_timeout)
+    running = asyncio.create_task(execute(data, root, out, provider=provider))
+
+    async def wait_for_child():
+        while not (root / "child.pid").exists():
+            assert not running.done(), "必须先启动被测子进程"
+            await asyncio.sleep(0.01)
+
+    await asyncio.wait_for(wait_for_child(), timeout=5)
+    controlled.reschedule(asyncio.get_running_loop().time())
+    result = await running
     assert result["termination"] == "timeout" and result["cleanup"] == "passed"
     pid = int((root / "child.pid").read_text())
     with pytest.raises(ProcessLookupError):
@@ -362,10 +385,13 @@ async def test_slow_bash_timeout_kills_owned_process(tmp_path, monkeypatch):
 
 
 def test_initial_ignored_files_are_excluded_only_if_unchanged(tmp_path):
+    from novacode.evaluation.artifacts import capture_baseline
+
     root = tmp_path / "repo"
     git, base = make_repo(root)
     (root / "installed.txt").write_text("installed")
-    initial = {"installed.txt": hashlib.sha256(b"installed").hexdigest()}
+    initial = tmp_path / "baseline"
+    capture_baseline(root, base, initial)
     assert extract_patch(root, base, initial)[1] == []
     (root / "installed.txt").write_text("changed")
     assert extract_patch(root, base, initial)[1] == ["installed.txt"]

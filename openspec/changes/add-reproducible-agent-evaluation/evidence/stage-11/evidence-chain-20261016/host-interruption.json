@@ -1,0 +1,17 @@
+{
+  "state": "OFFLINE_WORK_RESUMED",
+  "date_local": "2026-10-16",
+  "timezone": "Asia/Hong_Kong",
+  "windows_event_source": "System / Microsoft-Windows-Resource-Exhaustion-Detector / 2004",
+  "events": [
+    {"local_time": "16:51:21.2704287+08:00", "MsMpEng_bytes": 16206622720, "vmmemWSL_bytes": 6522171392, "cmd_bytes": 2529660928},
+    {"local_time": "16:57:22.5107367+08:00", "MsMpEng_bytes": 17330880512, "vmmemWSL_bytes": 5984256000, "cmd_bytes": 2529660928}
+  ],
+  "observed_wsl_boot_ids": ["b1e78f28-9b42-4d7c-8a9e-7e1a54ac7548", "9141ef7e-ee29-4ca6-b5c1-289ca6d59342"],
+  "interpretation": "宿主虚拟内存耗尽事件与 WSL 重启时间吻合；这是中断原因的强证据，不是 Windows 内核因果转储。未修改杀毒软件、系统内存或磁盘全局设置。",
+  "interrupted_outputs_retained": [".tmp/storage-measurement-20261016", ".tmp/storage-measurement-20261016-retry1", ".tmp/storage-measurement-20261016-retry2"],
+  "successful_storage_attempt": ".tmp/storage-measurement-20261016-packed",
+  "original_container_restarted": false,
+  "old_model_queue_started": false,
+  "real_model_calls": 0
+}

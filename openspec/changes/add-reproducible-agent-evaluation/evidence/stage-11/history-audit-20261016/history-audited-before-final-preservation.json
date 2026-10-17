@@ -1,0 +1,23 @@
+{
+  "state": "HISTORY_AUDITED",
+  "historical_campaign": "novacode-frozen-20261015-v2",
+  "original_runs": 147,
+  "original_strict_successes": 63,
+  "unknown_usage_requests": 35,
+  "priority_recoveries": 11,
+  "priority_recovery_classification": "candidate",
+  "interrupted_final_state": "verified-reconstruction",
+  "original_scores_unchanged": true,
+  "old_queue_started": false,
+  "model_calls": 0,
+  "historical_exact_completeness_not_universally_provable": true,
+  "evidence": {
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/history-summary-v2.json": "994f6981fdf9e1e3939eba72b732dd7489ed5f72f6a4fd7fbb14dbe86516d1bd",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/historical-identity.json": "490c92b94a7ad34a6f3a3bf525869796a2c9902fd840a730875e1e559c7e0bdd",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/preservation-after-offline.json": "6dbf3e4c65dfc06f21b6a301a2acb9301ce54731531858a1b1477392f7bb9cc2",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recovery-summary-v3.json": "d35fcb5653c6fe9e52dc1c02938560e2dc08754ecdb5acd2f913d315bd016b2b",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging-summary.json": "d964797d2e6ff4143a6ee4994590ea24b4ea057e9802d0940c3f343dc0a6b192",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/evidence-chain-20261016/interrupted-state-verified.json": "36a8dd4c794c8eda9c772ddb9b524265e1830c49ae432ef0519f0df05a2338a3",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/evidence-chain-20261016/interrupted-derived.json": "a49068a63ca92c39231837a7ca53e2b4af6bb8cb26cffd1809b3df1647fdc6d0"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-1294@sha256:9fae49f245cad7d4ab640c2ceae9550eb2a65143a091cb78ca934f09d105f2ad",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL11",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL11/baseline/manifest.json",
+    "sha256": "ba694ca72414a36150e45ead531cd9d8dd086d4c6ab54efa97d7f988f8bb906b",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL11/baseline.tar.gz",
+    "archive_sha256": "c03e3a95968739198a8b80c893c002a8da5c95fb88264410a047dd84c7d450d5",
+    "tree": "c1f200455def15037c6b7728aa6e6527ee46819b",
+    "entries": 76088
+  }
+}

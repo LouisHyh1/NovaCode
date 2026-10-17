@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "state": "FROZEN_VALID",
+  "manifest_sha256": "cf7191aeef652b2658456572fb737c17791649e65870ebba48812d1dd35de658",
+  "tasks": 48,
+  "planned": 432,
+  "formal_model_calls": 0,
+  "all_states": "PLANNED",
+  "source_equals_wheel": true
+}

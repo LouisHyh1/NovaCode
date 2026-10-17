@@ -1,0 +1,27 @@
+{
+  "state": "RAW_ARTIFACT_WHITESPACE_PRESERVED",
+  "files": {
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL11-1-eager-schema/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL11-1-eager-schema/test-output.txt": "deeafd59017936042a0948c8de07dd29c2ab957a65100a6e31171e5126dd91bf",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL11-1-full/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL11-1-full/test-output.txt": "a1d68eb4a9e04d1acdc8f0f090d3bd6f2b28eed9d1a08ce1fe55dd339c97c495",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL11-1-no-compression/eval.sh": "58058a49de2891f95d7fbb02317b3e5d870929922e5fe7efa866f63d4ee96c5e",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL11-1-no-compression/test-output.txt": "db0f85331b1a0a7ebc87a12a111c788bc38f0046e5abae71e996ac9356c820ac",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL14-1-eager-schema/eval.sh": "a08266c89611d181e2426e800041554247342a1540ba5c45f3b559d45e42c3b9",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL14-1-full/eval.sh": "a08266c89611d181e2426e800041554247342a1540ba5c45f3b559d45e42c3b9",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL14-1-no-compression/eval.sh": "a08266c89611d181e2426e800041554247342a1540ba5c45f3b559d45e42c3b9",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL20-1-eager-schema/test-output.txt": "f7806a25bc95853b56fedda11aacca6859a07cd690f8dc6d8b7595325ccbb094",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL20-1-full/test-output.txt": "88bb888044e77e6c7768415b6dc432f0455cde174be9b27b1bd7870a82bbbec8",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL20-1-no-compression/test-output.txt": "1306ddc118354bdfb08cf5f8a53dd354530587551834b8b766b33b856ba5a108",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/derived-judging/novacode-frozen-20261015-v2-FL20-2-no-compression/stderr.txt": "746e66c0135683d83d1983a62f4d76c7e144203e0d74028f4a3cccb8d625e3dd",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries-v3/novacode-frozen-20261015-v2-FL14-1-full/candidate.diff": "f09bc29f9dfe02963964cf9763d07a6d229cfc1d628b4eedbad95c01af9c8cd5",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries-v3/novacode-frozen-20261015-v2-FL14-1-no-compression/candidate.diff": "df6afdd6bfb8c0067dbb290558b4d2b6f8c37b98c61d33013717d9f82cd50cc8",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-eager-schema/candidate.diff": "95a7c2762b9f65585bc31cd15574a0bb08aeb1be7a28389303e6dc37f7d518e1",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-full/candidate.diff": "05d1204315eb0fa6aa7158ecd105ce92b8fcc764302fab793b2abb8d13d8f40f",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-no-compression/candidate.diff": "db2a977846297730b484ac838bbb08435b8cd2bcfdf0f78f55bbb10b9365b0f5",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL14-1-eager-schema/candidate.diff": "df6afdd6bfb8c0067dbb290558b4d2b6f8c37b98c61d33013717d9f82cd50cc8",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-2-eager-schema/candidate.diff": "12365f62c1768881ed7e156e8e103b993ad45333b7eb33b9d9022aced0d11e69",
+    "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-2-full/candidate.diff": "e7a196e8fa0e74f77d19c120121f7b309151ecd0181fa574ecb4f55d0fb60160"
+  },
+  "scope": "21 exact generated evidence paths only; implementation and documentation checks unchanged"
+}

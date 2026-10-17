@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "920a656 [pre-commit.ci] pre-commit autoupdate (#917)\n79bebd9 Update documentation to cover installation of all dependencies (#961)\nbed78bd Publish 2.21.0\n83e368b Make help message template configurable (#938)\nbe92fec Bind reject method to promise, improve typing (#949)\nOn branch main\nYour branch is behind 'origin/main' by 115 commits, and can be fast-forwarded.\n  (use \"git pull\" to update your local branch)\n\nnothing to commit, working tree clean\n",
+  "stderr": ""
+}

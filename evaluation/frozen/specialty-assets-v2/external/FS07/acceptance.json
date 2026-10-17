@@ -1,0 +1,50 @@
+{
+  "allowed_paths": [
+    "tests/test_added.py"
+  ],
+  "answers": [],
+  "base_commit": "923588334f3684fe87ef86d11d68173f072f8f63",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS07/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "correct-tests",
+    "all-mutants"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "graph.py": "def order(edges):\n    pending = {k: set(v) for k, v in edges.items()}\n    if any(dep not in pending for deps in pending.values() for dep in deps):\n        raise KeyError('missing dependency')\n    result = []\n    while pending:\n        ready = sorted(k for k, deps in pending.items() if not deps)\n        if not ready:\n            raise ValueError('cycle')\n        for key in ready:\n            result.append(key)\n            del pending[key]\n        for deps in pending.values():\n            deps.difference_update(ready)\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import graph\n        self.assertTrue(callable(graph.order))\n"
+  },
+  "mutants": {
+    "cycle-type": {
+      "graph.py": "def order(edges):\n    pending = {k: set(v) for k, v in edges.items()}\n    if any(dep not in pending for deps in pending.values() for dep in deps):\n        raise KeyError('missing dependency')\n    result = []\n    while pending:\n        ready = sorted(k for k, deps in pending.items() if not deps)\n        if not ready:\n            raise KeyError('cycle')\n        for key in ready:\n            result.append(key)\n            del pending[key]\n        for deps in pending.values():\n            deps.difference_update(ready)\n    return result\n"
+    },
+    "missing-validation": {
+      "graph.py": "def order(edges):\n    pending = {k: set(v) for k, v in edges.items()}\n    if any(dep not in pending for deps in pending.values() for dep in deps):\n        raise ValueError('missing dependency')\n    result = []\n    while pending:\n        ready = sorted(k for k, deps in pending.items() if not deps)\n        if not ready:\n            raise ValueError('cycle')\n        for key in ready:\n            result.append(key)\n            del pending[key]\n        for deps in pending.values():\n            deps.difference_update(ready)\n    return result\n"
+    },
+    "wrong-order": {
+      "graph.py": "def order(edges):\n    pending = {k: set(v) for k, v in edges.items()}\n    if any(dep not in pending for deps in pending.values() for dep in deps):\n        raise KeyError('missing dependency')\n    result = []\n    while pending:\n        ready = sorted(k for k, deps in pending.items() if not deps)[::-1]\n        if not ready:\n            raise ValueError('cycle')\n        for key in ready:\n            result.append(key)\n            del pending[key]\n        for deps in pending.values():\n            deps.difference_update(ready)\n    return result\n"
+    }
+  },
+  "reference": {
+    "tests/test_added.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_contract(self):\n        import graph as m\n        data = {'c': ['a', 'b'], 'b': [], 'a': []}\n        before = {k: list(v) for k, v in data.items()}\n        self.assertEqual(m.order(data), ['a', 'b', 'c'])\n        self.assertEqual(data, before)\n        self.assertEqual(m.order({}), [])\n        with self.assertRaises(Exception) as caught: m.order({'a': ['x']})\n        self.assertIsInstance(caught.exception, KeyError)\n        with self.assertRaises(Exception) as caught: m.order({'a': ['b'], 'b': ['a']})\n        self.assertIsInstance(caught.exception, ValueError)\n"
+  },
+  "schema_version": 1,
+  "task_id": "FS07",
+  "test_target": "graph.py:order",
+  "timeout_seconds": 180
+}

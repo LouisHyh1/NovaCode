@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "packages/jupyter-ai/jupyter_ai/extension.py:137:    default_language_model = Unicode(\npackages/jupyter-ai/jupyter_ai/extension.py:205:            \"model_provider_id\": self.default_language_model,\n",
+  "stderr": ""
+}

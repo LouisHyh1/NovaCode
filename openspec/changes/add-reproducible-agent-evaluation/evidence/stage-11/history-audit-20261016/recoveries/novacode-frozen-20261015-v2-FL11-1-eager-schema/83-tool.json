@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "CHANGELOG.md\nLICENSE\nREADME.md\nRELEASE.md\nbabel.config.js\ninstall.json\njest.config.js\njupyter-config\njupyter_ai\nlib\npackage.json\nproject.json\npyproject.toml\nschema\nsetup.py\nsrc\nstyle\ntsconfig.json\ntsconfig.test.json\ntsconfig.tsbuildinfo\nui-tests\n/testbed/packages/jupyter-ai/jupyter_ai/__init__.py\n",
+  "stderr": ""
+}

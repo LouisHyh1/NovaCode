@@ -1,0 +1,44 @@
+{
+  "allowed_paths": [],
+  "answers": [
+    {
+      "blocking_shards": [
+        "windows"
+      ],
+      "case_id": "test-22",
+      "eligible": false,
+      "region_allowed": true,
+      "source": "ci-tests+deployment"
+    }
+  ],
+  "base_commit": "f37d69e30f6bd957798cbec8bdb80f4ee044e31f",
+  "checks": "",
+  "command": [
+    "/home/louishyh/projects/NovaCode/.venv/bin/python",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/judge.py",
+    "--manifest",
+    "/home/louishyh/projects/NovaCode/evaluation/frozen/specialty-assets-v2/external/FS22/acceptance.json"
+  ],
+  "conditions": [
+    "scope",
+    "facts"
+  ],
+  "image": "starryzhang/sweb.eval.x86_64.joke2k_1776_faker-2096@sha256:d0bedf38180bc7a970a9da180f4cfa234f24db7b1188b278f0d3b3a94b7fadb8",
+  "implementation": {
+    "evaluation/frozen/definitions.py": "c253dfb24507ee0dab361cf2878d9447e67559382e49bfaa57acb6a07dc63ac3",
+    "evaluation/frozen/judge.py": "beefed5ac8179ec08e2489a4ab0cbf7d8e2c0854c581e5075bc92b067214ddd2",
+    "evaluation/frozen/specialty.py": "13548440bf858e38c410865fb0736fc5b78ce44b0b7f86442377c2dadf5d757d",
+    "evaluation/specialty/build.py": "8db6895ee7df3bf5aab0dfb914278723ea4a7862b9da43b0a2aec0f4a61af4f9",
+    "evaluation/specialty/judge.py": "449351ddead0f6d5691f458a828b86463525c15a1f065b7510764a1f9670ff74",
+    "evaluation/specialty/test_driver.py": "6426778d226b331236a4374f9f705b159fbfef0f3505e006665fec94583e9ae6"
+  },
+  "initial_files": {
+    "records.json": "{\n  \"ci_test\": {\n    \"test-22\": {\n      \"case_id\": \"test-22\",\n      \"required_shards\": [\n        \"linux\",\n        \"windows\"\n      ],\n      \"shards\": {\n        \"linux\": \"passed\",\n        \"windows\": \"failed\",\n        \"docs\": \"failed\"\n      },\n      \"source\": \"ci-tests\"\n    }\n  },\n  \"ci_deploy\": {\n    \"test-22\": {\n      \"case_id\": \"test-22\",\n      \"approved_regions\": [\n        \"sg\"\n      ],\n      \"requested_region\": \"sg\",\n      \"source\": \"deployment\"\n    }\n  }\n}\n"
+  },
+  "mutants": {},
+  "reference": {},
+  "schema_version": 1,
+  "task_id": "FS22",
+  "test_target": "",
+  "timeout_seconds": 180
+}

@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": " M docs/source/users/index.md\n M packages/jupyter-ai/jupyter_ai/chat_handlers/base.py\n M packages/jupyter-ai/jupyter_ai/chat_handlers/clear.py\n M packages/jupyter-ai/jupyter_ai/chat_handlers/default.py\n M packages/jupyter-ai/jupyter_ai/extension.py\n M packages/jupyter-ai/jupyter_ai/handlers.py\n M packages/jupyter-ai/jupyter_ai/history.py\n M packages/jupyter-ai/src/chat_handler.ts\n---\n docs/source/users/index.md                         | 17 +++++-\n .../jupyter-ai/jupyter_ai/chat_handlers/base.py    | 17 ++++++\n .../jupyter-ai/jupyter_ai/chat_handlers/clear.py   |  1 +\n .../jupyter-ai/jupyter_ai/chat_handlers/default.py | 16 +++---\n packages/jupyter-ai/jupyter_ai/extension.py        | 17 +++++-\n packages/jupyter-ai/jupyter_ai/handlers.py         | 10 ++++\n packages/jupyter-ai/jupyter_ai/history.py          | 62 ++++++++++++++++++----\n packages/jupyter-ai/src/chat_handler.ts            |  1 +\n 8 files changed, 124 insertions(+), 17 deletions(-)\n",
+  "stderr": ""
+}

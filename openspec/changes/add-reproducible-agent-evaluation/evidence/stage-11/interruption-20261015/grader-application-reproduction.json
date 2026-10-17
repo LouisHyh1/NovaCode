@@ -1,0 +1,26 @@
+[
+  {
+    "task": "FL07",
+    "new_grading_identity": "diagnostic-apply-check-only",
+    "exit_code": 1,
+    "stderr": "error: .coverage: already exists in working directory\nerror: coverage.xml: already exists in working directory\nerror: htmlcov/class_index.html: already exists in working directory\nerror: htmlcov/function_index.html: already exists in working directory\nerror: htmlcov/index.html: already exists in working directory\nerror: htmlcov/status.json: already exists in working directory\nerror: htmlcov/z_4d2dd1f34ada8c65_core_py.html: already exists in working directory\nerror: htmlcov/z_4d2dd1f34ada8c65_utils_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944___init___py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_dbf_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_dbfnew_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_fields_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_header_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_record_py.html: already exists in working directory\nerror: htmlcov/z_6e1e09e872953944_utils_py.html: already exists in working directory\nerror: htmlcov/z_a44f0ac069e85531_test_tablib_dbfpy_packages_fields_py.html: already exists in working directory\nerror: htmlcov/z_a44f0ac069e85531_test_tablib_dbfpy_packages_utils_py.html: already exists in working directory\nerror: htmlcov/z_a44f0ac069e85531_test_tablib_py.html: already exists in working directory\nerror: htmlcov/z_bf25cfc879ac3acf___",
+    "original_result_unchanged": true,
+    "model_calls": 0
+  },
+  {
+    "task": "FL08",
+    "new_grading_identity": "diagnostic-apply-check-only",
+    "exit_code": 1,
+    "stderr": "error: .hypothesis/unicode_data/14.0.0/codec-utf-8.json.gz: already exists in working directory\n",
+    "original_result_unchanged": true,
+    "model_calls": 0
+  },
+  {
+    "task": "FL09",
+    "new_grading_identity": "diagnostic-apply-check-only",
+    "exit_code": 1,
+    "stderr": "error: assets/external/test_assets/custom_script.js: already exists in working directory\n",
+    "original_result_unchanged": true,
+    "model_calls": 0
+  }
+]

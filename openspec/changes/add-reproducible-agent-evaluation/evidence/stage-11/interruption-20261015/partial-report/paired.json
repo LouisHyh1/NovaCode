@@ -1,0 +1,2458 @@
+{
+  "live": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FL01",
+        "FL02",
+        "FL03",
+        "FL04",
+        "FL05",
+        "FL06",
+        "FL07",
+        "FL08",
+        "FL09",
+        "FL10",
+        "FL11",
+        "FL12",
+        "FL13",
+        "FL14",
+        "FL15",
+        "FL16",
+        "FL17",
+        "FL18",
+        "FL19",
+        "FL20",
+        "FL21",
+        "FL22",
+        "FL23",
+        "FL24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "specialty": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 24,
+      "omitted_tasks": [
+        "FS01",
+        "FS02",
+        "FS03",
+        "FS04",
+        "FS05",
+        "FS06",
+        "FS07",
+        "FS08",
+        "FS09",
+        "FS10",
+        "FS11",
+        "FS12",
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18",
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/builtin-discovery": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS19",
+        "FS20"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/cross-record": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/early-constraints": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS13",
+        "FS14"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/first-grep-error": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS09",
+        "FS11"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/first-test-timeout": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS10",
+        "FS12"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/large-file": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS15",
+        "FS16"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/mcp-discovery": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS21",
+        "FS22",
+        "FS23",
+        "FS24"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/multi-stage": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 2,
+      "omitted_tasks": [
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/scripted-history": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 6,
+      "omitted_tasks": [
+        "FS13",
+        "FS14",
+        "FS15",
+        "FS16",
+        "FS17",
+        "FS18"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ],
+  "pressure/similar-responsibilities": [
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "no-compression"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "strict_percentage_points",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "measured_tokens",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "main_end_to_end_seconds",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    },
+    {
+      "comparison": [
+        "full",
+        "eager-schema"
+      ],
+      "metric": "tool_calls",
+      "planned_tasks": 4,
+      "omitted_tasks": [
+        "FS19",
+        "FS20",
+        "FS21",
+        "FS22"
+      ],
+      "independent_tasks": 0,
+      "point": null,
+      "confidence": 0.95,
+      "ci": null,
+      "resamples": 10000,
+      "seed": 20261012,
+      "degenerate": true,
+      "reliable": false,
+      "conditional_on_selected_tasks": true
+    }
+  ]
+}

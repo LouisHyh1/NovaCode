@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "0e2c4e4 Added help text fields for embedding providers in the AI Setting page (#1288)\nb4f4369 Remove error log emitted when FAISS file is absent (#1287)\n8ce4fb5 Ensure magics package version is consistent in future releases (#1280)\nd4dcef9 Allow embedding model fields, fix coupled model fields, add custom OpenAI provider (#1264)\n110311b Correct minimum versions in dependency version ranges (#1272)\nOn branch main\nYour branch is behind 'origin/main' by 9 commits, and can be fast-forwarded.\n  (use \"git pull\" to update your local branch)\n\nnothing to commit, working tree clean\n",
+  "stderr": ""
+}

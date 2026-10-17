@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "a55db38 [pre-commit.ci] pre-commit autoupdate (#966)\ne45eff5 Allow configuring a default model for cell magics (and line error magic) (#962)\n920a656 [pre-commit.ci] pre-commit autoupdate (#917)\n79bebd9 Update documentation to cover installation of all dependencies (#961)\nbed78bd Publish 2.21.0\n83e368b Make help message template configurable (#938)\nbe92fec Bind reject method to promise, improve typing (#949)\n271877b Add support for Azure Open AI Embeddings to Jupyter AI (#940)\n512d642 Add optional configurable message footer (#942)\n2c9523f prevent send on empty input (#946)\nOn branch main\nYour branch is behind 'origin/main' by 113 commits, and can be fast-forwarded.\n  (use \"git pull\" to update your local branch)\n\nnothing to commit, working tree clean\n",
+  "stderr": ""
+}

@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "rows": [
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-eager-schema",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL11-1-eager-schema",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-eager-schema/candidate.diff",
+      "source_sha256": "95a7c2762b9f65585bc31cd15574a0bb08aeb1be7a28389303e6dc37f7d518e1",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 21.917598724365234
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-full",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL11-1-full",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-full/candidate.diff",
+      "source_sha256": "05d1204315eb0fa6aa7158ecd105ce92b8fcc764302fab793b2abb8d13d8f40f",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 20.577616930007935
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL11-1-no-compression",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL11-1-no-compression",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL11-1-no-compression/candidate.diff",
+      "source_sha256": "db2a977846297730b484ac838bbb08435b8cd2bcfdf0f78f55bbb10b9365b0f5",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 20.16877055168152
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-eager-schema",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL14-1-eager-schema",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL14-1-eager-schema/candidate.diff",
+      "source_sha256": "df6afdd6bfb8c0067dbb290558b4d2b6f8c37b98c61d33013717d9f82cd50cc8",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 6.728654384613037
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-eager-schema",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL20-1-eager-schema",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-1-eager-schema/candidate.diff",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": false
+        },
+        "live_resolved": false,
+        "grading_seconds": 9.259009599685669
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-full",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL20-1-full",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-1-full/candidate.diff",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": false
+        },
+        "live_resolved": false,
+        "grading_seconds": 6.255578517913818
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-1-no-compression",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL20-1-no-compression",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-1-no-compression/candidate.diff",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": false
+        },
+        "live_resolved": false,
+        "grading_seconds": 5.955399990081787
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-eager-schema",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL20-2-eager-schema",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-2-eager-schema/candidate.diff",
+      "source_sha256": "12365f62c1768881ed7e156e8e103b993ad45333b7eb33b9d9022aced0d11e69",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 5.965240478515625
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-full",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL20-2-full",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries/novacode-frozen-20261015-v2-FL20-2-full/candidate.diff",
+      "source_sha256": "e7a196e8fa0e74f77d19c120121f7b309151ecd0181fa574ecb4f55d0fb60160",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 6.264780759811401
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-full",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL14-1-full",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries-v3/novacode-frozen-20261015-v2-FL14-1-full/candidate.diff",
+      "source_sha256": "f09bc29f9dfe02963964cf9763d07a6d229cfc1d628b4eedbad95c01af9c8cd5",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 6.330277919769287
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL14-1-no-compression",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL14-1-no-compression",
+      "source_patch": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recoveries-v3/novacode-frozen-20261015-v2-FL14-1-no-compression/candidate.diff",
+      "source_sha256": "df6afdd6bfb8c0067dbb290558b4d2b6f8c37b98c61d33013717d9f82cd50cc8",
+      "classification": "candidate",
+      "new_judgment": {
+        "conditions": {
+          "official-tests": true
+        },
+        "live_resolved": true,
+        "grading_seconds": 6.189162969589233
+      },
+      "exit_code": 0,
+      "diagnostic_stderr": "",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    },
+    {
+      "run_id": "novacode-frozen-20261015-v2-FL20-2-no-compression",
+      "new_identity": "historical-recheck-20261016-novacode-frozen-20261015-v2-FL20-2-no-compression",
+      "source_patch": ".tmp/formal-stage11-v2/runs/novacode-frozen-20261015-v2-FL20-2-no-compression/recovery-submission.diff",
+      "source_sha256": "879f11ff436a41e5b24b27405b5cb7a00d0c992d3f333091dd3c0e1e611c44f4",
+      "classification": "original-supplemental-patch",
+      "new_judgment": null,
+      "exit_code": 1,
+      "diagnostic_stderr": " in working directory\nerror: node_modules/.bin/tao: already exists in working directory\nerror: node_modules/.bin/terser: already exists in working directory\nerror: node_modules/.bin/ts-jest: already exists in working directory\nerror: node_modules/.bin/tsc: already exists in working directory\nerror: node_modules/.bin/tsserver: already exists in working directory\nerror: node_modules/.bin/uglifyjs: already exists in working directory\nerror: node_modules/.bin/update-browserslist-db: already exists in working directory\nerror: node_modules/.bin/uuid: already exists in working directory\nerror: node_modules/.bin/webpack: already exists in working directory\nerror: node_modules/.bin/webpack-cli: already exists in working directory\nerror: node_modules/.bin/y-websocket: already exists in working directory\nerror: node_modules/.bin/y-websocket-server: already exists in working directory\nerror: node_modules/@babel/core/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@babel/helper-compilation-targets/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@babel/helper-create-class-features-plugin/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@babel/helper-create-regexp-features-plugin/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@babel/preset-env/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@jupyter-ai/core: already exists in working directory\nerror: node_modules/@jupyter-ai/magics: already exists in working directory\nerror: node_modules/@jupyter-ai/test: already exists in working directory\nerror: node_modules/@lerna/legacy-package-management/node_modules/.bin/node-gyp: already exists in working directory\nerror: node_modules/@lerna/legacy-package-management/node_modules/.bin/nopt: already exists in working directory\nerror: node_modules/@lerna/legacy-package-management/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@lerna/legacy-package-management/node_modules/@npmcli/fs/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@lerna/legacy-package-management/node_modules/node-gyp/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@lerna/legacy-package-management/node_modules/npm-package-arg/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/@npmcli/git/node_modules/.bin/node-which: already exists in working directory\nerror: node_modules/@npmcli/map-workspaces/node_modules/.bin/glob: already exists in working directory\nerror: node_modules/@npmcli/package-json/node_modules/.bin/glob: already exists in working directory\nerror: node_modules/@npmcli/promise-spawn/node_modules/.bin/node-which: already exists in working directory\nerror: node_modules/@npmcli/run-script/node_modules/.bin/node-gyp: already exists in working directory\nerror: node_modules/@npmcli/run-script/node_modules/.bin/node-which: already exists in working directory\nerror: node_modules/@npmcli/run-script/node_modules/.bin/nopt: already exists in working directory\nerror: node_modules/@npmcli/run-script/node_modules/node-gyp/node_modules/.bin/node-which: already exists in working directory\nerror: node_modules/babel-plugin-polyfill-corejs2/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/cacache/node_modules/.bin/glob: already exists in working directory\nerror: node_modules/conventional-changelog-writer/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/duplicate-package-checker-webpack-plugin/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/espree/node_modules/.bin/acorn: already exists in working directory\nerror: node_modules/git-semver-tags/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/global-prefix/node_modules/.bin/which: already exists in working directory\nerror: node_modules/istanbul-lib-instrument/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/lerna/node_modules/.bin/js-yaml: already exists in working directory\nerror: node_modules/lerna/node_modules/.bin/node-gyp: already exists in working directory\nerror: node_modules/lerna/node_modules/.bin/nopt: already exists in working directory\nerror: node_modules/lerna/node_modules/.bin/rimraf: already exists in working directory\nerror: node_modules/lerna/node_modules/cacache/node_modules/.bin/rimraf: already exists in working directory\nerror: node_modules/lerna/node_modules/node-gyp/node_modules/.bin/rimraf: already exists in working directory\nerror: node_modules/leveldown/node_modules/.bin/node-gyp-build: already exists in working directory\nerror: node_modules/leveldown/node_modules/.bin/node-gyp-build-optional: already exists in working directory\nerror: node_modules/leveldown/node_modules/.bin/node-gyp-build-test: already exists in working directory\nerror: node_modules/make-dir/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/node-gyp/node_modules/.bin/glob: already exists in working directory\nerror: node_modules/node-gyp/node_modules/.bin/node-which: already exists in working directory\nerror: node_modules/npm-run-all/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/npm-run-all/node_modules/.bin/which: already exists in working directory\nerror: node_modules/nx/node_modules/.bin/js-yaml: already exists in working directory\nerror: node_modules/pacote/node_modules/.bin/glob: already exists in working directory\nerror: node_modules/read-pkg-up/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/read-pkg/node_modules/.bin/semver: already exists in working directory\nerror: node_modules/regjsparser/node_modules/.bin/jsesc: already exists in working directory\nerror: node_modules/write-json-file/node_modules/.bin/semver: already exists in working directory\n\n",
+      "original_unchanged": true,
+      "model_calls": 0,
+      "not_v3_result": true
+    }
+  ],
+  "model_calls": 0,
+  "does_not_prove_historical_byte_completeness": true
+}

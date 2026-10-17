@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "FAILED jupyter_ai/tests/test_config_manager.py::test_returns_completion_model_fields\nERROR jupyter_ai/tests/test_config_manager.py::test_snapshot_default_config\nERROR jupyter_ai/tests/test_config_manager.py::test_init_with_default_values\n13 failed, 6 passed, 1 skipped, 20 warnings, 2 errors in 2.57s\n",
+  "stderr": ""
+}

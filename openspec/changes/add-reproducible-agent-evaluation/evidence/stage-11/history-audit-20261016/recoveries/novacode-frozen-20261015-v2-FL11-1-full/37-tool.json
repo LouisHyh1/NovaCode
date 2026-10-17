@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "/testbed/packages/jupyter-ai/jupyter_ai/tests/__snapshots__/test_config_manager.ambr:6:    'completions_fields': dict({\n/testbed/packages/jupyter-ai/jupyter_ai/tests/__snapshots__/test_config_manager.ambr:9:    'embeddings_fields': dict({\n/testbed/packages/jupyter-ai/jupyter_ai/tests/test_config_manager.py:210:            completions_fields={\n---\n__init__.py\n__pycache__\n__snapshots__\ncompletions\nstatic\ntest_config_manager.py\ntest_context_providers.py\ntest_directory.py\ntest_extension.py\ntest_handlers.py\n",
+  "stderr": ""
+}

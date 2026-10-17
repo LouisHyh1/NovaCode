@@ -1,0 +1,38 @@
+{
+  "run_id": "novacode-frozen-20261015-v2-FL20-1-no-compression",
+  "new_identity": "novacode-history-88374e625bc343c881d2f8d83a15551b",
+  "sources": {
+    "sample.json": "61ea8c2c3b140345f1781c7523660d6f864dc1114406156bc4250156d974b87f",
+    "archive.json": "73fd64cf58cd65280b9cdf36cf8d48175500c058ae53a97564c1b45a322e3cc8",
+    "result.json": "63143f23a10a0338a8c343c2f913bb451d38ca3a89dd6dfb4ae6b9ff29993e46",
+    "orchestration.jsonl": "3a6b91810436025f028e20efa7014e5c8a41173640d14dbc6d361a30e7a36a96",
+    "reconstruction.json": "0531e25b4c09d06fe06951e6b5a3eceb5b2e9ef276c51898dc05c8edc901753d",
+    "execution-identity.json": "6841df098ab738c64d4147c8354155683034dd00574d85926ae9abfb8eb99cb6",
+    "worker/ledger.jsonl": "a859436e02ec230e169196f8e1de72d4ccabec26a0d04cff435fc8d42496f352",
+    "worker/worker-result.json": "3099df08b89ec99de3a7b1ef1281cd98c5d71895ff52e3eaab6555bd8f29a31b",
+    "worker/artifacts/64ecd5b60ac269fe21123a1b86c4c91e19beca3040f2fb01e39c6128887d8149.txt": "64ecd5b60ac269fe21123a1b86c4c91e19beca3040f2fb01e39c6128887d8149",
+    "worker/artifacts/883f8ae59941d6ea36a96c95bd82fb0461cdffb9321421308b132120f0fa09a1.txt": "883f8ae59941d6ea36a96c95bd82fb0461cdffb9321421308b132120f0fa09a1",
+    "worker/artifacts/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "method": "isolated-original-tool-arguments-v1; exact-unique-edits; shell-inside-container-only",
+  "image": "starryzhang/sweb.eval.x86_64.jupyterlab_1776_jupyter-ai-943@sha256:634b1de696f8a3f6c0ea76d354a09db408c107b7853f66080856f10a718ccc1b",
+  "base_commit": "a55db38c061522a2b6397516df1eeedf2e8b4dc5",
+  "network": "none",
+  "credentials": "not-provided",
+  "model_calls": 0,
+  "original_scores_unchanged": true,
+  "tool_events": [],
+  "gaps": [
+    "无原最终业务树指纹；不能由重放/测试通过证明等于历史状态",
+    "候选 diff 先保留跟踪及非忽略新增路径；完整新树另存供类型化基线复核"
+  ],
+  "classification": "candidate",
+  "initial_snapshot": {
+    "path": "FL20-initial.tar.gz",
+    "sha256": "ba6a8701f3011d6c109217cbffb491a487e2b4309f6b133694ce7b2580583fab"
+  },
+  "outputs": {
+    "candidate.diff": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-workspace.tar.gz": "a3a08ac64a36e6255918ea5eccec3bb9124e275de4efb9b19d398d21b026c17a"
+  }
+}

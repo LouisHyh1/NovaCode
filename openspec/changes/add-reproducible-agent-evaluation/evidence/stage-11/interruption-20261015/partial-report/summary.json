@@ -1,0 +1,658 @@
+{
+  "schema_version": 1,
+  "campaign_id": "novacode-frozen-20261015-v2",
+  "state": "PARTIAL",
+  "planned": 432,
+  "recorded": 147,
+  "unstarted": 285,
+  "sources": {
+    "live": {
+      "full": {
+        "planned": 72,
+        "started": 25,
+        "recorded": 25,
+        "completed": 6,
+        "strict_successes": 4,
+        "strict_failures": 21,
+        "unstarted": 47,
+        "strict_rate_started": 0.16,
+        "planned_rate_bounds": [
+          0.05555555555555555,
+          0.7083333333333334
+        ],
+        "live_resolved": 10,
+        "live_resolved_unknown": 7,
+        "termination": {
+          "budget-exhausted": 12,
+          "completed": 6,
+          "provider-error": 7
+        },
+        "acceptance": {
+          "passed": 10,
+          "ungradable": 7,
+          "failed": 8
+        },
+        "scope": {
+          "passed": 21,
+          "unknown": 4
+        },
+        "cleanup": {
+          "passed": 25
+        },
+        "cost_complete_runs": 18,
+        "cost_complete_ratio": 0.72,
+        "token_lower_bound": 7905693,
+        "unknown_usage_requests": 7,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 18,
+            "mean": 434119.1666666667,
+            "median": 426045.5,
+            "p90": 675146.0
+          },
+          "known_token_lower_bound": {
+            "n": 25,
+            "mean": 316227.72,
+            "median": 357793.0,
+            "p90": 654777.0
+          },
+          "provider_calls": {
+            "n": 25,
+            "mean": 16.48,
+            "median": 20.0,
+            "p90": 25.0
+          },
+          "tool_calls": {
+            "n": 25,
+            "mean": 20.36,
+            "median": 23.0,
+            "p90": 39.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 25,
+            "mean": 44.13736150371987,
+            "median": 45.71409692999987,
+            "p90": 89.9077679080001
+          }
+        },
+        "mechanisms": {
+          "offloads": 22,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 509,
+          "tool_executed": 509,
+          "tool_succeeded": 498,
+          "tool_denied": 0,
+          "tool_errors": 11,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash",
+          "unknown"
+        ]
+      },
+      "no-compression": {
+        "planned": 72,
+        "started": 25,
+        "recorded": 25,
+        "completed": 6,
+        "strict_successes": 3,
+        "strict_failures": 22,
+        "unstarted": 47,
+        "strict_rate_started": 0.12,
+        "planned_rate_bounds": [
+          0.041666666666666664,
+          0.6944444444444444
+        ],
+        "live_resolved": 7,
+        "live_resolved_unknown": 6,
+        "termination": {
+          "budget-exhausted": 11,
+          "completed": 6,
+          "provider-error": 7,
+          "runner-error": 1
+        },
+        "acceptance": {
+          "failed": 12,
+          "passed": 7,
+          "ungradable": 6
+        },
+        "scope": {
+          "passed": 21,
+          "unknown": 4
+        },
+        "cleanup": {
+          "passed": 24,
+          "failed": 1
+        },
+        "cost_complete_runs": 17,
+        "cost_complete_ratio": 0.68,
+        "token_lower_bound": 9209794,
+        "unknown_usage_requests": 8,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 17,
+            "mean": 525784.5294117647,
+            "median": 600630.0,
+            "p90": 729254.0
+          },
+          "known_token_lower_bound": {
+            "n": 25,
+            "mean": 368391.76,
+            "median": 510811.0,
+            "p90": 727661.0
+          },
+          "provider_calls": {
+            "n": 25,
+            "mean": 11.64,
+            "median": 13.0,
+            "p90": 23.0
+          },
+          "tool_calls": {
+            "n": 25,
+            "mean": 15.36,
+            "median": 18.0,
+            "p90": 35.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 24,
+            "mean": 29.78153717229164,
+            "median": 32.0534882259999,
+            "p90": 63.70619239100051
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 384,
+          "tool_executed": 383,
+          "tool_succeeded": 377,
+          "tool_denied": 1,
+          "tool_errors": 7,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash",
+          "unknown"
+        ]
+      },
+      "eager-schema": {
+        "planned": 72,
+        "started": 25,
+        "recorded": 25,
+        "completed": 11,
+        "strict_successes": 7,
+        "strict_failures": 18,
+        "unstarted": 47,
+        "strict_rate_started": 0.28,
+        "planned_rate_bounds": [
+          0.09722222222222222,
+          0.75
+        ],
+        "live_resolved": 10,
+        "live_resolved_unknown": 7,
+        "termination": {
+          "budget-exhausted": 7,
+          "completed": 11,
+          "provider-error": 7
+        },
+        "acceptance": {
+          "failed": 8,
+          "passed": 10,
+          "ungradable": 7
+        },
+        "scope": {
+          "passed": 21,
+          "unknown": 4
+        },
+        "cleanup": {
+          "passed": 25
+        },
+        "cost_complete_runs": 18,
+        "cost_complete_ratio": 0.72,
+        "token_lower_bound": 7726751,
+        "unknown_usage_requests": 7,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 18,
+            "mean": 427288.3333333333,
+            "median": 402936.0,
+            "p90": 624781.0
+          },
+          "known_token_lower_bound": {
+            "n": 25,
+            "mean": 309070.04,
+            "median": 307290.0,
+            "p90": 619673.0
+          },
+          "provider_calls": {
+            "n": 25,
+            "mean": 16.56,
+            "median": 20.0,
+            "p90": 25.0
+          },
+          "tool_calls": {
+            "n": 25,
+            "mean": 19.32,
+            "median": 25.0,
+            "p90": 33.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 25,
+            "mean": 44.03783705836002,
+            "median": 45.50673640199966,
+            "p90": 89.42699018800158
+          }
+        },
+        "mechanisms": {
+          "offloads": 23,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 483,
+          "tool_executed": 483,
+          "tool_succeeded": 474,
+          "tool_denied": 0,
+          "tool_errors": 9,
+          "tool_retries": 0,
+          "discovery_calls": 0,
+          "fault_injections": 0,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash",
+          "unknown"
+        ]
+      }
+    },
+    "specialty": {
+      "full": {
+        "planned": 72,
+        "started": 24,
+        "recorded": 24,
+        "completed": 21,
+        "strict_successes": 17,
+        "strict_failures": 7,
+        "unstarted": 48,
+        "strict_rate_started": 0.7083333333333334,
+        "planned_rate_bounds": [
+          0.2361111111111111,
+          0.9027777777777778
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 24,
+        "termination": {
+          "completed": 21,
+          "provider-error": 2,
+          "timeout": 1
+        },
+        "acceptance": {
+          "passed": 17,
+          "failed": 7
+        },
+        "scope": {
+          "passed": 24
+        },
+        "cleanup": {
+          "passed": 24
+        },
+        "cost_complete_runs": 21,
+        "cost_complete_ratio": 0.875,
+        "token_lower_bound": 2197920,
+        "unknown_usage_requests": 3,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 21,
+            "mean": 103752.85714285714,
+            "median": 16920.0,
+            "p90": 443315.0
+          },
+          "known_token_lower_bound": {
+            "n": 24,
+            "mean": 91580.0,
+            "median": 16290.0,
+            "p90": 443315.0
+          },
+          "provider_calls": {
+            "n": 24,
+            "mean": 7.208333333333333,
+            "median": 5.0,
+            "p90": 18.0
+          },
+          "tool_calls": {
+            "n": 24,
+            "mean": 8.291666666666666,
+            "median": 6.5,
+            "p90": 18.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 24,
+            "mean": 13.005765516916503,
+            "median": 8.90464584649908,
+            "p90": 30.55452940199939
+          }
+        },
+        "mechanisms": {
+          "offloads": 1,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 199,
+          "tool_executed": 199,
+          "tool_succeeded": 196,
+          "tool_denied": 0,
+          "tool_errors": 3,
+          "tool_retries": 0,
+          "discovery_calls": 18,
+          "fault_injections": 1,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash",
+          "unknown"
+        ]
+      },
+      "no-compression": {
+        "planned": 72,
+        "started": 24,
+        "recorded": 24,
+        "completed": 19,
+        "strict_successes": 17,
+        "strict_failures": 7,
+        "unstarted": 48,
+        "strict_rate_started": 0.7083333333333334,
+        "planned_rate_bounds": [
+          0.2361111111111111,
+          0.9027777777777778
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 24,
+        "termination": {
+          "completed": 19,
+          "provider-error": 4,
+          "timeout": 1
+        },
+        "acceptance": {
+          "passed": 17,
+          "failed": 7
+        },
+        "scope": {
+          "passed": 24
+        },
+        "cleanup": {
+          "passed": 24
+        },
+        "cost_complete_runs": 19,
+        "cost_complete_ratio": 0.7916666666666666,
+        "token_lower_bound": 2233020,
+        "unknown_usage_requests": 5,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 19,
+            "mean": 107568.52631578948,
+            "median": 15760.0,
+            "p90": 688128.0
+          },
+          "known_token_lower_bound": {
+            "n": 24,
+            "mean": 93042.5,
+            "median": 15387.0,
+            "p90": 300492.0
+          },
+          "provider_calls": {
+            "n": 24,
+            "mean": 7.375,
+            "median": 5.0,
+            "p90": 20.0
+          },
+          "tool_calls": {
+            "n": 24,
+            "mean": 8.208333333333334,
+            "median": 6.5,
+            "p90": 20.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 24,
+            "mean": 13.682433453916778,
+            "median": 7.5921106094992865,
+            "p90": 35.2443470240014
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 197,
+          "tool_executed": 196,
+          "tool_succeeded": 194,
+          "tool_denied": 1,
+          "tool_errors": 3,
+          "tool_retries": 1,
+          "discovery_calls": 14,
+          "fault_injections": 1,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash",
+          "unknown"
+        ]
+      },
+      "eager-schema": {
+        "planned": 72,
+        "started": 24,
+        "recorded": 24,
+        "completed": 19,
+        "strict_successes": 15,
+        "strict_failures": 9,
+        "unstarted": 48,
+        "strict_rate_started": 0.625,
+        "planned_rate_bounds": [
+          0.20833333333333334,
+          0.875
+        ],
+        "live_resolved": 0,
+        "live_resolved_unknown": 24,
+        "termination": {
+          "completed": 19,
+          "provider-error": 3,
+          "timeout": 2
+        },
+        "acceptance": {
+          "passed": 15,
+          "failed": 9
+        },
+        "scope": {
+          "passed": 24
+        },
+        "cleanup": {
+          "passed": 24
+        },
+        "cost_complete_runs": 19,
+        "cost_complete_ratio": 0.7916666666666666,
+        "token_lower_bound": 1792059,
+        "unknown_usage_requests": 5,
+        "metrics_missing_runs": 0,
+        "monetary_cost": null,
+        "distributions": {
+          "measured_tokens": {
+            "n": 19,
+            "mean": 93205.57894736843,
+            "median": 20141.0,
+            "p90": 271583.0
+          },
+          "known_token_lower_bound": {
+            "n": 24,
+            "mean": 74669.125,
+            "median": 17021.0,
+            "p90": 270491.0
+          },
+          "provider_calls": {
+            "n": 24,
+            "mean": 6.833333333333333,
+            "median": 5.0,
+            "p90": 18.0
+          },
+          "tool_calls": {
+            "n": 24,
+            "mean": 7.333333333333333,
+            "median": 7.0,
+            "p90": 15.0
+          },
+          "main_end_to_end_seconds": {
+            "n": 24,
+            "mean": 12.989220538374903,
+            "median": 9.939613992000886,
+            "p90": 33.22288680600104
+          }
+        },
+        "mechanisms": {
+          "offloads": 0,
+          "summary_requests": 0,
+          "summaries_accepted": 0
+        },
+        "tools": {
+          "tool_calls": 176,
+          "tool_executed": 176,
+          "tool_succeeded": 173,
+          "tool_denied": 0,
+          "tool_errors": 3,
+          "tool_retries": 1,
+          "discovery_calls": 8,
+          "fault_injections": 2,
+          "incomplete_tools": 0
+        },
+        "response_models": [
+          "deepseek-v4-flash",
+          "unknown"
+        ]
+      }
+    }
+  },
+  "selection": {
+    "live": {
+      "tasks": 24,
+      "repositories": [
+        "conan-io/conan",
+        "encode/starlette",
+        "falconry/falcon",
+        "jazzband/tablib",
+        "joke2k/faker",
+        "jupyterlab/jupyter-ai",
+        "patroni/patroni",
+        "pvlib/pvlib-python",
+        "pylint-dev/pylint",
+        "python-attrs/attrs",
+        "python-babel/babel",
+        "reflex-dev/reflex",
+        "wireservice/csvkit"
+      ],
+      "families": [
+        "live:issue:conan-io/conan#17884",
+        "live:issue:encode/starlette#950",
+        "live:issue:falconry/falcon#2243",
+        "live:issue:jazzband/tablib#612",
+        "live:issue:joke2k/faker#2097",
+        "live:issue:jupyterlab/jupyter-ai#1291",
+        "live:issue:jupyterlab/jupyter-ai#372",
+        "live:issue:jupyterlab/jupyter-ai#616",
+        "live:issue:patroni/patroni#3111",
+        "live:issue:patroni/patroni#3307",
+        "live:issue:patroni/patroni#3335",
+        "live:issue:pvlib/pvlib-python#1171",
+        "live:issue:pvlib/pvlib-python#1342",
+        "live:issue:pylint-dev/pylint#10081",
+        "live:issue:pylint-dev/pylint#9391",
+        "live:issue:pylint-dev/pylint#9672",
+        "live:issue:pylint-dev/pylint#9765",
+        "live:issue:python-attrs/attrs#1416",
+        "live:issue:python-babel/babel#1124",
+        "live:issue:python-babel/babel#1162",
+        "live:issue:reflex-dev/reflex#3595",
+        "live:issue:reflex-dev/reflex#4227",
+        "live:issue:reflex-dev/reflex#4471",
+        "live:issue:wireservice/csvkit#1280"
+      ]
+    },
+    "specialty": {
+      "tasks": 24,
+      "repositories": [
+        "specialty-frozen/archive-member-path-validation",
+        "specialty-frozen/artifact-digest-deployment-provenance",
+        "specialty-frozen/batch-journal-rollback-flow",
+        "specialty-frozen/ci-attempt-state-transitions",
+        "specialty-frozen/ci-matrix-failure-aggregation",
+        "specialty-frozen/csv-event-ledger-order",
+        "specialty-frozen/csv-one-shot-escaping",
+        "specialty-frozen/dag-transitive-invalidation",
+        "specialty-frozen/decimal-stream-total",
+        "specialty-frozen/dispatch-fallback-selection",
+        "specialty-frozen/event-wire-encoding",
+        "specialty-frozen/half-open-overlap",
+        "specialty-frozen/http-header-multiplicity",
+        "specialty-frozen/mime-negotiation-handler-dispatch",
+        "specialty-frozen/mounted-route-forwarding",
+        "specialty-frozen/ndjson-error-line-accounting",
+        "specialty-frozen/query-percent-and-multivalue",
+        "specialty-frozen/required-shard-release-eligibility",
+        "specialty-frozen/revision-bound-pagination",
+        "specialty-frozen/role-action-matrix",
+        "specialty-frozen/stable-multimap-aggregation",
+        "specialty-frozen/topological-order-and-cycle",
+        "specialty-frozen/ttl-cache-expiry-flow",
+        "specialty-frozen/utf8-bom-file-reading"
+      ],
+      "families": [
+        "specialty-frozen-v1/archive-member-path-validation",
+        "specialty-frozen-v1/artifact-digest-deployment-provenance",
+        "specialty-frozen-v1/batch-journal-rollback-flow",
+        "specialty-frozen-v1/ci-attempt-state-transitions",
+        "specialty-frozen-v1/ci-matrix-failure-aggregation",
+        "specialty-frozen-v1/csv-event-ledger-order",
+        "specialty-frozen-v1/csv-one-shot-escaping",
+        "specialty-frozen-v1/dag-transitive-invalidation",
+        "specialty-frozen-v1/decimal-stream-total",
+        "specialty-frozen-v1/dispatch-fallback-selection",
+        "specialty-frozen-v1/event-wire-encoding",
+        "specialty-frozen-v1/half-open-overlap",
+        "specialty-frozen-v1/http-header-multiplicity",
+        "specialty-frozen-v1/mime-negotiation-handler-dispatch",
+        "specialty-frozen-v1/mounted-route-forwarding",
+        "specialty-frozen-v1/ndjson-error-line-accounting",
+        "specialty-frozen-v1/query-percent-and-multivalue",
+        "specialty-frozen-v1/required-shard-release-eligibility",
+        "specialty-frozen-v1/revision-bound-pagination",
+        "specialty-frozen-v1/role-action-matrix",
+        "specialty-frozen-v1/stable-multimap-aggregation",
+        "specialty-frozen-v1/topological-order-and-cycle",
+        "specialty-frozen-v1/ttl-cache-expiry-flow",
+        "specialty-frozen-v1/utf8-bom-file-reading"
+      ]
+    }
+  },
+  "interpretation": "所选题库条件分析；重复不是独立任务，非官方完整榜单，无交互估计"
+}

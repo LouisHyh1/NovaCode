@@ -1,0 +1,19 @@
+{
+  "task": {
+    "passed": true,
+    "image": "starryzhang/sweb.eval.x86_64.python-attrs_1776_attrs-1417@sha256:6552c02572e24d8e10319aa0d1f4291289dca0e0386fef49ec1a9d4b8a867f26",
+    "target_unchanged": true,
+    "max_iterations": 25,
+    "model_calls": 0
+  },
+  "baseline": {
+    "schema_version": 2,
+    "task_id": "FL08",
+    "path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL08/baseline/manifest.json",
+    "sha256": "ff8d59c3f1bf609c4b6a12875be7c562ab4d7d8e6576b08e457cf094ceda1ecf",
+    "archive_path": "/home/louishyh/projects/NovaCode/.tmp/compact-v3-deployment-20261016/FL08/baseline.tar.gz",
+    "archive_sha256": "061181b165a3c75b027a5e5ce1ca8b3a9790308d1542a0ff7d4a1c74de9a4ed7",
+    "tree": "0aba3bb52ae1c279de7b937e96a5e816a81c46fd",
+    "entries": 125
+  }
+}

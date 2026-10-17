@@ -1,0 +1,22 @@
+# 原始判题输出、脚本和候选补丁按字节存证；仅以下文件保留原空白及行尾。
+derived-judging/novacode-frozen-20261015-v2-FL11-1-eager-schema/eval.sh -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL11-1-eager-schema/test-output.txt -text -whitespace conflict-marker-size=64
+derived-judging/novacode-frozen-20261015-v2-FL11-1-full/eval.sh -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL11-1-full/test-output.txt -text -whitespace conflict-marker-size=64
+derived-judging/novacode-frozen-20261015-v2-FL11-1-no-compression/eval.sh -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL11-1-no-compression/test-output.txt -text -whitespace conflict-marker-size=64
+derived-judging/novacode-frozen-20261015-v2-FL14-1-eager-schema/eval.sh -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL14-1-full/eval.sh -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL14-1-no-compression/eval.sh -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL20-1-eager-schema/test-output.txt -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL20-1-full/test-output.txt -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL20-1-no-compression/test-output.txt -text -whitespace
+derived-judging/novacode-frozen-20261015-v2-FL20-2-no-compression/stderr.txt -text -whitespace
+recoveries-v3/novacode-frozen-20261015-v2-FL14-1-full/candidate.diff -text -whitespace
+recoveries-v3/novacode-frozen-20261015-v2-FL14-1-no-compression/candidate.diff -text -whitespace
+recoveries/novacode-frozen-20261015-v2-FL11-1-eager-schema/candidate.diff -text -whitespace
+recoveries/novacode-frozen-20261015-v2-FL11-1-full/candidate.diff -text -whitespace
+recoveries/novacode-frozen-20261015-v2-FL11-1-no-compression/candidate.diff -text -whitespace
+recoveries/novacode-frozen-20261015-v2-FL14-1-eager-schema/candidate.diff -text -whitespace
+recoveries/novacode-frozen-20261015-v2-FL20-2-eager-schema/candidate.diff -text -whitespace
+recoveries/novacode-frozen-20261015-v2-FL20-2-full/candidate.diff -text -whitespace

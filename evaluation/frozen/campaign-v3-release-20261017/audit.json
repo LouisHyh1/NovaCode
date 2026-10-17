@@ -1,0 +1,8 @@
+{
+  "state": "FROZEN_VALID",
+  "tasks": 24,
+  "planned": 216,
+  "formal_model_calls": 0,
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "authorization_present": false
+}

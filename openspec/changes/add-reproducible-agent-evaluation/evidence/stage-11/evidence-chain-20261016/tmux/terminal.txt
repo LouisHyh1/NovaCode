@@ -1,0 +1,24 @@
+  /\_/\    NovaCode v0.1.36
+ ( o.o )   mechanism-only-no-model
+  > ^ <    /home/louishyh/projects/NovaCode/.tmp/offline-chain-tmux-20261016
+   ❯ 读取 evidence-summary.json，说明历史审计和链路验证状态。
+    ● read_file({"path":"evidence-summary.json"})
+          ⎿       1     {
+          ⎿       2       "history_runs": 147,
+          ⎿       3       "chain_cases": 10,
+          ⎿       4       "selected_tasks": 24,
+          ⎿       5       "real_model_calls": 0
+          ⎿       6     }
+   历史审计 147 次，离线链路 10 例验证通过，选中 24 题；真实模型调用为零。
+
+    ✻ Thinkingd for 1.1s
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+  /exit
+
+
+   /exit  退出 NovaCode
+ ──────────────────────────────────────────────────────────────────────────────
+     DEFAULT                                          mechanism-only-no-model

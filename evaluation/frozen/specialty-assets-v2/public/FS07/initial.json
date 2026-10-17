@@ -1,0 +1,8 @@
+{
+  "base_commit": "923588334f3684fe87ef86d11d68173f072f8f63",
+  "files": {
+    "graph.py": "def order(edges):\n    pending = {k: set(v) for k, v in edges.items()}\n    if any(dep not in pending for deps in pending.values() for dep in deps):\n        raise KeyError('missing dependency')\n    result = []\n    while pending:\n        ready = sorted(k for k, deps in pending.items() if not deps)\n        if not ready:\n            raise ValueError('cycle')\n        for key in ready:\n            result.append(key)\n            del pending[key]\n        for deps in pending.values():\n            deps.difference_update(ready)\n    return result\n",
+    "tests/test_existing.py": "import unittest\n\nclass Contract(unittest.TestCase):\n    def test_import(self):\n        import graph\n        self.assertTrue(callable(graph.order))\n"
+  },
+  "schema_version": 1
+}

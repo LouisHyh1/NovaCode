@@ -638,8 +638,12 @@ async def test_cancellation_preserves_type_and_closes_provider_once(tmp_path):
     ledger.close()
 
 
-async def test_budget_deadline_cancels_underlying_stream_and_records_timeout(tmp_path):
-    wrapper, provider, ledger = observed(tmp_path, [], limits=replace(LIMITS, seconds=0.03))
+async def test_budget_deadline_cancels_underlying_stream_and_records_timeout(tmp_path, monkeypatch):
+    from novacode.evaluation.budget import RunBudget
+
+    wrapper, provider, ledger = observed(tmp_path, [])
+    # 时间窗口从底层等待开始；文件落盘耗时不能让尚未进入的流冒充已取消。
+    monkeypatch.setattr(RunBudget, "remaining_seconds", property(lambda self: 0.03))
     closed = asyncio.Event()
 
     async def blocking(req):

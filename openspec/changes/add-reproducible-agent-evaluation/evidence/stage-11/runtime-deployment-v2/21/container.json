@@ -1,0 +1,209 @@
+[
+    {
+        "Id": "bdb5ac1db191c170820fa656daf4552126c602e634d9f552a51b604c09028b85",
+        "Created": "2026-10-15T07:34:54.770572926Z",
+        "Path": "tail",
+        "Args": [
+            "-f",
+            "/dev/null"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 253032,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-15T07:34:54.992130115Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617",
+        "ResolvConfPath": "/var/snap/docker/common/var-lib-docker/containers/bdb5ac1db191c170820fa656daf4552126c602e634d9f552a51b604c09028b85/resolv.conf",
+        "HostnamePath": "/var/snap/docker/common/var-lib-docker/containers/bdb5ac1db191c170820fa656daf4552126c602e634d9f552a51b604c09028b85/hostname",
+        "HostsPath": "/var/snap/docker/common/var-lib-docker/containers/bdb5ac1db191c170820fa656daf4552126c602e634d9f552a51b604c09028b85/hosts",
+        "LogPath": "/var/snap/docker/common/var-lib-docker/containers/bdb5ac1db191c170820fa656daf4552126c602e634d9f552a51b604c09028b85/bdb5ac1db191c170820fa656daf4552126c602e634d9f552a51b604c09028b85-json.log",
+        "Name": "/nova-freeze-deploy-a6cd4cd984524fceaaaf46f9b37edc13",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 4294967296,
+            "NanoCpus": 2000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 4294967296,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": 256,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "bdb5ac1db191",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "TERM=xterm-mono",
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.11.12",
+                "PYTHON_SHA256=849da87af4df137710c1796e276a955f7a85c9f971081067c8f565d15c352a09"
+            ],
+            "Cmd": [
+                "tail",
+                "-f",
+                "/dev/null"
+            ],
+            "Image": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842@sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617",
+            "Volumes": null,
+            "WorkingDir": "/testbed",
+            "Entrypoint": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "SandboxID": "18d3aede7342df05075f91bd7f2fde30bf69e0c52f65b2afa4c0b8ca8e3aef9a",
+            "SandboxKey": "/run/snap.docker/netns/18d3aede7342",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "08ece7cd72ec384461d58271a8afc88cab16bd0ba9c2eacaea0826fa89f53c11",
+                    "EndpointID": "3aa608cc95a7b82b23042e2dfbdc7b2f36212f3f2b6edb44322669f158d50ce4",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "digest": "sha256:928222c05db1288b73d5de5566f1a501b79ef336e6c0b6df7a806a1693f12617",
+            "size": 2216,
+            "annotations": {
+                "containerd.io/distribution.source.docker.io": "starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842",
+                "io.containerd.image.name": "docker.io/starryzhang/sweb.eval.x86_64.reflex-dev_1776_reflex-3842:latest",
+                "org.opencontainers.image.ref.name": "latest"
+            },
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]

@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "stdout": "=== POST-FIX ===\nconfig read OK: model_provider_id=None embeddings_provider_id=None send_with_shift_enter=False fields={} api_keys=[] last_read=1792138181838801589 completions_model_provider_id=None completions_fields={} embeddings_fields={}\n=== PRE-FIX ===\nconfig read OK: model_provider_id=None embeddings_provider_id=None send_with_shift_enter=False fields={} api_keys=[] last_read=1792138183950380250 completions_model_provider_id=None completions_fields={} embeddings_fields={}\n",
+  "stderr": ""
+}
