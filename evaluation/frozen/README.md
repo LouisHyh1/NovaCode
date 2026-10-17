@@ -1,6 +1,6 @@
 # 冻结题库与执行身份
 
-当前产品版本 **0.1.39** 已完成独立的 [Stage 12专项](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md) 与完整质量门禁；整体78/78。本轮包含Session恢复菜单焦点修复，不把0.1.39作为既有主集受测版本，也不恢复旧模型计划。
+当前合并发布版本为 **1.0.0**；0.1.39 已完成独立的 [Stage 12专项](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md) 与完整质量门禁；整体78/78。0.1.39阶段包含Session恢复菜单焦点修复，不把0.1.39作为既有主集受测版本，也不恢复旧模型计划。
 
 当前完整执行结果为 **novacode-compact-20261017-v3-r1，216/216 FORMAL_COMPLETE**，受测 0.1.37；0.1.38 仅发布结果和更新文档，未改变原冻结清单。新工作树版本及状态文档与旧锚点不同，不能直接用原 manifest 恢复模型执行。原执行文件快照、全部结果及方法偏离见 [最终报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。以下 PLANNED、零调用与等待确认均标识原冻结/准备时点，历史 v2 仍为 147/432。
 

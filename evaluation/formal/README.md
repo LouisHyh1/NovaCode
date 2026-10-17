@@ -1,8 +1,8 @@
 # 正式配对执行与报告
 
-当前产品版本 **0.1.39** 已完成独立的 [Stage 12专项](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md) 与完整质量门禁；整体78/78。本轮包含Session恢复菜单焦点修复，不把0.1.39作为既有主集受测版本，也不恢复旧模型计划。
+当前合并发布版本为 **1.0.0**；0.1.39 已完成独立的 [Stage 12专项](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md) 与完整质量门禁；整体78/78。0.1.39阶段包含Session恢复菜单焦点修复，不把0.1.39作为既有主集受测版本，也不恢复旧模型计划。
 
-截至 2026-10-17 18:53，新 v3 已 **216/216 FORMAL_COMPLETE**，严格成功 147/216（68.06%），报告已逐例审阅并重建核验。受测版本 0.1.37，当前文档发布 0.1.38；新模型队列已结束，不自动恢复。最新结果、运行阈值变更和历史核验映射见 [最终报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。以下准备、等待授权与未开始表述均为对应时点的历史记录，不能作为当前状态。
+截至 2026-10-17 18:53，新 v3 已 **216/216 FORMAL_COMPLETE**，严格成功 147/216（68.06%），报告已逐例审阅并重建核验。受测版本 0.1.37，结果文档发布 0.1.38；新模型队列已结束，不自动恢复。最新结果、运行阈值变更和历史核验映射见 [最终报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。以下准备、等待授权与未开始表述均为对应时点的历史记录，不能作为当前状态。
 
 ## 历史方法与阶段记录
 

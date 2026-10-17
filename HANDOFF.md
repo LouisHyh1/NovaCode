@@ -1,4 +1,8 @@
-# NovaCode 交接：Stage 12完成，产品版本0.1.39
+# NovaCode 交接：main 合并发布1.0.0
+
+当前分支为 **main**，已快进合入 eval/reproducible-agent-evaluation 至68003c1的全部14个提交，产品版本统一为 **1.0.0**。本次仅更新版本和当前发布说明；主集受测0.1.37、第12阶段受测0.1.39及其原始证据不改。用户未跟踪文档保留在本地，未加入合并提交。
+
+合并后的1.0.0已通过1060项完整pytest、uv锁、Ruff/格式、严格mypy/增量复杂度、架构、启动及OpenSpec严格校验；四处版本来源均为1.0.0。本轮未新增模型调用。完整本地日志位于.tmp/main-release-1.0.0-validation.log。以下为此前0.1.39阶段交接记录。
 
 2026-10-17，add-reproducible-agent-evaluation 的实施任务 **78/78**。第12阶段真实产品tmux、隔离生命周期、完整质量门禁及69个规范场景审阅通过，见 [专项报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md)。当前用户授权验证后提交推送并停止；不自动同步主spec、归档change或继续实验。
 
@@ -12,7 +16,7 @@
 
 v3主集仍为 **FORMAL_COMPLETE / REPORT_REVIEWED**：24道独立任务、216/216次、严格成功147/216（68.06%）、未开始零。[最终主集报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)及其原报告输入保持原字节，本轮重建四份核心报告逐字节一致。
 
-受测版本 **0.1.37**，发布提交 **02b2da5187ed56890d710e9b039a2a7dbc703245**，campaign **novacode-compact-20261017-v3-r1**，manifest SHA-256 **0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f**。0.1.38是主集结果文档发布，当前0.1.39是产品专项修复；均不改变主集受测版本。原231个绑定源码文件在publication-0.1.38/execution-snapshot/保存，before-publication.json记录映射。当前实时冻结检查因版本/源码变化拒绝是预期行为；历史复核用原哈希快照，不能关闭指纹检查启动旧模型队列。
+受测版本 **0.1.37**，发布提交 **02b2da5187ed56890d710e9b039a2a7dbc703245**，campaign **novacode-compact-20261017-v3-r1**，manifest SHA-256 **0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f**。0.1.38是主集结果文档发布，0.1.39是产品专项修复，当前1.0.0为合并发布；均不改变主集受测版本。原231个绑定源码文件在publication-0.1.38/execution-snapshot/保存，before-publication.json记录映射。当前实时冻结检查因版本/源码变化拒绝是预期行为；历史复核用原哈希快照，不能关闭指纹检查启动旧模型队列。
 
 主集终止为completed174、budget-exhausted34、timeout8；Token已知下界54196141，208/216次成本完整，8个请求usage未知，金额未知。卸载36次，摘要请求与接受为零，不声称Layer2摘要收益。每来源12个独立任务，三重复不是独立题目；主要配对区间含零，父池已查看，不称全新留出集或完整官方榜单。用户授权1GiB门槛和宿主内存监控为单列条件变更，不声称环境全程相同。Windows原生交互专项本轮未重做，不声称全平台生产就绪。
 

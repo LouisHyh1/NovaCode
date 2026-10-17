@@ -20,7 +20,7 @@ NovaCode 是一个使用 Python 构建的终端 AI 编程助手，也是一个�
 
 ## 可复核评测结果
 
-2026-10-17 已完成 24 道独立任务、三配置各三重复的 216 次主集评测，严格成功 147/216（68.06%）。受测版本为 0.1.37，本次结果文档发布为 0.1.38；分来源、配对区间、未知成本及运行条件见 [最终评测报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。8 个请求 usage 未知、Layer 2 摘要未触发；该选定题库结果不代表完整官方榜单或普遍收益，Stage 12 产品专项及1060项质量回归已通过，当前产品版本0.1.39，见 [专项报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md)；真实产品调用与Fake/机制证据单列。
+2026-10-17 已完成 24 道独立任务、三配置各三重复的 216 次主集评测，严格成功 147/216（68.06%）。受测版本为 0.1.37，结果文档曾发布为 0.1.38；分来源、配对区间、未知成本及运行条件见 [最终评测报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。8 个请求 usage 未知、Layer 2 摘要未触发；该选定题库结果不代表完整官方榜单或普遍收益，Stage 12 产品专项及1060项质量回归已通过，当前合并发布版本1.0.0（Stage 12受测版本0.1.39），见 [专项报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md)；真实产品调用与Fake/机制证据单列。
 
 ## 运行架构
 
