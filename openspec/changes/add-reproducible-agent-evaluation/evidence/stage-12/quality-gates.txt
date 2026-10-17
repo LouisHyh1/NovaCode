@@ -1,0 +1,47 @@
+运行门禁：uv lock --check
+Resolved 60 packages in 0.85ms
+运行门禁：uv run --locked ruff check src tests scripts
+   Building novacode @ file:///home/louishyh/projects/NovaCode
+      Built novacode @ file:///home/louishyh/projects/NovaCode
+Uninstalled 1 package in 0.39ms
+Installed 1 package in 0.78ms
+All checks passed!
+运行门禁：uv run --locked ruff format --check src tests scripts
+282 files already formatted
+运行门禁：uv run --locked ruff check evaluation/frozen/audit.py evaluation/frozen/definitions.py evaluation/frozen/deploy.py evaluation/frozen/freeze.py evaluation/frozen/judge.py evaluation/frozen/specialty.py evaluation/frozen/tmux_probe.py evaluation/formal/audit_history.py evaluation/formal/compact_campaign.py evaluation/formal/judge_history.py evaluation/formal/measure_storage.py evaluation/formal/preservation.py evaluation/formal/preserve_history.py evaluation/formal/recover_history.py evaluation/formal/refreeze.py evaluation/formal/replay.py evaluation/formal/report.py evaluation/formal/run.py evaluation/formal/status.py evaluation/formal/tmux_probe.py evaluation/formal/validate_chain.py evaluation/live/curate.py evaluation/live/fetch_image.py evaluation/live/judge.py evaluation/live/prepare.py evaluation/live/qualify.py evaluation/live/registry_http.py evaluation/live/review.py evaluation/live/smoke.py evaluation/examples/stage12_tmux.py
+All checks passed!
+运行门禁：uv run --locked ruff format --check evaluation/frozen/audit.py evaluation/frozen/definitions.py evaluation/frozen/deploy.py evaluation/frozen/freeze.py evaluation/frozen/judge.py evaluation/frozen/specialty.py evaluation/frozen/tmux_probe.py evaluation/formal/audit_history.py evaluation/formal/compact_campaign.py evaluation/formal/judge_history.py evaluation/formal/measure_storage.py evaluation/formal/preservation.py evaluation/formal/preserve_history.py evaluation/formal/recover_history.py evaluation/formal/refreeze.py evaluation/formal/replay.py evaluation/formal/report.py evaluation/formal/run.py evaluation/formal/status.py evaluation/formal/tmux_probe.py evaluation/formal/validate_chain.py evaluation/live/curate.py evaluation/live/fetch_image.py evaluation/live/judge.py evaluation/live/prepare.py evaluation/live/qualify.py evaluation/live/registry_http.py evaluation/live/review.py evaluation/live/smoke.py evaluation/examples/stage12_tmux.py
+30 files already formatted
+运行门禁：uv run --locked mypy --strict --explicit-package-bases --follow-imports=silent evaluation/frozen/audit.py evaluation/frozen/definitions.py evaluation/frozen/deploy.py evaluation/frozen/freeze.py evaluation/frozen/judge.py evaluation/frozen/specialty.py evaluation/frozen/tmux_probe.py evaluation/formal/audit_history.py evaluation/formal/compact_campaign.py evaluation/formal/judge_history.py evaluation/formal/measure_storage.py evaluation/formal/preservation.py evaluation/formal/preserve_history.py evaluation/formal/recover_history.py evaluation/formal/refreeze.py evaluation/formal/replay.py evaluation/formal/report.py evaluation/formal/run.py evaluation/formal/status.py evaluation/formal/tmux_probe.py evaluation/formal/validate_chain.py evaluation/examples/stage12_tmux.py evaluation/live/registry_http.py
+Success: no issues found in 23 source files
+运行门禁：uv run --locked ruff check --select C901 evaluation/frozen/audit.py evaluation/frozen/definitions.py evaluation/frozen/deploy.py evaluation/frozen/freeze.py evaluation/frozen/judge.py evaluation/frozen/specialty.py evaluation/frozen/tmux_probe.py evaluation/formal/audit_history.py evaluation/formal/compact_campaign.py evaluation/formal/judge_history.py evaluation/formal/measure_storage.py evaluation/formal/preservation.py evaluation/formal/preserve_history.py evaluation/formal/recover_history.py evaluation/formal/refreeze.py evaluation/formal/replay.py evaluation/formal/report.py evaluation/formal/run.py evaluation/formal/status.py evaluation/formal/tmux_probe.py evaluation/formal/validate_chain.py evaluation/examples/stage12_tmux.py evaluation/live/registry_http.py
+All checks passed!
+运行门禁：uv run --locked python scripts/check_boundaries.py
+133 files already formatted
+All checks passed!
+mypy: baseline=180, current=179, new=0
+C901: baseline=21, current=20, new=0
+运行门禁：uv run --locked pytest -q tests/architecture
+......                                                                   [100%]
+6 passed in 0.14s
+运行门禁：uv run --locked pytest -q
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 20%]
+........................................................................ [ 27%]
+........................................................................ [ 33%]
+........................................................................ [ 40%]
+........................................................................ [ 47%]
+........................................................................ [ 54%]
+........................................................................ [ 61%]
+........................................................................ [ 67%]
+........................................................................ [ 74%]
+........................................................................ [ 81%]
+........................................................................ [ 88%]
+........................................................................ [ 95%]
+....................................................                     [100%]
+1060 passed in 55.89s
+运行门禁：uv run --locked python -m novacode --version
+0.1.39
+运行门禁：uv run --locked python -m novacode --help
+usage: nova [--version] [--help]

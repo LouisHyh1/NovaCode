@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+  File "/home/louishyh/projects/NovaCode/src/novacode/evaluation/frozen.py", line 358, in verify_manifest
+    require(source_files(repo) == data["source_files"], "源码树或锁文件变化，拒绝正式执行")
+  File "/home/louishyh/projects/NovaCode/src/novacode/evaluation/contracts.py", line 33, in require
+    raise ValueError(message)
+ValueError: 源码树或锁文件变化，拒绝正式执行

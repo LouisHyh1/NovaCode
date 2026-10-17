@@ -1,0 +1,16 @@
+{
+  "status": "REPORT_RECONSTRUCTION_VERIFIED",
+  "byte_identical_reports": {
+    "runs.json": "c51376a3040e49b3d0a766ac23e75b29a7255ba6deb781f8e70d75ef00963465",
+    "summary.json": "503c41e3f43b4f2f62bc1a6b8a362a10f25b98efebea553a1e30b2585d2869ef",
+    "failure-audit.json": "7025219b19e61ed97074e28d1e4907fb9d5d9853d9b858b7902f08c555fb98de",
+    "paired.json": "5e48f86751d5115d3ceb2403925b478cca07363d296182be24f67ac026e457d5"
+  },
+  "recorded": 216,
+  "unstarted": 0,
+  "strict_successes": 147,
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "historical_bound_snapshot_files_verified": 231,
+  "current_live_freeze_guard": "rejected_changed_source_as_expected",
+  "no_new_model_calls": true
+}

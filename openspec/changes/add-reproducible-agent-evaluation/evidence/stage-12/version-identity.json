@@ -1,0 +1,20 @@
+{
+  "version_sources": {
+    "pyproject": "0.1.39",
+    "runtime": "0.1.39",
+    "installed": "0.1.39",
+    "lock": "0.1.39"
+  },
+  "files": {
+    "src/novacode/tui/app.py": "9729ea23fc67f7ed8bbc706fc3775db1c7d2f73d47bff82bd6e2012a1144b8e2",
+    "src/novacode/__init__.py": "b1f73962a321a277a1a2399f5d642cce392750717f43e1bab6de04d697ec5ce6",
+    "pyproject.toml": "e67c2d77ec2252cbf1d3a2586d7c0433f5acbc518dd1437b845e922ec9c5f4e1",
+    "uv.lock": "1e00c1c593b57995d9e6c13b99b7d335c8ac536e4d34cf6722c6c08b6b89466a",
+    "scripts/validate_change.py": "d504cc30fc20cf924283d547b146dd2b0b7b24b926ea3bd830e383fd86514253",
+    "evaluation/examples/stage12_tmux.py": "ca5b6c4a5aba0b78e532f027c5f9425b2aec4c3c5a414c3315d4489898f3033a",
+    "tests/test_tui.py": "094c7fa31bebf4a3147690aceb99c5d5ae3ef6136c3b4935061e7985790bb0f4"
+  },
+  "tmux_r1_tui_sha256": "adc05b647b2a3c22600893298fd850924ee08b423c061e1b5648f2060ab622f5",
+  "tmux_r2_tui_sha256": "9729ea23fc67f7ed8bbc706fc3775db1c7d2f73d47bff82bd6e2012a1144b8e2",
+  "post_tmux_changes": "Only harness trace helper extraction and pytest discovery configuration; runtime TUI bytes unchanged since successful r2"
+}

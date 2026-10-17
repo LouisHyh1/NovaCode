@@ -1,0 +1,13 @@
+{
+  "scenario_count": 69,
+  "capabilities": {
+    "agent-evaluation-corpus": 14,
+    "agent-evaluation-experiments": 14,
+    "agent-evaluation-observability": 13,
+    "agent-evaluation-runner": 14,
+    "context-compression-policy": 6,
+    "progressive-tool-schema": 8
+  },
+  "all_evidence_paths_and_test_symbols_verified": true,
+  "review_kind": "mechanism plus historical evidence plus protocol audit"
+}

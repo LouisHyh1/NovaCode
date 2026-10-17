@@ -1,0 +1,78 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____________ test_resume_menu_returns_keyboard_input_to_chat[enter] ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-1/test_resume_menu_returns_keybo0')
+key = 'enter'
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize("key", ["enter", "escape"])
+    async def test_resume_menu_returns_keyboard_input_to_chat(tmp_path: Path, key: str) -> None:
+        """恢复或取消菜单后，用户无需额外 Tab 就能继续输入。"""
+        info = _target_session(tmp_path)
+        service = SessionService.create(tmp_path)
+
+        class Provider:
+            name = "fake"
+            model = "model-a"
+
+            async def close(self) -> None:
+                pass
+
+        app = _make_app(service, tmp_path)
+        app._provider_factory = lambda _: Provider()
+        async with app.run_test() as pilot:
+            await app.dispatch_slash("/resume")
+            await pilot.pause()
+            assert app.focused.id == "resume-list"
+            await pilot.press(key)
+            await pilot.pause()
+            assert app.state is SessionState.IDLE
+            if key == "enter":
+                assert service.session_id == info.session_id
+>           assert isinstance(app.focused, ChatInput)
+E           AssertionError: assert False
+E            +  where False = isinstance(VerticalScroll(id='chat-area'), ChatInput)
+E            +    where VerticalScroll(id='chat-area') = NovaCodeApp(title='NovaCode', classes={'-dark-mode'}, pseudo_classes={'focus', 'dark'}).focused
+
+tests/test_tui.py:456: AssertionError
+___________ test_resume_menu_returns_keyboard_input_to_chat[escape] ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-louishyh/pytest-1/test_resume_menu_returns_keybo1')
+key = 'escape'
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize("key", ["enter", "escape"])
+    async def test_resume_menu_returns_keyboard_input_to_chat(tmp_path: Path, key: str) -> None:
+        """恢复或取消菜单后，用户无需额外 Tab 就能继续输入。"""
+        info = _target_session(tmp_path)
+        service = SessionService.create(tmp_path)
+
+        class Provider:
+            name = "fake"
+            model = "model-a"
+
+            async def close(self) -> None:
+                pass
+
+        app = _make_app(service, tmp_path)
+        app._provider_factory = lambda _: Provider()
+        async with app.run_test() as pilot:
+            await app.dispatch_slash("/resume")
+            await pilot.pause()
+            assert app.focused.id == "resume-list"
+            await pilot.press(key)
+            await pilot.pause()
+            assert app.state is SessionState.IDLE
+            if key == "enter":
+                assert service.session_id == info.session_id
+>           assert isinstance(app.focused, ChatInput)
+E           AssertionError: assert False
+E            +  where False = isinstance(VerticalScroll(id='chat-area'), ChatInput)
+E            +    where VerticalScroll(id='chat-area') = NovaCodeApp(title='NovaCode', classes={'-dark-mode'}, pseudo_classes={'focus', 'dark'}).focused
+
+tests/test_tui.py:456: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_tui.py::test_resume_menu_returns_keyboard_input_to_chat[enter]
+FAILED tests/test_tui.py::test_resume_menu_returns_keyboard_input_to_chat[escape]
+2 failed, 51 deselected in 0.63s

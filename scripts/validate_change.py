@@ -20,6 +20,8 @@ def main() -> None:
     evaluation_cli = frozen_cli + [
         p.relative_to(ROOT).as_posix() for p in sorted((ROOT / "evaluation/live").glob("*.py"))
     ]
+    product_cli = ["evaluation/examples/stage12_tmux.py"]
+    evaluation_cli += product_cli
     commands = (
         ["uv", "lock", "--check"],
         ["uv", "run", "--locked", "ruff", "check", "src", "tests", "scripts"],
@@ -43,6 +45,7 @@ def main() -> None:
             "--explicit-package-bases",
             "--follow-imports=silent",
             *frozen_cli,
+            *product_cli,
             "evaluation/live/registry_http.py",
         ],
         [
@@ -54,6 +57,7 @@ def main() -> None:
             "--select",
             "C901",
             *frozen_cli,
+            *product_cli,
             "evaluation/live/registry_http.py",
         ],
         ["uv", "run", "--locked", "python", "scripts/check_boundaries.py"],
@@ -70,6 +74,7 @@ def main() -> None:
         ["uv", "run", "--locked", "python", "-m", "novacode", "--help"],
     )
     for command in commands:
+        print("运行门禁：" + " ".join(command), flush=True)
         subprocess.run(
             command, cwd=ROOT, check=True, env={**os.environ, "MYPYPATH": str(ROOT / "src")}
         )

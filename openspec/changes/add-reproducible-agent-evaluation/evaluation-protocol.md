@@ -1,6 +1,6 @@
 # 评测执行、冻结与分析协议
 
-发布状态更新（2026-10-17，文档版本 0.1.38）：v3 已 **216/216 FORMAL_COMPLETE / REPORT_REVIEWED**，严格成功 147/216；详见 [最终报告](evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。下列方法正文保留执行冻结时的描述，不按结果改分析规则；原协议字节及 0.1.37 执行身份见同目录 publication-0.1.38/execution-snapshot/。用户授权的 1 GiB 运行门槛和宿主内存监控是明确列示的操作条件变更，Stage 12 尚未完成。
+发布状态更新（2026-10-17，产品版本 0.1.39）：v3 已 **216/216 FORMAL_COMPLETE / REPORT_REVIEWED**，严格成功 147/216；详见 [最终报告](evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。下列方法正文保留执行冻结时的描述，不按结果改分析规则；原协议字节及 0.1.37 执行身份见同目录 publication-0.1.38/execution-snapshot/。用户授权的 1 GiB 运行门槛和宿主内存监控是明确列示的操作条件变更，Stage 12 已独立完成，真实产品调用、隔离机制与1060项质量回归见 [专项报告](evidence/stage-12/product-validation.md)；它们不加入主集样本。
 
 ## 历史方法与阶段记录
 

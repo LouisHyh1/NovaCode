@@ -1,0 +1,15 @@
+{
+  "normalization": "CRLF to LF and trailing whitespace removed for Git; original stdout retained locally; no ledger or content-addressed artifact normalized",
+  "files": {
+    "openspec-validation.txt": {
+      "original_sha256": "9aef2951aaee6cf1368d7a3b36eed45e047d02aa2bf9b2d8a5f01f07eba08922",
+      "presented_sha256": "d7ac71f687f0dc387e7b7e33f3b0de792f261de854b241d811af2943c518f922",
+      "original_local_path": ".tmp/stage12-raw-console/openspec-validation.txt"
+    },
+    "resume-focus-before.txt": {
+      "original_sha256": "c8ed51e62e10f263f1013e8f17692569bc6de6f2e3499af6f45095404ac6a410",
+      "presented_sha256": "c514ef06f5b22d094b7ffd250ff62eff3d156005ff48a58e10122598fef74cb6",
+      "original_local_path": ".tmp/stage12-raw-console/resume-focus-before.txt"
+    }
+  }
+}

@@ -930,6 +930,7 @@ class NovaCodeApp(App):
         self._resume_sessions = {}
         if self.state == SessionState.RESUMING:
             self.state = SessionState.IDLE
+        self.query_one("#chat-input", ChatInput).focus()
 
     async def resume_session(self, info: SessionInfo) -> bool:
         if self.session_context is None or self.agent is None:

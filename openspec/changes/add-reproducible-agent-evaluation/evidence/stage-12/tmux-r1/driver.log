@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/louishyh/projects/NovaCode/evaluation/examples/stage12_tmux.py", line 280, in <module>
+    asyncio.run(app_run(args.root) if args.app else drive(args.root))
+  File "/home/louishyh/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/louishyh/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/louishyh/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/louishyh/projects/NovaCode/evaluation/examples/stage12_tmux.py", line 260, in drive
+    await wait_for("turn_finished")
+  File "/home/louishyh/projects/NovaCode/evaluation/examples/stage12_tmux.py", line 228, in wait_for
+    raise RuntimeError(f"产品提前退出：{phase}/{kind}")
+RuntimeError: 产品提前退出：restore/turn_finished

@@ -429,6 +429,36 @@ def test_format_session_option_contains_recovery_metadata(tmp_path: Path) -> Non
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("key", ["enter", "escape"])
+async def test_resume_menu_returns_keyboard_input_to_chat(tmp_path: Path, key: str) -> None:
+    """恢复或取消菜单后，用户无需额外 Tab 就能继续输入。"""
+    info = _target_session(tmp_path)
+    service = SessionService.create(tmp_path)
+
+    class Provider:
+        name = "fake"
+        model = "model-a"
+
+        async def close(self) -> None:
+            pass
+
+    app = _make_app(service, tmp_path)
+    app._provider_factory = lambda _: Provider()
+    async with app.run_test() as pilot:
+        await app.dispatch_slash("/resume")
+        await pilot.pause()
+        assert app.focused.id == "resume-list"
+        await pilot.press(key)
+        await pilot.pause()
+        assert app.state is SessionState.IDLE
+        if key == "enter":
+            assert service.session_id == info.session_id
+        assert isinstance(app.focused, ChatInput)
+        await pilot.press("h", "i")
+        assert app.query_one("#chat-input", ChatInput).text == "hi"
+
+
+@pytest.mark.asyncio
 async def test_resume_session_atomically_switches_and_continues_original_jsonl(
     tmp_path: Path,
 ) -> None:
