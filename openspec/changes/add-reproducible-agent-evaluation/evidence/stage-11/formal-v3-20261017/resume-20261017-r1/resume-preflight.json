@@ -1,0 +1,33 @@
+{
+  "state": "RESUME_PREFLIGHT_VALID",
+  "utc": "2026-10-17T05:44:01.910432+00:00",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "completed_preserved": 83,
+  "next_sequence": 84,
+  "remaining": 133,
+  "published_commit": "02b2da5187ed56890d710e9b039a2a7dbc703245",
+  "c_free_bytes": 36258725888,
+  "linux_free_bytes": 7180140544,
+  "c_minimum_new_run_bytes": 5368709120,
+  "linux_minimum_new_run_bytes": 6883147776,
+  "inventory_sha256": "6d8f8ffdaf1de437e8ea3a25b5c9f2a4f2719348b75bd2beaefc6ce8fd90cda2",
+  "budget_status": {
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "planned": 216,
+    "independent_tasks": 24,
+    "recorded": 83,
+    "reserved_or_running": 83,
+    "last_recorded_sequence": 83,
+    "termination": {
+      "completed": 68,
+      "budget-exhausted": 12,
+      "timeout": 3
+    },
+    "reserved_tokens": 59257624,
+    "remaining_reserved_token_capacity": 117043487,
+    "free_gib": 6.69
+  },
+  "user_instruction": "空间已恢复，恢复评测进程",
+  "frozen_source_policy_task_budget_unchanged": true
+}

@@ -1,0 +1,55 @@
+import datetime
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+repo=Path(__file__).resolve().parents[1]
+root=repo/'.tmp/formal-compact-v3-20261017'
+manifest=repo/'evaluation/frozen/campaign-v3-release-20261017/manifest.json'
+data=json.loads(manifest.read_text())
+anchor=hashlib.sha256(manifest.read_bytes()).hexdigest()
+review=json.loads((root/'first-block-reviewed.json').read_text())
+push=json.loads((repo/'.tmp/release-push-20261017.json').read_text())
+assert review['state']=='FIRST_BLOCK_REVIEWED' and review['manifest_sha256']==anchor
+assert review['campaign_id']==data['campaign_id']
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==push['remote_commit']
+assert len(list((root/'runs').glob('*/archive.json')))==83
+environment={**os.environ,'PYTHONPATH':'src:.','PATH':'/snap/bin:/usr/bin:/bin:/home/louishyh/.local/bin:/home/louishyh/projects/NovaCode/.venv/bin'}
+receipt=repo/'.tmp/v3-remaining-process-20261017.json'
+script_sha=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+started=datetime.datetime.now(datetime.UTC).isoformat()
+def state(phase,sequence,**details):
+    value={'phase':phase,'pid':os.getpid(),'started_utc':started,'updated_utc':datetime.datetime.now(datetime.UTC).isoformat(),'campaign_id':data['campaign_id'],'manifest_sha256':anchor,'published_commit':push['remote_commit'],'supervisor_sha256':script_sha,'resumed_from_sequence':84,'c_minimum_new_run_bytes':5*1024**3,'sequence':sequence,'planned':216,**details}
+    temporary=receipt.with_suffix('.writing')
+    temporary.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
+    temporary.replace(receipt)
+state('RUNNING',84,recorded=83)
+with (repo/'.tmp/v3-remaining-20261017.log').open('a',buffering=1) as stream:
+    stream.write(json.dumps({'event':'USER_AUTHORIZED_RESUME','from_sequence':84,'preserved_records':83,'c_minimum_new_run_bytes':5*1024**3,'utc':started})+'\n')
+    for row in data['plan'][83:]:
+        sequence=row['sequence']
+        # 宿主 C 盘保护只决定是否启动新任务，不改变模型、任务或冻结预算。
+        c_free=shutil.disk_usage('/mnt/c').free
+        if c_free<5*1024**3:
+            state('PAUSED',sequence,recorded=sequence-1,reason='C drive free space below 5 GiB; preserve current evidence and wait',c_free_bytes=c_free)
+            raise SystemExit(21)
+        state('RUNNING',sequence,recorded=sequence-1,run_id=row['run_id'])
+        # 仍只调用已冻结协调器；每行后检查基础设施和保全，不改变任务顺序或预算。
+        args=[sys.executable,'evaluation/formal/run.py','--root',str(root),'--limit','1','--manifest',str(manifest),'--authorization',str(repo/'.tmp/approval-v3-resume-20261017-r1.json')]
+        result=subprocess.run(args,cwd=repo,env=environment,stdout=stream,stderr=subprocess.STDOUT)
+        if result.returncode:
+            state('PAUSED',sequence,reason='frozen scheduler returned nonzero; inspect retained evidence',exit_code=result.returncode,recorded=sequence-1)
+            raise SystemExit(result.returncode)
+        folder=root/'runs'/row['run_id']
+        output=json.loads((folder/'result.json').read_text())
+        archive=json.loads((folder/'archive.json').read_text())
+        bad=output['termination'] in {'provider-error','runner-error','infrastructure-error','cleanup-error','cancelled'} or output['acceptance']=='ungradable' or output['cleanup']!='passed' or not archive['reconstruction_verified']
+        if bad:
+            state('PAUSED',sequence,recorded=sequence,reason='infrastructure/provider/identity/preservation review required',termination=output['termination'],acceptance=output['acceptance'],cleanup=output['cleanup'])
+            raise SystemExit(20)
+        state('RUNNING',sequence+1,recorded=sequence)
+state('PLAN_EXECUTED_AWAITING_REPORT',216,recorded=216)

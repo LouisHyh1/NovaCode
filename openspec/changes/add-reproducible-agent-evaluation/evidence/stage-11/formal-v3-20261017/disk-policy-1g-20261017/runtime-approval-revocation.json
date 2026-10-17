@@ -1,0 +1,20 @@
+{
+  "revoked": [
+    {
+      "path": ".tmp/approval-v3-disk-policy-1g-20261017-r2.json",
+      "original_sha256": "3cc24a8c5368ea84310b4cc1ea376109bd96d9cdab25ab90148010527aa70439",
+      "revoked_sha256": "f7ed18d2031adf098a693da87bb0bdee36aa1a5bd3b7984d81705654f8f09a01"
+    },
+    {
+      "path": ".tmp/approval-v3-disk-policy-1g-20261017.json",
+      "original_sha256": "384ed162757dae507e6822150c0c03469a73cabc254c899f773965b745d71f09",
+      "revoked_sha256": "dc8ccd16b00f022ec95923a869a718f45bf2bc8f02f89633d2f79b690374af82"
+    },
+    {
+      "path": ".tmp/approval-v3-resume-20261017-r1.json",
+      "original_sha256": "6e9d280009dc4a6605315ec6b264508cdcd34d80bdee02aac74c69637536ae4d",
+      "revoked_sha256": "bfec08676d50e2614cece845e02857240e78cfe6e035eecd88a98c8fe163d771"
+    }
+  ],
+  "reason": "本轮最终报告已收口，防止旧入口误恢复；授权原件留存"
+}

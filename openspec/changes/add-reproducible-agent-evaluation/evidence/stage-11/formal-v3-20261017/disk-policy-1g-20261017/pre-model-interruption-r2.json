@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-17T08:18:53.070748+00:00",
+  "original_path": "/home/louishyh/projects/NovaCode/.tmp/formal-compact-v3-20261017/runs/novacode-compact-20261017-v3-r1-FL11-3-full",
+  "retained_path": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/disk-policy-1g-20261017/interrupted-before-reservation-155-r2",
+  "orchestration_sha256": "6e62b773b8fd0919da1fbe94553076d76d73e852cff1dd5a481e1de2ebb2b397",
+  "events": 1,
+  "reserved_rows": 154,
+  "completed": 154,
+  "container": "novacode-eval-46c5e4ec8e744f80b2594e7ba114d108",
+  "container_state": "exited 255 false",
+  "no_model_started": true,
+  "boot_id": "067800e4-d432-4406-94a2-1b7f242fc62f",
+  "reason": "Second WSL restart during environment before reservation; Windows Event 2004 at 16:17:04 reported virtual memory exhaustion; no claim of proven individual process leak",
+  "stop_condition": "infrastructure interrupted; WSL free space remains about 9 GiB, so 1 GiB disk threshold was NOT reached"
+}

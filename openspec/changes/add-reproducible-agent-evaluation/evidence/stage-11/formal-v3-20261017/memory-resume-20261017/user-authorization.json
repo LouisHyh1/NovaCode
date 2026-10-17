@@ -1,0 +1,25 @@
+{
+  "approved": true,
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "budget_sha256": "1309f120401343f8e8d1252851353a2f06cd2614810b167b628e0a819c621cee",
+  "budget_total": {
+    "seconds": 66231,
+    "tokens": 176301111,
+    "provider_calls": 7317,
+    "tool_calls": 13187,
+    "single_request_tokens": 508821,
+    "cleanup_seconds": 55
+  },
+  "created_utc": "2026-10-17T09:55:31.076567+00:00",
+  "resume_from_sequence": 155,
+  "previous_records_preserved": 154,
+  "minimum_free_bytes": 1073741824,
+  "original_minimum_free_bytes": 6883147776,
+  "operational_adapter_sha256": "0078efedcdfbac17057caf053edc472d17f92374d13c83e80c6b3ca5421510dd",
+  "finalize_on_space_stop": true,
+  "user_instruction": "现在内存占用情况好一些了，开始进行剩下的评测，如果内存遇到瓶颈就暂停，等到恢复后继续，如果WSL剩余空间不足就停止后续评测并给出最终结果，现在开始继续剩下的评测",
+  "scope": "resume unstarted rows; host-memory pressure pauses dispatch and resumes after recovery; WSL below 1 GiB finalizes; never rerun a reserved identity",
+  "risk_disclosed": "1 GiB is below measured 2367832064-byte peak; no guarantee against active-run disk exhaustion",
+  "host_memory_guard": null
+}

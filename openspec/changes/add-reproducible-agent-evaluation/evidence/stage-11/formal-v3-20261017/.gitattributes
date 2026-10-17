@@ -1,0 +1,12 @@
+# 原始 Windows 收据按字节保全；仅将 CRLF 识别为合法行尾，保留其余空白检查。
+disk-policy-1g-20261017/final-validation.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+disk-policy-1g-20261017/windows-resource-exhaustion-events.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+memory-resume-20261017/first-resumed-run-155.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+memory-resume-20261017/launch-confirmed.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+memory-resume-20261017/launch-validation.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+memory-resume-20261017/memory-supervisor-config.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+memory-resume-20261017/previous-finalized-state.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+memory-resume-20261017/user-authorization-confirmed.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+pause-20261017/pause-confirmed.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+pause-20261017/supervisor-original-stop.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+publication-0.1.38/closed-approval-v3-memory-resume-20261017-r2.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

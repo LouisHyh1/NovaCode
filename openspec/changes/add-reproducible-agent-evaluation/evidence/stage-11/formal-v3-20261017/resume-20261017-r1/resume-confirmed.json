@@ -1,0 +1,28 @@
+{
+  "state": "RESUME_CONFIRMED",
+  "utc": "2026-10-17T05:45:36.502656+00:00",
+  "previous_83_result_sample_ledger_archive_unchanged": true,
+  "first_resumed_sequence": 84,
+  "first_resumed_run_id": "novacode-compact-20261017-v3-r1-FS10-2-eager-schema",
+  "first_resumed_strict_success": true,
+  "first_resumed_archive_verified": true,
+  "supervisor": {
+    "phase": "RUNNING",
+    "pid": 4896,
+    "started_utc": "2026-10-17T05:44:34.376398+00:00",
+    "updated_utc": "2026-10-17T05:45:20.644494+00:00",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+    "published_commit": "02b2da5187ed56890d710e9b039a2a7dbc703245",
+    "supervisor_sha256": "db3b586d8a657d7f84e31b02b078e581f0accd768bca4908f6e94582c02c9bc6",
+    "resumed_from_sequence": 84,
+    "c_minimum_new_run_bytes": 5368709120,
+    "sequence": 86,
+    "planned": 216,
+    "recorded": 85,
+    "run_id": "novacode-compact-20261017-v3-r1-FS11-2-no-compression"
+  },
+  "new_authorization": ".tmp/approval-v3-resume-20261017-r1.json",
+  "log": ".tmp/v3-remaining-20261017.log",
+  "c_minimum_new_run_bytes": 5368709120
+}

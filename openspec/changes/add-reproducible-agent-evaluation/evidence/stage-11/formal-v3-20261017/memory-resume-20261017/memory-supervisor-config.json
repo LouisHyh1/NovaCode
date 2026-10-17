@@ -1,0 +1,14 @@
+{
+  "supervisor_path": "F:\\NovaCode-evaluation-cache\\memory-supervision-20261017\\supervisor.ps1",
+  "supervisor_sha256": "32a180a9cc8bff5c612607b7f6d84203282919be43f5743382e6adab609044c5",
+  "state_path": "F:\\NovaCode-evaluation-cache\\memory-supervision-20261017\\status.json",
+  "low_commit_bytes": 2147483648,
+  "low_physical_bytes": 805306368.0,
+  "resume_host_reserve_bytes": 3221225472,
+  "wsl_growth_ceiling_bytes": 6979321856.0,
+  "resume_physical_bytes": 1610612736.0,
+  "resume_stable_seconds": 30,
+  "poll_seconds": 5,
+  "pause_scope": "stop dispatch after current run closes under unchanged budget; no SIGSTOP or budget extension",
+  "unexpected_restart": "retain only provably unreserved preparation and retry after recovery; reserved interruption pauses for audit"
+}

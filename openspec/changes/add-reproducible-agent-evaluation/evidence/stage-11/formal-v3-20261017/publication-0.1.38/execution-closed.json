@@ -1,0 +1,8 @@
+{
+  "complete": 216,
+  "unstarted": 0,
+  "runtime_approvals_revoked": [
+    "approval-v3-memory-resume-20261017-r2.json"
+  ],
+  "no_new_model_calls": true
+}

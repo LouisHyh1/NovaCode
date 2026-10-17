@@ -1,5 +1,9 @@
 # 冻结题库与执行身份
 
+当前完整执行结果为 **novacode-compact-20261017-v3-r1，216/216 FORMAL_COMPLETE**，受测 0.1.37；0.1.38 仅发布结果和更新文档，未改变原冻结清单。新工作树版本及状态文档与旧锚点不同，不能直接用原 manifest 恢复模型执行。原执行文件快照、全部结果及方法偏离见 [最终报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。以下 PLANNED、零调用与等待确认均标识原冻结/准备时点，历史 v2 仍为 147/432。
+
+## 历史方法与阶段记录
+
 本目录保留第十阶段的离线入库、冻结及计划生成历史：24 道固定版本 SWE-bench-Live 任务覆盖 13 个仓库，另有 24 道独立专项；两来源分别满足 8/12/4 难度，专项类别 4/4/4/6/6。原清单有 48 个冻结合同、432 个初始 PLANNED 行，当时冻结步骤真实模型调用为零；见 [冻结验收报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-10/freeze-validation.md)。这不表示后续执行至今仍为零：v2 已有 147 次终态、285 次未开始，当前停止旧模型队列并保留全部现存原始工件。
 
 2026-10-16 文档修订完成后，用户指示继续实施；已完成 147 次历史审计、11 次候选恢复、通用证据链修复及代表正负例验收，取得 HISTORY_AUDITED 和 EVIDENCE_CHAIN_VALID，并按 [v3 协议](../../openspec/changes/add-reproducible-agent-evaluation/evaluation-protocol.md) 选出 12 Live＋12 专项。新运行时、类型化初始基线与 216 行冻结由独立 v3 清单及审计确认；真实模型实验尚未启动，新冻结成功也不自动授权调用，须用户明确确认身份及预算。

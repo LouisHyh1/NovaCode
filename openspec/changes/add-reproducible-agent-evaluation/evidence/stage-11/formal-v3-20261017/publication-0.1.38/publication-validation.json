@@ -1,0 +1,37 @@
+{
+  "state": "PUBLICATION_VALIDATED",
+  "utc": "2026-10-17T19:18:52.926379+08:00",
+  "version_sources": [
+    "0.1.38",
+    "0.1.38",
+    "0.1.38",
+    "0.1.38"
+  ],
+  "frozen_snapshot_files_verified": 231,
+  "intentional_post_execution_changes": [
+    "pyproject.toml",
+    "src/novacode/__init__.py",
+    "uv.lock",
+    "openspec/changes/add-reproducible-agent-evaluation/evaluation-protocol.md"
+  ],
+  "manifest_unchanged_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "docs_read_or_modified": false,
+  "local_markdown_links_checked": 10,
+  "rendered_report_tables": 2,
+  "secret_scan_files": 401,
+  "secret_scan_bytes": 13851899,
+  "configured_secret_matches": 0,
+  "actual_execution_version": "0.1.37",
+  "publication_version": "0.1.38",
+  "recorded": 216,
+  "report_core_files_rebuilt_byte_identical": true,
+  "focused_tests_passed": 12,
+  "uv_lock_check": true,
+  "ruff_version_file": true,
+  "cli_version_and_help": true,
+  "stage12_complete": false,
+  "crlf_receipts_preserved": 11,
+  "cached_diff_check_passed": true,
+  "reviewed_cases": 8,
+  "openspec_strict_valid": true
+}

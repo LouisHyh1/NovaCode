@@ -1,0 +1,30 @@
+{
+  "state": "USER_DISK_POLICY_PREFLIGHT_VALID",
+  "utc": "2026-10-17T08:12:18.773749+00:00",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "completed": 154,
+  "next_sequence": 155,
+  "historical_entries_verified": 90183,
+  "historical_container_stopped": true,
+  "linux_free_bytes": 10248937472,
+  "original_minimum_free_bytes": 6883147776,
+  "new_minimum_free_bytes": 1073741824,
+  "status": {
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "planned": 216,
+    "independent_tasks": 24,
+    "recorded": 154,
+    "reserved_or_running": 154,
+    "last_recorded_sequence": 154,
+    "termination": {
+      "completed": 128,
+      "budget-exhausted": 20,
+      "timeout": 6
+    },
+    "reserved_tokens": 113309619,
+    "remaining_reserved_token_capacity": 62991492,
+    "free_gib": 9.55
+  },
+  "frozen_files_unchanged": true
+}

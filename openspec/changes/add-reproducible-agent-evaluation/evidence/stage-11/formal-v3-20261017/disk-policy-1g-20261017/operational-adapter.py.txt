@@ -1,0 +1,239 @@
+"""用户授权的 1 GiB 运行门槛及完成样本结案；原冻结文件保持原字节。"""
+import asyncio
+import datetime
+import fcntl
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+from evaluation.formal import run as frozen_run
+from evaluation.formal.report import collect, report, summarize
+from novacode.evaluation.compact_manifest import check_disk, validate_authorization
+from novacode.evaluation.contracts import CONFIGS
+from novacode.evaluation.frozen import digest, identity, verify_manifest
+
+REPO = Path(__file__).resolve().parents[1]
+ROOT = REPO / '.tmp/formal-compact-v3-20261017'
+MANIFEST = REPO / 'evaluation/frozen/campaign-v3-release-20261017/manifest.json'
+EVIDENCE = REPO / 'openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/disk-policy-1g-20261017'
+APPROVAL = REPO / '.tmp/approval-v3-disk-policy-1g-20261017.json'
+STATE = REPO / '.tmp/v3-remaining-process-20261017.json'
+MINIMUM = 1024**3
+C_MINIMUM = 5 * 1024**3
+ANCHOR = '0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f'
+
+
+def now():
+    return datetime.datetime.now(datetime.UTC).isoformat()
+
+
+def read(path):
+    return json.loads(path.read_text())
+
+
+def save(path, value):
+    frozen_run.save(path, value)
+
+
+def authorization():
+    data = read(MANIFEST)
+    approval = read(APPROVAL)
+    assert digest(MANIFEST) == ANCHOR
+    validate_authorization(data, approval, ANCHOR)
+    assert approval['operational_adapter_sha256'] == digest(Path(__file__))
+    assert approval['minimum_free_bytes'] == MINIMUM
+    assert approval['finalize_on_space_stop'] is True
+    return data, approval
+
+
+def authorize():
+    data = verify_manifest(MANIFEST, ANCHOR)
+    assert read(EVIDENCE / 'preflight.json')['completed'] == 154
+    approval = {
+        'approved': True, 'campaign_id': data['campaign_id'], 'manifest_sha256': ANCHOR,
+        'budget_sha256': identity(data['budgets']['total']), 'budget_total': data['budgets']['total'],
+        'created_utc': now(), 'resume_from_sequence': 155, 'previous_records_preserved': 154,
+        'minimum_free_bytes': MINIMUM, 'original_minimum_free_bytes': 6883147776,
+        'operational_adapter_sha256': digest(Path(__file__)), 'finalize_on_space_stop': True,
+        'user_instruction': '将要求的剩余空间修改为1G可行吗，现在WSL我清理出一些空间出来，先回答我修改剩余空间阈值是否可行，然后让评测继续执行，直到空间小于剩余空间阈值，由于空间大小不足，让后续评测停止运行，只将已完成的评测生成作为最终评测结果，并完成评测任务',
+        'scope': 'same model/task/order/budgets; explicit operational disk policy amendment after 154 runs; finalize completed samples on low space or plan exhaustion',
+        'risk_disclosed': '1 GiB is below measured 2367832064-byte peak; no guarantee against active-run disk exhaustion',
+    }
+    validate_authorization(data, approval, ANCHOR)
+    save(APPROVAL, approval)
+    save(EVIDENCE / 'user-authorization.json', approval)
+    (EVIDENCE / 'operational-adapter.py.txt').write_text(Path(__file__).read_text())
+    print('User-authorized disk policy receipt created; model calls=0', flush=True)
+
+
+def operational_check(root, data):
+    """只替换用户明确授权的磁盘数值，继续使用原检查函数；不改传入清单。"""
+    amended = {**data, 'disk_admission': {**data['disk_admission'], 'minimum_free_bytes': MINIMUM}}
+    check_disk(root, amended)
+
+
+def set_state(phase, **details):
+    value = {'phase': phase, 'pid': os.getpid(), 'updated_utc': now(),
+             'campaign_id': read(MANIFEST)['campaign_id'], 'manifest_sha256': ANCHOR,
+             'supervisor_sha256': digest(Path(__file__)), 'resumed_from_sequence': 155,
+             'planned': 216, 'linux_minimum_new_run_bytes': MINIMUM,
+             'c_minimum_new_run_bytes': C_MINIMUM, **details}
+    temporary = STATE.with_suffix('.writing')
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+    temporary.replace(STATE)
+
+
+def run_one(sequence):
+    data, approval = authorization()
+    row = data['plan'][sequence - 1]
+    assert not (ROOT / 'runs' / row['run_id']).exists(), '不能重复启动已有现场'
+    save(EVIDENCE / f'run-policy-{sequence:03d}.json', {
+        'sequence': sequence, 'run_id': row['run_id'], 'utc': now(),
+        'manifest_sha256': ANCHOR, 'approval_sha256': digest(APPROVAL),
+        'adapter_sha256': digest(Path(__file__)), 'linux_free_bytes': shutil.disk_usage(ROOT).free,
+        'original_minimum_free_bytes': data['disk_admission']['minimum_free_bytes'],
+        'effective_minimum_free_bytes': MINIMUM,
+        'deviation': 'user-authorized operational disk admission amendment; original manifest unchanged',
+    })
+    frozen_run.check_disk = operational_check
+    asyncio.run(frozen_run.execute(ROOT, 1, manifest_path=MANIFEST, authorization=APPROVAL))
+
+
+def finalize(reason):
+    data, approval = authorization()
+    verify_manifest(MANIFEST, ANCHOR)
+    output = EVIDENCE / 'final-report'
+    assert not output.exists(), '最终报告不可覆盖'
+    report(ROOT, output, MANIFEST)
+    samples = read(output / 'runs.json')
+    summary = read(output / 'summary.json')
+    total = summarize(samples, len(data['plan']))
+    missing = [r for r in data['plan'] if r['run_id'] not in {s['result']['run_id'] for s in samples}]
+    preserved = read(EVIDENCE / 'preserved-154.json')
+    for run_id, files in preserved.items():
+        for name, expected in files.items():
+            assert digest(ROOT / 'runs' / run_id / name) == expected, '恢复前原始记录变化'
+    save(output / 'overall.json', total)
+    save(output / 'unstarted.json', missing)
+    save(output / 'operational-policy.json', approval)
+    save(output / 'closure.json', {
+        'state': 'FINALIZED_COMPLETE' if not missing else 'FINALIZED_PARTIAL',
+        'utc': now(), 'stop_reason': reason, 'manifest_sha256': ANCHOR,
+        'campaign_id': data['campaign_id'], 'recorded': len(samples), 'planned': len(data['plan']),
+        'unstarted': len(missing), 'original_154_verified': True,
+        'original_report_state': summary['state'], 'no_unstarted_as_agent_failure': True,
+        'operational_amendment': 'disk admission lowered from 6883147776 to 1073741824 bytes after run 154',
+        'linux_free_bytes': shutil.disk_usage(ROOT).free,
+    })
+    lines = ['# v3 最终评测结果', '',
+             f"用户授权的执行结案：**{len(samples)}/216**，未开始 **{len(missing)}**；停止原因：`{reason}`。", '',
+             '原清单、源码、任务顺序、单次预算和原评分保持原字节。第 155 次起仅按用户授权将运行磁盘门槛改为 1 GiB；该运行条件变更单独留证，不能声称磁盘条件全程一致。', '',
+             f"严格成功 **{total['strict_successes']}/{len(samples)}**（已开始样本）；计划完成度 **{len(samples)/216:.2%}**。", '',
+             '| 来源 | 配置 | 已记录/计划 | 严格成功/已开始 | Live resolved |',
+             '|---|---|---:|---:|---:|']
+    for source, configs in summary['sources'].items():
+        for config, s in configs.items():
+            resolved = str(s['live_resolved']) if source == 'live' else '不适用'
+            lines.append(f"| {source} | {config} | {s['recorded']}/{s['planned']} | {s['strict_successes']}/{s['started']} | {resolved} |")
+    lines += ['', '未开始样本没有被算作 Agent 失败；全部已开始的正常、失败、预算停止和超时样本均保留，没有事后删题或取最好重复。', '',
+              f"终止分布：`{json.dumps(total['termination'], ensure_ascii=False)}`。", '',
+              f"已知 Token 下界：**{total['token_lower_bound']:,}**；未知 usage 请求 **{total['unknown_usage_requests']}**；完整成本运行 **{total['cost_complete_runs']}/{len(samples)}**。实际金额未知，不作账单估计。", '',
+              f"工具总调用 **{total['tools']['tool_calls']}**；工具错误 **{total['tools']['tool_errors']}**；重试 **{total['tools']['tool_retries']}**。卸载 **{total['mechanisms']['offloads']}**、摘要请求 **{total['mechanisms']['summary_requests']}**、接受摘要 **{total['mechanisms']['summaries_accepted']}**。", '',
+              '任务级配对比较见 paired.json：只使用同一任务三配置三重复中该指标均完整的任务；记录遗漏任务，10,000 次 bootstrap、冻结种子，退化与不可靠区间单列。三次重复不充当三个独立任务。', '',
+              '父题库历史结果已被查看；本结果是所选题库上的条件分析，不是官方完整榜单，也不是全新未接触留出集。历史 v2 的 147 次结果单列，未与本 campaign 混算。', '',
+              'summary.json 为分来源原始统计；overall.json 为全体汇总；failure-audit.json 为自动失败归因、不是人工改判；unstarted.json 列出未开始计划。独立产品专项 Stage 12 不包含在本次主集评测结案中。', '']
+    (output / '最终评测报告.md').write_text('\n'.join(lines))
+    save(output / 'report-checksums.json', {p.name: digest(p) for p in output.iterdir() if p.is_file()})
+    set_state('FINALIZED_COMPLETE' if not missing else 'FINALIZED_PARTIAL',
+              recorded=len(samples), sequence=(missing[0]['sequence'] if missing else 217),
+              stop_reason=reason, final_report=str(output), unstarted=len(missing))
+    print(json.dumps({'final_report': str(output), 'recorded': len(samples), 'unstarted': len(missing),
+                      'strict': total['strict_successes']}, ensure_ascii=False), flush=True)
+
+
+def supervise():
+    data, _ = authorization()
+    with (ROOT / 'operational-supervisor.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        assert len(list((ROOT / 'runs').glob('*/archive.json'))) == 154
+        assert not any((ROOT / 'runs' / r['run_id']).exists() for r in data['plan'][154:])
+        reason = 'plan_executed'
+        recorded = 154
+        with (REPO / '.tmp/v3-remaining-20261017.log').open('a', buffering=1) as log:
+            log.write(json.dumps({'event': 'USER_AUTHORIZED_1G_AND_FINALIZATION', 'utc': now(),
+                                  'effective_minimum_free_bytes': MINIMUM}) + '\n')
+            for row in data['plan'][154:]:
+                sequence = row['sequence']
+                free = shutil.disk_usage(ROOT).free
+                c_free = shutil.disk_usage('/mnt/c').free
+                if free < MINIMUM or c_free < C_MINIMUM:
+                    reason = 'linux_below_1GiB' if free < MINIMUM else 'host_C_below_5GiB'
+                    break
+                set_state('RUNNING', sequence=sequence, recorded=recorded, run_id=row['run_id'],
+                          linux_free_bytes=free, c_free_bytes=c_free)
+                child = subprocess.Popen([sys.executable, str(Path(__file__)), 'run-one', str(sequence)],
+                                         cwd=REPO, stdout=log, stderr=subprocess.STDOUT)
+                low_space = False
+                while True:
+                    try:
+                        code = child.wait(timeout=5)
+                        break
+                    except subprocess.TimeoutExpired:
+                        if shutil.disk_usage(ROOT).free < MINIMUM:
+                            low_space = True
+                folder = ROOT / 'runs' / row['run_id']
+                if code:
+                    # 非磁盘失败保留现场并暂停，不能把不完整现场伪装成最终有效结果。
+                    if not folder.exists() and shutil.disk_usage(ROOT).free < MINIMUM:
+                        reason = 'linux_below_1GiB'
+                        break
+                    set_state('PAUSED_ERROR', sequence=sequence, recorded=recorded,
+                              reason='adapter/coordinator failed; retain evidence for review', exit_code=code)
+                    raise SystemExit(code)
+                result, archive = read(folder / 'result.json'), read(folder / 'archive.json')
+                assert result['state'] == 'RECORDED' and archive['reconstruction_verified']
+                recorded += 1
+                bad = result['termination'] in {'provider-error', 'runner-error', 'infrastructure-error', 'cleanup-error', 'cancelled'} or result['acceptance'] == 'ungradable' or result['cleanup'] != 'passed'
+                if bad:
+                    reason = 'infrastructure_or_provider_review'
+                    break
+                if low_space or shutil.disk_usage(ROOT).free < MINIMUM:
+                    reason = 'linux_below_1GiB_observed_during_last_run'
+                    break
+        set_state('FINALIZING', recorded=recorded, sequence=recorded + 1, stop_reason=reason)
+        finalize(reason)
+
+
+def self_check():
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    data = {'disk_admission': {'minimum_free_bytes': 6883147776, 'measured_peak_bytes': 2367832064}}
+    for free, accepted in [(MINIMUM-1, False), (MINIMUM, True), (MINIMUM+1, True)]:
+        with patch('shutil.disk_usage', return_value=SimpleNamespace(free=free)):
+            try:
+                operational_check(ROOT, data)
+                actual = True
+            except ValueError:
+                actual = False
+        assert actual == accepted
+        assert data['disk_admission']['minimum_free_bytes'] == 6883147776
+    print('3 threshold boundary checks passed; original manifest data unchanged; model calls=0')
+
+
+if __name__ == '__main__':
+    mode = sys.argv[1]
+    if mode == 'self-check':
+        self_check()
+    elif mode == 'authorize':
+        authorize()
+    elif mode == 'run-one':
+        run_one(int(sys.argv[2]))
+    elif mode == 'supervise':
+        supervise()
+    elif mode == 'finalize':
+        finalize(sys.argv[2])
+    else:
+        raise SystemExit('unknown mode')

@@ -1,0 +1,149 @@
+﻿param([switch]$SelfCheck)
+$ErrorActionPreference = 'Stop'
+$Repo = '\\wsl.localhost\Ubuntu-22.04\home\louishyh\projects\NovaCode'
+$HostRoot = 'F:\NovaCode-evaluation-cache\memory-supervision-20261017'
+$Evidence = Join-Path $Repo 'openspec\changes\add-reproducible-agent-evaluation\evidence\stage-11\formal-v3-20261017\memory-resume-20261017'
+$Adapter = '/home/louishyh/projects/NovaCode/.tmp/v3_memory_adapter_20261017.py'
+$Utf8 = [System.Text.UTF8Encoding]::new($false)
+Add-Type @'
+using System;
+using System.Runtime.InteropServices;
+public class NovaMemory {
+ [StructLayout(LayoutKind.Sequential)] public struct Status {
+  public uint Length,Load; public ulong TotalPhys,AvailPhys,TotalPage,AvailPage,TotalVirtual,AvailVirtual,AvailExtended;
+ }
+ [DllImport("kernel32.dll",SetLastError=true)] public static extern bool GlobalMemoryStatusEx(ref Status s);
+ public static Status Read() { var s=new Status(); s.Length=(uint)Marshal.SizeOf(s); if(!GlobalMemoryStatusEx(ref s)) throw new Exception("memory query failed"); return s; }
+}
+'@
+
+function Get-Memory {
+ $s=[NovaMemory]::Read()
+ $vm=0L
+ foreach($p in [System.Diagnostics.Process]::GetProcessesByName('vmmemWSL')) { $vm += $p.PrivateMemorySize64; $p.Dispose() }
+ return @{commit=[long]$s.AvailPage;physical=[long]$s.AvailPhys;vm=$vm}
+}
+function Can-Start($m) {
+ # 给 WSL 剩余增长和宿主各留余量；已提交的 VM 内存无需重复预留。
+ $required=[long](3GB+[Math]::Max([long]0,[long](6.5GB-$m.vm)))
+ return $m.commit -ge $required -and $m.physical -ge 1.5GB
+}
+function Is-Low($m) { return $m.commit -lt 2GB -or $m.physical -lt 0.75GB }
+if($SelfCheck) {
+ if(!(Can-Start @{commit=8.5GB;physical=2GB;vm=1GB})) {throw 'start boundary'}
+ if(Can-Start @{commit=8.5GB-1;physical=2GB;vm=1GB}) {throw 'growth headroom'}
+ if(!(Can-Start @{commit=3GB;physical=2GB;vm=6.5GB})) {throw 'already committed VM counted twice'}
+ if(!(Is-Low @{commit=2GB-1;physical=2GB;vm=1GB})) {throw 'commit low boundary'}
+ if(!(Is-Low @{commit=8GB;physical=0.75GB-1;vm=1GB})) {throw 'physical low boundary'}
+ if(Is-Low @{commit=2GB;physical=0.75GB;vm=1GB}) {throw 'low boundary equality'}
+ '6 memory policy checks passed; no model calls'
+ exit 0
+}
+
+[System.IO.Directory]::CreateDirectory($HostRoot)|Out-Null
+$mutex=[System.Threading.Mutex]::new($false,'Local\NovaCodeV3MemorySupervisor20261017')
+if(!$mutex.WaitOne(0)) {throw '已有宿主监督进程'}
+$Recorded=154
+$Sequence=155
+$Counter=0
+$stopReason=$null
+$Plan=@((Get-Content -LiteralPath (Join-Path $Repo 'evaluation\frozen\campaign-v3-release-20261017\manifest.json') -Raw|ConvertFrom-Json).plan)
+$approval=Get-Content -LiteralPath (Join-Path $Repo '.tmp\approval-v3-memory-resume-20261017-r2.json') -Raw|ConvertFrom-Json
+if(!$approval.approved) {throw '运行授权已撤销'}
+if((Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $approval.host_memory_guard.supervisor_sha256) {throw '宿主监督脚本身份变化'}
+
+function Set-State($phase,$extra=@{}) {
+ $m=Get-Memory
+ $state=[ordered]@{phase=$phase;host_pid=$PID;updated_utc=[DateTime]::UtcNow.ToString('o');recorded=$Recorded;sequence=$Sequence;planned=216;linux_minimum_new_run_bytes=1073741824;host_memory=$m;state_path=(Join-Path $HostRoot 'status.json');campaign_id='novacode-compact-20261017-v3-r1';manifest_sha256='0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f'}
+ foreach($key in $extra.Keys) {$state[$key]=$extra[$key]}
+ $json=$state|ConvertTo-Json -Depth 8
+ $temp=Join-Path $HostRoot 'status.writing'
+ [System.IO.File]::WriteAllText($temp,$json,$Utf8)
+ Move-Item -LiteralPath $temp -Destination (Join-Path $HostRoot 'status.json') -Force
+}
+function Start-Adapter($mode,$row) {
+ $script:Counter++
+ $tag='{0:D4}-{1}-{2}' -f $script:Counter,$mode,$row
+ $out=Join-Path $HostRoot ($tag+'.stdout.log')
+ $err=Join-Path $HostRoot ($tag+'.stderr.log')
+ $launchArgs=@('-d','Ubuntu-22.04','-u','louishyh','--cd','/home/louishyh/projects/NovaCode','--','/usr/bin/env','PYTHONPATH=src:.','PATH=/snap/bin:/usr/bin:/bin:/home/louishyh/.local/bin:/home/louishyh/projects/NovaCode/.venv/bin','/home/louishyh/projects/NovaCode/.venv/bin/python',$Adapter,$mode,[string]$row)
+ $p=Start-Process -FilePath 'C:\Windows\System32\wsl.exe' -ArgumentList $launchArgs -WindowStyle Hidden -PassThru -RedirectStandardOutput $out -RedirectStandardError $err
+ return @{process=$p;stdout=$out;stderr=$err}
+}
+function Invoke-Adapter($mode,$row) {
+ $job=Start-Adapter $mode $row
+ $job.process.WaitForExit()
+ $code=$job.process.ExitCode
+ if($code -ne 0) {throw "WSL adapter $mode failed ($code); logs: $($job.stderr)"}
+ return @(Get-Content -LiteralPath $job.stdout -Encoding UTF8|Where-Object {$_ -match '^\{'})[-1]|ConvertFrom-Json
+}
+function Wait-For-Memory {
+ $since=$null
+ while($true) {
+  $m=Get-Memory
+  $c=[System.IO.DriveInfo]::new('C:\').AvailableFreeSpace
+  if((Can-Start $m) -and $c -ge 5GB) {
+   if($null -eq $since) {$since=[DateTime]::UtcNow}
+   if(([DateTime]::UtcNow-$since).TotalSeconds -ge 30) {return}
+  } else {$since=$null}
+  Set-State 'PAUSED_MEMORY' @{reason='等待宿主余量恢复并稳定 30 秒；不调用 WSL、不派发新模型任务';c_free_bytes=$c}
+  Start-Sleep -Seconds 10
+ }
+}
+
+try {
+ foreach($row in $Plan|Where-Object {$_.sequence -ge 155}) {
+  $Sequence=[int]$row.sequence
+  $retry=$true
+  while($retry) {
+   $retry=$false
+   if(!(Can-Start (Get-Memory)) -or [System.IO.DriveInfo]::new('C:\').AvailableFreeSpace -lt 5GB) {Wait-For-Memory}
+   $before=Invoke-Adapter 'inspect' $Sequence
+   if($before.linux_free_bytes -lt 1GB -or $before.disk_stop_latched) {$stopReason='linux_below_1GiB';break}
+   if($before.reserved -or $before.preparation_paths.Count -gt 0) {throw '待启动条目已有现场或预留，必须先审计'}
+   Set-State 'RUNNING' @{run_id=$row.run_id;linux_free_bytes=$before.linux_free_bytes}
+   $job=Start-Adapter 'run-one' $Sequence
+   $pressure=$false
+   while(!$job.process.WaitForExit(5000)) {
+    $low=Is-Low (Get-Memory)
+    if($low) {$pressure=$true}
+    Set-State $(if($pressure){'MEMORY_PRESSURE_DRAINING'}else{'RUNNING'}) @{run_id=$row.run_id;child_pid=$job.process.Id;reason=$(if($pressure){'内存达到暂停线；当前任务按原预算收尾，随后暂停派发'}else{'监控中'})}
+   }
+   $job.process.WaitForExit()
+   $code=$job.process.ExitCode
+   if($code -ne 0) {
+    # 先在 Windows 等待恢复，再访问 WSL；仅无预留、无 worker 的准备现场可自动保留重试。
+    Set-State 'PAUSED_MEMORY' @{reason='子进程中断，等待恢复后核查是否尚未开始';exit_code=$code}
+    Wait-For-Memory
+   }
+   $after=Invoke-Adapter 'inspect' $Sequence
+   if(!$after.recorded) {
+    if($after.reserved) {throw '已开始条目中断，保留原现场；需要审计，禁止重跑原身份'}
+    Invoke-Adapter 'retain-unstarted' $Sequence|Out-Null
+    if($after.linux_free_bytes -lt 1GB -or $after.disk_stop_latched) {$stopReason='linux_below_1GiB';break}
+    if($code -eq 0) {throw '成功返回却没有有效归档'}
+    if(!$pressure -and $before.boot_id -eq $after.boot_id) {throw '非内存/重启的准备失败，必须审阅，禁止自动盲目重试'}
+    $retry=$true
+    Set-State 'PAUSED_MEMORY' @{reason='未开始准备现场已保留，稳定恢复后重试同一未开始条目'}
+    Start-Sleep -Seconds 30
+    continue
+   }
+   $Recorded=[int]$after.status.recorded
+   $result=$after.result
+   if($result.termination -in @('provider-error','runner-error','infrastructure-error','cleanup-error','cancelled') -or $result.acceptance -eq 'ungradable' -or $result.cleanup -ne 'passed') {throw '终态需要基础设施或 Provider 审阅，保留结果并暂停'}
+   if($after.linux_free_bytes -lt 1GB -or $after.disk_stop_latched) {$stopReason='linux_below_1GiB';break}
+   if($pressure) {Wait-For-Memory}
+  }
+  if($stopReason) {break}
+ }
+ if(!$stopReason) {$stopReason='plan_executed'}
+ Set-State 'FINALIZING' @{reason=$stopReason}
+ Invoke-Adapter 'finalize' $stopReason|Out-Null
+ Set-State $(if($Recorded -eq 216){'FINALIZED_COMPLETE'}else{'FINALIZED_PARTIAL'}) @{reason=$stopReason;final_report=(Join-Path $Evidence 'final-report\最终评测报告.md')}
+} catch {
+ Set-State 'PAUSED_AUDIT_REQUIRED' @{reason=$_.Exception.Message}
+ [System.IO.File]::AppendAllText((Join-Path $HostRoot 'errors.log'),([DateTime]::UtcNow.ToString('o')+' '+$_.Exception.Message+"`r`n"),$Utf8)
+} finally {
+ $mutex.ReleaseMutex()
+ $mutex.Dispose()
+}

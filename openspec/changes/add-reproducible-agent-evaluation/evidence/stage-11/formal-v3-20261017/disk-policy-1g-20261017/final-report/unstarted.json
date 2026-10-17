@@ -1,0 +1,1242 @@
+[
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL11-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL11",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL11/3",
+    "sequence": 155,
+    "state": "PLANNED",
+    "task_sha256": "8a37182b8fb8a1c9fa7c9036d8acfcf0db769e715399fb1efe776c753e9764a0",
+    "initial_sha256": "a7e2c983e2f640961d0598b20278ac4b2dbe35a748f88dddae254243b964ee08",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL11-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL11",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL11/3",
+    "sequence": 156,
+    "state": "PLANNED",
+    "task_sha256": "8a37182b8fb8a1c9fa7c9036d8acfcf0db769e715399fb1efe776c753e9764a0",
+    "initial_sha256": "a7e2c983e2f640961d0598b20278ac4b2dbe35a748f88dddae254243b964ee08",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS17-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS17",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS17/3",
+    "sequence": 157,
+    "state": "PLANNED",
+    "task_sha256": "a4159b123e607cf449b71b0a964ea0fd9891d91a7af523838ee4a59a5477d342",
+    "initial_sha256": "5fc9bc1d12c6ec7af89f6e6cec875c8185828650a2774a2b41f2ca40f2e82b6b",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS17-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS17",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS17/3",
+    "sequence": 158,
+    "state": "PLANNED",
+    "task_sha256": "a4159b123e607cf449b71b0a964ea0fd9891d91a7af523838ee4a59a5477d342",
+    "initial_sha256": "5fc9bc1d12c6ec7af89f6e6cec875c8185828650a2774a2b41f2ca40f2e82b6b",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS17-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS17",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS17/3",
+    "sequence": 159,
+    "state": "PLANNED",
+    "task_sha256": "a4159b123e607cf449b71b0a964ea0fd9891d91a7af523838ee4a59a5477d342",
+    "initial_sha256": "5fc9bc1d12c6ec7af89f6e6cec875c8185828650a2774a2b41f2ca40f2e82b6b",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL09-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL09",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL09/3",
+    "sequence": 160,
+    "state": "PLANNED",
+    "task_sha256": "570092a500dbc777d1f221ade992bfdae9e28e7513721ed3d465a2c711852dfd",
+    "initial_sha256": "a099f1704e679707b4be02959dc132d4157b9ad7481607adef0d296d2ca5ccb5",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL09-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL09",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL09/3",
+    "sequence": 161,
+    "state": "PLANNED",
+    "task_sha256": "570092a500dbc777d1f221ade992bfdae9e28e7513721ed3d465a2c711852dfd",
+    "initial_sha256": "a099f1704e679707b4be02959dc132d4157b9ad7481607adef0d296d2ca5ccb5",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL09-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL09",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL09/3",
+    "sequence": 162,
+    "state": "PLANNED",
+    "task_sha256": "570092a500dbc777d1f221ade992bfdae9e28e7513721ed3d465a2c711852dfd",
+    "initial_sha256": "a099f1704e679707b4be02959dc132d4157b9ad7481607adef0d296d2ca5ccb5",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL23-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL23",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL23/3",
+    "sequence": 163,
+    "state": "PLANNED",
+    "task_sha256": "fe10b05a8d98d208ed65eb1713daca2c7f9e6eca1d8cd3225eb625679c4aa027",
+    "initial_sha256": "39665fb2118bf685b5ec706598075578ce95a6e15c2473b798fd263455dd95ec",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 508821,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL23-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL23",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL23/3",
+    "sequence": 164,
+    "state": "PLANNED",
+    "task_sha256": "fe10b05a8d98d208ed65eb1713daca2c7f9e6eca1d8cd3225eb625679c4aa027",
+    "initial_sha256": "39665fb2118bf685b5ec706598075578ce95a6e15c2473b798fd263455dd95ec",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 508821,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL23-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL23",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL23/3",
+    "sequence": 165,
+    "state": "PLANNED",
+    "task_sha256": "fe10b05a8d98d208ed65eb1713daca2c7f9e6eca1d8cd3225eb625679c4aa027",
+    "initial_sha256": "39665fb2118bf685b5ec706598075578ce95a6e15c2473b798fd263455dd95ec",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 508821,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS22-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS22",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS22/3",
+    "sequence": 166,
+    "state": "PLANNED",
+    "task_sha256": "506aace19efd9f67090784a4fbf71589c2cffed507ad4aab4836915cd69d4f75",
+    "initial_sha256": "0344a50da7f486b55fbc5cb404670e4f4bd6c38f1e2dc056db198cf467d05d32",
+    "limits": {
+      "seconds": 19,
+      "tokens": 53487,
+      "provider_calls": 14,
+      "tool_calls": 20,
+      "single_request_tokens": 35064,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS22-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS22",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS22/3",
+    "sequence": 167,
+    "state": "PLANNED",
+    "task_sha256": "506aace19efd9f67090784a4fbf71589c2cffed507ad4aab4836915cd69d4f75",
+    "initial_sha256": "0344a50da7f486b55fbc5cb404670e4f4bd6c38f1e2dc056db198cf467d05d32",
+    "limits": {
+      "seconds": 19,
+      "tokens": 53487,
+      "provider_calls": 14,
+      "tool_calls": 20,
+      "single_request_tokens": 35064,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS22-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS22",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS22/3",
+    "sequence": 168,
+    "state": "PLANNED",
+    "task_sha256": "506aace19efd9f67090784a4fbf71589c2cffed507ad4aab4836915cd69d4f75",
+    "initial_sha256": "0344a50da7f486b55fbc5cb404670e4f4bd6c38f1e2dc056db198cf467d05d32",
+    "limits": {
+      "seconds": 19,
+      "tokens": 53487,
+      "provider_calls": 14,
+      "tool_calls": 20,
+      "single_request_tokens": 35064,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS24-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS24",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS24/3",
+    "sequence": 169,
+    "state": "PLANNED",
+    "task_sha256": "7745a399e5c7afa427dec94675df2e2a83b63a2650852e50c28e52c5ef44dcc7",
+    "initial_sha256": "76f494e3e6b4b39a57c5250a4f8794bdf388383664985da8ef720d33121dd065",
+    "limits": {
+      "seconds": 19,
+      "tokens": 53487,
+      "provider_calls": 14,
+      "tool_calls": 20,
+      "single_request_tokens": 35064,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS24-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS24",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS24/3",
+    "sequence": 170,
+    "state": "PLANNED",
+    "task_sha256": "7745a399e5c7afa427dec94675df2e2a83b63a2650852e50c28e52c5ef44dcc7",
+    "initial_sha256": "76f494e3e6b4b39a57c5250a4f8794bdf388383664985da8ef720d33121dd065",
+    "limits": {
+      "seconds": 19,
+      "tokens": 53487,
+      "provider_calls": 14,
+      "tool_calls": 20,
+      "single_request_tokens": 35064,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS24-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS24",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS24/3",
+    "sequence": 171,
+    "state": "PLANNED",
+    "task_sha256": "7745a399e5c7afa427dec94675df2e2a83b63a2650852e50c28e52c5ef44dcc7",
+    "initial_sha256": "76f494e3e6b4b39a57c5250a4f8794bdf388383664985da8ef720d33121dd065",
+    "limits": {
+      "seconds": 19,
+      "tokens": 53487,
+      "provider_calls": 14,
+      "tool_calls": 20,
+      "single_request_tokens": 35064,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL02-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL02",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL02/3",
+    "sequence": 172,
+    "state": "PLANNED",
+    "task_sha256": "72c0629993e9ccfa0d98ddc32395765d56facb4a1d1b2bceafa9831899ca2031",
+    "initial_sha256": "1ae2898604814a32dae81ce7a0f9ed994c3ce09bcc4211c5d2a96e1dd6e4e719",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL02-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL02",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL02/3",
+    "sequence": 173,
+    "state": "PLANNED",
+    "task_sha256": "72c0629993e9ccfa0d98ddc32395765d56facb4a1d1b2bceafa9831899ca2031",
+    "initial_sha256": "1ae2898604814a32dae81ce7a0f9ed994c3ce09bcc4211c5d2a96e1dd6e4e719",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL02-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL02",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL02/3",
+    "sequence": 174,
+    "state": "PLANNED",
+    "task_sha256": "72c0629993e9ccfa0d98ddc32395765d56facb4a1d1b2bceafa9831899ca2031",
+    "initial_sha256": "1ae2898604814a32dae81ce7a0f9ed994c3ce09bcc4211c5d2a96e1dd6e4e719",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS11-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS11",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS11/3",
+    "sequence": 175,
+    "state": "PLANNED",
+    "task_sha256": "18e3970e16fdd4c61058a8a2ed2635ac60cc77f08d1a1d29098d0a35b5b85b12",
+    "initial_sha256": "39e42c2b5d74499c6f6e5f88c3584b1d57a4c3b52429a46b949f98332432b2f0",
+    "limits": {
+      "seconds": 42,
+      "tokens": 136292,
+      "provider_calls": 21,
+      "tool_calls": 27,
+      "single_request_tokens": 48608,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS11-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS11",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS11/3",
+    "sequence": 176,
+    "state": "PLANNED",
+    "task_sha256": "18e3970e16fdd4c61058a8a2ed2635ac60cc77f08d1a1d29098d0a35b5b85b12",
+    "initial_sha256": "39e42c2b5d74499c6f6e5f88c3584b1d57a4c3b52429a46b949f98332432b2f0",
+    "limits": {
+      "seconds": 42,
+      "tokens": 136292,
+      "provider_calls": 21,
+      "tool_calls": 27,
+      "single_request_tokens": 48608,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS11-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS11",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS11/3",
+    "sequence": 177,
+    "state": "PLANNED",
+    "task_sha256": "18e3970e16fdd4c61058a8a2ed2635ac60cc77f08d1a1d29098d0a35b5b85b12",
+    "initial_sha256": "39e42c2b5d74499c6f6e5f88c3584b1d57a4c3b52429a46b949f98332432b2f0",
+    "limits": {
+      "seconds": 42,
+      "tokens": 136292,
+      "provider_calls": 21,
+      "tool_calls": 27,
+      "single_request_tokens": 48608,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL10-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL10",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL10/3",
+    "sequence": 178,
+    "state": "PLANNED",
+    "task_sha256": "e2fe07c229bdebff4e9eb222480442da7ff7b12db2d89a085fd6ee4c98a958dd",
+    "initial_sha256": "0a9c9e478907903f65bdb2e3ac1dce5fec6afd4b276db299fcc4184d0b0320d5",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL10-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL10",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL10/3",
+    "sequence": 179,
+    "state": "PLANNED",
+    "task_sha256": "e2fe07c229bdebff4e9eb222480442da7ff7b12db2d89a085fd6ee4c98a958dd",
+    "initial_sha256": "0a9c9e478907903f65bdb2e3ac1dce5fec6afd4b276db299fcc4184d0b0320d5",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL10-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL10",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL10/3",
+    "sequence": 180,
+    "state": "PLANNED",
+    "task_sha256": "e2fe07c229bdebff4e9eb222480442da7ff7b12db2d89a085fd6ee4c98a958dd",
+    "initial_sha256": "0a9c9e478907903f65bdb2e3ac1dce5fec6afd4b276db299fcc4184d0b0320d5",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL08-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL08",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL08/3",
+    "sequence": 181,
+    "state": "PLANNED",
+    "task_sha256": "861a5402797a513f23c620313328a90d37b7efdd1a8b1396a27f5a4e405cbc12",
+    "initial_sha256": "95e6f6cc1f06132844e586df4b28fdc4112d43b951fe1a9b08ffe6b7a9c48ee2",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL08-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL08",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL08/3",
+    "sequence": 182,
+    "state": "PLANNED",
+    "task_sha256": "861a5402797a513f23c620313328a90d37b7efdd1a8b1396a27f5a4e405cbc12",
+    "initial_sha256": "95e6f6cc1f06132844e586df4b28fdc4112d43b951fe1a9b08ffe6b7a9c48ee2",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL08-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL08",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL08/3",
+    "sequence": 183,
+    "state": "PLANNED",
+    "task_sha256": "861a5402797a513f23c620313328a90d37b7efdd1a8b1396a27f5a4e405cbc12",
+    "initial_sha256": "95e6f6cc1f06132844e586df4b28fdc4112d43b951fe1a9b08ffe6b7a9c48ee2",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS13-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS13",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS13/3",
+    "sequence": 184,
+    "state": "PLANNED",
+    "task_sha256": "453f7964950c957bd7ffb05c4f4a4753dba948023247e38556767efc4fd83e7a",
+    "initial_sha256": "bb5e25ba230bd0cd22b3c21fd465d73075bfede165cc64d77ed97f1c53237e73",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS13-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS13",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS13/3",
+    "sequence": 185,
+    "state": "PLANNED",
+    "task_sha256": "453f7964950c957bd7ffb05c4f4a4753dba948023247e38556767efc4fd83e7a",
+    "initial_sha256": "bb5e25ba230bd0cd22b3c21fd465d73075bfede165cc64d77ed97f1c53237e73",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS13-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS13",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS13/3",
+    "sequence": 186,
+    "state": "PLANNED",
+    "task_sha256": "453f7964950c957bd7ffb05c4f4a4753dba948023247e38556767efc4fd83e7a",
+    "initial_sha256": "bb5e25ba230bd0cd22b3c21fd465d73075bfede165cc64d77ed97f1c53237e73",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL24-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL24",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL24/3",
+    "sequence": 187,
+    "state": "PLANNED",
+    "task_sha256": "c211b86becb69e2feb831b1943d4ec96333e7cd73c038bf84a789a2c8ff2ef9b",
+    "initial_sha256": "99d5ed707ce478825f5b5b9c564c7fbce424678edd8faca46e743d74e5375aa9",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 508821,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL24-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL24",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL24/3",
+    "sequence": 188,
+    "state": "PLANNED",
+    "task_sha256": "c211b86becb69e2feb831b1943d4ec96333e7cd73c038bf84a789a2c8ff2ef9b",
+    "initial_sha256": "99d5ed707ce478825f5b5b9c564c7fbce424678edd8faca46e743d74e5375aa9",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 508821,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL24-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL24",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL24/3",
+    "sequence": 189,
+    "state": "PLANNED",
+    "task_sha256": "c211b86becb69e2feb831b1943d4ec96333e7cd73c038bf84a789a2c8ff2ef9b",
+    "initial_sha256": "99d5ed707ce478825f5b5b9c564c7fbce424678edd8faca46e743d74e5375aa9",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 508821,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL14-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL14",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL14/3",
+    "sequence": 190,
+    "state": "PLANNED",
+    "task_sha256": "b909713417445407bf6d35f568751670daa48c4a1bd7191ff745ed39bcf2ed0f",
+    "initial_sha256": "26f3cae05dfe3b4f77483dcd8108260324291161be0ec1afd3d9af1f8edefc25",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL14-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL14",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL14/3",
+    "sequence": 191,
+    "state": "PLANNED",
+    "task_sha256": "b909713417445407bf6d35f568751670daa48c4a1bd7191ff745ed39bcf2ed0f",
+    "initial_sha256": "26f3cae05dfe3b4f77483dcd8108260324291161be0ec1afd3d9af1f8edefc25",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL14-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL14",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL14/3",
+    "sequence": 192,
+    "state": "PLANNED",
+    "task_sha256": "b909713417445407bf6d35f568751670daa48c4a1bd7191ff745ed39bcf2ed0f",
+    "initial_sha256": "26f3cae05dfe3b4f77483dcd8108260324291161be0ec1afd3d9af1f8edefc25",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS16-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS16",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS16/3",
+    "sequence": 193,
+    "state": "PLANNED",
+    "task_sha256": "8af5cc5fd2b0c19c810660cfed2d75ea94eb5815fb67a7ceb03b2eeac1378d1a",
+    "initial_sha256": "6fc9ef7973986c5b7dd9efee57fd107ae2bd780fc208695b8797f978c4da8ccc",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS16-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS16",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS16/3",
+    "sequence": 194,
+    "state": "PLANNED",
+    "task_sha256": "8af5cc5fd2b0c19c810660cfed2d75ea94eb5815fb67a7ceb03b2eeac1378d1a",
+    "initial_sha256": "6fc9ef7973986c5b7dd9efee57fd107ae2bd780fc208695b8797f978c4da8ccc",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS16-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS16",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS16/3",
+    "sequence": 195,
+    "state": "PLANNED",
+    "task_sha256": "8af5cc5fd2b0c19c810660cfed2d75ea94eb5815fb67a7ceb03b2eeac1378d1a",
+    "initial_sha256": "6fc9ef7973986c5b7dd9efee57fd107ae2bd780fc208695b8797f978c4da8ccc",
+    "limits": {
+      "seconds": 71,
+      "tokens": 1569696,
+      "provider_calls": 45,
+      "tool_calls": 48,
+      "single_request_tokens": 295824,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS03-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS03",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS03/3",
+    "sequence": 196,
+    "state": "PLANNED",
+    "task_sha256": "207c80831fbaecfad12e6511e67b9c4652d83110851037002e44869dc4cd0c35",
+    "initial_sha256": "6e92d38aa6d035431ccc4c54aa3d47b89549b6a871a1203bbd0c2e2930c1b1c9",
+    "limits": {
+      "seconds": 18,
+      "tokens": 33030,
+      "provider_calls": 8,
+      "tool_calls": 12,
+      "single_request_tokens": 33030,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS03-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS03",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS03/3",
+    "sequence": 197,
+    "state": "PLANNED",
+    "task_sha256": "207c80831fbaecfad12e6511e67b9c4652d83110851037002e44869dc4cd0c35",
+    "initial_sha256": "6e92d38aa6d035431ccc4c54aa3d47b89549b6a871a1203bbd0c2e2930c1b1c9",
+    "limits": {
+      "seconds": 18,
+      "tokens": 33030,
+      "provider_calls": 8,
+      "tool_calls": 12,
+      "single_request_tokens": 33030,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS03-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS03",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS03/3",
+    "sequence": 198,
+    "state": "PLANNED",
+    "task_sha256": "207c80831fbaecfad12e6511e67b9c4652d83110851037002e44869dc4cd0c35",
+    "initial_sha256": "6e92d38aa6d035431ccc4c54aa3d47b89549b6a871a1203bbd0c2e2930c1b1c9",
+    "limits": {
+      "seconds": 18,
+      "tokens": 33030,
+      "provider_calls": 8,
+      "tool_calls": 12,
+      "single_request_tokens": 33030,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL03-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL03",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL03/3",
+    "sequence": 199,
+    "state": "PLANNED",
+    "task_sha256": "3eb7ed926dd6b17e4a49bad8434b94512af0285eb7239b97c3dc5e1e05bf8d1c",
+    "initial_sha256": "d54bb2f3ef76e6bff9f172c3f3f248f5068ed6d515f16d590bc13881805c56f4",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL03-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL03",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL03/3",
+    "sequence": 200,
+    "state": "PLANNED",
+    "task_sha256": "3eb7ed926dd6b17e4a49bad8434b94512af0285eb7239b97c3dc5e1e05bf8d1c",
+    "initial_sha256": "d54bb2f3ef76e6bff9f172c3f3f248f5068ed6d515f16d590bc13881805c56f4",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL03-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL03",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL03/3",
+    "sequence": 201,
+    "state": "PLANNED",
+    "task_sha256": "3eb7ed926dd6b17e4a49bad8434b94512af0285eb7239b97c3dc5e1e05bf8d1c",
+    "initial_sha256": "d54bb2f3ef76e6bff9f172c3f3f248f5068ed6d515f16d590bc13881805c56f4",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS10-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS10",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS10/3",
+    "sequence": 202,
+    "state": "PLANNED",
+    "task_sha256": "93b60a69e8125b79fc357b0c61367deb4b303ae20c7e1d0c4c2d6ff88ab44d81",
+    "initial_sha256": "c5b139dc237aec5c726cb8375dab974a59ce120d56fcd0e5827d34145c6f2747",
+    "limits": {
+      "seconds": 42,
+      "tokens": 136292,
+      "provider_calls": 21,
+      "tool_calls": 27,
+      "single_request_tokens": 48608,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS10-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS10",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS10/3",
+    "sequence": 203,
+    "state": "PLANNED",
+    "task_sha256": "93b60a69e8125b79fc357b0c61367deb4b303ae20c7e1d0c4c2d6ff88ab44d81",
+    "initial_sha256": "c5b139dc237aec5c726cb8375dab974a59ce120d56fcd0e5827d34145c6f2747",
+    "limits": {
+      "seconds": 42,
+      "tokens": 136292,
+      "provider_calls": 21,
+      "tool_calls": 27,
+      "single_request_tokens": 48608,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS10-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS10",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS10/3",
+    "sequence": 204,
+    "state": "PLANNED",
+    "task_sha256": "93b60a69e8125b79fc357b0c61367deb4b303ae20c7e1d0c4c2d6ff88ab44d81",
+    "initial_sha256": "c5b139dc237aec5c726cb8375dab974a59ce120d56fcd0e5827d34145c6f2747",
+    "limits": {
+      "seconds": 42,
+      "tokens": 136292,
+      "provider_calls": 21,
+      "tool_calls": 27,
+      "single_request_tokens": 48608,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL16-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL16",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL16/3",
+    "sequence": 205,
+    "state": "PLANNED",
+    "task_sha256": "649a0e548f96b0aea8fe8a63234892bc843a41099cc74cb2221cce423af342f7",
+    "initial_sha256": "ebcf85e8a66b5a6ab8117f46cac9bcd43abe4dc062c3cd8cb11927bb1492be58",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL16-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL16",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL16/3",
+    "sequence": 206,
+    "state": "PLANNED",
+    "task_sha256": "649a0e548f96b0aea8fe8a63234892bc843a41099cc74cb2221cce423af342f7",
+    "initial_sha256": "ebcf85e8a66b5a6ab8117f46cac9bcd43abe4dc062c3cd8cb11927bb1492be58",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL16-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL16",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL16/3",
+    "sequence": 207,
+    "state": "PLANNED",
+    "task_sha256": "649a0e548f96b0aea8fe8a63234892bc843a41099cc74cb2221cce423af342f7",
+    "initial_sha256": "ebcf85e8a66b5a6ab8117f46cac9bcd43abe4dc062c3cd8cb11927bb1492be58",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 403973,
+      "cleanup_seconds": 55
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL07-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL07",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FL07/3",
+    "sequence": 208,
+    "state": "PLANNED",
+    "task_sha256": "c30ae7b0e2566ebb77481ecae45e8201096e4f0be04b9961d1c2b700de6858c8",
+    "initial_sha256": "c8268245cf35d08074b5a199e371c751bc6a8c212543282687ce859bcf440dbc",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL07-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL07",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FL07/3",
+    "sequence": 209,
+    "state": "PLANNED",
+    "task_sha256": "c30ae7b0e2566ebb77481ecae45e8201096e4f0be04b9961d1c2b700de6858c8",
+    "initial_sha256": "c8268245cf35d08074b5a199e371c751bc6a8c212543282687ce859bcf440dbc",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FL07-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FL07",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FL07/3",
+    "sequence": 210,
+    "state": "PLANNED",
+    "task_sha256": "c30ae7b0e2566ebb77481ecae45e8201096e4f0be04b9961d1c2b700de6858c8",
+    "initial_sha256": "c8268245cf35d08074b5a199e371c751bc6a8c212543282687ce859bcf440dbc",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 265541,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS06-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS06",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS06/3",
+    "sequence": 211,
+    "state": "PLANNED",
+    "task_sha256": "4c670c5a0620ac7e1cf4d0f2f45abd448c19f88e6078265265ad81cf2bf13ee5",
+    "initial_sha256": "98acee0e6d5126829c03f6842dd69829f0db2150af4aab36a64638d51485b81a",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 47601,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS06-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS06",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS06/3",
+    "sequence": 212,
+    "state": "PLANNED",
+    "task_sha256": "4c670c5a0620ac7e1cf4d0f2f45abd448c19f88e6078265265ad81cf2bf13ee5",
+    "initial_sha256": "98acee0e6d5126829c03f6842dd69829f0db2150af4aab36a64638d51485b81a",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 47601,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS06-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS06",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS06/3",
+    "sequence": 213,
+    "state": "PLANNED",
+    "task_sha256": "4c670c5a0620ac7e1cf4d0f2f45abd448c19f88e6078265265ad81cf2bf13ee5",
+    "initial_sha256": "98acee0e6d5126829c03f6842dd69829f0db2150af4aab36a64638d51485b81a",
+    "limits": {
+      "seconds": 450,
+      "tokens": 900000,
+      "provider_calls": 36,
+      "tool_calls": 75,
+      "single_request_tokens": 47601,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS04-3-no-compression",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS04",
+    "config_id": "no-compression",
+    "repeat_id": 3,
+    "pair_key": "FS04/3",
+    "sequence": 214,
+    "state": "PLANNED",
+    "task_sha256": "9aae7ed1b40189881d86e7f10483296b0365ce37a55a1bd5c92fa5b3de828330",
+    "initial_sha256": "884e205009aeeb775100af881def3a455961b1a2ef599ade61ff35abaa664fba",
+    "limits": {
+      "seconds": 18,
+      "tokens": 33030,
+      "provider_calls": 8,
+      "tool_calls": 12,
+      "single_request_tokens": 33030,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS04-3-eager-schema",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS04",
+    "config_id": "eager-schema",
+    "repeat_id": 3,
+    "pair_key": "FS04/3",
+    "sequence": 215,
+    "state": "PLANNED",
+    "task_sha256": "9aae7ed1b40189881d86e7f10483296b0365ce37a55a1bd5c92fa5b3de828330",
+    "initial_sha256": "884e205009aeeb775100af881def3a455961b1a2ef599ade61ff35abaa664fba",
+    "limits": {
+      "seconds": 18,
+      "tokens": 33030,
+      "provider_calls": 8,
+      "tool_calls": 12,
+      "single_request_tokens": 33030,
+      "cleanup_seconds": 20
+    }
+  },
+  {
+    "run_id": "novacode-compact-20261017-v3-r1-FS04-3-full",
+    "campaign_id": "novacode-compact-20261017-v3-r1",
+    "task_id": "FS04",
+    "config_id": "full",
+    "repeat_id": 3,
+    "pair_key": "FS04/3",
+    "sequence": 216,
+    "state": "PLANNED",
+    "task_sha256": "9aae7ed1b40189881d86e7f10483296b0365ce37a55a1bd5c92fa5b3de828330",
+    "initial_sha256": "884e205009aeeb775100af881def3a455961b1a2ef599ade61ff35abaa664fba",
+    "limits": {
+      "seconds": 18,
+      "tokens": 33030,
+      "provider_calls": 8,
+      "tool_calls": 12,
+      "single_request_tokens": 33030,
+      "cleanup_seconds": 20
+    }
+  }
+]

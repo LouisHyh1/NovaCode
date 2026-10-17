@@ -1,0 +1,24 @@
+{
+  "state": "FIRST_BLOCK_REVIEWED",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "budget_sha256": "1309f120401343f8e8d1252851353a2f06cd2614810b167b628e0a819c621cee",
+  "run_ids": [
+    "novacode-compact-20261017-v3-r1-FS17-1-full",
+    "novacode-compact-20261017-v3-r1-FS17-1-eager-schema",
+    "novacode-compact-20261017-v3-r1-FS17-1-no-compression"
+  ],
+  "independent_tasks": 1,
+  "planned": 216,
+  "recorded": 3,
+  "strict_successes": 3,
+  "measured_tokens": 941531,
+  "provider_calls": 74,
+  "tool_calls": 59,
+  "one_recovered_tool_error_retained": true,
+  "actual_strategy_and_budget_verified": true,
+  "independent_restore_verified": true,
+  "next_sequence": 4,
+  "evidence_path": "openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/first-block",
+  "wsl_read_probe_timeouts_affected_model_runs": false
+}

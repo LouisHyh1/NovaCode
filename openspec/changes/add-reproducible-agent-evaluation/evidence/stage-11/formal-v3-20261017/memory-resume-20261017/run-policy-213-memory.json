@@ -1,0 +1,12 @@
+{
+  "sequence": 213,
+  "run_id": "novacode-compact-20261017-v3-r1-FS06-3-eager-schema",
+  "utc": "2026-10-17T10:52:10.862096+00:00",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "approval_sha256": "8c6d12b0f55c8ebba35d0b0166f98ba6fca1335f8f094e37106951af9b9da3e4",
+  "adapter_sha256": "0078efedcdfbac17057caf053edc472d17f92374d13c83e80c6b3ca5421510dd",
+  "linux_free_bytes": 9383202816,
+  "original_minimum_free_bytes": 6883147776,
+  "effective_minimum_free_bytes": 1073741824,
+  "deviation": "user-authorized operational disk admission amendment; original manifest unchanged"
+}

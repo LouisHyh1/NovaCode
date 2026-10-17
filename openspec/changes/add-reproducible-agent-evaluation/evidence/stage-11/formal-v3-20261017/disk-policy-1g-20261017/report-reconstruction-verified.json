@@ -1,0 +1,18 @@
+{
+  "state": "REPORT_RECONSTRUCTION_VERIFIED",
+  "utc": "2026-10-17T08:19:54.921181+00:00",
+  "byte_identical_reports": {
+    "runs.json": "ce2a9c7a9f1093aeac2359b85eeb3f5c7f2521977c8d8db6e8bb8e38a16ac1db",
+    "summary.json": "956bc96536824f1285339954fbc1f6b4f9236352ea9b5b47cabb8b214bb0ba60",
+    "failure-audit.json": "4fa4ca744a36c4cd0f29084e532e71ddb03f30940d0d0d3a519b36c904e1cf18",
+    "paired.json": "b193378bd8b89a171310ca5d00cfaa8b361fa956787869dc811fadb3da878856"
+  },
+  "recorded": 154,
+  "unstarted": 62,
+  "independent_tasks_observed": 24,
+  "source_configuration_denominator": 36,
+  "unknown_usage_requests": 6,
+  "frozen_manifest_verified": true,
+  "no_model_calls": true,
+  "all_report_checksums_valid": true
+}

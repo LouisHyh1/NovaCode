@@ -1,0 +1,16 @@
+{
+  "host_pid": 29496,
+  "launched_local_windows_supervisor": true,
+  "hidden_window": true,
+  "old154_preserved": true,
+  "historical_entries_verified": 90183,
+  "frozen_manifest_verified": true,
+  "openspec_strict_valid": true,
+  "git_diff_check_valid": true,
+  "memory_boundary_checks": 6,
+  "disk_boundary_checks": 3,
+  "model_stage_sequence": 155,
+  "agent_stage_started_hkt": "2026-10-17T17:56:56.329654+08:00",
+  "canonical_state": "F:\\NovaCode-evaluation-cache\\memory-supervision-20261017\\status.json",
+  "no_frozen_source_or_budget_change": true
+}

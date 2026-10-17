@@ -1,0 +1,24 @@
+{
+  "phase": "RUNNING",
+  "host_pid": 29496,
+  "updated_utc": "2026-10-17T09:57:06.4458255Z",
+  "recorded": 154,
+  "sequence": 155,
+  "planned": 216,
+  "linux_minimum_new_run_bytes": 1073741824,
+  "host_memory": {
+    "commit": 4470124544,
+    "vm": 6534778880,
+    "physical": 1921658880
+  },
+  "state_path": "F:\\NovaCode-evaluation-cache\\memory-supervision-20261017\\status.json",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "reason": "监控中",
+  "run_id": "novacode-compact-20261017-v3-r1-FL11-3-full",
+  "child_pid": 6328,
+  "host_supervisor_state": "F:\\NovaCode-evaluation-cache\\memory-supervision-20261017\\status.json",
+  "supervisor_kind": "Windows independent memory supervisor",
+  "memory_recovery_auto_resume": true,
+  "previous_partial_report_retained": true
+}

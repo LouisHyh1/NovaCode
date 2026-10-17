@@ -1,0 +1,39 @@
+{
+  "run_id": "novacode-compact-20261017-v3-r1-FL11-3-full",
+  "sequence": 155,
+  "termination": "completed",
+  "acceptance": "passed",
+  "cleanup": "passed",
+  "scope": "passed",
+  "archive_reconstruction_verified": true,
+  "archive_sha256": "a66efef718d8f48d7d623c0af008f7ce9844ce3ac87e5552bb4daf6f3c40c29a",
+  "metrics": {
+    "provider_calls": 17,
+    "unknown_usage_requests": 0,
+    "known_token_lower_bound": 461042,
+    "measured_tokens": 461042,
+    "tool_calls": 21,
+    "tool_retries": 0,
+    "tool_executed": 21,
+    "tool_succeeded": 21,
+    "tool_denied": 0,
+    "tool_errors": 0,
+    "discovery_calls": 0,
+    "fault_injections": 0,
+    "fault_cleanup_failed": 0,
+    "incomplete_tools": 0,
+    "phase_seconds": {
+      "preparation": null,
+      "initialization": 0.011836869000035222,
+      "agent": 43.465715745000125,
+      "cleanup": 0.009890613000607118,
+      "grading": null
+    },
+    "main_end_to_end_seconds": 43.49373092500082,
+    "total_wall_seconds": 43.60980356800064,
+    "truncated_tail": false,
+    "incomplete_phases": 0
+  },
+  "host_loop_advanced_to_sequence": 156,
+  "checked_at": "2026-10-17T17:59:49.8462313+08:00"
+}

@@ -18,6 +18,10 @@ NovaCode 是一个使用 Python 构建的终端 AI 编程助手，也是一个�
 - **多 Agent 协作**：支持 SubAgent、后台任务、Agent Team、消息传递、任务依赖和 Git Worktree 隔离。
 - **跨平台运行**：使用同一套 Python 代码运行于 Windows 与 Linux，并通过双平台 CI 持续验证。
 
+## 可复核评测结果
+
+2026-10-17 已完成 24 道独立任务、三配置各三重复的 216 次主集评测，严格成功 147/216（68.06%）。受测版本为 0.1.37，本次结果文档发布为 0.1.38；分来源、配对区间、未知成本及运行条件见 [最终评测报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。8 个请求 usage 未知、Layer 2 摘要未触发；该选定题库结果不代表完整官方榜单或普遍收益，Stage 12 产品专项尚未完成。
+
 ## 运行架构
 
 ```mermaid

@@ -1,5 +1,9 @@
 # 评测执行、冻结与分析协议
 
+发布状态更新（2026-10-17，文档版本 0.1.38）：v3 已 **216/216 FORMAL_COMPLETE / REPORT_REVIEWED**，严格成功 147/216；详见 [最终报告](evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。下列方法正文保留执行冻结时的描述，不按结果改分析规则；原协议字节及 0.1.37 执行身份见同目录 publication-0.1.38/execution-snapshot/。用户授权的 1 GiB 运行门槛和宿主内存监控是明确列示的操作条件变更，Stage 12 尚未完成。
+
+## 历史方法与阶段记录
+
 协议版本：执行 v3 实施修订，2026-10-16。文档修订完成后，经用户指示继续，已取得 [HISTORY_AUDITED](evidence/stage-11/history-audit-20261016/history-audited.json) 与 [EVIDENCE_CHAIN_VALID](evidence/stage-11/evidence-chain-20261016/validation.json)，完成通用修复与固定元数据抽样；新运行时、基线和冻结身份以独立 v3 审计为准，真实模型实验尚未启动。对应 [proposal.md](proposal.md)、[design.md](design.md)、[specs](specs/) 和 [task-catalog.md](task-catalog.md)。不重跑 432 次，不继续 v2 剩余 285 次；文档、修复、机制验证和冻结均不构成正式实验启动授权，正式调用仍须用户明确确认新冻结身份及预算。
 
 v1 首配对块因公开定位格式缺陷停止比较，其三次原评分、26,863 Token、9 次请求及误用 TUI 的偏差保留在 [v1 审计](evidence/stage-11/superseded-v1/partial-report.json)。v2 明确 FS01–FS04 的通用 JSON 编码后冻结 48 题、432 次计划；截至中断恢复有 147 次终态、285 次未开始，补丁提取、初始文件基线及归档缺陷见 [中断审计](evidence/stage-11/interruption-20261015/interruption-recovery.md)。147 次结果、全部现存原始工件、原评分、失败成本和未知 usage 均保留，不覆盖、不删除、不与 v3 混算；未开始的 285 次不算 Agent 失败，也不改记为已执行。

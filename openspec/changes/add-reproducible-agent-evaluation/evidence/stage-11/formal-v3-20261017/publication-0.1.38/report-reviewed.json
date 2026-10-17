@@ -1,0 +1,149 @@
+{
+  "state": "REPORT_REVIEWED",
+  "utc": "2026-10-17T11:19:26.715723+00:00",
+  "execution_state": "FORMAL_COMPLETE",
+  "recorded": 216,
+  "independent_tasks": 24,
+  "source_tasks": 12,
+  "reviews": [
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FL02-1-full",
+      "review": "正常结束但官方测试失败，不能计为严格成功；与 Agent 自述区分。",
+      "result": {
+        "termination": "completed",
+        "acceptance": "failed",
+        "scope": "passed",
+        "cleanup": "passed",
+        "live_resolved": false
+      },
+      "evidence": {
+        "result.json": "d062abd5f093269f6b8df8b6131311c6b64e91f4c2839ae2aa8958433377a395",
+        "judge.json": "b5f6c50fda14a181d7066ad62425becc9c2033b3a3bbffdff5748eed522fdabc",
+        "worker/ledger.jsonl": "cac052f88d5ac4f0bd01d13a3af0ff13adee68832dd4b9df2d24dbce4f95be10",
+        "sample.json": "95219c53291ca5cf312f8b0a659437eb5cfac605d33c04616bef30b0838ad098"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FL09-1-full",
+      "review": "官方 resolved=true，但达到 25 次迭代并 budget-exhausted；严格成功=false，未因测试通过而改判。",
+      "result": {
+        "termination": "budget-exhausted",
+        "acceptance": "passed",
+        "scope": "passed",
+        "cleanup": "passed",
+        "live_resolved": true
+      },
+      "evidence": {
+        "result.json": "8ee8a40ff4914e88ae150fef361337b037f6f847a35630afd93f383784f5abd4",
+        "judge.json": "1ad262c920d4d0864aa6c00d5fe9387954c34973ec6dbb147e4372447f0c4fac",
+        "worker/ledger.jsonl": "fc9032690075094f7c8b23118ad84d0fb4fafb7c1b936604b17dbb320c3b7d61",
+        "sample.json": "2ecf8ac02ef84eb9d7f93fb95167106b46cc228d6f77893875d46d99d00aa311"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FL09-1-eager-schema",
+      "review": "同任务预算停止且官方测试失败；原失败与成本保留，不择优。",
+      "result": {
+        "termination": "budget-exhausted",
+        "acceptance": "failed",
+        "scope": "passed",
+        "cleanup": "passed",
+        "live_resolved": false
+      },
+      "evidence": {
+        "result.json": "1d8ae797b68b632152bf4cd2a01ebbbdf778a5315995cfb17bbc0519ca88e700",
+        "judge.json": "d5fee2956d71c6e5a5fe60bb1d678bc5321ca4a67e48c3a8a4263c7d36bbe2cf",
+        "worker/ledger.jsonl": "bb585ee4da00db7181676dd76f39141568510424c51a862ffae6be3f66a80994",
+        "sample.json": "6abd4a6638a8bcb7d1b9b1bd9c819e2cfa34712b9d2451b70283c321b0aa5a80"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FS24-1-full",
+      "review": "TimeoutError/CancelledError，外部行为两例失败且事实不满足；存在一个未完整返回 usage 的请求，成本保持未知。",
+      "result": {
+        "termination": "timeout",
+        "acceptance": "failed",
+        "scope": "passed",
+        "cleanup": "passed",
+        "live_resolved": null
+      },
+      "evidence": {
+        "result.json": "fc4e68df32cdce3f56be2b8897089c57573445be81f3da9adbb76d906a1bbe1a",
+        "judge.json": "b4d31bb4ec2f87e55ea295fe6147a9c7ab8d3569ca13320d69a59ac2af25c7ce",
+        "worker/ledger.jsonl": "6391a1b29a4cb798af06e84cf5dfcc250018d4ad6d19fac57569313fd1faaf73",
+        "sample.json": "c8f903f57a676aa836c52a7bf65503b622c2e4aa3b3041263cd442087f81e0a9"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FS17-1-full",
+      "review": "正常结束、行为通过、范围与清理通过，严格成功；作为成功对照。",
+      "result": {
+        "termination": "completed",
+        "acceptance": "passed",
+        "scope": "passed",
+        "cleanup": "passed",
+        "live_resolved": null
+      },
+      "evidence": {
+        "result.json": "ed680e1519609e438dcefcb64cb52713babc7873a7f6b76f640b633def87d2b9",
+        "judge.json": "f87acd3539efabb55b29c983f519897cfc2b317f6654002c6de37f02db9b0dd7",
+        "worker/ledger.jsonl": "3fa7920b94212f734b9967bd00f9af9e52b1d33c246ce37bcb0c7fae27b1620a",
+        "sample.json": "76e744734dc303eb2e4cdc84d968c6d31da975f50ee071e9a7b3c9e081c637b7"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FS24-3-full",
+      "review": "超时、事实与行为失败，1 个未知 usage 请求保持未知",
+      "termination": "timeout",
+      "acceptance": "failed",
+      "cost_complete": false,
+      "unknown_usage_requests": 1,
+      "evidence": {
+        "result.json": "4b885db4b87f5e409bff6eb00f8f67d960086362f37b9f85198a3e452fd1a84a",
+        "sample.json": "046f1fee31e9856b747d2622e22304594b50812b06177c4d1ac857a6de6e7d23",
+        "judge.json": "b4d31bb4ec2f87e55ea295fe6147a9c7ab8d3569ca13320d69a59ac2af25c7ce",
+        "worker/ledger.jsonl": "3a6eab7871e2261e28985fbf3b7d3a183fa0ba94fc742c1eaa4cce1b1305edec"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FS24-3-no-compression",
+      "review": "预算耗尽、事实与行为失败，但 usage 完整；不把预算错误一概当作成本未知",
+      "termination": "budget-exhausted",
+      "acceptance": "failed",
+      "cost_complete": true,
+      "unknown_usage_requests": 0,
+      "evidence": {
+        "result.json": "c7cd1b0912a22861ba32d40319d1bd9b83435f2320797749fdfc90445defd57c",
+        "sample.json": "52609e16dab3634b6ad9e6eeaaf77f7d0fb63bbce021a7c769cdee0053e6112b",
+        "judge.json": "b4d31bb4ec2f87e55ea295fe6147a9c7ab8d3569ca13320d69a59ac2af25c7ce",
+        "worker/ledger.jsonl": "53997984969b1cfc3a89ce620f1af0bf8c834b8b49e4e15b3d9d62dd7cd28bb2"
+      },
+      "not_regraded": true
+    },
+    {
+      "run_id": "novacode-compact-20261017-v3-r1-FL09-3-full",
+      "review": "第 25 轮停止，官方测试失败；与第一轮 full 的 resolved=true 预算失败共同保留，不择优",
+      "termination": "budget-exhausted",
+      "acceptance": "failed",
+      "cost_complete": true,
+      "unknown_usage_requests": 0,
+      "evidence": {
+        "result.json": "11210460040365749cadf79aed02dafc90bcfefd090731e349148b3ac6263990",
+        "sample.json": "2f4ef8c4af6fab1bab134cb9ed2606f7dd5c496be9479ac529c2d73b8db9a68e",
+        "judge.json": "5fddca7bf7ad8b103302451e685b0e77adc25325bd510e99bdb37aa4a82263b7",
+        "worker/ledger.jsonl": "6cc888279631dd38bec58c8c30fbff28279aea049f692a532682f1d5c6fa1b31"
+      },
+      "not_regraded": true
+    }
+  ],
+  "review_type": "Codex逐例证据审阅，非用户本人签署；不修改原评分，不重跑隐藏判题",
+  "all_four_core_reports_rebuilt_byte_identical": true,
+  "report_sha256": "5436b829e6c5c853e20f90659c095ba3a7ac0e833c47bec791fb67d72f7837f6",
+  "stage12_complete": false
+}

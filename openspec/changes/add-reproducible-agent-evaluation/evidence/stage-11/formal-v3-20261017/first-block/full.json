@@ -1,0 +1,35 @@
+{
+  "run_id": "novacode-compact-20261017-v3-r1-FS17-1-full",
+  "task_id": "FS17",
+  "config_id": "full",
+  "strict_success": true,
+  "acceptance": "passed",
+  "cleanup": "passed",
+  "version": "0.1.37",
+  "max_iterations": 25,
+  "context_compression": true,
+  "progressive_tool_schema": true,
+  "measured_tokens": 234136,
+  "provider_calls": 25,
+  "tool_calls": 20,
+  "tool_errors": 0,
+  "main_end_to_end_seconds": 34.6087156279973,
+  "offloads": 0,
+  "summaries": 0,
+  "response_models": [
+    "deepseek-v4-flash"
+  ],
+  "limits": {
+    "seconds": 71,
+    "tokens": 1569696,
+    "provider_calls": 45,
+    "tool_calls": 48,
+    "single_request_tokens": 295824,
+    "cleanup_seconds": 20
+  },
+  "result_sha256": "ed680e1519609e438dcefcb64cb52713babc7873a7f6b76f640b633def87d2b9",
+  "sample_sha256": "76e744734dc303eb2e4cdc84d968c6d31da975f50ee071e9a7b3c9e081c637b7",
+  "worker_ledger_sha256": "3fa7920b94212f734b9967bd00f9af9e52b1d33c246ce37bcb0c7fae27b1620a",
+  "archive_sha256": "ef3802d7f3f9f5bfa44e7f5cd86826daadaf93f43a5a9e6332f84d449e5ed38b",
+  "independent_restoration_verified": true
+}

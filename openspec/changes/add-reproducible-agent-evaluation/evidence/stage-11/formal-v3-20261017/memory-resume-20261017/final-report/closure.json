@@ -1,0 +1,15 @@
+{
+  "state": "FINALIZED_COMPLETE",
+  "utc": "2026-10-17T10:53:26.341867+00:00",
+  "stop_reason": "plan_executed",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "recorded": 216,
+  "planned": 216,
+  "unstarted": 0,
+  "original_154_verified": true,
+  "original_report_state": "FORMAL_COMPLETE",
+  "no_unstarted_as_agent_failure": true,
+  "operational_amendment": "disk admission lowered from 6883147776 to 1073741824 bytes after run 154",
+  "linux_free_bytes": 9378893824
+}

@@ -1,0 +1,15 @@
+{
+  "state": "FINALIZED_PARTIAL",
+  "utc": "2026-10-17T08:19:03.064347+00:00",
+  "stop_reason": "repeated_WSL_restarts_with_host_virtual_memory_exhaustion",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "recorded": 154,
+  "planned": 216,
+  "unstarted": 62,
+  "original_154_verified": true,
+  "original_report_state": "PARTIAL",
+  "no_unstarted_as_agent_failure": true,
+  "operational_amendment": "disk admission lowered from 6883147776 to 1073741824 bytes after run 154",
+  "linux_free_bytes": 9662386176
+}

@@ -1,0 +1,433 @@
+{
+  "schema_version": 1,
+  "seed": 20261012,
+  "dataset_revision": "b51a86422e10cfd403beb4773e5a2947953e36ec",
+  "dataset_sha256": "080e36e46198bf9c177a6b077624d4028baf6ff04d661c332cc1fe1e5dfa50b2",
+  "grader_commit": "ad79b850f15e33992e96f03f6e97f05ddf9aa0be",
+  "repository_limit": 4,
+  "difficulty_targets": {
+    "easy": 8,
+    "medium": 12,
+    "hard": 4
+  },
+  "repository_scope": [
+    "python-attrs/attrs",
+    "pdm-project/pdm",
+    "falconry/falcon",
+    "aws-cloudformation/cfn-lint",
+    "pylint-dev/pylint",
+    "python-babel/babel",
+    "pvlib/pvlib-python",
+    "joke2k/faker",
+    "kedro-org/kedro",
+    "geopandas/geopandas",
+    "conan-io/conan",
+    "bridgecrewio/checkov",
+    "jupyterlab/jupyter-ai"
+  ],
+  "hard_title_pattern": "cycle|__init_subclass__|phased|retry/restart|used-before-assignment|include-group|interrupt/stop|composition",
+  "easy_title_pattern": "empty|traceback|stack trace|checksum|locale|invalid-name|probability|lineno|slug\\(|path with space|isna\\(",
+  "stratum_order": [
+    "hard",
+    "easy",
+    "medium"
+  ],
+  "ordering": "sha256(str(seed) + ':' + instance_id), then instance_id",
+  "replacement": "同难度层按固定顺序取下一项；保留环境/合同失败；跳过仓库超额和共享 issue/fix 家族；不读取 NovaCode 成败",
+  "eligibility": "完整池先去除字节一致重复；限定本轮审查的 CPU Python 配置、静态推断、数据边界和 CLI/API 仓库，不宣称随机代表全部 verified。标题规则仅作初分层，入库前逐题审查认知跨度；原始失败、原有回归、三次参考通过、独立 Agent 安装后目标环境不变且复验通过均为必需条件。验收全程禁用网络；不改官方测试命令、依赖或跳过失败测试。",
+  "limits": {
+    "cpus": 2,
+    "memory_bytes": 4294967296,
+    "pids": 256,
+    "test_timeout_seconds": 600,
+    "minimum_free_disk_bytes": 21474836480,
+    "image_pull_timeout_seconds": 600
+  },
+  "maximum_candidates": 100,
+  "complexity_reviews": {
+    "pdm-project__pdm-3314": {
+      "difficulty": "medium",
+      "reason": "依赖兼容精度、save 策略配置、update 入口和旧约束保留联动；官方测试需证明离线 resolver fixture 可用"
+    },
+    "bridgecrewio__checkov-6933": {
+      "difficulty": "medium",
+      "reason": "公开请求含两个独立 Terraform/SFTP 合同",
+      "exclude_reason": "官方 FAIL_TO_PASS 只有 StateLock；不能证明另一个 Azure StorageLocalUsers 需求的原始失败，拒绝作为完整需求入库"
+    },
+    "python-babel__babel-1120": {
+      "difficulty": "medium",
+      "reason": "PO 位置写入、Unicode 文件名边界、通用换行器和读回合同相互关联，不能按短补丁认定简单"
+    },
+    "python-babel__babel-1126": {
+      "difficulty": "medium",
+      "reason": "跨行调用与嵌套函数参数的词法状态和行号关联，标题初分层过低"
+    },
+    "pylint-dev__pylint-10225": {
+      "difficulty": "easy",
+      "reason": "单个已存在比较检查器的左右操作数对称分派，标题初分层过高"
+    },
+    "python-attrs__attrs-1321": {
+      "difficulty": "hard",
+      "reason": "类装饰完成时机、slot 替换类、继承 classmethod、ABC 方法和 Python 版本分支共同约束生命周期"
+    },
+    "conan-io__conan-16870": {
+      "difficulty": "hard",
+      "reason": "递归依赖图回溯、host/build context、不可见边、真实闭环与合法 bootstrap 图须同时成立；本地 fixture 不编译 GCC"
+    },
+    "joke2k__faker-2096": {
+      "difficulty": "easy",
+      "reason": "单个数值生成器的跨零区间抽样，边界语义集中；随机测试需三次独立复验"
+    },
+    "joke2k__faker-2093": {
+      "difficulty": "easy",
+      "reason": "单个 locale 人名 provider 的性别路由与固定姓氏事实，数据条数不当作推理难度"
+    },
+    "kedro-org__kedro-4075": {
+      "difficulty": "easy",
+      "reason": "已有 CLI 异常传播路径恢复完整 traceback，不引入跨模块新状态"
+    },
+    "pylint-dev__pylint-9772": {
+      "difficulty": "easy",
+      "reason": "指定 unittest 特殊方法命名的局部识别条件，保留已有命名规则"
+    },
+    "conan-io__conan-17051": {
+      "difficulty": "medium",
+      "reason": "包级与组件级属性覆盖、名称/别名、生成器元信息和历史自定义内容关联"
+    },
+    "falconry__falcon-2426": {
+      "difficulty": "medium",
+      "reason": "WSGI/ASGI 静态响应、文件句柄关闭、日期条件、304 和 Range 兼容联动"
+    },
+    "pylint-dev__pylint-10350": {
+      "difficulty": "medium",
+      "reason": "多个装饰器检查调用方共享推断工具，须区别非调用对象、未知结果及合法 class/function"
+    },
+    "aws-cloudformation__cfn-lint-3908": {
+      "difficulty": "medium",
+      "reason": "SAM 默认参数替换作用域与条件验证相互影响，不能把默认值变成恒定约束"
+    },
+    "aws-cloudformation__cfn-lint-3875": {
+      "difficulty": "medium",
+      "reason": "FindInMap 第二层 key、DefaultValue 和 ForEach 动态映射的解析边界"
+    },
+    "pylint-dev__pylint-10275": {
+      "difficulty": "hard",
+      "reason": "跨模块类定义、内层函数返回注解与类方法作用域/定义时机需要共同判定"
+    },
+    "pylint-dev__pylint-10344": {
+      "difficulty": "medium",
+      "reason": "四种推导式元素推断与组合关系处理，保留直接赋值分派"
+    },
+    "pylint-dev__pylint-10062": {
+      "difficulty": "medium",
+      "reason": "赋值表达式目标与多种分支祖先在相同条件守卫中关联"
+    },
+    "pylint-dev__pylint-10240": {
+      "difficulty": "easy",
+      "reason": "单个导入名字定义规则覆盖点分模块名"
+    },
+    "conan-io__conan-16987": {
+      "difficulty": "hard",
+      "reason": "菱形图中的需求聚合、显式/默认包身份模式和声明顺序不变性"
+    },
+    "conan-io__conan-17877": {
+      "difficulty": "hard",
+      "reason": "共享传递依赖图中版本范围、固定版本、用户/channel身份冲突与顺序同时约束"
+    },
+    "aws-cloudformation__cfn-lint-3861": {
+      "difficulty": "hard",
+      "reason": "LanguageExtensions/SAM双转换器顺序、递归Ref替换、默认值与多种资源域联动"
+    },
+    "pdm-project__pdm-3374": {
+      "difficulty": "hard",
+      "reason": "跨配置/publish/auth生命周期、缺失凭据缓存、共享keyring禁用及多源回退语义"
+    },
+    "pdm-project__pdm-3420": {
+      "difficulty": "medium",
+      "reason": "生产/开发组和多锁文件过滤需要保持默认与显式组选择合同"
+    },
+    "pvlib__pvlib-python-2347": {
+      "difficulty": "easy",
+      "reason": "单个全无有效角度输入的前置校验，保留正常数值行为"
+    },
+    "joke2k__faker-2175": {
+      "difficulty": "easy",
+      "reason": "同一locale银行provider的国内与IBAN两种校验算法边界"
+    },
+    "pylint-dev__pylint-9771": {
+      "difficulty": "medium",
+      "reason": "赋值/注解赋值/TypeAlias/Final与类型推断分派共同保持"
+    },
+    "pylint-dev__pylint-10228": {
+      "difficulty": "easy",
+      "reason": "局部命名正则容许私有方法前缀且保留原模式"
+    },
+    "joke2k__faker-2104": {
+      "difficulty": "easy",
+      "reason": "单个slug默认文本来源保证ASCII，显式文本仍保留"
+    },
+    "aws-cloudformation__cfn-lint-3764": {
+      "difficulty": "medium",
+      "reason": "空数组与无法解析不能混用，动态映射选择和ForEach生成联动"
+    },
+    "geopandas__geopandas-3419": {
+      "difficulty": "medium",
+      "reason": "构造器geometry命名、空数据dtype、CRS保持与自动转换共同约束"
+    },
+    "joke2k__faker-2101": {
+      "difficulty": "easy",
+      "reason": "单个浮点到Decimal边界转换保留十进制表示"
+    },
+    "python-attrs__attrs-1417": {
+      "difficulty": "easy",
+      "reason": "迭代器形式字段转换只消费一次，保持继承字段生成"
+    },
+    "python-babel__babel-1132": {
+      "difficulty": "easy",
+      "reason": "PO过期消息身份保留context与plural，复用既有键构造"
+    },
+    "conan-io__conan-17923": {
+      "difficulty": "easy",
+      "reason": "库文件精确匹配的局部告警规则，保留路径与候选排序"
+    },
+    "aws-cloudformation__cfn-lint-3940": {
+      "difficulty": "easy",
+      "reason": "新旧security group格式别名兼容，保持不匹配失败"
+    },
+    "bridgecrewio__checkov-7124": {
+      "difficulty": "easy",
+      "reason": "地区名称两种既定表示的枚举资格，非新增业务推断"
+    },
+    "geopandas__geopandas-3471": {
+      "difficulty": "medium",
+      "reason": "空间索引排序与抽样截断导致分布偏差，需恢复随机顺序及回归"
+    },
+    "aws-cloudformation__cfn-lint-3866": {
+      "difficulty": "medium",
+      "reason": "ForEach/FindInMap未知值与DefaultValue回退关联"
+    },
+    "bridgecrewio__checkov-6922": {
+      "difficulty": "medium",
+      "reason": "YAML合法模板字符与真实Helm指令辨识，保留解析器前置筛选"
+    },
+    "bridgecrewio__checkov-6657": {
+      "difficulty": "medium",
+      "reason": "SAM Globals/局部资源深层合并、列表和输入不变性共同约束"
+    },
+    "pylint-dev__pylint-9838": {
+      "difficulty": "medium",
+      "reason": "版本选项同时约束NamedExpr与positional-only两个独立语法入口"
+    },
+    "jupyterlab__jupyter-ai-1294": {
+      "difficulty": "medium",
+      "reason": "用户schema与新版schema合并同时保留扩展字段和新增必需键"
+    },
+    "aws-cloudformation__cfn-lint-3854": {
+      "difficulty": "medium",
+      "reason": "ForEach递归变换共享参数环境与条件使用检查一致"
+    },
+    "aws-cloudformation__cfn-lint-3856": {
+      "difficulty": "medium",
+      "reason": "FindInMap求解上下文中伪参数未知/固定值分离，Sub保持"
+    },
+    "conan-io__conan-17591": {
+      "difficulty": "medium",
+      "reason": "tar/zip两入口pattern与strip_root的顺序和共同根约束一致"
+    },
+    "falconry__falcon-2450": {
+      "difficulty": "medium",
+      "reason": "WSGI/ASGI静态ETag/IfNoneMatch优先级、日期和文件清理联动"
+    },
+    "python-babel__babel-1163": {
+      "difficulty": "medium",
+      "reason": "direction/past/future和format长度变体、locale回退联动"
+    },
+    "jupyterlab__jupyter-ai-1022": {
+      "difficulty": "hard",
+      "reason": "前后端取消UI与流生命周期",
+      "exclude_reason": "Python目标仅覆盖服务端关闭，无法验收公开请求stop按钮合同"
+    }
+  },
+  "model_calls": 0,
+  "suite": "frozen",
+  "task_prefix": "FL",
+  "excluded_candidate_ids": [
+    "aws-cloudformation__cfn-lint-3629",
+    "aws-cloudformation__cfn-lint-3749",
+    "aws-cloudformation__cfn-lint-3768",
+    "aws-cloudformation__cfn-lint-3770",
+    "aws-cloudformation__cfn-lint-3875",
+    "aws-cloudformation__cfn-lint-3900",
+    "aws-cloudformation__cfn-lint-3908",
+    "aws-cloudformation__cfn-lint-4032",
+    "aws-cloudformation__cfn-lint-4051",
+    "bridgecrewio__checkov-7119",
+    "conan-io__conan-16789",
+    "conan-io__conan-16870",
+    "conan-io__conan-17051",
+    "conan-io__conan-17123",
+    "conan-io__conan-17346",
+    "falconry__falcon-2248",
+    "falconry__falcon-2426",
+    "geopandas__geopandas-3424",
+    "joke2k__faker-2093",
+    "joke2k__faker-2096",
+    "jupyterlab__jupyter-ai-879",
+    "kedro-org__kedro-4075",
+    "kedro-org__kedro-4580",
+    "pdm-project__pdm-3314",
+    "pdm-project__pdm-3419",
+    "pvlib__pvlib-python-2286",
+    "pylint-dev__pylint-10225",
+    "pylint-dev__pylint-9990",
+    "python-attrs__attrs-1321",
+    "python-babel__babel-1104",
+    "python-babel__babel-1120"
+  ],
+  "excluded_problem_keys": [
+    "fix:https://github.com/aws-cloudformation/cfn-lint/commit/03a7100955dbbe51cd82cb3a3bef80adb021fb6b",
+    "fix:https://github.com/aws-cloudformation/cfn-lint/commit/277a29cfbd319049f9ae278bbc299fdbc7fc431a",
+    "fix:https://github.com/aws-cloudformation/cfn-lint/commit/9c0de35dc24adc4ae5bddb2c5558b1b8d3ed9b2a",
+    "fix:https://github.com/falconry/falcon/commit/0714e206c12f9a3dec4a99c25873dbcbff43d116",
+    "fix:https://github.com/falconry/falcon/commit/1898b391188973afac59f07bf103f485f33b7809",
+    "fix:https://github.com/falconry/falcon/commit/1e3220a710d8e3c645e0d001a19d878df832bfae",
+    "fix:https://github.com/falconry/falcon/commit/1edba9759074f8836dd6037597e86992d0e5b7fd",
+    "fix:https://github.com/falconry/falcon/commit/2f598777de05ad36e3201a4ce1bd3475bce5b39a",
+    "fix:https://github.com/falconry/falcon/commit/34b7a46bf1cf58e38b0c004a4256549e73daff69",
+    "fix:https://github.com/falconry/falcon/commit/34ea7d85fee221b27b2eb7e742b0ef9805c23682",
+    "fix:https://github.com/falconry/falcon/commit/37b29b8140a1b7bdc9459c68205b056d000b309a",
+    "fix:https://github.com/falconry/falcon/commit/4635a61ca0c6a9bc60b47e72ffb61fcd9a5d076f",
+    "fix:https://github.com/falconry/falcon/commit/4885c8b1b76b4003731c043a1af79a72b55ebfbe",
+    "fix:https://github.com/falconry/falcon/commit/5954b2f4f45161ca8ade86833ac7b9aff49f2ffc",
+    "fix:https://github.com/falconry/falcon/commit/5b48366052bdefa5fc5a1d51c89c5f859ba98d75",
+    "fix:https://github.com/falconry/falcon/commit/613fce6f68a09bccc05138af0ca84fa1b1b54490",
+    "fix:https://github.com/falconry/falcon/commit/6165befabf31e685cc8152ad98997c6e2e3f3496",
+    "fix:https://github.com/falconry/falcon/commit/673db30137bf280ed255dad843a2fb70859136e2",
+    "fix:https://github.com/falconry/falcon/commit/6b74ed74e9e20bbb7726f4bd3b17c3d84df36d28",
+    "fix:https://github.com/falconry/falcon/commit/6b7dd2158e31fbc7319213ee2258fbe6ea7c9479",
+    "fix:https://github.com/falconry/falcon/commit/7551e9541c40995af7469625b0d0435612e504b0",
+    "fix:https://github.com/falconry/falcon/commit/79242b1320547e7591e597acea61fcd38af42a32",
+    "fix:https://github.com/falconry/falcon/commit/7c794f2a2395a3a831cf37f4ed582c7d566e12c9",
+    "fix:https://github.com/falconry/falcon/commit/8b0992d4189892aaa7cb25c0b4e9a83b6cedaeb4",
+    "fix:https://github.com/falconry/falcon/commit/8bec68826710d10eac23c1dae5b9b8aad9471f2d",
+    "fix:https://github.com/falconry/falcon/commit/8f9930c032b3288a2312fc7749db23a914bf43db",
+    "fix:https://github.com/falconry/falcon/commit/94b1253453da5784ee97247ebcc94b3ca82575f9",
+    "fix:https://github.com/falconry/falcon/commit/ab1a81021c91b7eb26109dba78090b9a148eebfb",
+    "fix:https://github.com/falconry/falcon/commit/b2217a1557edf9e7e9d9793ba2d74592cde93537",
+    "fix:https://github.com/falconry/falcon/commit/bd1fbe714ca66e46eea7e0247e6bbd4f968ed002",
+    "fix:https://github.com/falconry/falcon/commit/bf8e72e47bd59d8ce4ac7f4fde8a83a279b8bc2f",
+    "fix:https://github.com/falconry/falcon/commit/c3f1d58575619d262b38a87445c36a5a21da753c",
+    "fix:https://github.com/falconry/falcon/commit/c5e53182b6b7401bdcc60217df426004be56d9e5",
+    "fix:https://github.com/falconry/falcon/commit/c728e8f2799527b53a529b4c3af94be6881724bc",
+    "fix:https://github.com/falconry/falcon/commit/ccd7b5ebbbc5753c39ea3af98e40a3420aa80dc5",
+    "fix:https://github.com/falconry/falcon/commit/cd01a2ae1175afa6b37892b82e5e8442e4a5f856",
+    "fix:https://github.com/falconry/falcon/commit/cd890aa087350a12ccf737381c3e631b9265df7a",
+    "fix:https://github.com/falconry/falcon/commit/cea552a597e1b124a37b2b3b6de1efc1ce3580db",
+    "fix:https://github.com/falconry/falcon/commit/cf105d52f5f03e399b7870fbd4a2d05a2e6db003",
+    "fix:https://github.com/joke2k/faker/commit/c30f1105c0d68e7cc52c6d9a27289084118dfe71",
+    "fix:https://github.com/joke2k/faker/commit/d72f4efc1b672be0193adbc75d3d09f50b7c6844",
+    "fix:https://github.com/joke2k/faker/commit/f1f7394216a6e289d01a132f07c1d55c87ab6e2f",
+    "fix:https://github.com/jupyterlab/jupyter-ai/commit/267a8b9a3831942e5875635a010fea913745a927",
+    "fix:https://github.com/jupyterlab/jupyter-ai/commit/3091dd196da9dc9950496a4d2254e49cfeb0d767",
+    "fix:https://github.com/pvlib/pvlib-python/commit/05b846f83ff16b27d539c9c07e8c32ea52ac2a32",
+    "fix:https://github.com/pvlib/pvlib-python/commit/0ae31e1b939ee3532b707ed6be00b2241727ab21",
+    "fix:https://github.com/pvlib/pvlib-python/commit/0bfc6cbf7df71cde607437db9524ee7f80cb85af",
+    "fix:https://github.com/pvlib/pvlib-python/commit/0ec0cbf38edecf7e7bc94f7722f17f291776c751",
+    "fix:https://github.com/pvlib/pvlib-python/commit/11d81c3368c9122d144aa951df9287ceecf38ed7",
+    "fix:https://github.com/pvlib/pvlib-python/commit/1eff53f29e31172246b170785f27a5670bb8e95a",
+    "fix:https://github.com/pvlib/pvlib-python/commit/25527d6eb816eecadb56d779d4b14c0cc717e9cd",
+    "fix:https://github.com/pvlib/pvlib-python/commit/2bdc1dc7873ceef4a6990dc8fe297133e107351d",
+    "fix:https://github.com/pvlib/pvlib-python/commit/337f7236a6ab9c9eda3a7717c19ccab104e6f449",
+    "fix:https://github.com/pvlib/pvlib-python/commit/38936929355c64b166d9814e63a0ea5461557c33",
+    "fix:https://github.com/pvlib/pvlib-python/commit/410e95ff3958eafcb9724afeeec6776eba165c62",
+    "fix:https://github.com/pvlib/pvlib-python/commit/459d5a6023c31b9518d9bbbdb6597bcdafec8c4e",
+    "fix:https://github.com/pvlib/pvlib-python/commit/4fcb9e3a9db95e9d70645c4cc0a99ad5df66985c",
+    "fix:https://github.com/pvlib/pvlib-python/commit/58b246e0312e2d1503a89814ce8fcd54376134d6",
+    "fix:https://github.com/pvlib/pvlib-python/commit/5eb9d005fd52ba4a05c8884ec9e4e71100285c0f",
+    "fix:https://github.com/pvlib/pvlib-python/commit/6312f92a854065c1e3ea79c6f9bfd0288a500d7a",
+    "fix:https://github.com/pvlib/pvlib-python/commit/63a922628831bbb95c4eb2223cfb2300b4d4129f",
+    "fix:https://github.com/pvlib/pvlib-python/commit/63ed5c77156f10ad4e3366b8acaecf333ec44475",
+    "fix:https://github.com/pvlib/pvlib-python/commit/70e0156ce13c911ecdc3f8c5162dd0f4ab66e957",
+    "fix:https://github.com/pvlib/pvlib-python/commit/71a165e15e27103c4b64b749ff90c1755fb931c5",
+    "fix:https://github.com/pvlib/pvlib-python/commit/77025c7df4466516ab54df7b52cccbcc55ca837e",
+    "fix:https://github.com/pvlib/pvlib-python/commit/8bc9b86e50ab0606ee0cfc623984290c370e5c19",
+    "fix:https://github.com/pvlib/pvlib-python/commit/9651c3b37ad84ca4e086088cf034c71edd62bfe6",
+    "fix:https://github.com/pvlib/pvlib-python/commit/9c32f6a77214d86dd2ec0d743057ef73ade8c574",
+    "fix:https://github.com/pvlib/pvlib-python/commit/a06871a41ceb1ddecda324e9c668ec669ff000c3",
+    "fix:https://github.com/pvlib/pvlib-python/commit/ab2de3a3d7c92dab3a85ce96bd97569323bce40f",
+    "fix:https://github.com/pvlib/pvlib-python/commit/aedc835b9994e4529baa5d770c8308e98e076746",
+    "fix:https://github.com/pvlib/pvlib-python/commit/b4802a3a886a703141a23dc7cfee2c3889ce0f86",
+    "fix:https://github.com/pvlib/pvlib-python/commit/b52f9a9ff6a3034bd6b86f339b005ba4c8adef89",
+    "fix:https://github.com/pvlib/pvlib-python/commit/b5a6f09eb1e9f8e37fcbeb9390f3bec3cfa076ba",
+    "fix:https://github.com/pvlib/pvlib-python/commit/b860ca50b41ec741cb17e81c3e4d22c8e89188ec",
+    "fix:https://github.com/pvlib/pvlib-python/commit/c39c449fb8153aff8f757b0d27867a83a166b041",
+    "fix:https://github.com/pvlib/pvlib-python/commit/c956c9167fb750dbcc9be7143b85168338934ba9",
+    "fix:https://github.com/pvlib/pvlib-python/commit/caa44172a6cc469d7dd1c531a8dfca51dbfc3644",
+    "fix:https://github.com/pvlib/pvlib-python/commit/d94df47f84b01a832d16b9e91dbcba62f9ff5b2f",
+    "fix:https://github.com/pvlib/pvlib-python/commit/df33a310ea72057072e7e2b76fd758a08b2a0565",
+    "fix:https://github.com/pvlib/pvlib-python/commit/e6b5908a507b1221ed88a2a663ed0aece8ccf1af",
+    "fix:https://github.com/pvlib/pvlib-python/commit/edd84b1ad68b33888e887a728298173c565687b7",
+    "fix:https://github.com/pvlib/pvlib-python/commit/f62bd8ef6f16b5086bbf3413e9c2bb9aafff10b0",
+    "fix:https://github.com/pvlib/pvlib-python/commit/f6828152726ee733dab5ca692c435eccd75f5bcf",
+    "fix:https://github.com/pylint-dev/pylint/commit/048eaea8c8f3f5c38fab17ba9e9e13401bd1e419",
+    "fix:https://github.com/pylint-dev/pylint/commit/0a88d3f729e7a37c021edcd5a2f55640a19c2573",
+    "fix:https://github.com/pylint-dev/pylint/commit/16d14e8c2e1ad0c559b2b81536d265458b26dea4",
+    "fix:https://github.com/pylint-dev/pylint/commit/22d2d7dedc4b831120a1ccf1ac623ff4030c37c0",
+    "fix:https://github.com/pylint-dev/pylint/commit/326c89ac15c7045be4205ccf749913bb97e5d7a7",
+    "fix:https://github.com/pylint-dev/pylint/commit/50dea18d6fa85e0ca7e2311748f11d2a6c47fd2f",
+    "fix:https://github.com/pylint-dev/pylint/commit/5a347fea2579e47a203b9dc21ab178ba0dc960c6",
+    "fix:https://github.com/pylint-dev/pylint/commit/92fe70d5c3073376134d743ee8148b89a7be6b6a",
+    "fix:https://github.com/pylint-dev/pylint/commit/c970eb277b789195c2899267904fe0b8affe0344",
+    "fix:https://github.com/pylint-dev/pylint/commit/d62a6360e843e4da13f4fc5343eb73335e680364",
+    "fix:https://github.com/pylint-dev/pylint/commit/da91776b3219968cecb759ba9b116fd64823ef3f",
+    "fix:https://github.com/pylint-dev/pylint/commit/deadb76d1e10fd7def787c1c6d2ce1b070311db9",
+    "fix:https://github.com/pylint-dev/pylint/commit/fe81cc9527c99f8e03474448dbe4324056a044c5",
+    "fix:https://github.com/python-attrs/attrs/commit/10045124a08b6d9fdf1ff4cad63e44da64254a17",
+    "fix:https://github.com/python-attrs/attrs/commit/45d86e3ca16e4d63eb2de13e93ea1eb71b408cc3",
+    "fix:https://github.com/python-attrs/attrs/commit/484b55b6a09e1fa097e36895f9c9d99e58f4c342",
+    "fix:https://github.com/python-attrs/attrs/commit/4a45d5805cd302054fa98ba321dd3ad27c8b6a2c",
+    "fix:https://github.com/python-attrs/attrs/commit/5870f3a65e2147af070325386ef149d1ab5d1ce5",
+    "fix:https://github.com/python-attrs/attrs/commit/65fb3f0ef79b43221ff43baa968c723e32d535cd",
+    "fix:https://github.com/python-attrs/attrs/commit/6d1b7aa833dcffbad9f8ec27236cd6b62b0e986c",
+    "fix:https://github.com/python-attrs/attrs/commit/6dc5039e5edc1f2342a91c5839d7463541255bae",
+    "fix:https://github.com/python-attrs/attrs/commit/793889eb564fd818841e0dd6f08677cc54c019d7",
+    "fix:https://github.com/python-attrs/attrs/commit/7ae356c770d53eacaf1c6aa7e7e6aa4ed99dcd59",
+    "fix:https://github.com/python-attrs/attrs/commit/833d117243bdb2536de582982adb9dc45efe44e4",
+    "fix:https://github.com/python-attrs/attrs/commit/afb6afa6fd617da0801c217b958d8857d1c182fa",
+    "fix:https://github.com/python-attrs/attrs/commit/ca3c33b9b03edf5d9718afc0a912da9c66bbd668",
+    "fix:https://github.com/python-babel/babel/commit/1def5e824362e5c5f91c866ee0322fe594e687df",
+    "fix:https://github.com/python-babel/babel/commit/3098db0757c6c816f32195b01873004df7ac0de6",
+    "fix:https://github.com/python-babel/babel/commit/439faab7588d38219dcdcb3528b7472c7341ed6f",
+    "fix:https://github.com/python-babel/babel/commit/60214091492b4f135c9f76aaf3200fb28928631d",
+    "fix:https://github.com/python-babel/babel/commit/6e815e27835100450cd8ad5a1ef7f3ae476dcfd2",
+    "fix:https://github.com/python-babel/babel/commit/89602b4cd81636d1d6545d4a16aae216af560212",
+    "fix:https://github.com/python-babel/babel/commit/ac3c99969e2182a01360152fa37b6cc5e3a88a26",
+    "issue:aws-cloudformation/cfn-lint#3747",
+    "issue:falconry/falcon#2213",
+    "issue:falconry/falcon#2244",
+    "issue:joke2k/faker#2085",
+    "issue:joke2k/faker#2092",
+    "issue:jupyterlab/jupyter-ai#841",
+    "issue:pvlib/pvlib-python#1744",
+    "issue:pylint-dev/pylint#10217",
+    "issue:pylint-dev/pylint#8893",
+    "issue:python-attrs/attrs#595",
+    "issue:python-babel/babel#1078",
+    "issue:python-babel/babel#1089"
+  ],
+  "development_manifest": {
+    "L11": "python-attrs__attrs-1321",
+    "L10": "falconry__falcon-2248",
+    "L06": "aws-cloudformation__cfn-lint-3749",
+    "L09": "jupyterlab__jupyter-ai-879",
+    "L01": "pylint-dev__pylint-10225",
+    "L03": "joke2k__faker-2093",
+    "L04": "python-babel__babel-1104",
+    "L07": "pvlib__pvlib-python-2286",
+    "L08": "python-babel__babel-1120",
+    "L05": "falconry__falcon-2426",
+    "L12": "pylint-dev__pylint-9990",
+    "L02": "joke2k__faker-2096"
+  },
+  "selection_protocol": "冻结前认知审查可修正标题初层；首个资格测试前固定这些层。后续补充审查只在原层排除或确认，不用测试/模型结果重分层。"
+}

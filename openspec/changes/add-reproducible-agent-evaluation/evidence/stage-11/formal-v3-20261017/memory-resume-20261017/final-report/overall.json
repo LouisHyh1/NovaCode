@@ -1,0 +1,89 @@
+{
+  "planned": 216,
+  "started": 216,
+  "recorded": 216,
+  "completed": 174,
+  "strict_successes": 147,
+  "strict_failures": 69,
+  "unstarted": 0,
+  "strict_rate_started": 0.6805555555555556,
+  "planned_rate_bounds": [
+    0.6805555555555556,
+    0.6805555555555556
+  ],
+  "live_resolved": 84,
+  "live_resolved_unknown": 108,
+  "termination": {
+    "completed": 174,
+    "budget-exhausted": 34,
+    "timeout": 8
+  },
+  "acceptance": {
+    "passed": 161,
+    "failed": 55
+  },
+  "scope": {
+    "passed": 216
+  },
+  "cleanup": {
+    "passed": 216
+  },
+  "cost_complete_runs": 208,
+  "cost_complete_ratio": 0.9629629629629629,
+  "token_lower_bound": 54196141,
+  "unknown_usage_requests": 8,
+  "metrics_missing_runs": 0,
+  "monetary_cost": null,
+  "distributions": {
+    "measured_tokens": {
+      "n": 208,
+      "mean": 259875.1298076923,
+      "median": 246667.0,
+      "p90": 625531.0
+    },
+    "known_token_lower_bound": {
+      "n": 216,
+      "mean": 250908.0601851852,
+      "median": 235426.0,
+      "p90": 619556.0
+    },
+    "provider_calls": {
+      "n": 216,
+      "mean": 13.467592592592593,
+      "median": 13.0,
+      "p90": 25.0
+    },
+    "tool_calls": {
+      "n": 216,
+      "mean": 16.435185185185187,
+      "median": 16.0,
+      "p90": 30.0
+    },
+    "main_end_to_end_seconds": {
+      "n": 216,
+      "mean": 29.09566831812523,
+      "median": 25.900973475506362,
+      "p90": 60.27752606800641
+    }
+  },
+  "mechanisms": {
+    "offloads": 36,
+    "summary_requests": 0,
+    "summaries_accepted": 0
+  },
+  "tools": {
+    "tool_calls": 3550,
+    "tool_executed": 3542,
+    "tool_succeeded": 3496,
+    "tool_denied": 8,
+    "tool_errors": 54,
+    "tool_retries": 5,
+    "discovery_calls": 50,
+    "fault_injections": 4,
+    "incomplete_tools": 0
+  },
+  "response_models": [
+    "deepseek-v4-flash",
+    "unknown"
+  ]
+}

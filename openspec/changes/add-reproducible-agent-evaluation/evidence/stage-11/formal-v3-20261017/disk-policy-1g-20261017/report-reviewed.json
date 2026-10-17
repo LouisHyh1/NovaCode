@@ -1,0 +1,28 @@
+{
+  "state": "REPORT_REVIEWED",
+  "execution_closure": "FINALIZED_PARTIAL",
+  "full_plan_complete": false,
+  "planned": 216,
+  "recorded": 154,
+  "unstarted": 62,
+  "strict_successes": 105,
+  "strict_rate_started": 0.6818181818181818,
+  "preparation_interruptions": 2,
+  "new_model_runs_after_threshold_amendment": 0,
+  "disk_threshold_triggered": false,
+  "stop_reason": "repeated WSL restarts with Windows Event 2004 host virtual-memory-exhaustion evidence",
+  "paired_strict_independent_tasks": {
+    "live": 1,
+    "specialty": 2
+  },
+  "paired_intervals_reliable": false,
+  "summary_requests": 0,
+  "unknown_usage_requests": 6,
+  "original_154_preserved": true,
+  "core_reports_byte_identical_on_regeneration": true,
+  "statistics_tests_passed": 2,
+  "runtime_approvals_revoked": 3,
+  "stage_12_complete": false,
+  "case_review_sha256": "afb03b3198245f496d0dea0fc4cfc6df3d22ca9daa9d4120896d0d96eaf8e379",
+  "reconstruction_proof_sha256": "b9f24283da0a9f83697ee2e8f57aaa8952830b061e9b8dc87d7bc79b583ec905"
+}

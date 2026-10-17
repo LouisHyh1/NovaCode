@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-10-17T16:22:16.9181150+08:00",
+  "openspec_strict_valid": true,
+  "openspec_progress": {
+    "remaining": 5,
+    "complete": 73,
+    "total": 78
+  },
+  "git_diff_check_passed": true,
+  "frozen_manifest_verification": "FROZEN_VALID",
+  "planned": 216,
+  "recorded": 154,
+  "unstarted": 62,
+  "strict_successes": 105,
+  "scope_passed": 154,
+  "cleanup_passed": 154,
+  "current_linux_free_bytes": 9659875328,
+  "model_calls_during_this_resume": 0,
+  "main_report_sha256": "621a51fef8427ca08be7890008aaeaea045ba4f8d625d24a17ef0ca95b95621c",
+  "review_state": "REPORT_REVIEWED",
+  "full_216_executed": false
+}

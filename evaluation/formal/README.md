@@ -1,5 +1,9 @@
 # 正式配对执行与报告
 
+截至 2026-10-17 18:53，新 v3 已 **216/216 FORMAL_COMPLETE**，严格成功 147/216（68.06%），报告已逐例审阅并重建核验。受测版本 0.1.37，当前文档发布 0.1.38；新模型队列已结束，不自动恢复。最新结果、运行阈值变更和历史核验映射见 [最终报告](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。以下准备、等待授权与未开始表述均为对应时点的历史记录，不能作为当前状态。
+
+## 历史方法与阶段记录
+
 2026-10-16 已按交接继续实施：147 次历史审计、11 次候选恢复及 10 个代表正负例的提取→归档→恢复→独立判题通过，见 [历史审计](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/history-audit-20261016/recovery.md) 和 [链路验证](../../openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/evidence-chain-20261016/validation.md)。通用提取、可信类型化基线、保全和诊断已修复；24 题按固定元数据规则选出。新运行时部署和冻结由独立收据确认；真实模型调用仍待用户明确确认新身份及预算。v2 仍是 147/432，285 次未开始，其全部现存原工件、原评分及成本不删不覆。
 
 仅在 WSL/Linux 运行。`run.py` 在外围顺序调用既有 `run_task()`，主循环、工具、权限与资源关闭使用冻结 wheel；不创建另一套 Agent。每次运行前校验完整冻结清单，Campaign 共用保守总预算账本，单任务并发度为 1。运行身份与调度脚本指纹写入独占创建的收据，原结果不覆盖。

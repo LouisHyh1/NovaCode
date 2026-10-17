@@ -1,0 +1,21 @@
+{
+  "phase": "FINALIZED_PARTIAL",
+  "pid": 2948,
+  "updated_utc": "2026-10-17T16:19:03.077692+08:00",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "supervisor_sha256": "1a54d758a0a7efe76f20c3047027762a3f419e5ab77790c9292d1467c184e894",
+  "resumed_from_sequence": 155,
+  "planned": 216,
+  "linux_minimum_new_run_bytes": 1073741824,
+  "c_minimum_new_run_bytes": 5368709120,
+  "recorded": 154,
+  "sequence": 155,
+  "stop_reason": "repeated_WSL_restarts_with_host_virtual_memory_exhaustion",
+  "final_report": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/disk-policy-1g-20261017/final-report",
+  "unstarted": 62,
+  "review_state": "REPORT_REVIEWED",
+  "reviewed_report": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/disk-policy-1g-20261017/最终评测报告.md",
+  "runtime_authorizations_revoked": true,
+  "user_requested_result_delivery_closed": true
+}

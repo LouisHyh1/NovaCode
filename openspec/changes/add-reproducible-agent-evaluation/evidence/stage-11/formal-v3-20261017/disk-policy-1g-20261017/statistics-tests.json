@@ -1,0 +1,8 @@
+{
+  "command": "PYTHONPATH=src:. .venv/bin/python -m pytest tests/evaluation/test_formal.py -k \"bootstrap or distribution\" -q -p no:cacheprovider",
+  "exit_code": 0,
+  "passed": 2,
+  "deselected": 3,
+  "seconds": 0.07,
+  "scope": "任务级三重复配对、退化和 p90 统计机制；没有调用模型"
+}

@@ -1,0 +1,12 @@
+{
+  "sequence": 155,
+  "run_id": "novacode-compact-20261017-v3-r1-FL11-3-full",
+  "utc": "2026-10-17T08:13:44.011024+00:00",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "approval_sha256": "384ed162757dae507e6822150c0c03469a73cabc254c899f773965b745d71f09",
+  "adapter_sha256": "02ae647e5565bf5d3a6aecbad12d504369592f8c6fb54a0cb1ba2d83f69156ba",
+  "linux_free_bytes": 10248810496,
+  "original_minimum_free_bytes": 6883147776,
+  "effective_minimum_free_bytes": 1073741824,
+  "deviation": "user-authorized operational disk admission amendment; original manifest unchanged"
+}

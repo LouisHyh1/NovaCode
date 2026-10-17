@@ -1,5 +1,9 @@
 # 首批任务候选与入库合同
 
+当前执行状态（2026-10-17）：从父 48 题池选出的 12 Live＋12 专项已完成三配置三重复 **216/216**，而不是开发集 L/S 任务。旧 v2 的 147/432 及 285 未开始保留不变。结果、口径和执行身份见 [最终报告](evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)；以下候选与等待确认描述为历史建设记录。
+
+## 历史方法与阶段记录
+
 本目录记录开发题内容合同与初始候选历史。2026-10-10 第八阶段完成后，12 道 Live 与 12 道专项均已入库，形成 `DEV_ADMITTED`；最终任务以 [Live 执行合同](../../../evaluation/live/assets/contracts/)、[专项执行合同](../../../evaluation/specialty/assets/contracts/) 与当前入库账本为准。固定完整 500 行题池、资格与替补、三次参考、资源、初始 12 候选差异及真实产品验收见 [第八阶段报告](evidence/stage-8/live-validation.md)。入库规则见 [evaluation-protocol.md](evaluation-protocol.md)，规范见 [agent-evaluation-corpus](specs/agent-evaluation-corpus/spec.md)。
 
 2026-10-16 保留开发集和原 48 题冻结资产池；文档修订完成后，经用户指示实施，新 v3 已按协议第 10 节固定规则选取 12 Live＋12 冻结专项，具体规则、全排序、选择与排除理由见 [抽样证据](evidence/stage-11/compact-v3-20261016/selection.json)。三配置各三次，共 216 行；下面开发题与初始候选表是历史建设记录，不能替代该入选清单。新冻结须绑定修复后运行时及基线，正式模型调用仍待明确确认。v2 的 147 次和全部现存工件保留，剩余 285 次不启动。

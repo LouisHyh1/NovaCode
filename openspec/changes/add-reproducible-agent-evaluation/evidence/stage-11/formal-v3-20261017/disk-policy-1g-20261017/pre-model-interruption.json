@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-17T08:16:31.895773+00:00",
+  "original_path": "/home/louishyh/projects/NovaCode/.tmp/formal-compact-v3-20261017/runs/novacode-compact-20261017-v3-r1-FL11-3-full",
+  "retained_path": "/home/louishyh/projects/NovaCode/openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/disk-policy-1g-20261017/interrupted-before-reservation-155",
+  "orchestration_sha256": "2ec7edfab7757b84c4913c5ead4d40cb7052c2d7a71e94b18631c4072edeca32",
+  "events": 1,
+  "reserved_rows": 154,
+  "completed": 154,
+  "container": "novacode-eval-5e7de0f640b6460e93699259bc902378",
+  "container_state": "created 0001-01-01T00:00:00Z",
+  "no_model_started": true,
+  "boot_id": "2447a713-b55a-473b-b116-101456177f31",
+  "reason": "WSL restarted during environment before reservation; Windows Event 2004 at 16:11:30 reported virtual memory exhaustion; causal connection plausible, not proven"
+}

@@ -1,0 +1,15 @@
+{
+  "phase": "PAUSED",
+  "pid": 80398,
+  "started_utc": "2026-10-17T10:42:30.707132+08:00",
+  "updated_utc": "2026-10-17T12:09:28.314105+08:00",
+  "campaign_id": "novacode-compact-20261017-v3-r1",
+  "manifest_sha256": "0cf2d3fb6ba40d1f4f62b17d31cdb975c19eb5b2adb0ac89d0572922f703fa2f",
+  "published_commit": "02b2da5187ed56890d710e9b039a2a7dbc703245",
+  "supervisor_sha256": "45e213c8c7eed743ee8c0b4e8c4e1d8e3d8d970054837c4892c0b2f8d8b5adc1",
+  "sequence": 84,
+  "planned": 216,
+  "reason": "frozen scheduler returned nonzero; inspect retained evidence",
+  "exit_code": 1,
+  "recorded": 83
+}
