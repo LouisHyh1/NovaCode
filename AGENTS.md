@@ -5,6 +5,11 @@
 ## 语言
 中文回答，中文注释。
 
+## 支持平台
+
+- 仅维护 Ubuntu / Linux（包括 WSL Ubuntu），GitHub Actions 仅运行 Ubuntu 检查。
+- 后续不做 Windows 原生平台适配，不新增 Windows CI；Windows 用户通过 WSL Ubuntu 使用项目。
+
 ## 测试
 
 开发完功能后，用 tmux 做端到端测试：

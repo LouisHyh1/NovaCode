@@ -9,18 +9,18 @@ NovaCode 是一个使用 Python 构建的终端 AI 编程助手，也是一个�
 ## 核心能力
 
 - **Agent Loop**：流式接收模型输出，执行工具调用，将结果写回上下文并循环至任务结束。
-- **代码工具**：内置文件读取、写入、精确编辑、Glob、Grep 和跨平台命令执行工具；只读工具可并发执行。
+- **代码工具**：内置文件读取、写入、精确编辑、Glob、Grep 和命令执行工具；只读工具可并发执行。
 - **模型接入**：支持 Anthropic 与 OpenAI 协议，可通过 `base_url` 连接兼容服务。
 - **权限控制**：提供 `default`、`acceptEdits`、`plan` 和 `bypassPermissions` 四种模式，并对敏感文件、越界路径与危险命令执行内建检查。
 - **上下文管理**：自动截断过大的工具结果，支持手动、自动和紧急上下文压缩，以及超长请求恢复。
 - **会话与记忆**：持久化会话并通过 `/resume` 恢复；区分用户、反馈、项目和参考资料四类长期记忆。
 - **扩展机制**：支持项目级与用户级 Instructions、Skills、生命周期 Hooks，以及 stdio/HTTP 两种 MCP Server。
 - **多 Agent 协作**：支持 SubAgent、后台任务、Agent Team、消息传递、任务依赖和 Git Worktree 隔离。
-- **跨平台运行**：使用同一套 Python 代码运行于 Windows 与 Linux，并通过双平台 CI 持续验证。
+- **Linux / WSL 运行**：面向 Ubuntu / Linux 维护，并通过 Ubuntu CI 持续验证；Windows 用户通过 WSL Ubuntu 使用项目。
 
 ## 可复核评测结果
 
-2026-10-17 已完成 24 道独立任务、三配置各三重复的 216 次主集评测，严格成功 147/216（68.06%）。受测版本为 0.1.37，结果文档曾发布为 0.1.38；分来源、配对区间、未知成本及运行条件见 [最终评测报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。8 个请求 usage 未知、Layer 2 摘要未触发；该选定题库结果不代表完整官方榜单或普遍收益，Stage 12 产品专项及1060项质量回归已通过，当前合并发布版本1.0.0（Stage 12受测版本0.1.39），见 [专项报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md)；真实产品调用与Fake/机制证据单列。
+2026-10-17 已完成 24 道独立任务、三配置各三重复的 216 次主集评测，严格成功 147/216（68.06%）。受测版本为 0.1.37，结果文档曾发布为 0.1.38；分来源、配对区间、未知成本及运行条件见 [最终评测报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-11/formal-v3-20261017/publication-0.1.38/最终评测报告.md)。8 个请求 usage 未知、Layer 2 摘要未触发；该选定题库结果不代表完整官方榜单或普遍收益，Stage 12 产品专项及1060项质量回归已通过，当前发布版本1.0.1（Stage 12受测版本0.1.39），见 [专项报告](openspec/changes/add-reproducible-agent-evaluation/evidence/stage-12/product-validation.md)；真实产品调用与Fake/机制证据单列。
 
 ## 运行架构
 
@@ -44,7 +44,7 @@ flowchart LR
 
 - Python 3.12（由 `uv` 根据 `.python-version` 自动安装）
 - [uv](https://docs.astral.sh/uv/)
-- Windows 10/11，或支持 UTF-8 的 Linux / WSL 终端
+- 支持 UTF-8 的 Ubuntu / Linux 终端（Windows 用户使用 WSL Ubuntu；不再维护 Windows 原生兼容）
 - 至少一个 Anthropic 或 OpenAI 协议的模型服务
 
 ## 快速开始
@@ -72,11 +72,6 @@ providers:
 ```
 
 设置环境变量：
-
-```powershell
-# Windows PowerShell
-$env:OPENAI_API_KEY = "your-api-key"
-```
 
 ```sh
 # Linux / WSL
@@ -144,23 +139,13 @@ mcp_servers:
 | 权限规则 | `.novacode/settings.yaml`、`.novacode/settings.local.yaml` | `~/.novacode/settings.yaml` |
 | Memory | `.novacode/memory/` | `~/.novacode/memory/` |
 
-## Shell 差异
+## 命令执行
 
-工具协议中的名称保持为 `bash`，以兼容已有会话和模型工具调用；实际执行器会按平台选择 Shell：
-
-- Windows：`cmd.exe /C`，例如 `dir`、`set NAME=value`
-- Linux：`/bin/sh -c`，例如 `ls`、`export NAME=value`
+工具协议中的名称保持为 `bash`，以兼容已有会话和模型工具调用；Linux / WSL 使用 `/bin/sh -c`，例如 `ls`、`export NAME=value`。
 
 模型会从环境提示中的 `Platform` 字段获知当前平台。项目路径应通过 `pathlib.Path` 或 `os.path` 处理，不应在 Python 代码中硬编码平台路径。
 
-如果同一份 WSL 检出目录还会通过 Windows 的 `\\wsl.localhost\...` 访问，不要跨平台共用虚拟环境。Windows 侧可将环境放到本机 NTFS 目录：
-
-```powershell
-$repo = (Get-Location).ProviderPath
-$env:UV_PROJECT_ENVIRONMENT = "$env:LOCALAPPDATA\NovaCode\venv"
-uv --directory $repo sync --locked
-uv --directory $repo run nova
-```
+在 Windows 上开发时，请在 WSL Ubuntu 内安装依赖、运行 NovaCode 和执行测试，使用 WSL 内的虚拟环境。
 
 ## 开发与验证
 
@@ -172,7 +157,7 @@ uv run --locked ruff format --check src tests
 uv run --locked python scripts/check_boundaries.py
 ```
 
-GitHub Actions 会在 `ubuntu-latest` 和 `windows-latest` 上执行锁文件检查、完整测试、Lint、格式检查、架构边界检查和非交互式启动检查。
+GitHub Actions 仅在 `ubuntu-latest` 上执行锁文件检查、完整测试、Lint、格式检查、架构边界检查和非交互式启动检查；后续不再做 Windows 原生适配或运行 Windows CI。
 
 ## 安全边界
 

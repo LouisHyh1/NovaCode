@@ -20,6 +20,7 @@ def test_preparation_timeout_stops_download_descendant(tmp_path):
     import signal
     import subprocess
     import sys
+    import time
     from pathlib import Path
 
     import pytest
@@ -39,11 +40,25 @@ def test_preparation_timeout_stops_download_descendant(tmp_path):
             run_preparation([sys.executable, "-c", script], stream, timeout=1)
     child = int(log.read_text().strip())
     status = Path(f"/proc/{child}/status")
+
+    def running():
+        try:
+            return "State:\tZ" not in status.read_text()
+        except (FileNotFoundError, ProcessLookupError):
+            # 子进程可能在检查期间被宿主回收，/proc 文件消失同样表示已停止。
+            return False
+
     try:
-        assert not status.exists() or "State:\tZ" in status.read_text()
+        deadline = time.monotonic() + 5
+        while running() and time.monotonic() < deadline:
+            time.sleep(0.01)
+        assert not running()
     finally:
-        if status.exists() and "State:\tZ" not in status.read_text():
-            os.kill(child, signal.SIGKILL)
+        if running():
+            try:
+                os.kill(child, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
 
 
 def test_registry_token_uses_local_docker_login_without_returning_credentials(

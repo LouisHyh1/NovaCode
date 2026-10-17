@@ -6,10 +6,12 @@ ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = ROOT / ".github" / "workflows" / "tests.yml"
 
 
-def test_ci_matrix_and_required_commands_cover_both_platforms() -> None:
+def test_ci_runs_only_on_ubuntu_with_all_required_commands() -> None:
     document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
     job = document["jobs"]["test"]
-    assert job["strategy"]["matrix"]["os"] == ["ubuntu-latest", "windows-latest"]
+    assert set(document["jobs"]) == {"test"}
+    assert job["runs-on"] == "ubuntu-latest"
+    assert "strategy" not in job
 
     commands = "\n".join(
         str(step.get("run", "")) for step in job["steps"] if isinstance(step, dict)

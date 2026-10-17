@@ -1,3 +1,11 @@
+# NovaCode 交接：Ubuntu CI 发布 1.0.1
+
+当前分支为 **main**，产品版本为 **1.0.1**。GitHub Actions 仅运行 Ubuntu；后续仅维护 Ubuntu / Linux（包括 WSL Ubuntu），不再适配 Windows 原生平台。维护约定已写入 AGENTS.md，使用说明已同步到 README.md。
+
+本次修复进程回收期间读取 /proc 状态文件的测试竞态，保留超时清理验收。既有评测版本与原始证据保持不变，下方为 1.0.0 及此前版本的历史交接。
+
+---
+
 # NovaCode 交接：main 合并发布1.0.0
 
 当前分支为 **main**，已快进合入 eval/reproducible-agent-evaluation 至68003c1的全部14个提交，产品版本统一为 **1.0.0**。本次仅更新版本和当前发布说明；主集受测0.1.37、第12阶段受测0.1.39及其原始证据不改。用户未跟踪文档保留在本地，未加入合并提交。
